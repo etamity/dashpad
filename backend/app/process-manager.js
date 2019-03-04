@@ -94,7 +94,7 @@ class ProcessManager extends EventEmitter {
             });
             child.on('exit', msg => {
                 console.log('exit', child.pid);
-                this.children.filter(ch => ch.pid !== child.pid);
+                this.children = this.children.filter(ch => ch.pid !== child.pid);
                 dispatch(this.children);
             });
             dispatch(this.children);

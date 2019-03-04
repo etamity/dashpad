@@ -48,5 +48,6 @@ module.exports = context => {
             };
             process.send(action);
         },
+        exit: () => process.exit(0)
     };
 };
