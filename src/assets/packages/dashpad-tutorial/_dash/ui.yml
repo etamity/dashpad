@@ -7,58 +7,66 @@ Tabs_1:
       Button_1:
         label: Show Notification
         position: left
-        brand: facebook
+        brand: twitter
         onClick: >
           Dashpad.showNotification({
-            title: 'Hello world',
-            message: 'this is notification!'
-          });        
-
-      title: this is card title
+            title: 'Notification title',
+            message: 'Notification message'
+          })
+      title: This is the title of the card
       Button_2:
         label: Show Toast
         position: right
-        brand: twitter
+        brand: facebook
         onClick: >
-          console.log(this.e);
           Dashpad.showToast({
-            message: 'this is toast!'
+            message: 'Toast message'
           });
     Html:
-      content: <h1>Test HTML</h1>
+      content: <h2>Hi, this is html content</h2>
+    Text:
+      tag: h1
+      color: warning
+      content: This is text component
+      weight: bold
+      transform: uppercase
     Progress:
       value: 1
+      animated: true
       max: 100
-    Form:
-      Row:
-        Username:
-          type: text
-          value: joey
-          label: Username
-          tooltip: Please input your username
-        Password:
-          type: password
-          value: 1234
-          label: Password
-          tooltip: Please input your password
-      Buttongroup:
-        type: group
-        label: Menu
-        onClick: >
-            console.log('test group', this.e.target);
-        items:
-          - label: Show Modal
-            color: info
-            onClick: >
-              const username = Dashpad.getState('Tabs_1.Card_1.Form.Username.value');
-              Dashpad.showModal({
-                title: 'Form submitted!',
-                message: 'your user name is : ' + username
-              });
-          - label: Run Node
-            color: danger
-            onClick: >
-              Dashpad.run('index.js');
+    List:
+      items:
+        - item 1
+        - item 2
+        - content:
+            title: List Title
+            description: List Description
+    Row:
+      Username:
+        type: text
+        label: Username
+        tooltip: Please input your username
+        value: ''
+      Password: 
+        type: password
+        label: Password
+        tooltip: Please input the password
+    Buttongroup:
+      type: group
+      items: 
+        - label: submit
+          color: info
+          onClick: >
+            const username = Dashpad.getState('Tabs_1.Card_1.Row.Username.value');
+            Dashpad.showModal({
+              title: 'Your username is',
+              message: username
+            });
+        - label: Run Node Script
+          color: danger
+          onClick: >
+            const username = Dashpad.getState('Tabs_1.Card_1.Row.Username.value');
+            Dashpad.run('index.js', {username})
     Table:
         labels: ['id', 'name', 'email', 'color']
         dataset: [

@@ -1,6 +1,6 @@
 module.exports = (params) => {
-    console.log('here is from module:', Dashpad.loadJson('test.json'));
-    let count = 0;
+   let count = 0;
+   const {username} = params;
     setInterval(() => {
 
         if (count < 100)
@@ -9,9 +9,10 @@ module.exports = (params) => {
         } else {
             Dashpad.exit();
         }
+        let date = new Date();
         Dashpad.setState([{
             keyPath: 'Tabs_1.Card_1.Header.title',
-            value: new Date()
+            value: username + ':' + date.getSeconds()
         },
         {
             keyPath: 'Tabs_1.Card_1.Progress.value',

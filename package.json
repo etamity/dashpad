@@ -21,7 +21,7 @@
   "private": true,
   "main": "./electron/main.js",
   "bin": {
-    "dashpad": "backend/cli/command.js"
+    "dashpad": "cli/command.js"
   },
   "homepage": "./",
   "proxy": "http://localhost:8888",

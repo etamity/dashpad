@@ -17,13 +17,13 @@ class DefaultFooter extends Component {
             <React.Fragment>
                 <span>
                 <Button color="link" onClick={()=>{
-                        shell.openExternal('https://uk-capitalone.slack.com/messages/CGNJ0884V');
-                    }}> <i className="fa fa-slack fa-lg" /> Slack: #dashpad </Button>
+                        shell.openExternal('https://github.com/etamity/dashpad');
+                    }}> <i className="fa fa-slack fa-lg" /> Hackable Dashboard Framework </Button>
                 </span>
                 <span className="ml-auto">
                 <Button color="link" onClick={()=>{
-                        shell.openExternal('https://github.kdc.capitalone.com/etamity/dashpad');
-                    }}> <i className="fa fa-github fa-lg" /> Hackable Dashboard Framework {' -- '}DashPad &copy; 2019</Button>
+                        shell.openExternal('https://github.com/etamity/dashpad');
+                    }}> <i className="fa fa-github fa-lg" /> DashPad &copy; 2019</Button>
 
                 </span>
             </React.Fragment>
