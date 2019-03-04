@@ -53,6 +53,10 @@ const Dashpad = {
             vm.run(file);
         });
     },
+    loadJson: file => {
+        const jsonPath = [PathHelper.getCurrentDashSpace(), file].join('/');
+        return ContentLoader.loadJson(jsonPath);
+    },
     kill,
     showNotification: params => {
         Notifier.notify(params);

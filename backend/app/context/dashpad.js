@@ -1,6 +1,8 @@
 const { UIEventType } = require('../constants');
 const _ = require('lodash');
-
+const path = require('path');
+const FileManager = require('../../libs/file-manager');
+const PathHelper = require('../helpers/path-helper');
 let _state = {};
 let process_namespace = '';
 module.exports = context => {
@@ -47,6 +49,11 @@ module.exports = context => {
                 },
             };
             process.send(action);
+        },
+        loadJson: file => {
+            const {packageName} = state.packageInfo
+            const jsonPath = [PathHelper.getPackagePath(packageName), file].join('/');
+            return FileManager.loadJson(path.resolve(jsonPath));
         },
         exit: () => process.exit(0)
     };

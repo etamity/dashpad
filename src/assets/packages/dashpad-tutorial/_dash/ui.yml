@@ -20,37 +20,50 @@ Tabs_1:
         position: right
         brand: twitter
         onClick: >
-         Dashpad.showToast({
-           message: 'this is toast!'
-         });
-    Form:
-      Progress:
-        value: 1
-        max: 100
-      Username:
-        type: text
-        value: joey
-        label: Username
-        tooltip: Please input your username
-      Password:
-        type: password
-        value: 1234
-        label: Password
-        tooltip: Please input your password
-
-      Button_submit:
-        type: submit
-        label: Submit
-        color: warning
-        onClick: >
-          const username = Dashpad.getState('Tabs_1.Card_1.Form.Username.value');
-          Dashpad.showModal({
-            title: 'Form submitted!',
-            message: 'your user name is : ' + username
+          console.log(this.e);
+          Dashpad.showToast({
+            message: 'this is toast!'
           });
-      Button_run:
-        type: submit
-        label: Submit
-        color: info
+    Html:
+      content: <h1>Test HTML</h1>
+    Progress:
+      value: 1
+      max: 100
+    Form:
+      Row:
+        Username:
+          type: text
+          value: joey
+          label: Username
+          tooltip: Please input your username
+        Password:
+          type: password
+          value: 1234
+          label: Password
+          tooltip: Please input your password
+      Buttongroup:
+        type: group
+        label: Menu
         onClick: >
-          Dashpad.run('index.js');
+            console.log('test group', this.e.target);
+        items:
+          - label: Show Modal
+            color: info
+            onClick: >
+              const username = Dashpad.getState('Tabs_1.Card_1.Form.Username.value');
+              Dashpad.showModal({
+                title: 'Form submitted!',
+                message: 'your user name is : ' + username
+              });
+          - label: Run Node
+            color: danger
+            onClick: >
+              Dashpad.run('index.js');
+    Table:
+        labels: ['id', 'name', 'email', 'color']
+        dataset: [
+            ['1', 'joey', 'etamity@gmail.com', 'red'],
+            ['2', 'joe', 'joey@gmail.com', 'blue'],
+            ['3', 'jack', 'jack@gmail.com', 'green'],
+            ['3', 'joseph', 'joseph@gmail.com', 'black']
+        ]

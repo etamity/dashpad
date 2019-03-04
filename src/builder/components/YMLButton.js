@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button, DropdownItem, FormGroup } from 'reactstrap';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { PropsFilter } from './utils';
@@ -29,31 +29,59 @@ const allowedProps = [
     'active',
     'block',
     'disabled',
+    'variant',
+    'divider',
 ];
 
- export class YMLButtonView extends Component {
-     static contextType = Context;
-    render () {
+const allowedDropdownProps = ['header', 'diviver', 'disabled'];
+
+export class YMLButtonView extends Component {
+    static contextType = Context;
+    render() {
         const { keyPath, obj } = this.props;
         const brand = brandClass(obj.brand, obj.icon, obj.className);
-        const pickedProps = PropsFilter(obj, allowedProps);
+        let pickedProps = PropsFilter(obj, allowedProps);
 
-        return (
-            <Button
-                key={keyPath}
-                className={brand.brand}
-                {...pickedProps}
-                onClick={() => {
-                    obj.onClick && this.context.vm.run(obj.onClick, obj);
-                }}
-            >
-                {(obj.icon || obj.brand) && <i className={brand.icon} />}
-                {(obj.label || obj.brand) && (
-                    <span className="d-none d-md-inline">
-                        {obj.label || obj.brand}
-                    </span>
-                )}
-            </Button>
+        let ButtonClass = (
+            <FormGroup key={keyPath}>
+                <Button
+                    className={brand.brand}
+                    {...pickedProps}
+                    onClick={e => {
+                        obj.onClick &&
+                            this.context.vm.run(obj.onClick, {
+                                props: obj,
+                                e,
+                            });
+                    }}
+                >
+                    {(obj.icon || obj.brand) && <i className={brand.icon} />}
+                    {(obj.label || obj.brand) && (
+                        <span className="d-none d-md-inline">
+                            {obj.label || obj.brand}
+                        </span>
+                    )}
+                </Button>
+            </FormGroup>
         );
+        if (obj.type === 'dropdown') {
+            pickedProps = PropsFilter(obj, allowedDropdownProps);
+            ButtonClass = (
+                <DropdownItem
+                    {...pickedProps}
+                    onClick={e => {
+                        obj.onClick &&
+                            this.context.vm.run(obj.onClick, {
+                                props: obj,
+                                e,
+                            });
+                    }}
+                >
+                    <span className="d-none d-md-inline">{obj.label}</span>
+                </DropdownItem>
+            );
+        }
+
+        return ButtonClass;
     }
 }

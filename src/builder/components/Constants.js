@@ -8,6 +8,8 @@ export const ContainerType = keyMirror({
     NOTIFY: null,
     WIDGET: null,
     HEADER: null,
+    BUTTONGROUP: null,
+    ROW: null
 });
 export const ContentType = keyMirror({
     LIST: null,
@@ -41,4 +43,10 @@ export const InputType = keyMirror({
 export const InputAddonType = keyMirror({
     TEXT: null,
     BUTTON: null,
+});
+
+export const ButtonGroupType = keyMirror({
+    GROUP: null,
+    TOOLBAR: null,
+    DROPDOWN: null,
 });

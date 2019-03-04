@@ -22,7 +22,7 @@ const loadNavs = () =>
                 packageName: config.packageName,
             }))
         )
-        .reduce((result, next) => result.concat(next));
+        .reduce((result, next) => result.concat(next), []);
 
 
 

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { Table } from 'reactstrap';
+import { Table, FormGroup} from 'reactstrap';
 import { PropsFilter } from './utils';
 const allowedProps = ['responsive', 'striped'];
 
 export class YMLTableView extends Component {
     render() {
         const { keyPath, obj } = this.props;
-        return (
+        return (<FormGroup key={keyPath}>
             <Table
                 responsive
                 striped
-                key={keyPath}
                 {...PropsFilter(obj, allowedProps)}
             >
                 <thead>
@@ -24,8 +23,8 @@ export class YMLTableView extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {obj.rows &&
-                        obj.rows.map((row, index) => (
+                    {obj.dataset &&
+                        obj.dataset.map((row, index) => (
                             <tr key={keyPath + '.row.' + index}>
                                 {row.map((field, i) => (
                                     <td
@@ -43,7 +42,7 @@ export class YMLTableView extends Component {
                             </tr>
                         ))}
                 </tbody>
-            </Table>
+            </Table></FormGroup>
         );
     }
 }

@@ -18,7 +18,9 @@ import {
     YMLLinkView,
     YMLTableView,
     YMLTextView,
-    YMLHtmlView
+    YMLHtmlView,
+    YMLButtonGroupView,
+    YMLRowView
 } from './index';
 
 import { ContentType, ContainerType, FieldType, InputType } from './Constants';
@@ -45,6 +47,10 @@ export class YMLComponent extends Component {
                 return <YMLCardHeaderView {...newProps} />;
             case ContainerType.FORM:
                 return <YMLFormView {...newProps} />;
+            case ContainerType.BUTTONGROUP:
+                return <YMLButtonGroupView {...newProps} />;
+            case ContainerType.ROW:
+                return <YMLRowView {...newProps} />;
             case ContainerType.CARD:
                 return <YMLCardView {...newProps} />;
             case ContentType.LIST:

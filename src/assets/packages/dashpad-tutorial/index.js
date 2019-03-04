@@ -1,14 +1,22 @@
+module.exports = (params) => {
+    console.log('here is from module:', Dashpad.loadJson('test.json'));
+    let count = 0;
+    setInterval(() => {
 
-
-process.send({ text: process.pid, a:'1111' });
-// // process.on(message => {
-// //     console.log('pid', process.pid, message);
-// //     process.send('hahahahahaahahahahahahah!!!!!!!');
-// // });
-// setInterval(() => {
-//     process.send({ text: process.pid, a:'hahshdh' });
-
-// } ,2000);
-
-console.log(process.execArgv);
-console.log(process.argv);
+        if (count < 100)
+        {
+            count = count + 1;
+        } else {
+            Dashpad.exit();
+        }
+        Dashpad.setState([{
+            keyPath: 'Tabs_1.Card_1.Header.title',
+            value: new Date()
+        },
+        {
+            keyPath: 'Tabs_1.Card_1.Progress.value',
+            value: count
+        }
+    ]);
+    } ,500);
+}

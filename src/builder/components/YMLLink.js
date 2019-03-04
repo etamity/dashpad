@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { shell } from 'electron';
-import { Button } from 'reactstrap';
+import { Button, FormGroup } from 'reactstrap';
 
 export class YMLLinkView extends Component {
     render() {
         const { keyPath, obj } = this.props;
-        return (
+        return (<FormGroup key={keyPath}>
             <Button
-                key={keyPath}
                 className={`text-${obj.color}`}
                 onClick={()=>{
                     obj.link && shell.openExternal(obj.link)
@@ -16,7 +15,7 @@ export class YMLLinkView extends Component {
             >
                 {obj.icon && <i className={obj.icon} />}
                 {obj.label}
-            </Button>
+            </Button></FormGroup>
         );
     }
 }
