@@ -3,19 +3,24 @@ import {
     Form,
 } from 'reactstrap';
 import _ from 'lodash';
-import { getTypes } from './utils';
+import { getTypes, PropsFilter } from './utils';
 import {
     YMLComponent
 } from './index';
 
+const allowedProps = [
+    'action',
+    'method',
+    'encType',
+];
+
 export class YMLFormView extends Component {
     render() {
         const { keyPath, obj } = this.props;
+        const pickedProps = PropsFilter(obj, allowedProps);
         return (
             <Form
-                action=""
-                method="post"
-                encType="multipart/form-data"
+                {... pickedProps}
                 className="form-horizontal"
             >
                 {getTypes(obj).map(({name, type}, index) => {

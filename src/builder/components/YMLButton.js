@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, DropdownItem, FormGroup } from 'reactstrap';
+import { Button, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { PropsFilter } from './utils';
@@ -43,8 +43,7 @@ export class YMLButtonView extends Component {
         let pickedProps = PropsFilter(obj, allowedProps);
 
         let ButtonClass = (
-            <FormGroup key={keyPath}>
-                <Button
+                <Button key={keyPath}
                     className={brand.brand}
                     {...pickedProps}
                     onClick={e => {
@@ -62,7 +61,6 @@ export class YMLButtonView extends Component {
                         </span>
                     )}
                 </Button>
-            </FormGroup>
         );
         if (obj.type === 'dropdown') {
             pickedProps = PropsFilter(obj, allowedDropdownProps);

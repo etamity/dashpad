@@ -4,6 +4,7 @@ import {
     ListGroupItem,
     ListGroupItemHeading,
     ListGroupItemText,
+    FormGroup,
 } from 'reactstrap';
 import _ from 'lodash';
 import { PropsFilter } from './utils';
@@ -40,17 +41,17 @@ export class YMLListView extends Component {
 
                 let content = item;
                 let classes = {};
-                let newProps ={};
+                let newProps = {};
                 if (_.isObject(item)) {
                     content = parseContent(item.content);
-                     classes = {
+                    classes = {
                         itemClass: classNames({
                             [`list-group-item-accent-${item.variant ||
                                 'success'}`]: true,
                             active: obj.selected === index,
                         }),
                     };
-                     newProps = {
+                    newProps = {
                         name,
                         keyPath: keyPath,
                         type,
@@ -73,9 +74,11 @@ export class YMLListView extends Component {
                 );
             });
         return (
-            <ListGroup className="list-group-accent" tag={'div'}>
-                {list}
-            </ListGroup>
+            <FormGroup key={keyPath}>
+                <ListGroup className="list-group-accent" tag={'div'}>
+                    {list}
+                </ListGroup>
+            </FormGroup>
         );
     }
 }
