@@ -1,8 +1,0 @@
----
-navs:
-  - name: Example
-    icon: icon-speedometer
-    badge:
-    text: NEW
-    goto: ui.yml
-

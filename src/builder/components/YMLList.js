@@ -38,25 +38,27 @@ export class YMLListView extends Component {
                     return _.isObject(item.content) ? view : item.content;
                 };
 
-                const content = _.isObject(item)
-                    ? parseContent(item.content)
-                    : item;
-
-                const classes = {
-                    itemClass: classNames({
-                        [`list-group-item-accent-${item.variant ||
-                            'success'}`]: true,
-                        active: obj.selected === index,
-                    }),
-                };
-                const newProps = {
-                    name,
-                    keyPath: keyPath,
-                    type,
-                    obj: item.Badge,
-                };
-                if (!item.color && index % 2 === 0) {
-                    item.color = 'info';
+                let content = item;
+                let classes = {};
+                let newProps ={};
+                if (_.isObject(item)) {
+                    content = parseContent(item.content);
+                     classes = {
+                        itemClass: classNames({
+                            [`list-group-item-accent-${item.variant ||
+                                'success'}`]: true,
+                            active: obj.selected === index,
+                        }),
+                    };
+                     newProps = {
+                        name,
+                        keyPath: keyPath,
+                        type,
+                        obj: item.Badge,
+                    };
+                    if (!item.color && index % 2 === 0) {
+                        item.color = 'info';
+                    }
                 }
 
                 return (

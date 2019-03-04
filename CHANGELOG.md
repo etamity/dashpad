@@ -19,21 +19,21 @@
 ## Relase v1.0.5
 
 - Refactor yaml ui parser and builder library
-- Added root ui components parser: `YAMLComponent` and `YMLBuilder`
+- Added root ui components parser: `YMLComponent` and `YMLBuilder`
 - Added context binding into action
 - Added new ui components parser:
-    - YAMLTabs
-    - YAMLCard
-    - YAMLForm
-    - YAMLButton
-    - YAMLInput
-    - YAMLCheckbox
-    - YAMLRadio
-    - YAMLSelect
-    - YAMLSwitch
-    - YAMLBadge
-    - YAMLMarkdown
-    - YAMLList
+    - YMLTabs
+    - YMLCard
+    - YMLForm
+    - YMLButton
+    - YMLInput
+    - YMLCheckbox
+    - YMLRadio
+    - YMLSelect
+    - YMLSwitch
+    - YMLBadge
+    - YMLMarkdown
+    - YMLList
 - Added yaml ui script `onClick` action handler
 
 ## Relase v1.0.4
