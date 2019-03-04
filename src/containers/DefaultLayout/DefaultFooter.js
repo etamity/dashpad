@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { Button } from 'reactstrap';
+import { shell } from 'electron';
 const propTypes = {
     children: PropTypes.node,
 };
@@ -15,12 +16,15 @@ class DefaultFooter extends Component {
         return (
             <React.Fragment>
                 <span>
-                    Universal Dashboard Engine {' '}
-                    <a href="#">Github</a>
+                <Button color="link" onClick={()=>{
+                        shell.openExternal('https://uk-capitalone.slack.com/messages/CGNJ0884V');
+                    }}> <i className="fa fa-slack fa-lg" /> Slack: #dashpad </Button>
                 </span>
                 <span className="ml-auto">
-                    <a href="#">DashPad</a> &copy; 2019
-                    Robot House.
+                <Button color="link" onClick={()=>{
+                        shell.openExternal('https://github.kdc.capitalone.com/etamity/dashpad');
+                    }}> <i className="fa fa-github fa-lg" /> Hackable Dashboard Framework {' -- '}DashPad &copy; 2019</Button>
+
                 </span>
             </React.Fragment>
         );
