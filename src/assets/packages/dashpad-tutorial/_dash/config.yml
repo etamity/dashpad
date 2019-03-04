@@ -1,0 +1,9 @@
+---
+navs:
+  - name: Tutorial
+    icon: icon-speedometer
+    isOpen: true
+    goto: ui1.yml
+    badge:
+      variant: info
+      text: NEW

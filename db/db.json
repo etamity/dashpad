@@ -1,0 +1,50 @@
+{
+  "config": {
+    "port": 9999,
+    "uiport": 8888,
+    "host": "localhost",
+    "devMode": true,
+    "window": {
+      "width": 1308,
+      "height": 1024,
+      "show": false
+    },
+    "project": {
+      "root": "documents/dashpad",
+      "folder": "_dash",
+      "config": "config.yml"
+    },
+    "settings": {
+      "integration": {
+        "jira": {
+          "protocol": "https",
+          "host": "jira.co.uk",
+          "verbosemode": false
+        },
+        "github": {
+          "protocol": "https",
+          "host": "jira.co.uk",
+          "verbosemode": true
+        },
+        "jenkins": {
+          "protocol": "https",
+          "host": "jira.co.uk",
+          "verbosemode": true
+        },
+        "confluence": {
+          "protocol": "https",
+          "host": "jira.co.uk",
+          "verbosemode": true
+        }
+      },
+      "credential": {
+        "username": "tmi290",
+        "password": "",
+        "email": ""
+      }
+    },
+    "config": {
+      "devMode": true
+    }
+  }
+}

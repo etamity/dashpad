@@ -1,0 +1,18 @@
+---
+navs:
+  - name: Tutorial1
+    icon: icon-speedometer
+    isOpen: true
+    badge:
+      variant: info
+      text: NEW
+    children:
+      - name: UI Elements
+        url: '/dashboard/page1'
+        icon: icon-drop
+        badge:
+          variant: info
+          text: NEW
+      - name: Icons
+        url: '/dashboard/page2'
+        icon: icon-pencil

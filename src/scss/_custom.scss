@@ -1,0 +1,18 @@
+// Here you can add other styles
+
+
+.dropdown-item i {
+    color:inherit;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+  }
+
+main {
+    background-color: $light;
+}
+
+.sidebar .nav-link.active .nav-icon {
+    color: white;
+}

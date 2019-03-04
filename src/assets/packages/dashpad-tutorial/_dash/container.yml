@@ -1,0 +1,59 @@
+---
+card:
+  header:
+    - type: button
+      brand: instagram
+      label: joey
+      color: success
+      position: left
+    - type: button
+      brand: youtube
+      label: facebook
+      click: next.yaml
+      color: success
+      position: right
+  title: A registration form11
+  description: A simple form example.
+  form:
+    username:
+      type: text
+      title: Username
+      tooltip: Choose your username
+      defaultValue: First name
+      prepend:
+        - type: button
+          icon: icon-drop
+          click: next.yaml
+          color: warning
+      append:
+        - type: text
+          icon: icon-drop
+          click: next.yaml
+          label: hajajaj
+          color: success
+    password:
+      type: password
+      title: Password
+    date:
+      type: date
+      title: Date
+      tooltip: Please Input Your Birthday
+    rememberme:
+      type: switch
+      title: Remember Me
+    submit:
+      type: button
+      click: next.yaml
+      brand: youtube
+      color: warning
+      disabled: true
+      size: lg
+      _className: 'mr-3'
+    cancel:
+      type: button
+      icon: icon-drop
+      click: next.yaml
+      color: warning
+    '*':
+      - username
+      - password

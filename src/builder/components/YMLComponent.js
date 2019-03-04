@@ -1,0 +1,104 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import {
+    YMLTabsView,
+    YMLFormView,
+    YMLMarkdownView,
+    YMLListView,
+    YMLCardHeaderView,
+    YMLCardView,
+    YMLButtonView,
+    YMLRadioView,
+    YMLCheckboxView,
+    YMLSelectView,
+    YMLSwitchView,
+    YMLInputView,
+    YMLProgressView,
+    YMLLinkView,
+    YMLTableView,
+    YMLTextView,
+    YMLHtmlView
+} from './index';
+
+import { ContentType, ContainerType, FieldType, InputType } from './Constants';
+
+const isInputType = type =>
+    !!(type && Object.keys(InputType).includes(type.toUpperCase()));
+
+export class YMLComponent extends Component {
+    render() {
+        const { name, type, keyPath, obj } = this.props;
+        const uniqueKeyPath = `${keyPath}.${name}`;
+        let newProps = {
+            name,
+            key: uniqueKeyPath,
+            keyPath: uniqueKeyPath,
+            type,
+            obj,
+        };
+        // console.log(type, ':', uniqueKeyPath);
+        switch (type.toUpperCase()) {
+            case ContainerType.TABS:
+                return <YMLTabsView {...newProps} />;
+            case ContainerType.HEADER:
+                return <YMLCardHeaderView {...newProps} />;
+            case ContainerType.FORM:
+                return <YMLFormView {...newProps} />;
+            case ContainerType.CARD:
+                return <YMLCardView {...newProps} />;
+            case ContentType.LIST:
+                return <YMLListView {...newProps} />;
+            case ContentType.MARKDOWN:
+                return <YMLMarkdownView {...newProps} />;
+            case ContentType.LINK:
+                return <YMLLinkView {...newProps} />;
+            case ContentType.PROGRESS:
+                return <YMLProgressView {...newProps} />;
+            case ContentType.TABLE:
+                return <YMLTableView {...newProps} />;
+            case ContentType.TEXT:
+                return <YMLTextView {...newProps} />;
+            case ContentType.HTML:
+                return <YMLHtmlView {...newProps} />;
+            case FieldType.INPUT:
+                return <YMLInputView {...newProps} />;
+            case FieldType.BUTTON:
+                return <YMLButtonView {...newProps} />;
+            case FieldType.RADIO:
+                return <YMLRadioView {...newProps} />;
+            case FieldType.CHECKBOX:
+                return <YMLCheckboxView {...newProps} />;
+            case FieldType.SELECT:
+                return <YMLSelectView {...newProps} />;
+            case FieldType.SWITCH:
+                return <YMLSwitchView {...newProps} />;
+            case FieldType.FIELD:
+                const subType = isInputType(obj.type)
+                    ? FieldType.INPUT
+                    : obj.type;
+                newProps = { ...this.props, type: subType };
+                return <YMLComponent {...newProps} />;
+            default:
+                if (obj.type && isInputType(obj.type)) {
+                    const subType = FieldType.INPUT;
+                    newProps = { ...this.props, type: subType };
+                    return <YMLComponent {...newProps} />;
+                } else {
+                    const errMsg = `Warning: ${type} not found! Path: ${uniqueKeyPath}`;
+                    console.error(errMsg);
+                    toast.error(errMsg, {
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                    return null;
+                }
+        }
+    }
+}
+
+YMLComponent.propTypes = {
+    name: PropTypes.string,
+    keyPath: PropTypes.string,
+    obj: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    onChange: PropTypes.func,
+};
