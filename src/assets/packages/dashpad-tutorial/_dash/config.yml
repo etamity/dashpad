@@ -3,7 +3,7 @@ navs:
   - name: Tutorial
     icon: icon-speedometer
     isOpen: true
-    goto: ui1.yml
+    goto: ui.yml
     badge:
       variant: info
       text: NEW

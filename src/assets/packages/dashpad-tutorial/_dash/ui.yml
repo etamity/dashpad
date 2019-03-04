@@ -1,32 +1,52 @@
 ---
-tabs:
-  tab1:
-    header:
-      - type: button
+Tabs_1:
+  activeTab: 0
+  onMount: loadJs('onMount.js');
+  Card_1:
+    label: Base
+    Header:
+      title: A registration form
+      Button_1:
         brand: twitter
-        label: shankar
+        label: Run Script
         onClick: >
-          thisContext().setState('tabs.tab3.label.label', "joey");
-          //thisContext().run('m1.js');
+          Dashpad.run("m1.js", {name: "joey"}); 
         color: success
         position: left
-      - type: button
+      Button_2:
         brand: facebook
-        label: facebook
-        onClick: > 
-          thisContext().kill();
+        label: Update State
+        onClick: >
+          const usernameKeyPath = 'Tabs_1.Card_1.Form.Username.value';
+          const buttonLabelKeyPath = 'Tabs_1.Card_1.Header.Button_2.label';
+          const username = Dashpad.getState(usernameKeyPath);
+          console.log(username);
+          Dashpad.setState({
+            keyPath: buttonLabelKeyPath,
+            value: username
+          });
+
         color: success
         position: right
-    label: 
-      label: test21
-    title: A registration form
-    description: A simple form example.
-    form:
-      username:
+    Form:
+      Button_notification:
+        label: Notification
+        onClick: >  
+           Dashpad.showNotification({
+             title: 'hahaha',
+             message: 'the task is finished'
+           });
+      Button_toast:
+        label: Show Toast
+        onClick: >
+            Dashpad.showToast({
+              message: 'the task is finished'
+            });
+      Username:
         type: text
-        title: Username
+        label: Username
         tooltip: Choose your username
-        defaultValue: First name
+        value: First name
         prepend:
           - type: button
             icon: icon-drop
@@ -38,115 +58,116 @@ tabs:
             click: next.yaml
             label: hajajaj
             color: success
-      password:
+      Field_2:
         type: password
-        title: Password
-      date:
+        label: Password
+      Field_3:
         type: date
-        title: Date
+        label: Date
         tooltip: Please Input Your Birthday
-      submit:
-        type: button
+      Field_4:
+        type: switch
+        label: Remember Me
+      Button_submit:
+        type: submit
         click: next.yaml
         brand: youtube
         color: warning
-        onClick: >
-
-          thisContext().notify('Notification title' + Math.random(),'Some text', ()=> thisContext().shell.openExternal("http://google.com"));
-
         size: lg
-        _className: 'mr-3'
-      cancel:
+        onClick: >
+        className: 'mr-3'
+      Button_cancel:
         type: button
+        label: cancel
         icon: icon-drop
         click: next.yaml
         color: warning
-      '*':
-        - username
-        - password
-  tab2:
-    header:
-      - type: button
-        icon: icon-drop
-        click: next.yaml
-        color: success
-        position: right
-      - type: button
-        icon: icon-drop
-        click: next.yaml
-        position: left
+  Card_3:
+      label: Markdown
+      Header:
+        title: A second registration form
+        Button_1:
+          brand: twitter
+          onClick: >
+            
+          color: success
+          position: left
+        Button_2:
+          brand: facebook
+          label: facebook
+          onClick: >
 
-    title: A registration form
-    description: A simple form example.
-    form:
-      description:
-        type: textarea
-        title: Description
-        defaultValue: description
-      password:
-        type: text
-        title: Password
-  tab3:
-    header:
-      - type: button
-        icon: icon-drop
-        click: next.yaml
-        color: success
-        onClick: 
-                  
-          thisContext().setState('tabs.tab3.label.label', "joey");
-        position: right
-      - type: button
-        icon: icon-drop
-        click: next.yaml
-        position: left
+          color: success
+          position: right
+      Markdown:
+        content: >
+          <h2>Full example</h2>
 
-    title: A registration form
-    description: A simple form example.
-    label: 
-      label: test21
-    form:
-      gender:
-        type: radio
-        title: Gender
-        options:
-          - male
-          - female
-          - private
-      interest:
-        type: select
-        title: Multiple select
-        multiple: true
-        options:
-          - movies
-          - books
-          - games
-          - food
-          - traveling
-          - music
-          - sports
-      interest1:
-        type: select
-        title: Interest1
-        options:
-          - movies
-          - books
-          - games
-          - food
-          - traveling
-          - music
-          - sports
-    list:
-      - content: hahahhahahaha
-        action: true
-        badge:
-          label: 100
-          color: primary
-      - content: test 22222
-        action: true
-      - content: test eeee
-        action: true
-      - content:
-          title: test !!!!!!!
-          description: just the discription
-        action: true
+          ``` jsx   
+
+            var start = new Date().getTime();
+            setInterval(function() {
+              React.render(
+                &lt;ExampleApplication elapsed={new Date().getTime() - start} />,
+                document.getElementById('container')
+              );
+            }, 50);
+            
+          ```
+            ---
+
+          Which one does @torvalds like most?
+            - [x] tiger \#
+            - [ ] whale \*
+            - [X] octocat \!
+
+          ```scss
+            @include text-color-variant(".text-primary", $primary-color);
+            @include text-color-variant(".text-secondary", $secondary-color-dark);
+            @include text-color-variant(".text-gray", $gray-color);
+            @include text-color-variant(".text-light", $light-color);
+            @include text-color-variant(".text-success", $success-color);
+            @include text-color-variant(".text-warning", $warning-color);
+            @include text-color-variant(".text-error", $error-color);
+          ```
+
+          This block of <kbd>cd</kbd> Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
+
+      Form:
+        Field_1:
+          type: text
+          label: Username
+          tooltip: Choose your username
+          defaultValue: First name
+          prepend:
+            - type: button
+              icon: icon-drop
+              click: next.yaml
+              color: warning
+          append:
+            - type: text
+              icon: icon-drop
+              click: next.yaml
+              label: hajajaj
+              color: success
+        Field_2:
+          type: password
+          label: Password
+        Field_3:
+          type: date
+          label: Date
+          tooltip: Please Input Your Birthday
+        Button_submit:
+          type: submit
+          click: next.yaml
+          brand: youtube
+          color: warning
+          onClick: >
+          size: lg
+          className: 'mr-3'
+        Button_cancel:
+          type: button
+          label: cancel
+          icon: icon-drop
+          click: next.yaml
+          color: warning
