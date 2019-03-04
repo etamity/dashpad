@@ -20,9 +20,12 @@ export const isFirstLetterIsUpper = str => {
 };
 
 export const getTypes = obj => {
+    if (!obj) {
+        return [];
+    }
     return Object.keys(obj).filter(name => isFirstLetterIsUpper(name)).map( name => ({
         type: name.split('_')[0],
         name
-    }));
+    })) ;
 };
 

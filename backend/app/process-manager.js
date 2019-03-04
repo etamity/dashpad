@@ -5,7 +5,7 @@ const BackendStore = require('./store');
 const WebContent = require('./web-content');
 const ContentHelper = require('./helpers/content-helper');
 const PathHelper = require('./helpers/path-helper');
-const Config = require('../configs/config').value();
+const Config = require('../configs/config');
 const { AppEventType, ProcessEventType } = require('./constants');
 const dashPackageInfo = require('../../package.json');
 const childMessager = require('./child-messager');
@@ -70,7 +70,7 @@ class ProcessManager extends EventEmitter {
                 params,
                 context: {
                     state: BackendStore.get().app,
-                    settings: Config.settings,
+                    settings: Config.value().settings,
                     version: {
                         name: dashPackageInfo.name,
                         version: dashPackageInfo.version,

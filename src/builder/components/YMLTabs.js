@@ -8,11 +8,11 @@ export class YMLTabsView extends Component {
     static contextType = Context;
     componentWillMount() {
         const { obj } = this.props;
-        obj.onWillMount && this.context.vm.run(obj.onWillMount);
+        obj && obj.onWillMount && this.context.vm.run(obj.onWillMount);
     }
     componentDidMount() {
         const { obj } = this.props;
-        obj.onMount && this.context.vm.run(obj.onMount);
+        obj && obj.onMount && this.context.vm.run(obj.onMount);
     }
 
     render() {
@@ -36,7 +36,7 @@ export class YMLTabsView extends Component {
         return (
             <TabView
                 key={keyPath}
-                activeTab={obj.selected}
+                activeTab={(obj && obj.selected) || 0}
                 tabs={tabs}
             />
         );

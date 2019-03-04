@@ -1,204 +1,56 @@
 ---
 Tabs_1:
   activeTab: 0
-  onMount: loadJs('onMount.js');
   Card_1:
-    label: Base
+    label: This is first Card
     Header:
-      title: A registration form
       Button_1:
-        brand: twitter
-        label: Run Script
-        onClick: >
-          Dashpad.run("m1.js", {name: "joey"});
-        color: success
+        label: Show Notification
         position: left
-      Button_2:
         brand: facebook
-        label: Update State
-        onClick: >
-          const usernameKeyPath = 'Tabs_1.Card_1.Form.Username.value';
-          const buttonLabelKeyPath = 'Tabs_1.Card_1.Header.Button_2.label';
-          const username = Dashpad.getState(usernameKeyPath);
-          console.log(username);
-          Dashpad.setState({
-            keyPath: buttonLabelKeyPath,
-            value: username
-          });
-
-        color: success
-        position: right
-    Text:
-        tag: h3
-        content: this is the typograph component
-        position: center
-        color: info
-        weight: bold
-        transform: uppercase
-    Progress:
-        color: primary
-        value: 40
-        max: 100
-    List:
-      items:
-        - list item 1
-        - list item 2
-        - list item 3
-        - content:
-            title: list item 4
-            description: this is list item 4 content
-            Badge:
-              icon: icon-drop
-              label: new
-    Table:
-      labels: ['id', 'name', 'email', 'color']
-      rows: [
-          ['1', 'joey', 'etamity@gmail.com', 'red'],
-          ['2', 'joe', 'joey@gmail.com', 'blue'],
-          ['3', 'jack', 'jack@gmail.com', 'green'],
-          ['3', 'joseph', 'joseph@gmail.com', 'black']
-        ]
-    Form:
-      Button_notification:
-        label: Notification
         onClick: >
           Dashpad.showNotification({
-            title: 'hahaha',
-            message: 'the task is finished'
-          });
-      Button_toast:
-        label: Show Toast
-        onClick: >
-          Dashpad.showToast({
-            message: 'the task is finished'
-          });
-      Username:
-        type: text
-        label: Username
-        tooltip: Choose your username
-        value: First name
-        prepend:
-          - type: button
-            icon: icon-drop
-            click: next.yaml
-            color: warning
-        append:
-          - type: text
-            icon: icon-drop
-            click: next.yaml
-            label: hajajaj
-            color: success
-      Field_2:
-        type: password
-        label: Password
-      Field_3:
-        type: date
-        label: Date
-        tooltip: Please Input Your Birthday
-      Field_4:
-        type: switch
-        label: Remember Me
-      Button_submit:
-        type: submit
-        click: next.yaml
-        brand: youtube
-        color: warning
-        size: lg
-        onClick: >
-        className: 'mr-3'
-      Button_cancel:
-        type: button
-        label: cancel
-        icon: icon-drop
-        click: next.yaml
-        color: warning
+            title: 'Hello world',
+            message: 'this is notification!'
+          });        
 
-  Card_3:
-    label: Markdown
-    Header:
-      title: A second registration form
-      Button_1:
+      title: this is card title
+      Button_2:
+        label: Show Toast
+        position: right
         brand: twitter
         onClick: >
-
-        color: success
-        position: left
-      Button_2:
-        brand: facebook
-        label: facebook
-        onClick: >
-
-        color: success
-        position: right
-    Markdown:
-      content: >
-        <h2>Full example</h2>
-
-        ``` jsx   
-
-          var start = new Date().getTime();
-          setInterval(function() {
-            React.render(
-              &lt;ExampleApplication elapsed={new Date().getTime() - start} />,
-              document.getElementById('container')
-            );
-          }, 50);
-          
-        ```
-          ---
-
-        Which one does @torvalds like most?
-          - [x] tiger \#
-          - [ ] whale \*
-          - [X] octocat \!
-
-        ```scss
-          @include text-color-variant(".text-primary", $primary-color);
-          @include text-color-variant(".text-secondary", $secondary-color-dark);
-          @include text-color-variant(".text-gray", $gray-color);
-          @include text-color-variant(".text-light", $light-color);
-          @include text-color-variant(".text-success", $success-color);
-          @include text-color-variant(".text-warning", $warning-color);
-          @include text-color-variant(".text-error", $error-color);
-        ```
-
-        This block of <kbd>cd</kbd> Markdown contains <a href="https://en.wikipedia.org/wiki/HTML">HTML</a>, and will require the <code>html-parser</code> AST plugin to be loaded, in addition to setting the <code class="prop">escapeHtml</code> property to false.
-
+         Dashpad.showToast({
+           message: 'this is toast!'
+         });
     Form:
-      Field_1:
+      Progress:
+        value: 1
+        max: 100
+      Username:
         type: text
+        value: joey
         label: Username
-        tooltip: Choose your username
-        defaultValue: First name
-        prepend:
-          - type: button
-            icon: icon-drop
-            click: next.yaml
-            color: warning
-        append:
-          - type: text
-            icon: icon-drop
-            click: next.yaml
-            label: hajajaj
-            color: success
-      Field_2:
+        tooltip: Please input your username
+      Password:
         type: password
+        value: 1234
         label: Password
-      Field_3:
-        type: date
-        label: Date
-        tooltip: Please Input Your Birthday
+        tooltip: Please input your password
+
       Button_submit:
         type: submit
-        click: next.yaml
-        brand: youtube
+        label: Submit
         color: warning
         onClick: >
-        size: lg
-        className: 'mr-3'
-      Button_cancel:
-        type: button
-        label: cancel
-        icon: icon-drop
-        click: next.yaml
-        color: warning
+          const username = Dashpad.getState('Tabs_1.Card_1.Form.Username.value');
+          Dashpad.showModal({
+            title: 'Form submitted!',
+            message: 'your user name is : ' + username
+          });
+      Button_run:
+        type: submit
+        label: Submit
+        color: info
+        onClick: >
+          Dashpad.run('index.js');

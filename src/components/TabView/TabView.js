@@ -28,7 +28,7 @@ class TabView extends Component {
             return null;
         }
 
-        const titles = Object.keys(tabsContent);
+        const titles = Object.keys(tabsContent) || [];
         const titlesView = titles.map((title, index) => {
             let labelArr = title.split('.');
             let label = labelArr[0] || null;
