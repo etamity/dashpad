@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-    Button,
     FormGroup,
     FormText,
     Input,
@@ -11,7 +10,7 @@ import {
 } from 'reactstrap';
 import { AppAction } from 'reducers/app';
 import { InputType, InputAddonType } from './Constants';
-
+import { YMLButtonView } from './YMLButton';
 export class YMLInputGroupView extends Component {
     render() {
         const { obj } = this.props;
@@ -21,10 +20,10 @@ export class YMLInputGroupView extends Component {
             switch (item.type.toUpperCase()) {
                 case InputAddonType.BUTTON:
                     field = (
-                        <Button key={item.type} {...item}>
+                        <YMLButtonView key={item.type} obj={item}>
                             {item.icon && <i className={item.icon} />}{' '}
                             {item.label}
-                        </Button>
+                        </YMLButtonView>
                     );
                     break;
                 case InputAddonType.TEXT:
