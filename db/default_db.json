@@ -20,28 +20,6 @@
       "config": "config.yml"
     },
     "settings": {
-      "integration": {
-        "jira": {
-          "protocol": "https",
-          "host": "jira.co.uk",
-          "verbosemode": false
-        },
-        "github": {
-          "protocol": "https",
-          "host": "jira.co.uk",
-          "verbosemode": true
-        },
-        "jenkins": {
-          "protocol": "https",
-          "host": "jira.co.uk",
-          "verbosemode": true
-        },
-        "confluence": {
-          "protocol": "https",
-          "host": "jira.co.uk",
-          "verbosemode": true
-        }
-      },
       "credential": {
         "username": "",
         "password": "",
