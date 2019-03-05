@@ -24,19 +24,19 @@ export class YMLButtonGroupView extends Component {
                 <YMLButtonView key={keyPath + index} obj={Object.assign({}, item, {
                     type: obj.type,
                     onClick: item.onClick || obj.onClick,
-                    className: item.className || obj.className
+                    className: item.className || obj.childClassName
                 })} />
             ));
         let ButtonGroupContainer = null;
         switch (obj.type && obj.type.toUpperCase()) {
             case ButtonGroupType.GROUP:
-                ButtonGroupContainer = <ButtonGroup>
+                ButtonGroupContainer = <ButtonGroup className={obj.className}>
                     {childrenButtons}
                 </ButtonGroup>;
                 break;
             case ButtonGroupType.TOOLBAR:
                 ButtonGroupContainer = <ButtonToolbar>
-                    <ButtonGroup>
+                    <ButtonGroup className={obj.className}>
                     {childrenButtons}
                 </ButtonGroup>;
                 </ButtonToolbar>

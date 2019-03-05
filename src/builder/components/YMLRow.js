@@ -4,7 +4,7 @@ import { YMLComponent } from './YMLComponent';
 import { getTypes, PropsFilter } from './utils';
 import classNames from 'classnames';
 
-const allowedProps = ['data-'];
+const allowedProps = ['noGutters', 'fluid', 'data-'];
 
 const styles = (style) => classNames(style);
 export class YMLRowView extends Component {
@@ -19,8 +19,9 @@ export class YMLRowView extends Component {
                 type: type,
                 obj: obj[name],
             };
+            const colProps = childProps.obj.col || {};
             return (
-                <Col key={childProps.key}>
+                <Col key={childProps.key} {...colProps}>
                     <YMLComponent {...childProps} />{' '}
                 </Col>
             );
@@ -28,9 +29,8 @@ export class YMLRowView extends Component {
 
         return (
             <FormGroup key={keyPath}
-            {...PropsFilter(obj, allowedProps)}
             >
-                <Row className={styles(obj.className)}>{childComps}</Row>
+                <Row className={styles(obj.className)} {...PropsFilter(obj, allowedProps)}>{childComps}</Row>
             </FormGroup>
         );
     }
