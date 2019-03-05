@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const config = require('./backend/configs/config').value();
 process.env.PORT = config.uiport;
 process.env.CHOKIDAR_USEPOLLING = config.env.CHOKIDAR_USEPOLLING;
