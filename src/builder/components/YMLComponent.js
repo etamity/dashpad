@@ -20,7 +20,7 @@ import {
     YMLTextView,
     YMLHtmlView,
     YMLButtonGroupView,
-    YMLRowView
+    YMLRowView,
 } from './index';
 
 import { ContentType, ContainerType, FieldType, InputType } from './Constants';

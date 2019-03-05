@@ -13,6 +13,7 @@ import { AppAction } from 'reducers/app';
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';
 import Context from '../context';
+import { PropsFilter } from './utils';
 
 export class YMLInputGroupView extends Component {
     render() {
@@ -54,8 +55,8 @@ const allowedProps = [
     'placeholder',
     'disabled',
     'variant',
-    'divider',
     'data-',
+    'className'
 ];
 
 export class YMLInputView extends Component {
@@ -64,7 +65,7 @@ export class YMLInputView extends Component {
     render() {
         const { keyPath, obj } = this.props;
         let defaultProps;
-        const idkey = `-${keyPath}`;
+        const idkey = keyPath;
         switch (obj.type.toUpperCase()) {
             case InputType.TEXT:
                 defaultProps = Object.assign(
@@ -74,8 +75,7 @@ export class YMLInputView extends Component {
                         id: 'text-input' + idkey,
                         name: 'text-input' + idkey,
                         tooltip: 'Please enter text',
-                    },
-                    obj
+                    }
                 );
                 break;
             case InputType.TEXTAREA:
@@ -87,8 +87,7 @@ export class YMLInputView extends Component {
                         name: 'textarea-input' + idkey,
                         tooltip: 'Please enter description',
                         rows: 9,
-                    },
-                    obj
+                    }
                 );
                 break;
             case InputType.NUMBER:
@@ -99,9 +98,7 @@ export class YMLInputView extends Component {
                         id: 'number-input' + idkey,
                         name: 'number-input' + idkey,
                         tooltip: 'Please enter number',
-                    },
-                    obj,
-                    { value: this.props.value }
+                    }
                 );
 
                 break;
@@ -113,8 +110,7 @@ export class YMLInputView extends Component {
                         id: 'date-input' + idkey,
                         name: 'date-input' + idkey,
                         tooltip: 'Please enter date',
-                    },
-                    obj
+                    }
                 );
 
                 break;
@@ -126,8 +122,7 @@ export class YMLInputView extends Component {
                         id: 'datetime-input' + idkey,
                         name: 'datetime-input' + idkey,
                         tooltip: 'Please enter date time',
-                    },
-                    obj
+                    }
                 );
 
                 break;
@@ -139,8 +134,7 @@ export class YMLInputView extends Component {
                         id: 'time-input' + idkey,
                         name: 'time-input' + idkey,
                         tooltip: 'Please enter time',
-                    },
-                    obj
+                    }
                 );
 
                 break;
@@ -152,8 +146,7 @@ export class YMLInputView extends Component {
                         id: 'file-input' + idkey,
                         name: 'file-input' + idkey,
                         tooltip: 'Please choose file',
-                    },
-                    obj
+                    }
                 );
 
                 break;
@@ -167,8 +160,7 @@ export class YMLInputView extends Component {
                         placeholder: 'Enter Password..',
                         autoComplete: 'current-password',
                         tooltip: 'Please enter your password',
-                    },
-                    obj
+                    }
                 );
 
                 break;
@@ -182,8 +174,7 @@ export class YMLInputView extends Component {
                         placeholder: 'Enter Email..',
                         autoComplete: 'email',
                         tooltip: 'Please enter your email',
-                    },
-                    obj
+                    }
                 );
 
                 break;
@@ -192,6 +183,7 @@ export class YMLInputView extends Component {
                 return null;
         }
 
+        defaultProps = Object.assign({}, defaultProps, PropsFilter(obj ,allowedProps));
         
         return (
             <FormGroup>
