@@ -12,6 +12,7 @@ const allowedProps = [
     'size',
     'dataOn',
     'dataOff',
+    'data-'
 ];
 
 export class YMLSwitchView extends Component {

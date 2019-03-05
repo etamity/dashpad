@@ -31,9 +31,10 @@ const allowedProps = [
     'disabled',
     'variant',
     'divider',
+    'data-'
 ];
 
-const allowedDropdownProps = ['header', 'diviver', 'disabled'];
+const allowedDropdownProps = ['header', 'diviver', 'disabled', 'data-'];
 
 export class YMLButtonView extends Component {
     static contextType = Context;
@@ -41,7 +42,6 @@ export class YMLButtonView extends Component {
         const { keyPath, obj } = this.props;
         const brand = brandClass(obj.brand, obj.icon, obj.className);
         let pickedProps = PropsFilter(obj, allowedProps);
-
         let ButtonClass = (
                 <Button key={keyPath}
                     className={brand.brand}

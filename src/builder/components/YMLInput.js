@@ -7,10 +7,12 @@ import {
     InputGroupAddon,
     InputGroupText,
     Label,
+    CustomInput
 } from 'reactstrap';
 import { AppAction } from 'reducers/app';
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';
+
 export class YMLInputGroupView extends Component {
     render() {
         const { obj } = this.props;
@@ -42,8 +44,20 @@ export class YMLInputGroupView extends Component {
     }
 }
 
-export class YMLInputView extends Component {
+const allowedProps = [
+    'bgSize',
+    'type',
+    'size',
+    'valid',
+    'invalid',
+    'placeholder',
+    'disabled',
+    'variant',
+    'divider',
+    'data-',
+];
 
+export class YMLInputView extends Component {
     render() {
         const { keyPath, obj } = this.props;
         let defaultProps;
@@ -101,6 +115,45 @@ export class YMLInputView extends Component {
                 );
 
                 break;
+            case InputType.DATETIME:
+                defaultProps = Object.assign(
+                    {},
+                    {
+                        type: 'datetime',
+                        id: 'datetime-input' + idkey,
+                        name: 'datetime-input' + idkey,
+                        tooltip: 'Please enter date time',
+                    },
+                    obj
+                );
+
+                break;
+            case InputType.TIME:
+                defaultProps = Object.assign(
+                    {},
+                    {
+                        type: 'time',
+                        id: 'time-input' + idkey,
+                        name: 'time-input' + idkey,
+                        tooltip: 'Please enter time',
+                    },
+                    obj
+                );
+
+                break;
+            case InputType.FILE:
+                defaultProps = Object.assign(
+                    {},
+                    {
+                        type: 'file',
+                        id: 'file-input' + idkey,
+                        name: 'file-input' + idkey,
+                        tooltip: 'Please choose file',
+                    },
+                    obj
+                );
+
+                break;
             case InputType.PASSWORD:
                 defaultProps = Object.assign(
                     {},
@@ -112,7 +165,7 @@ export class YMLInputView extends Component {
                         autoComplete: 'current-password',
                         tooltip: 'Please enter your password',
                     },
-                    obj,
+                    obj
                 );
 
                 break;
@@ -142,12 +195,12 @@ export class YMLInputView extends Component {
                     <InputGroupAddon addonType="prepend">
                         {obj.prepend && <YMLInputGroupView obj={obj.prepend} />}
                     </InputGroupAddon>
-                    <Input
+                    < Input
                         {...defaultProps}
                         onChange={e => {
                             AppAction.updateUIState({
                                 keyPath: keyPath + '.value',
-                                value: e.target.value
+                                value: e.target.value,
                             });
                         }}
                     />

@@ -12,6 +12,7 @@ const allowedProps = [
     'action',
     'method',
     'encType',
+    'data-'
 ];
 
 export class YMLFormView extends Component {

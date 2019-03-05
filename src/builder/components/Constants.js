@@ -37,6 +37,9 @@ export const InputType = keyMirror({
     PASSWORD: null,
     EMAIL: null,
     DATE: null,
+    DATETIME: null,
+    TIME: null,
+    FILE: null,
     TEXTAREA: null,
 });
 
@@ -49,4 +52,5 @@ export const ButtonGroupType = keyMirror({
     GROUP: null,
     TOOLBAR: null,
     DROPDOWN: null,
+    WRAP: null
 });

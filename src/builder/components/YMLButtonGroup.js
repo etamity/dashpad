@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ButtonDropdown, ButtonGroup, ButtonToolbar, FormGroup, DropdownToggle, DropdownMenu } from 'reactstrap';
+import { Row, Col, ButtonDropdown, ButtonGroup, ButtonToolbar, FormGroup, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { ButtonGroupType } from './Constants';
 import { YMLButtonView } from './index';
 export class YMLButtonGroupView extends Component {
@@ -24,19 +24,18 @@ export class YMLButtonGroupView extends Component {
                 <YMLButtonView key={keyPath + index} obj={Object.assign({}, item, {
                     type: obj.type,
                     onClick: item.onClick || obj.onClick,
-                    className: 'mr-2'
                 })} />
             ));
         let ButtonGroupContainer = null;
         switch (obj.type && obj.type.toUpperCase()) {
             case ButtonGroupType.GROUP:
-                ButtonGroupContainer = <ButtonGroup className="mr-2">
+                ButtonGroupContainer = <ButtonGroup>
                     {childrenButtons}
                 </ButtonGroup>;
                 break;
             case ButtonGroupType.TOOLBAR:
                 ButtonGroupContainer = <ButtonToolbar>
-                    <ButtonGroup className="mr-2">
+                    <ButtonGroup>
                     {childrenButtons}
                 </ButtonGroup>;
                 </ButtonToolbar>
@@ -50,6 +49,11 @@ export class YMLButtonGroupView extends Component {
                     {childrenButtons}
                     </DropdownMenu>
                 </ButtonDropdown>;
+                break;
+            case ButtonGroupType.WRAP:
+            ButtonGroupContainer = <Row>
+            {childrenButtons.map((btn, index) => (<Col key={keyPath + index} className="m-1">{btn}</Col>))}
+        </Row>;
                 break;
             default:
                 ButtonGroupContainer = ButtonGroup;

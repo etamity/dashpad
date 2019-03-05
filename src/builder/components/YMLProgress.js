@@ -3,7 +3,7 @@ import { Progress, FormGroup } from 'reactstrap';
 import _ from 'lodash';
 import { PropsFilter } from './utils';
 
-const allowedProps = ['value', 'color', 'animated', 'bar', 'striped', 'max'];
+const allowedProps = ['value', 'color', 'animated', 'bar', 'striped', 'max', 'data-'];
 
 export class YMLProgressView extends Component {
     render() {

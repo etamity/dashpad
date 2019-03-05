@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter } from './utils';
 
-const allowedProps = ['name', 'id', 'multiple', 'type','bsSize', 'state', 'valid', 'plaintext', 'addon'];
+const allowedProps = ['name', 'id', 'multiple', 'type','bsSize', 'state', 'valid', 'plaintext', 'addon', 'data-'];
 
 export class YMLSelectView extends Component {
     render() {

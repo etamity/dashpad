@@ -12,7 +12,7 @@ export const dynamicMapRedux = (props, component) => {
 };
 
 export const PropsFilter = (props, filters) =>
-    _.pickBy(props, (val, key) => !_.isObject(val) && filters.includes(key));
+    _.pickBy(props, (val, key) => !_.isObject(val) && filters.some(filter => key.indexOf(filter) > -1));
 
 export const isFirstLetterIsUpper = str => {
     const f = str.charAt(0); // or str[0] if not supporting older browsers

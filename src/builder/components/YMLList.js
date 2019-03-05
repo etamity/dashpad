@@ -13,7 +13,7 @@ import { YMLBadgeView } from './index';
 
 import classNames from 'classnames';
 
-const allowedProps = ['action', 'disabled', 'tag', 'href', 'color', 'active'];
+const allowedProps = ['action', 'disabled', 'tag', 'href', 'color', 'active', 'data-'];
 export class YMLListView extends Component {
     render() {
         const { name, type, keyPath, obj } = this.props;

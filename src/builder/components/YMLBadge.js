@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Badge } from 'reactstrap';
 import { PropsFilter } from './utils';
-const allowedProps = ['pill', 'color', 'icon', 'tag'];
+const allowedProps = ['pill', 'color', 'icon', 'tag', 'data-'];
 
 export class YMLBadgeView extends Component {
     render() {
