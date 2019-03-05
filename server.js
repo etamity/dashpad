@@ -1,5 +1,6 @@
 require("util").inspect.defaultOptions.depth = null;
 const config = require('./backend/configs/config').value();
+
 const port = config.port;
 const express = require('express');
 const app = express();

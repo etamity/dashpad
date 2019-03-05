@@ -11,7 +11,16 @@ const devMode = isEnvSet ? getFromEnv : !(app && app.isPackaged);
 
 const configPath = nodePath.resolve('db/db.json');
 
-const config = () => fse.readJsonSync(configPath);
+const defaultConfigPath = nodePath.resolve('db/default_db.json');
+
+const defaultConfig =  fse.readJsonSync(defaultConfigPath);
+
+const config = () => {
+    if (!fse.existsSync(configPath)) {
+        fse.writeJSONSync(configPath, defaultConfig)
+    }
+    return fse.readJsonSync(configPath);
+}
 
 
 const Config = {

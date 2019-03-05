@@ -7,6 +7,8 @@ const client = new net.Socket();
 
 const cwd = process.cwd()
 let startedElectron = false;
+
+
 const tryConnection = () =>
     client.connect(
         { port },
