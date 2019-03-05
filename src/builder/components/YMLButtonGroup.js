@@ -24,6 +24,7 @@ export class YMLButtonGroupView extends Component {
                 <YMLButtonView key={keyPath + index} obj={Object.assign({}, item, {
                     type: obj.type,
                     onClick: item.onClick || obj.onClick,
+                    className: item.className || obj.className
                 })} />
             ));
         let ButtonGroupContainer = null;
@@ -52,7 +53,7 @@ export class YMLButtonGroupView extends Component {
                 break;
             case ButtonGroupType.WRAP:
             ButtonGroupContainer = <Row>
-            {childrenButtons.map((btn, index) => (<Col key={keyPath + index} className="m-1">{btn}</Col>))}
+                {childrenButtons}
         </Row>;
                 break;
             default:

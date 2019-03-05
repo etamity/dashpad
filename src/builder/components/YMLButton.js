@@ -10,6 +10,7 @@ const brandClass = (brand, icon, className) => {
             {
                 [`btn-${brand}`]: !!brand,
                 'btn-brand': !!brand,
+                [className]: !!className
             },
             className
         ),

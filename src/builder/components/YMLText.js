@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-
+import Context from '../context';
 const textClass = (obj) => {
     return classNames(obj.tag,
         {
@@ -13,12 +13,20 @@ const textClass = (obj) => {
     )
 };
 export class YMLTextView extends Component {
+    static contextType = Context;
     render() {
         const { keyPath, obj } = this.props;
         return (
             <p
                 key={keyPath}
                 className={textClass(obj)}
+                onClick={e => {
+                    obj.onClick &&
+                        this.context.vm.run(obj.onClick, {
+                            props: obj,
+                            e,
+                        });
+                }}
             >
                 {obj.content}
             </p>

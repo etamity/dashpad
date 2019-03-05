@@ -27,10 +27,10 @@ export class YMLRowView extends Component {
         });
 
         return (
-            <FormGroup key={keyPath} className={styles(obj.className)}
+            <FormGroup key={keyPath}
             {...PropsFilter(obj, allowedProps)}
             >
-                <Row>{childComps}</Row>
+                <Row className={styles(obj.className)}>{childComps}</Row>
             </FormGroup>
         );
     }

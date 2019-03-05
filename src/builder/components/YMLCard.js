@@ -78,7 +78,7 @@ export class YMLCardView extends Component {
                     {_.filter(controls, { type: 'Header' }).map(
                         comp => comp.view
                     )}
-                    <CardBody>
+                    <CardBody className={obj.className}>
                         {obj.description && <p> {obj.description} </p>}
                         {controls
                             .filter(ctrl => ctrl.type !== 'Header')

@@ -12,6 +12,7 @@ import {
 import { AppAction } from 'reducers/app';
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';
+import Context from '../context';
 
 export class YMLInputGroupView extends Component {
     render() {
@@ -58,6 +59,8 @@ const allowedProps = [
 ];
 
 export class YMLInputView extends Component {
+    static contextType = Context;
+
     render() {
         const { keyPath, obj } = this.props;
         let defaultProps;
@@ -188,6 +191,8 @@ export class YMLInputView extends Component {
             default:
                 return null;
         }
+
+        
         return (
             <FormGroup>
                 <Label htmlFor={defaultProps.id}>{obj.label}</Label>
@@ -202,6 +207,18 @@ export class YMLInputView extends Component {
                                 keyPath: keyPath + '.value',
                                 value: e.target.value,
                             });
+                            obj.onChange &&
+                                this.context.vm.run(obj.onChange, {
+                                    props: obj,
+                                    e,
+                                });
+                        }}
+                        onClick={e => {
+                            obj.onClick &&
+                                this.context.vm.run(obj.onClick, {
+                                    props: obj,
+                                    e,
+                                });
                         }}
                     />
                     <InputGroupAddon addonType="append">
