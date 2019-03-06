@@ -1,6 +1,7 @@
 const { UIEventType } = require('../constants');
 const _ = require('lodash');
 const path = require('path');
+const Config = require('../../configs/config');
 const FileManager = require('../../libs/file-manager');
 const PathHelper = require('../helpers/path-helper');
 let _state = {};
@@ -20,9 +21,28 @@ const getState= (keyPath) => _.get(_state.uischema, keyPath);
 module.exports = context => {
     const { settings, state, version } = context;
     process_namespace = state.packageInfo.namespace;
+    const {packageName} = state.packageInfo;
     _state = state;
     return {
-        settings,
+        settings: {
+            set: (keyPath, value) => {
+                Config.set(`settings.${packageName}.${keyPath}`, value);
+                return Config.get(`settings.${packageName}`);
+            },
+            get: (keyPath) => {
+                return Config.get(`settings.${packageName}.${keyPath}`);
+            },
+            push: (keyPath, value) => {
+                Config.push(`settings.${packageName}.${keyPath}`, value);
+                return Config.get(`settings.${packageName}`);
+            },
+            delete: (keyPath) => {
+                Config.delete(`settings.${packageName}.${keyPath}`);
+                return Config.get(`settings.${packageName}`);
+                
+            },
+            value: () => Config.value()
+        },
         version,
         _replaceState: state => (_state = state),
         getVars: (key) => {
@@ -70,7 +90,7 @@ module.exports = context => {
             process.send(action);
         },
         loadJson: file => {
-            const {packageName} = state.packageInfo
+        
             const jsonPath = [PathHelper.getPackagePath(packageName), file].join('/');
             return FileManager.loadJson(path.resolve(jsonPath));
         },

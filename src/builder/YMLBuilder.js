@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { YMLComponent } from './components';
 import { getTypes } from './components/utils';
 import { Container } from 'reactstrap';
-import Context from './Context';
 /**
  * Yaml file entry parser
  */

@@ -8,7 +8,7 @@ import _ from 'lodash';
 const { shell } = require('electron');
 const vm = new VM();
 
-const { ProcessManager, Notifier, PathHelper, ContentLoader } = Native();
+const { ProcessManager, Notifier, PathHelper, ContentLoader, Config } = Native();
 
 const getUIschema = () => Store.getState().app.uischema;
 
@@ -107,6 +107,30 @@ const Dashpad = {
     shell,
     showModal: modal => AppAction.showModal(modal),
     copyToClipboard,
+    settings: {
+        set: (keyPath, value) => {
+            const {packageName} = Store.getState().app.packageInfo;
+            Config.set(`settings.${packageName}.${keyPath}`, value);
+            return Config.get(`settings.${packageName}`);
+        },
+        get: (keyPath) => {
+            const {packageName} = Store.getState().app.packageInfo;
+            return Config.get(`settings.${packageName}.${keyPath}`);
+        },
+        push: (keyPath, value) => {
+            const {packageName} = Store.getState().app.packageInfo;
+             Config.push(`settings.${packageName}.${keyPath}`, value);
+            return Config.get(`settings.${packageName}`);
+        },
+        delete: (keyPath) => {
+            const {packageName} = Store.getState().app.packageInfo;
+            Config.delete(`settings.${packageName}.${keyPath}`);
+            return Config.get(`settings.${packageName}`);
+        },
+        value: () => {
+            return Config.value()
+        }
+    },
 };
 
 vm.addGlobal('Dashpad', Dashpad);
