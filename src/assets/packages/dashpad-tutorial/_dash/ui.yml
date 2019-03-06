@@ -1,19 +1,20 @@
 ---
 $vars: 
   commonFunc: console.log('Yea');
-  username: 
-    - Tabs_1.Card_1.Row.Username.value
+  username: Tabs_1.Card_1.Row.Username.value
   header: Tabs_1.Card_1.Header.title
+  progress: Tabs_1.Card_1.Progress.value
 Tabs_1:
   activeTab: 0
   Card_1:
-    label: This is first Card
+    label: This is a tab
     Switch:
       label: test
       onClick: >
         (e) => {
             const username = Dashpad.getVars('username.0');
             console.log(username);
+            Dashpad.setVars('header', username);
           }
         
     Header:
@@ -27,6 +28,7 @@ Tabs_1:
               title: 'Notification title',
               message: 'Notification message'
             });
+            console.log(Dashpad.settings.delete('test1'));
             }
       title: This is the title of the card
       Button_2:
@@ -56,12 +58,23 @@ Tabs_1:
         - content:
             title: List Title
             description: List Description
+    Row_1:
+      Form:
+        Link_as1_aad:
+          label: test
+          className: p-0
+          onClick: >
+            (e) => {
+              console.log(this);
+            }
+        Text_1:
+          content: asdasda
     Row:
       Username:
         type: text
         label: Username
         tooltip: Please input your username
-        value: ''
+        value: 'joey'
       Password: 
         type: password
         label: Password
@@ -72,7 +85,7 @@ Tabs_1:
         - label: submit
           color: info
           onClick: >
-            const username = Dashpad.getState('Tabs_1.Card_1.Row.Username.value');
+            const username = Dashpad.getVars('username');
             Dashpad.showModal({
               title: 'Your username is',
               message: username
@@ -80,8 +93,10 @@ Tabs_1:
         - label: Run Node Script
           color: danger
           onClick: >
-            const username = Dashpad.getState('Tabs_1.Card_1.Row.Username.value');
-            Dashpad.run('index.js', {username})
+            (e) => {
+              const username = Dashpad.getState('Tabs_1.Card_1.Row.Username.value');
+              Dashpad.run('index.js', {username});
+            }
     Table:
         labels: ['id', 'name', 'email', 'color']
         dataset: [

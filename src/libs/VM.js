@@ -1,4 +1,6 @@
-const FundationTypes = "window,__cjsWrapper,require,__core-js_shared__,setTimeout,console,true,false,Array,ArrayBuffer,Boolean,Collator,DataView,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,document";
+import _ from 'lodash';
+const FundationTypes =
+    'window,__cjsWrapper,require,__core-js_shared__,setTimeout,console,true,false,Array,ArrayBuffer,Boolean,Collator,DataView,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,document';
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
 var ARGUMENT_NAMES = /([^\s,]+)/g;
 
@@ -10,7 +12,7 @@ class VM {
         this.events = {};
     }
 
-    sandbox(code, ctx, funcParams, funcArgs) {
+    sandbox(code, ctx, funcParams) {
         //create local versions of window and document with limited functionality
         let locals = {};
         let that = Object.create(ctx || null); // create our own context for the user code
@@ -28,34 +30,29 @@ class VM {
             delete locals['arguments'];
 
             // Allowed types
-            let ignoreArgs = FundationTypes.split(',');
+            let allowedArgs = FundationTypes.split(',');
 
-            for (let param in locals) {
-                if (locals.hasOwnProperty(param)) {
-                    let contained = ignoreArgs.indexOf(param) > -1;
+            const allParams = Object.assign(locals, globals, funcParams);
+            console.log('allParams', allParams);
+            for (let param in allParams) {
+                if (allParams.hasOwnProperty(param)) {
+                    let contained = allowedArgs.indexOf(param) > -1;
                     if (!contained) {
-                        args.push(locals[param]);
+                        args.push(allParams[param]);
                         params.push(param);
                     }
                 }
             }
 
-            for (let param in globals) {
-                args.push(globals[param]);
-                params.push(param);
-            }
+            let context = Array.prototype.concat.call(that, params, code);
 
-            let context = Array.prototype.concat.call(
-                that,
-                params,
-                funcParams,
-                code
-            ); // create the parameter list for the sandbox (flattern array)
+            // create the parameter list for the sandbox (flattern array)
             let sandboxContext = new (Function.prototype.bind.apply(
                 Function,
                 context
             ))(); // create the sandbox function
-            context = Array.prototype.concat.call(that, args, funcArgs); // create the argument list for the sandbox
+            context = Array.prototype.concat.call(that, args);  // create the argument list for the sandbox
+
             let sandbox = Function.prototype.bind.apply(
                 sandboxContext,
                 context
@@ -72,10 +69,10 @@ class VM {
     addCode(code) {
         this.preloadCode.push(code);
     }
-    run(code, ctx, ...args) {
+    run(code, ctx, args) {
         if (!code) return;
         const allCode = [this.getCode(), code].join('\n');
-        this.sandbox(allCode, ctx, ...args)();
+        this.sandbox(allCode, ctx, args)();
     }
     getParamNames(func) {
         const fnStr = func.toString().replace(STRIP_COMMENTS, '');
@@ -112,12 +109,13 @@ class VM {
         const isFunc = this.checkIfFunction(code);
         if (isFunc) {
             const argNames = this.getParamNames(code);
-            let funcBody = code.slice(code.indexOf('=>')+2);
-                funcBody =funcBody.slice(funcBody.indexOf('{') + 1, funcBody.lastIndexOf('}'))
+            let funcBody = code.slice(code.indexOf('=>') + 2);
+            funcBody = funcBody
+                .slice(funcBody.indexOf('{') + 1, funcBody.lastIndexOf('}'))
                 .trim();
-                
+
             if (argNames.length > 0) {
-                this.run(funcBody, ctx, argNames, args);
+                this.run(funcBody, ctx, { [argNames]: args });
             } else {
                 this.run(funcBody, ctx);
             }

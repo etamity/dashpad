@@ -13,7 +13,7 @@ const loadNavs = () =>
     loadConfigs()
         .map(config => ({
             ...config,
-            content: config.content.navs,
+            content: (config.content && config.content.navs) || [],
         }))
         .filter(config => !!config.content)
         .map(config =>

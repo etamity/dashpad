@@ -77,7 +77,7 @@ export const EventsHook = (props, events) => {
                         name
                     }),
                 },
-                [e]
+                e
             );
         };
         return eventProps;
