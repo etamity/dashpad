@@ -19,7 +19,7 @@ const setState = payload => {
 const getState= (keyPath) => _.get(_state.uischema, keyPath);
 
 module.exports = context => {
-    const { settings, state, version } = context;
+    const { state, version } = context;
     process_namespace = state.packageInfo.namespace;
     const {packageName} = state.packageInfo;
     _state = state;
@@ -41,20 +41,18 @@ module.exports = context => {
                 return Config.get(`settings.${packageName}`);
                 
             },
-            value: () => Config.value()
+            value: () => Config.value().settings
         },
         version,
         _replaceState: state => (_state = state),
         getVars: (key) => {
-            const keyPath = _.get(_state.uischema, `$vars.${key}`);
+            const keyPath = _.get(_state, `$vars.${key}`);
             return getState(keyPath);
         },
-        setVars: (...args) => {
-            const payload = _.isString(args[0]) ? {keyPath: args[0], value: args[1]}: args[0];
+        setVars: (payload) => {
             const payloadArr = _.isPlainObject(payload) ? [payload]: payload;
             const actions = payloadArr.map(obj => {
-                const keyPath = _.get(_state.uischema, `$vars.${obj.keyPath}`);
-                console.log(keyPath);
+                const keyPath = _.get(_state, `$vars.${obj.keyPath}`);
                 return {
                     keyPath,
                     value: obj.value
