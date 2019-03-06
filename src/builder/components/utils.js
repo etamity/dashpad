@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import Context from '../Context';
 import { AppAction } from 'reducers/app';
+import { FieldType } from './Constants';
 const specialCharacters = [
     '!',
     '#',
@@ -52,11 +53,11 @@ export const PropsFilter = (props, filters) =>
             !_.isObject(val) && filters.some(filter => key.indexOf(filter) > -1)
     );
 
-export const EventsHook = ({keyPath, obj}, events) =>
-    events.reduce((eventProps, next) => {
+export const EventsHook = (props, events) => {
+    const {keyPath, type, obj} = props;
+    return events.reduce((eventProps, next) => {
         eventProps[next] = e => {
-            if (next === 'onChange') {
-                console.log('key', keyPath + '.value')
+            if (next === 'onChange' && type === FieldType.INPUT) {
                 AppAction.updateUIState({
                     keyPath: keyPath + '.value',
                     value: e.target.value,
@@ -65,13 +66,15 @@ export const EventsHook = ({keyPath, obj}, events) =>
             Context.vm.func(
                 obj[next],
                 {
-                    obj,
+                    props,
                 },
                 [e]
             );
         };
         return eventProps;
     }, Object.create(null));
+}
+    
 
 export const isFirstLetterIsUpper = str => {
     const f = str.charAt(0); // or str[0] if not supporting older browsers

@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { YMLComponent } from './YMLComponent';
 import TabView from 'components/TabView';
 import { getTypes } from './utils';
-
+import Context from '../Context';
 export class YMLTabsView extends Component {
     componentWillMount() {
         const { obj } = this.props;
-        obj && obj.onWillMount && this.context.vm.run(obj.onWillMount);
+        obj && obj.onWillMount && Context.vm.run(obj.onWillMount);
     }
     componentDidMount() {
         const { obj } = this.props;
-        obj && obj.onMount && this.context.vm.run(obj.onMount);
+        obj && obj.onMount && Context.vm.run(obj.onMount);
     }
 
     render() {

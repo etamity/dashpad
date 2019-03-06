@@ -1,18 +1,33 @@
 ---
+$vars: 
+  commonFunc: console.log('Yea');
+  username: 
+    - Tabs_1.Card_1.Row.Username.value
+  header: Tabs_1.Card_1.Header.title
 Tabs_1:
   activeTab: 0
   Card_1:
     label: This is first Card
+    Switch:
+      label: test
+      onClick: >
+        (e) => {
+            const username = Dashpad.getState('username.0');
+            console.log(username);
+          }
+        
     Header:
       Button_1:
         label: Show Notification
         position: left
         brand: twitter
         onClick: >
-          Dashpad.showNotification({
-            title: 'Notification title',
-            message: 'Notification message'
-          })
+          (e) => {
+            Dashpad.showNotification({
+              title: 'Notification title',
+              message: 'Notification message'
+            });
+            }
       title: This is the title of the card
       Button_2:
         label: Show Toast
@@ -69,8 +84,9 @@ Tabs_1:
             Dashpad.run('index.js', {username})
     Table:
         labels: ['id', 'name', 'email', 'color']
-        dataset: 
-           - ['1', 'joey', 'etamity@gmail.com', 'red']
-           - ['2', 'joe', 'joey@gmail.com', 'blue']
-           - ['3', 'jack', 'jack@gmail.com', 'green']
-           - ['3', 'joseph', 'joseph@gmail.com', 'black']
+        dataset: [
+            ['1', 'joey', 'etamity@gmail.com', 'red'],
+            ['2', 'joe', 'joey@gmail.com', 'blue'],
+            ['3', 'jack', 'jack@gmail.com', 'green'],
+            ['3', 'joseph', 'joseph@gmail.com', 'black']
+        ]

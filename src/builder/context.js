@@ -31,7 +31,10 @@ const kill = pid => {
     ProcessManager.kill(pid);
 };
 
-
+/**
+ * 
+ * @param {*} text Copy text to clipboard 
+ */
 const copyToClipboard = (text) => {
     if (window.clipboardData && window.clipboardData.setData) {
         // IE specific code path to prevent textarea being shown while dialog is visible.
@@ -58,7 +61,8 @@ const copyToClipboard = (text) => {
  */
 const Dashpad = {
     getState: (keyPath) => {
-        return _.get(getUIschema(), keyPath);
+        let key = _.get(getUIschema(), `$vars.${keyPath}`)
+        return _.get(getUIschema(), key || keyPath);
     },
     setState: setUISchema,
     showToast: ({ message, options }) => {
