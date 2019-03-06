@@ -1,22 +1,19 @@
 const FundationTypes = "window,__cjsWrapper,require,__core-js_shared__,setTimeout,console,true,false,Array,ArrayBuffer,Boolean,Collator,DataView,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,document";
+var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+var ARGUMENT_NAMES = /([^\s,]+)/g;
 
 class VM {
     constructor(context) {
         this.context = context || {};
-        this.modules = this.context.modules || [];
         this.globals = this.context.globals || [];
         this.preloadCode = [];
         this.events = {};
-    }
-    flush() {
-        this.modules = [];
     }
 
     sandbox(code, ctx, funcParams, funcArgs) {
         //create local versions of window and document with limited functionality
         let locals = {};
         let that = Object.create(ctx || null); // create our own context for the user code
-        let modules = this.modules;
         let globals = this.globals;
         function createSandbox(that, locals) {
             let params = []; // the names of local variables
@@ -43,10 +40,6 @@ class VM {
                 }
             }
 
-            for (let param in modules) {
-                args.push(modules[param]);
-                params.push(param);
-            }
             for (let param in globals) {
                 args.push(globals[param]);
                 params.push(param);
@@ -68,9 +61,37 @@ class VM {
     addCode(code) {
         this.preloadCode.push(code);
     }
-    run(code, ctx) {
+    run(code, ctx, ...args) {
+        if (!code) return;
         const allCode = [this.getCode(), code].join('\n');
-        this.sandbox(allCode, ctx)();
+        this.sandbox(allCode, ctx, ...args)();
+    }
+    getParamNames(func) {
+        const fnStr = func.toString().replace(STRIP_COMMENTS, '');
+        let result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+        if(result === null)
+           result = [];
+        return result;
+    }
+    checkIfFunction(code) {
+        return code.indexOf('function') > -1 || code.indexOf('=>') > -1
+    }
+    func(code, ctx, args) {
+        if (!code) return;
+        const isFunc = this.checkIfFunction(code);
+        if (isFunc) {
+            const argNames = this.getParamNames(code);
+            const funcBody = code.slice(code.indexOf('{') + 1, code.lastIndexOf('}')).trim();
+            if (argNames.length > 0) {
+                this.run(funcBody, ctx, argNames, args);
+            } else {
+                this.run(funcBody, ctx);
+            }
+        } else {
+            this.run(code, ctx);
+            console.error('No defined function assign to an event !');
+        }
+
     }
     addModule(name, obj) {
         this.modules[name] = obj;

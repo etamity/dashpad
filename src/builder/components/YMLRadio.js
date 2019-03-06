@@ -20,7 +20,7 @@ export class YMLRadioView extends Component {
                 },
                 obj
             );
-
+            const assignProps = PropsFilter(defaultProps, allowedProps);
             return (
                 <FormGroup
                     key={idkey}
@@ -28,7 +28,7 @@ export class YMLRadioView extends Component {
                     inline={obj.inline}
                 >
                     <Input
-                        {...PropsFilter(defaultProps, allowedProps)}
+                        {...assignProps}
                     />
                     <Label
                         check

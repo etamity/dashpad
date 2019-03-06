@@ -24,6 +24,7 @@ export class YMLSelectView extends Component {
             },
             obj
         );
+        const assignProps = PropsFilter(defaultProps, allowedProps);
         return (
             <FormGroup key={keyPath} row>
                 <Col md="3">
@@ -31,7 +32,7 @@ export class YMLSelectView extends Component {
                 </Col>
                 <Col md="9">
                     <Input
-                        {...PropsFilter(defaultProps, allowedProps)}
+                        {...assignProps}
                     >
                         {options}
                     </Input>

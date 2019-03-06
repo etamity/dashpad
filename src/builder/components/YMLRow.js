@@ -26,11 +26,11 @@ export class YMLRowView extends Component {
                 </Col>
             );
         });
-
+        const assignProps = PropsFilter(obj, allowedProps);
         return (
             <FormGroup key={keyPath}
             >
-                <Row className={styles(obj.className)} {...PropsFilter(obj, allowedProps)}>{childComps}</Row>
+                <Row className={styles(obj.className)} {...assignProps}>{childComps}</Row>
             </FormGroup>
         );
     }

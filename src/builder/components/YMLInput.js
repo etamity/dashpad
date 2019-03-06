@@ -9,11 +9,9 @@ import {
     Label,
     CustomInput
 } from 'reactstrap';
-import { AppAction } from 'reducers/app';
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';
-import Context from '../context';
-import { PropsFilter } from './utils';
+import { PropsFilter, EventsHook } from './utils';
 
 export class YMLInputGroupView extends Component {
     render() {
@@ -59,21 +57,21 @@ const allowedProps = [
     'className'
 ];
 
+const allowedEvents = ['onClick', 'onChange'];
+
 export class YMLInputView extends Component {
-    static contextType = Context;
 
     render() {
         const { keyPath, obj } = this.props;
         let defaultProps;
-        const idkey = keyPath;
         switch (obj.type.toUpperCase()) {
             case InputType.TEXT:
                 defaultProps = Object.assign(
                     {},
                     {
                         type: 'text',
-                        id: 'text-input' + idkey,
-                        name: 'text-input' + idkey,
+                        id: 'text-input' + keyPath,
+                        name: 'text-input' + keyPath,
                         tooltip: 'Please enter text',
                     }
                 );
@@ -83,8 +81,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'text',
-                        id: 'textarea-input' + idkey,
-                        name: 'textarea-input' + idkey,
+                        id: 'textarea-input' + keyPath,
+                        name: 'textarea-input' + keyPath,
                         tooltip: 'Please enter description',
                         rows: 9,
                     }
@@ -95,8 +93,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'number',
-                        id: 'number-input' + idkey,
-                        name: 'number-input' + idkey,
+                        id: 'number-input' + keyPath,
+                        name: 'number-input' + keyPath,
                         tooltip: 'Please enter number',
                     }
                 );
@@ -107,8 +105,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'date',
-                        id: 'date-input' + idkey,
-                        name: 'date-input' + idkey,
+                        id: 'date-input' + keyPath,
+                        name: 'date-input' + keyPath,
                         tooltip: 'Please enter date',
                     }
                 );
@@ -119,8 +117,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'datetime',
-                        id: 'datetime-input' + idkey,
-                        name: 'datetime-input' + idkey,
+                        id: 'datetime-input' + keyPath,
+                        name: 'datetime-input' + keyPath,
                         tooltip: 'Please enter date time',
                     }
                 );
@@ -131,8 +129,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'time',
-                        id: 'time-input' + idkey,
-                        name: 'time-input' + idkey,
+                        id: 'time-input' + keyPath,
+                        name: 'time-input' + keyPath,
                         tooltip: 'Please enter time',
                     }
                 );
@@ -143,8 +141,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'file',
-                        id: 'file-input' + idkey,
-                        name: 'file-input' + idkey,
+                        id: 'file-input' + keyPath,
+                        name: 'file-input' + keyPath,
                         tooltip: 'Please choose file',
                     }
                 );
@@ -155,8 +153,8 @@ export class YMLInputView extends Component {
                     {},
                     {
                         type: 'password',
-                        id: 'nf-password' + idkey,
-                        name: 'nf-password' + idkey,
+                        id: 'nf-password' + keyPath,
+                        name: 'nf-password' + keyPath,
                         placeholder: 'Enter Password..',
                         autoComplete: 'current-password',
                         tooltip: 'Please enter your password',
@@ -184,7 +182,7 @@ export class YMLInputView extends Component {
         }
 
         defaultProps = Object.assign({}, defaultProps, PropsFilter(obj ,allowedProps));
-        
+        const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <FormGroup>
                 <Label htmlFor={defaultProps.id}>{obj.label}</Label>
@@ -194,24 +192,7 @@ export class YMLInputView extends Component {
                     </InputGroupAddon>
                     < Input
                         {...defaultProps}
-                        onChange={e => {
-                            AppAction.updateUIState({
-                                keyPath: keyPath + '.value',
-                                value: e.target.value,
-                            });
-                            obj.onChange &&
-                                this.context.vm.run(obj.onChange, {
-                                    props: obj,
-                                    e,
-                                });
-                        }}
-                        onClick={e => {
-                            obj.onClick &&
-                                this.context.vm.run(obj.onClick, {
-                                    props: obj,
-                                    e,
-                                });
-                        }}
+                        {...assignEvents}    
                     />
                     <InputGroupAddon addonType="append">
                         {obj.append && <YMLInputGroupView obj={obj.append} />}

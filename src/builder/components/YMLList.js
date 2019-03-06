@@ -61,13 +61,13 @@ export class YMLListView extends Component {
                         item.color = 'info';
                     }
                 }
-
+                const assignProps = PropsFilter(item, allowedProps);
                 return (
                     <ListGroupItem
                         action
                         key={keyPath + index}
                         className={classes.itemClass}
-                        {...PropsFilter(item, allowedProps)}
+                        {...assignProps}
                     >
                         {content} {item.Badge && <YMLBadgeView {...newProps} />}
                     </ListGroupItem>

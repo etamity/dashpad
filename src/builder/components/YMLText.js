@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import Context from '../context';
-const textClass = (obj) => {
-    return classNames(obj.tag,
+import { EventsHook } from './utils';
+const textClass = obj => {
+    return classNames(
+        obj.tag,
         {
             [`text-${obj.color}`]: !!obj.color,
             [`text-${obj.position}`]: !!obj.position,
@@ -10,23 +11,21 @@ const textClass = (obj) => {
             [`font-weight-${obj.weight}`]: !!obj.weight,
         },
         obj.className
-    )
+    );
 };
+
+const allowedEvents = ['onClick'];
 export class YMLTextView extends Component {
-    static contextType = Context;
+
     render() {
         const { keyPath, obj } = this.props;
+        const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <p
                 key={keyPath}
+                {...obj}
                 className={textClass(obj)}
-                onClick={e => {
-                    obj.onClick &&
-                        this.context.vm.run(obj.onClick, {
-                            props: obj,
-                            e,
-                        });
-                }}
+                {...assignEvents}
             >
                 {obj.content}
             </p>

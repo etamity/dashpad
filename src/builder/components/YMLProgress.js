@@ -8,9 +8,10 @@ const allowedProps = ['value', 'color', 'animated', 'bar', 'striped', 'max', 'da
 export class YMLProgressView extends Component {
     render() {
         const { keyPath, obj } = this.props;
+        const assignProps = PropsFilter(obj, allowedProps);
         return (<FormGroup key={keyPath}>
             <Progress
-                {...PropsFilter(obj, allowedProps)}
+                {...assignProps}
             >
                 {_.isBoolean(obj.label) && <span>{obj.value + ' / ' + obj.max}</span>}
                 {_.isString(obj.label) && obj.label}

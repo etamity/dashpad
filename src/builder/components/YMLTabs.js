@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { YMLComponent } from './YMLComponent';
 import TabView from 'components/TabView';
 import { getTypes } from './utils';
-import Context from '../context';
 
 export class YMLTabsView extends Component {
-    static contextType = Context;
     componentWillMount() {
         const { obj } = this.props;
         obj && obj.onWillMount && this.context.vm.run(obj.onWillMount);

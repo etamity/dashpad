@@ -91,6 +91,6 @@ const Dashpad = {
 vm.addGlobal('Dashpad', Dashpad);
 vm.addGlobal('loadJs', Dashpad.loadJs);
 
-export default React.createContext({
+export default {
     vm,
-});
+}

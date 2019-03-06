@@ -69,9 +69,8 @@ Tabs_1:
             Dashpad.run('index.js', {username})
     Table:
         labels: ['id', 'name', 'email', 'color']
-        dataset: [
-            ['1', 'joey', 'etamity@gmail.com', 'red'],
-            ['2', 'joe', 'joey@gmail.com', 'blue'],
-            ['3', 'jack', 'jack@gmail.com', 'green'],
-            ['3', 'joseph', 'joseph@gmail.com', 'black']
-        ]
+        dataset: 
+           - ['1', 'joey', 'etamity@gmail.com', 'red']
+           - ['2', 'joe', 'joey@gmail.com', 'blue']
+           - ['3', 'jack', 'jack@gmail.com', 'green']
+           - ['3', 'joseph', 'joseph@gmail.com', 'black']
