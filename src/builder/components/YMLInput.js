@@ -56,7 +56,8 @@ const allowedProps = [
     'value',
     'defaultValue',
     'data-',
-    'className'
+    'className',
+    'tooltip'
 ];
 
 const allowedEvents = ['onClick', 'onChange'];

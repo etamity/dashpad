@@ -1,10 +1,10 @@
 import VM from 'libs/VM';
-import React from 'react';
 import { AppAction } from 'reducers/app';
 import { Store } from 'App';
 import { toast } from 'react-toastify';
 import Native from 'libs/Native';
 import _ from 'lodash';
+
 const { shell } = require('electron');
 const vm = new VM();
 
@@ -128,7 +128,7 @@ const Dashpad = {
             return Config.get(`settings.${packageName}`);
         },
         value: () => {
-            return Config.value()
+            return Config.value().settings
         }
     },
 };

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { shell } from 'electron';
 import { FormGroup } from 'reactstrap';
 import { YMLButtonView } from './index';
 
@@ -8,9 +7,6 @@ export class YMLLinkView extends Component {
         const { name, type, keyPath, obj } = this.props;
         const props = Object.assign({}, obj, {
             color: 'link',
-            onClick: () => {
-                obj.link && shell.openExternal(obj.link);
-            },
         });
         let newProps = {
             name,

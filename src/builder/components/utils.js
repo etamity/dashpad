@@ -2,7 +2,8 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import Context from '../Context';
 import { AppAction } from 'reducers/app';
-import { FieldType } from './Constants';
+import { FieldType, ContentType } from './Constants';
+import { shell } from 'electron';
 const specialCharacters = [
     '!',
     '#',
@@ -54,7 +55,7 @@ export const PropsFilter = (props, filters) =>
     );
 
 export const EventsHook = (props, events) => {
-    const {keyPath, type, obj} = props;
+    const { name, keyPath, type, obj} = props;
     return events.reduce((eventProps, next) => {
         eventProps[next] = e => {
             if (next === 'onChange' && type === FieldType.INPUT) {
@@ -63,10 +64,18 @@ export const EventsHook = (props, events) => {
                     value: e.target.value,
                 });
             }
+            if (next === 'onClick' && type === ContentType.LINK) {
+                obj.link && shell.openExternal(obj.link);
+            }
             Context.vm.func(
                 obj[next],
                 {
-                    props,
+                    props: Object.create({
+                        obj,
+                        type,
+                        keyPath,
+                        name
+                    }),
                 },
                 [e]
             );

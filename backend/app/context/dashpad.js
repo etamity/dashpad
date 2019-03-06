@@ -19,7 +19,7 @@ const setState = payload => {
 const getState= (keyPath) => _.get(_state.uischema, keyPath);
 
 module.exports = context => {
-    const { settings, state, version } = context;
+    const { state, version } = context;
     process_namespace = state.packageInfo.namespace;
     const {packageName} = state.packageInfo;
     _state = state;
@@ -41,7 +41,7 @@ module.exports = context => {
                 return Config.get(`settings.${packageName}`);
                 
             },
-            value: () => Config.value()
+            value: () => Config.value().settings
         },
         version,
         _replaceState: state => (_state = state),
