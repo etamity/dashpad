@@ -53,6 +53,8 @@ const allowedProps = [
     'placeholder',
     'disabled',
     'variant',
+    'value',
+    'defaultValue',
     'data-',
     'className'
 ];
