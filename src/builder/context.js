@@ -61,8 +61,25 @@ const copyToClipboard = (text) => {
  */
 const Dashpad = {
     getState: (keyPath) => {
-        let key = _.get(getUIschema(), `$vars.${keyPath}`)
-        return _.get(getUIschema(), key || keyPath);
+        return _.get(getUIschema(), keyPath);
+    },
+    getVars: (key) => {
+        const state = getUIschema();
+        const keyPath = _.get(state, `$vars.${key}`);
+        return keyPath && _.get(state, keyPath);
+    },
+    setVars: (...args) => {
+        const payload = _.isString(args[0]) ? {keyPath: args[0], value: args[1]}: args[0];
+        const payloadArr = _.isPlainObject(payload) ? [payload]: payload;
+        const actions = payloadArr.map(obj => {
+            const state = getUIschema();
+            const keyPath = _.get(state, `$vars.${obj.keyPath}`);
+            return {
+                keyPath,
+                value: obj.value
+            }
+        });
+        setUISchema(actions); 
     },
     setState: setUISchema,
     showToast: ({ message, options }) => {

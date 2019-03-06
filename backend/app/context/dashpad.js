@@ -5,6 +5,18 @@ const FileManager = require('../../libs/file-manager');
 const PathHelper = require('../helpers/path-helper');
 let _state = {};
 let process_namespace = '';
+
+const setState = payload => {
+    if (_state.packageInfo.namespace === process_namespace) {
+        const action = {
+            type: UIEventType.UPDATE_UI_STATE,
+            payload,
+        };
+        process.send(action);
+    }
+}
+const getState= (keyPath) => _.get(_state.uischema, keyPath);
+
 module.exports = context => {
     const { settings, state, version } = context;
     process_namespace = state.packageInfo.namespace;
@@ -13,16 +25,23 @@ module.exports = context => {
         settings,
         version,
         _replaceState: state => (_state = state),
-        getState: (keyPath) => _.get(_state.uischema, keyPath),
-        setState: payload => {
-            if (_state.packageInfo.namespace === process_namespace) {
-                const action = {
-                    type: UIEventType.UPDATE_UI_STATE,
-                    payload,
-                };
-                process.send(action);
-            }
+        getVars: (key) => {
+            const keyPath = _.get(_state, `$vars.${key}`);
+            return getState(keyPath);
         },
+        setVars: (payload) => {
+            const payloadArr = _.isPlainObject(payload) ? [payload]: payload;
+            const actions = payloadArr.map(obj => {
+                const keyPath = _.get(_state, `$vars.${obj.keyPath}`);
+                return {
+                    keyPath,
+                    value: obj.value
+                }
+            });
+            setState(actions); 
+        },
+        getState,
+        setState,
         showNotification: ({ title, message }) => {
             const action = {
                 type: UIEventType.SHOW_NOTIFICATION,

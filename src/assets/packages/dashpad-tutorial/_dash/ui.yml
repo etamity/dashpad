@@ -12,7 +12,7 @@ Tabs_1:
       label: test
       onClick: >
         (e) => {
-            const username = Dashpad.getState('username.0');
+            const username = Dashpad.getVars('username.0');
             console.log(username);
           }
         

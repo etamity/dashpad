@@ -112,9 +112,10 @@ class VM {
         const isFunc = this.checkIfFunction(code);
         if (isFunc) {
             const argNames = this.getParamNames(code);
-            let funcBody = code
-                .slice(code.indexOf('{') + 1, code.lastIndexOf('}'))
+            let funcBody = code.slice(code.indexOf('=>')+2);
+                funcBody =funcBody.slice(funcBody.indexOf('{') + 1, funcBody.lastIndexOf('}'))
                 .trim();
+                
             if (argNames.length > 0) {
                 this.run(funcBody, ctx, argNames, args);
             } else {
