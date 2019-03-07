@@ -19,28 +19,31 @@ class DashpahApi {
         }
         this.settings = {
             set: (keyPath, value) => {
-                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
-                Config.set(`settings.${packageName}.${keyPath}`, value);
-                return Config.get(`settings.${packageName}`);
+                Config.set(`settings.${this.packageName}.${keyPath}`, value);
+                return Config.get(`settings.${this.packageName}`);
             },
             get: keyPath => {
-                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
-                return Config.get(`settings.${packageName}.${keyPath}`);
+                return Config.get(`settings.${this.packageName}.${keyPath}`);
             },
             push: (keyPath, value) => {
-                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
-                Config.push(`settings.${packageName}.${keyPath}`, value);
-                return Config.get(`settings.${packageName}`);
+                Config.push(`settings.${this.packageName}.${keyPath}`, value);
+                return Config.get(`settings.${this.packageName}`);
             },
             delete: keyPath => {
-                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
-                Config.delete(`settings.${packageName}.${keyPath}`);
-                return Config.get(`settings.${packageName}`);
+                Config.delete(`settings.${this.packageName}.${keyPath}`);
+                return Config.get(`settings.${this.packageName}`);
             },
             value: () => Config.value().settings,
         };
     }
 
+    updatePackageInfo(packageInfo) {
+        if (packageInfo) {
+            const { packageName, namespace } = packageInfo;
+            this.process_namespace = namespace;
+            this.packageName = packageName;
+        }
+    }
     send(action) {
         if (_isBrowser) {
             this.dispatch(action);

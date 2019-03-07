@@ -123,17 +123,14 @@ class VM {
             console.error('No defined function assign to an event !');
         }
     }
-    addModule(name, obj) {
-        this.modules[name] = obj;
-    }
-    deleteModule(name) {
-        delete this.modules[name];
-    }
     addGlobal(name, obj) {
         this.globals[name] = obj;
     }
     deleteGlobal(name) {
         delete this.globals[name];
+    }
+    getGlobal(name) {
+        return this.globals[name];
     }
 }
 const vm = new VM();

@@ -19,7 +19,7 @@ export class YMLTabsView extends Component {
         getTypes(obj).forEach(({name, type}, index) => {
             const nameTypeArr = (name && name.split('_')) || ['No_Name'];
             const tabName =
-                obj[name].label || nameTypeArr[nameTypeArr.length - 1]
+            (obj[name] && obj[name].label) || nameTypeArr[nameTypeArr.length - 1]
             const newProps = {
                 name: name,
                 key: keyPath + index,

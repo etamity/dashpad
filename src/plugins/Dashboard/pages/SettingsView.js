@@ -11,7 +11,6 @@ import {
     Row,
     Col,
     Label,
-    CardFooter,
 } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 import TabView from 'components/TabView/TabView';
@@ -19,13 +18,14 @@ import Native from 'libs/Native';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import immutable from 'object-path-immutable';
+import { AppAction } from 'reducers/app';
 
 const { Config } = Native();
 export class SettingsView extends Component {
     static Config() {
         return {
-            name: 'Settings'
-        }
+            name: 'Settings',
+        };
     }
     constructor(props) {
         super(props);
@@ -40,10 +40,21 @@ export class SettingsView extends Component {
         this.doShowPasswordButtonClick = this.doShowPasswordButtonClick.bind(
             this
         );
+        this.doDeleteButtonClick = this.doDeleteButtonClick.bind(this);
         this.renderField = this.renderField.bind(this);
         this.renderTabContent = this.renderTabContent.bind(this);
     }
-
+    doDeleteButtonClick(keyPathName) {
+        AppAction.showModal({
+            title:'Delete this settings value',
+            message: 'Are you sure want to continue?',
+            variant: 'danger',
+            onConfirm: () => {
+                Config.delete(`settings${keyPathName}`);
+                this.setState({settings: Config.value().settings});
+            }
+        })
+    }
     doShowPasswordButtonClick() {
         this.setState({ showPassword: !this.state.showPassword });
     }
@@ -83,11 +94,25 @@ export class SettingsView extends Component {
             inputType = 'boolean';
         }
         const defaultInput = (
-            <Input
-                type={inputType}
-                value={value}
-                onChange={e => this.updateConfig(keyPathName, e.target.value)}
-            />
+            <InputGroup>
+                <Input
+                    type={inputType}
+                    value={value}
+                    onChange={e =>
+                        this.updateConfig(keyPathName, e.target.value)
+                    }
+                />
+                <InputGroupAddon addonType="append">
+                    <Button
+                        color="danger"
+                        onClick={()=>{
+                            this.doDeleteButtonClick(keyPathName)
+                        }}
+                    >
+                        <i className="icon-trash" />
+                    </Button>
+                </InputGroupAddon>
+            </InputGroup>
         );
         const passwordInput = (
             <InputGroup>
@@ -108,6 +133,16 @@ export class SettingsView extends Component {
                         this.updateConfig(keyPathName, e.target.value)
                     }
                 />
+                <InputGroupAddon addonType="append">
+                    <Button
+                        color="danger"
+                        onClick={()=>{
+                            this.doDeleteButtonClick(title)
+                        }}
+                    >
+                        <i className="icon-trash" />
+                    </Button>
+                </InputGroupAddon>
             </InputGroup>
         );
 

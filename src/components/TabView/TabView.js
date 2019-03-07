@@ -30,9 +30,11 @@ class TabView extends Component {
 
         const titles = Object.keys(tabsContent) || [];
         const titlesView = titles.map((title, index) => {
-            let labelArr = title.split('.');
-            let label = labelArr[0] || null;
-            let icon = labelArr.length >= 2 && labelArr[labelArr.length - 1];
+            console.log('title', title);
+            let label = (title.indexOf('[') > -1 && title.slice(0, title.indexOf('[')).trim()) || title;
+            let icon = title
+                .slice(title.indexOf('[') + 1, title.lastIndexOf(']'))
+                .trim();
             return (
                 <NavItem key={index}>
                     <NavLink

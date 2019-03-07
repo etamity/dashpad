@@ -21,7 +21,7 @@ module.exports = {
         return state;
     },
     get: (keyPath) => {
-        return (keyPath &&  _.get(state, keyPath)) || state;
+        return keyPath ? _.get(state, keyPath) : state;
     },
     delete: (keyPath)=> {
         state = immutable.del(state, keyPath);

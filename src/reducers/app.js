@@ -5,6 +5,8 @@ import Native from 'libs/Native';
 import { Store } from 'store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
+import VM from 'libs/VM';
+
 const {
     Constants,
     BackendStore,
@@ -212,6 +214,10 @@ const updatePackageInfo = filePath => {
         filePath,
         namespace,
     };
+    const Dashpad = VM.getGlobal('Dashpad');
+    if (Dashpad) {
+        Dashpad.updatePackageInfo(packageInfo);
+    }
     return packageInfo;
 };
 
