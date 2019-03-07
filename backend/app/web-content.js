@@ -1,4 +1,4 @@
-const { AppEventType } = require('./constants');
+const { AppEventType, ActionEventType } = require('./constants');
 const webContent = (global.mainWindow && global.mainWindow.webContents) || {
     send: function () {
         console.error('webContent.send() failed, mainWindow has not initialize yet!');
@@ -10,6 +10,14 @@ const sendToUI = (event, params) => {
 
 module.exports = {
     sendToUI,
-    sendErrorToUI: (msg) => sendToUI(AppEventType.ON_BACKEND_ERROR, msg)
+    sendErrorToUI: (msg) => {
+        const action = {
+            type: AppEventType.ON_BACKEND_ERROR,
+            payload: {
+                msg
+            }
+        };
+        sendToUI(ActionEventType, action);
+    }
     
 }

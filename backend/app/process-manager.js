@@ -5,20 +5,26 @@ const BackendStore = require('./store');
 const WebContent = require('./web-content');
 const ContentHelper = require('./helpers/content-helper');
 const PathHelper = require('./helpers/path-helper');
-const Config = require('../configs/config');
-const { AppEventType, ProcessEventType } = require('./constants');
-const dashPackageInfo = require('../../package.json');
-const childMessager = require('./child-messager');
+const {
+    AppEventType,
+    ProcessEventType,
+    ActionEventType,
+} = require('./constants');
+
 let options = {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
     silent: true,
 };
 
-const dispatch = children =>
-    WebContent.sendToUI(
-        AppEventType.ON_LOAD_PROCESSES_CHILD,
-        children.map(child => child.packageInfo)
-    );
+const dispatch = children => {
+    const action = {
+        type: AppEventType.ON_LOAD_PROCESSES_CHILD,
+        payload: {
+            children: children.map(child => child.packageInfo),
+        },
+    };
+    WebContent.sendToUI(ActionEventType, action);
+};
 
 class ProcessManager extends EventEmitter {
     constructor() {
@@ -37,7 +43,7 @@ class ProcessManager extends EventEmitter {
     }
 
     startProcess(script, params, optionsArgs) {
-        const { namespace, packageName } = BackendStore.get().app.packageInfo;
+        const { namespace, packageName } = BackendStore.get('app.packageInfo');
         const packageJson = ContentHelper.loadPackageJson(packageName);
         const packagePath = PathHelper.getPackagePath(packageName);
         const nodeScriptPath = [
@@ -68,14 +74,7 @@ class ProcessManager extends EventEmitter {
             payload: {
                 filePath,
                 params,
-                context: {
-                    state: BackendStore.get().app,
-                    settings: Config.value().settings,
-                    version: {
-                        name: dashPackageInfo.name,
-                        version: dashPackageInfo.version,
-                    },
-                },
+                state: BackendStore.get()
             },
         };
         //console.log('from Main: ', action.payload);
@@ -90,11 +89,18 @@ class ProcessManager extends EventEmitter {
             this.children.push(child);
             this.current = child;
             child.on('message', action => {
-                childMessager(action);
+                if (!!action && (typeof action === 'object')) {
+                    WebContent.sendToUI(ActionEventType, action);
+                } else {
+                    console.error(action);
+                }
+
             });
-            child.on('exit', msg => {
+            child.on('exit', () => {
                 console.log('exit', child.pid);
-                this.children = this.children.filter(ch => ch.pid !== child.pid);
+                this.children = this.children.filter(
+                    ch => ch.pid !== child.pid
+                );
                 dispatch(this.children);
             });
             dispatch(this.children);
@@ -103,7 +109,7 @@ class ProcessManager extends EventEmitter {
         return child;
     }
     getCurrent() {
-        const { namespace } = BackendStore.get().app.packageInfo || {
+        const { namespace } = BackendStore.get('app.packageInfo') || {
             namespace: null,
         };
         this.current = this.getByNamespace(namespace);

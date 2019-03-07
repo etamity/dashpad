@@ -44,10 +44,10 @@ export class DefaultLayout extends Component {
     }
     loadUIFile(packageName, uiFile) {
         const { PathHelper } = Native();
-        const uiFilePath = [PathHelper.getDashSpace(packageName), uiFile].join(
+        const ymlPath = [PathHelper.getDashSpace(packageName), uiFile].join(
             '/'
         );
-        AppAction.loadUISchemaPath(uiFilePath);
+        AppAction.loadUISchemaPath(ymlPath);
     }
 
     toggleAside(force) {

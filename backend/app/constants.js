@@ -14,7 +14,8 @@ const AppEventType = keyMirror({
 
 const ProcessEventType = keyMirror({
     LOAD_MODULE_SCRIPT: null,
-    UPDATE_MODULE_STATE: null
+    UPDATE_MODULE_STATE: null,
+    ON_CHILD_PROCESS_ACTION: null
 })
 
 const UIEventType = keyMirror({
@@ -23,11 +24,16 @@ const UIEventType = keyMirror({
     SHOW_TOAST: null,
     SHOW_MODAL: null,
     CLOSE_MODAL: null,
+    COPY_TO_CLIPBOARD: null,
+    RUN_CHILD_PROCESS: null,
+    KILL_CHILD_PROCESS: null,
 });
 
+const ActionEventType = 'ActionEventType';
 
 module.exports = {
     AppEventType,
     ProcessEventType,
-    UIEventType
+    UIEventType,
+    ActionEventType
 }

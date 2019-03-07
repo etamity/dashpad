@@ -58,7 +58,6 @@ export default class DashboardView extends Component {
             subRoutes.length > 0
                 ? renderRoutes(subRoutes)
                 : this.renderDashboard();
-        console.log(this.props.route.routes);
         return (
             <React.Fragment>
                 <Container>{renderView}</Container>

@@ -2,9 +2,15 @@ import { RouteBuilder, NavBuilder } from 'libs/NavsBuilder.js';
 import immutable from 'object-path-immutable';
 import * as Plugins from 'plugins';
 import Native from 'libs/Native';
-import { Store } from 'App';
+import { Store } from 'store';
 import _ from 'lodash';
-const { Constants, BackendStore, ProcessManager } = Native();
+import { toast } from 'react-toastify';
+const {
+    Constants,
+    BackendStore,
+    ProcessManager,
+    Notifier,
+} = Native();
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
 
 const currentRoute = (routes, pathname) => {
@@ -30,13 +36,14 @@ const initState = {
     config,
     routes,
     current: {
-        ...current(),
-        packageInfo: null,
+        ...current()
     },
     uischema: null,
+    packageInfo: null,
     modal: [],
     processes: [],
 };
+
 BackendStore.set('app', JSON.parse(JSON.stringify(initState)));
 
 const syncBackendAndChildProcessState = state => {
@@ -49,9 +56,9 @@ const syncBackendAndChildProcessState = state => {
 };
 
 /**
- * 
+ *
  * @param {string} keyPath The state path string
- * @param {*} value Update value 
+ * @param {*} value Update value
  * @param {*} state Initial state
  */
 const updateUIState = (keyPath, value, state) => {
@@ -66,62 +73,97 @@ const updateUIState = (keyPath, value, state) => {
         .value();
 };
 
+/**
+ *
+ * @param {*} text Copy text to clipboard
+ */
+const copyToClipboard = text => {
+    if (window.clipboardData && window.clipboardData.setData) {
+        // IE specific code path to prevent textarea being shown while dialog is visible.
+        return window.clipboardData.setData('Text', text);
+    } else if (
+        document.queryCommandSupported &&
+        document.queryCommandSupported('copy')
+    ) {
+        let textarea = document.createElement('textarea');
+        textarea.textContent = text;
+        textarea.style.position = 'fixed'; // Prevent scrolling to bottom of page in MS Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand('copy'); // Security exception may be thrown by some browsers.
+        } catch (ex) {
+            console.warn('Copy to clipboard failed.', ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+};
+
 export default function update(state = initState, action) {
     let newState = state;
-    switch (action.type) {
+    const { type, payload } = action;
+    switch (type) {
         case '@@router/LOCATION_CHANGE':
-            const { hash } = action.payload.location;
+            const { hash } = payload.location;
             newState = immutable(state)
                 .merge('current', current(hash))
                 .value();
             break;
         case AppEventType.ON_LOAD_NAVS:
+            const { navs } = payload;
             newState = immutable(state)
                 .set(
                     'config.SideMenus.items',
-                    config.SideMenus.items.concat(action.payload)
+                    config.SideMenus.items.concat(navs)
                 )
                 .value();
             break;
         case AppEventType.ON_LOAD_UI:
+            const { ymlPath } = payload;
+            const { ContentHelper } = Native();
+            const uischema = ContentHelper.loadJson(ymlPath);
+            const packageInfo = updatePackageInfo(ymlPath);
             newState = immutable(state)
-                .set('uischema', action.payload)
+                .set('uischema', uischema)
+                .value();
+            newState = immutable(newState)
+                .set('packageInfo', packageInfo)
                 .value();
             break;
         case UIEventType.UPDATE_UI_STATE:
+            if (_.isArray(payload)) {
+                const stateArr = payload;
 
-            if (_.isArray(action.payload)) {
-                const stateArr = action.payload;
-    
                 newState = stateArr.reduce((root, next) => {
                     const { keyPath, value } = next;
                     return updateUIState(keyPath, value, root);
                 }, state);
             } else {
-                const { keyPath, value } = action.payload;
-     
+                const { keyPath, value } = payload;
                 newState = updateUIState(keyPath, value, state);
             }
 
             break;
-        case AppEventType.UPDATE_CURRENT_PACKAGE:
-            newState = immutable(state)
-                .set('packageInfo', action.payload)
-                .value();
-            break;
         case AppEventType.ON_LOAD_PROCESSES_CHILD:
+            const { children } = payload;
             newState = immutable(state)
-                .set('processes', action.payload)
+                .set('processes', children)
                 .value();
             break;
-        case UIEventType.ON_CHANGE_TAB:
-            newState = immutable(state)
-                .set('uischema.__activeTab', action.payload)
-                .value();
+
+        case AppEventType.ON_BACKEND_ERROR:
+            const { msg } = payload;
+            const errMsg = `Error: Schema failed to parse !\n ${msg}`;
+            console.error(errMsg);
+            toast.error(errMsg, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
             break;
         case UIEventType.SHOW_MODAL:
             newState = immutable(state)
-                .push('modal', action.payload)
+                .push('modal', payload)
                 .value();
             break;
         case UIEventType.CLOSE_MODAL:
@@ -130,6 +172,28 @@ export default function update(state = initState, action) {
                 .del(`modal.${modal.length - 1}`)
                 .value();
             break;
+        case UIEventType.SHOW_TOAST:
+            const { message, options } = payload;
+            const defaultOptions = {
+                position: toast.POSITION.TOP_CENTER,
+                type: toast.TYPE.INFO,
+            };
+            toast(message, Object.assign({}, defaultOptions, options));
+            break;
+        case UIEventType.COPY_TO_CLIPBOARD:
+            copyToClipboard(payload);
+            return state;
+        case UIEventType.SHOW_NOTIFICATION:
+            Notifier.notify(payload);
+            return state;
+        case UIEventType.RUN_CHILD_PROCESS:
+            const { script, params } = payload;
+            ProcessManager.start(script, params);
+            return state;
+        case UIEventType.KILL_CHILD_PROCESS:
+            const { pid } = payload;
+            ProcessManager.kill(pid);
+            return state;
         default:
             newState = state;
     }
@@ -146,46 +210,32 @@ const updatePackageInfo = filePath => {
         fileName,
         packageName,
         filePath,
-        namespace
+        namespace,
     };
-    const action = {
-        type: AppEventType.UPDATE_CURRENT_PACKAGE,
-        payload: packageInfo,
-    };
-
-    Store.dispatch(action);
+    return packageInfo;
 };
 
 export const AppAction = {
     loadNavsMenu: navs => {
         const action = {
             type: AppEventType.ON_LOAD_NAVS,
-            payload: navs,
+            payload: { navs },
         };
         Store.dispatch(action);
     },
-    loadUISchema: uischema => {
+    loadUISchemaPath: ymlPath => {
         const action = {
             type: AppEventType.ON_LOAD_UI,
-            payload: uischema,
+            payload: { ymlPath },
         };
-        Store.dispatch(action);
-    },
-    loadUISchemaPath: uiFilePath => {
-        const { ContentHelper } = Native();
-
-        const uischema = ContentHelper.loadJson(uiFilePath);
-        const action = {
-            type: AppEventType.ON_LOAD_UI,
-            payload: uischema,
-        };
-        updatePackageInfo(uiFilePath);
         Store.dispatch(action);
     },
     loadProcessesList: children => {
         const action = {
             type: AppEventType.ON_LOAD_PROCESSES_CHILD,
-            payload: children,
+            payload: {
+                children
+            },
         };
         Store.dispatch(action);
     },
@@ -193,13 +243,6 @@ export const AppAction = {
         const action = {
             type: UIEventType.UPDATE_UI_STATE,
             payload,
-        };
-        Store.dispatch(action);
-    },
-    onChangeTab: index => {
-        const action = {
-            type: UIEventType.ON_CHANGE_TAB,
-            payload: index,
         };
         Store.dispatch(action);
     },

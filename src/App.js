@@ -3,12 +3,10 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { store, history } from './store';
+import { Store, history } from './store';
 // import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
 import './App.scss';
-
-export const Store = store;
 
 const loading = () => (
     <div className="animated fadeIn pt-3 text-center">Loading...</div>
@@ -32,7 +30,7 @@ const Page500 = Loadable({
 class App extends Component {
     render() {
         return (
-            <Provider store={store}>
+            <Provider store={Store}>
                 <ConnectedRouter history={history}>
                     <HashRouter>
                         <Switch>

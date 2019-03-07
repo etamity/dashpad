@@ -1,99 +1,158 @@
 const { UIEventType } = require('../constants');
 const _ = require('lodash');
-const path = require('path');
 const Config = require('../../configs/config');
-const FileManager = require('../../libs/file-manager');
-const PathHelper = require('../helpers/path-helper');
-let _state = {};
-let process_namespace = '';
+const BackendStore = require('../store');
+const uischemaKeyPath = 'app.uischema';
 
-const setState = payload => {
-    if (_state.packageInfo.namespace === process_namespace) {
-        const action = {
-            type: UIEventType.UPDATE_UI_STATE,
-            payload,
-        };
-        process.send(action);
-    }
-}
-const getState= (keyPath) => _.get(_state.uischema, keyPath);
+let _isBrowser = false;
 
-module.exports = context => {
-    const { state, version } = context;
-    process_namespace = state.packageInfo.namespace;
-    const {packageName} = state.packageInfo;
-    _state = state;
-    return {
-        settings: {
+class DashpahApi {
+    constructor({ dispatch, state, isBrowser }) {
+        _isBrowser = isBrowser
+        BackendStore.init(state);
+        this.dispatch = dispatch;
+        const packageInfo = state.app.packageInfo;
+        if (packageInfo) {
+            const { packageName, namespace } = packageInfo;
+            this.process_namespace = namespace;
+            this.packageName = packageName;
+        }
+        this.settings = {
             set: (keyPath, value) => {
+                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
                 Config.set(`settings.${packageName}.${keyPath}`, value);
                 return Config.get(`settings.${packageName}`);
             },
-            get: (keyPath) => {
+            get: keyPath => {
+                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
                 return Config.get(`settings.${packageName}.${keyPath}`);
             },
             push: (keyPath, value) => {
+                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
                 Config.push(`settings.${packageName}.${keyPath}`, value);
                 return Config.get(`settings.${packageName}`);
             },
-            delete: (keyPath) => {
+            delete: keyPath => {
+                const packageName = _isBrowser ? BackendStore.get('app.packageInfo.packageName') : this.packageName;
                 Config.delete(`settings.${packageName}.${keyPath}`);
                 return Config.get(`settings.${packageName}`);
-                
             },
-            value: () => Config.value().settings
-        },
-        version,
-        _replaceState: state => (_state = state),
-        getVars: (key) => {
-            const keyPath = _.get(_state, `$vars.${key}`);
-            return getState(keyPath);
-        },
-        setVars: (payload) => {
-            const payloadArr = _.isPlainObject(payload) ? [payload]: payload;
-            const actions = payloadArr.map(obj => {
-                const keyPath = _.get(_state, `$vars.${obj.keyPath}`);
-                return {
-                    keyPath,
-                    value: obj.value
-                }
-            });
-            setState(actions); 
-        },
-        getState,
-        setState,
-        showNotification: ({ title, message }) => {
-            const action = {
-                type: UIEventType.SHOW_NOTIFICATION,
-                payload: { title, message },
-            };
+            value: () => Config.value().settings,
+        };
+    }
+
+    send(action) {
+        if (_isBrowser) {
+            this.dispatch(action);
+        } else {
             process.send(action);
-        },
-        showToast: ({ message, options }) => {
+        }
+    }
+
+    setState() {
+        const namespace = BackendStore.get('app.packageInfo.namespace');
+        if (_isBrowser || namespace === this.process_namespace) {
+            const payload = _.isString(arguments[0])
+                ? { keyPath: arguments[0], value: arguments[1] }
+                : arguments[0];
+            const payloadArr = _.isPlainObject(payload) ? [payload] : payload;
+
             const action = {
-                type: UIEventType.SHOW_TOAST,
-                payload: { message, options },
+                type: UIEventType.UPDATE_UI_STATE,
+                payload: payloadArr,
             };
-            process.send(action);
-        },
-        showModal: ({ title, message, onConfirm, variant, className }) => {
-            const action = {
-                type: UIEventType.SHOW_MODAL,
-                payload: {
-                    title,
-                    message,
-                    onConfirm,
-                    variant,
-                    className,
-                },
+            this.send(action);
+        }
+    }
+
+    getState(keyPath) {
+        return BackendStore.get(`${uischemaKeyPath}.${keyPath}`);
+    }
+
+    getVars(keyPath) {
+        return this.getState(this.getVarsRaw(keyPath));
+    }
+
+    getVarsRaw(keyPath) {
+        return BackendStore.get(`${uischemaKeyPath}.$vars.${keyPath}`);
+    }
+
+    setVars() {
+        const payload = _.isString(arguments[0])
+            ? { keyPath: arguments[0], value: arguments[1] }
+            : arguments[0];
+        const payloadArr = _.isPlainObject(payload) ? [payload] : payload;
+        const actions = payloadArr.map(obj => {
+            const keyPath = this.getVarsRaw(obj.keyPath);
+            return {
+                keyPath,
+                value: obj.value,
             };
-            process.send(action);
-        },
-        loadJson: file => {
-        
-            const jsonPath = [PathHelper.getPackagePath(packageName), file].join('/');
-            return FileManager.loadJson(path.resolve(jsonPath));
-        },
-        exit: () => process.exit(0)
-    };
-};
+        });
+        this.setState(actions);
+    }
+
+    showNotification({ title, message }) {
+        const action = {
+            type: UIEventType.SHOW_NOTIFICATION,
+            payload: { title, message },
+        };
+        this.send(action);
+    }
+
+    showToast({ message, options }) {
+        const action = {
+            type: UIEventType.SHOW_TOAST,
+            payload: { message, options },
+        };
+        this.send(action);
+    }
+
+    showModal({ title, message, onConfirm, variant, className }) {
+        const action = {
+            type: UIEventType.SHOW_MODAL,
+            payload: {
+                title,
+                message,
+                onConfirm,
+                variant,
+                className,
+            },
+        };
+        this.send(action);
+    }
+    copyToClipboard(text) {
+        const action = {
+            type: UIEventType.COPY_TO_CLIPBOARD,
+            payload: {
+                text,
+            },
+        };
+        this.send(action);
+    }
+    run(script, params) {
+        const action = {
+            type: UIEventType.RUN_CHILD_PROCESS,
+            payload: {
+                script,
+                params,
+            },
+        };
+        this.send(action);
+    }
+    kill(pid) {
+        const action = {
+            type: UIEventType.KILL_CHILD_PROCESS,
+            payload: {
+                pid,
+            },
+        };
+        this.send(action);
+    }
+
+    exit() {
+        process && process.exit(0);
+    }
+}
+
+module.exports = DashpahApi;

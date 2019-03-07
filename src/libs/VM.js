@@ -1,4 +1,3 @@
-import _ from 'lodash';
 const FundationTypes =
     'window,__cjsWrapper,require,__core-js_shared__,setTimeout,console,true,false,Array,ArrayBuffer,Boolean,Collator,DataView,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,document';
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
@@ -33,7 +32,7 @@ class VM {
             let allowedArgs = FundationTypes.split(',');
 
             const allParams = Object.assign(locals, globals, funcParams);
-            console.log('allParams', allParams);
+
             for (let param in allParams) {
                 if (allParams.hasOwnProperty(param)) {
                     let contained = allowedArgs.indexOf(param) > -1;
@@ -137,5 +136,5 @@ class VM {
         delete this.globals[name];
     }
 }
-
-export default VM;
+const vm = new VM();
+export default vm;

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import Context from '../Context';
+import VM from 'libs/VM';
 import { AppAction } from 'reducers/app';
 import { FieldType, ContentType } from './Constants';
 import { shell } from 'electron';
@@ -67,7 +67,7 @@ export const EventsHook = (props, events) => {
             if (next === 'onClick' && type === ContentType.LINK) {
                 obj.link && shell.openExternal(obj.link);
             }
-            Context.vm.func(
+            VM.func(
                 obj[next],
                 {
                     props: Object.create({
