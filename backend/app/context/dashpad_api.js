@@ -43,6 +43,7 @@ class DashpahApi {
             const Github = new Octokit({
                 auth: `token ${github.authToken}`,
                 baseUrl: github.api,
+                previews: ['mercy-preview']
             });
             this.platform = {
                 Github

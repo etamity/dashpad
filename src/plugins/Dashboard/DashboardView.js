@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
-import { YMLMarkdownView } from 'builder/components/YMLMarkdown';
 import { renderRoutes } from 'react-router-config';
 import * as Pages from './pages';
 import SideMenus from './config/SideMenus';
 import mainDashboardMarkdown from 'docs/index.md';
-import { Button } from 'reactstrap';
+import {GithubListView} from './components/GithubListView'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormText,
+    Input,
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText,
+    Label,
+} from 'reactstrap';
 
 import { Dashpad } from 'store';
 
@@ -14,9 +24,13 @@ export default class DashboardView extends Component {
         super(props);
         this.renderDashboard = this.renderDashboard.bind(this);
         this.doGithubAction = this.doGithubAction.bind(this);
+        this.mapItems = this.mapItems.bind(this);
         this.state = {
-            markdown: null,
+            plugins: null,
         };
+    }
+    componentDidMount() {
+        this.doGithubAction();
     }
     static Config() {
         return {
@@ -31,12 +45,26 @@ export default class DashboardView extends Component {
                 this.setState({ markdown: text });
             });
     }
-
-    doGithubAction() {
+    mapItems(items) {
+        return items.map(item => {
+            return {
+                title: item.full_name,
+                description: item.description,
+                link: item.clone_url,
+                owner: item.owner,
+                stars: item.stargazers_count,
+                raw: item
+            };
+        })
+    }
+    doGithubAction(e) {
         const { Github } = Dashpad.platform;
+        const keyword = (e && e.target && e.target.value) || 'topic:dashpad'
+        Github.search
+        .repos({ q: keyword, per_page: 10, sort: 'stars'})
+        .then(res => {
+            console.log(res.data);
 
-        const result = Github.search.repos({ q: 'dashpad' }).then(data => {
-            console.log(data);
         });
     }
 
@@ -44,8 +72,25 @@ export default class DashboardView extends Component {
         return (
             <React.Fragment>
                 <Card>
+                <CardBody>
+                        <FormGroup>
+                            <InputGroup>
+                                <Input
+                                    type="text"
+                                    id="search-group"
+                                    name="search-group"
+                                    placeholder="Search plugins ..."
+                                />
+                                <InputGroupAddon addonType="append">
+                                    <Button type="button" color="primary" onClick={this.doGithubAction}>
+                                        <i className="fa fa-search" /> Search
+                                    </Button>
+                                </InputGroupAddon>
+                            </InputGroup>
+                        </FormGroup>
+                    </CardBody>
                     <CardBody>
-                        <Button onClick={this.doGithubAction}>Login</Button>
+                    <GithubListView items={this.state.plugins} />
                     </CardBody>
                 </Card>
             </React.Fragment>
