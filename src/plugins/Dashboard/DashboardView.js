@@ -3,7 +3,6 @@ import { Container, Card, CardBody } from 'reactstrap';
 import { renderRoutes } from 'react-router-config';
 import * as Pages from './pages';
 import SideMenus from './config/SideMenus';
-import mainDashboardMarkdown from 'docs/index.md';
 import {GithubListView} from './components/GithubListView'
 import {
     Button,
@@ -38,7 +37,7 @@ export default class DashboardView extends Component {
         };
     }
     componentDidMount() {
-        //this.doGithubAction();
+        this.doGithubAction();
     }
     static Config() {
         return {
@@ -47,11 +46,7 @@ export default class DashboardView extends Component {
         };
     }
     componentWillMount() {
-        fetch(mainDashboardMarkdown)
-            .then(response => response.text())
-            .then(text => {
-                this.setState({ markdown: text });
-            });
+
     }
     mapItems(items) {
         return items.map(item => {
@@ -72,7 +67,7 @@ export default class DashboardView extends Component {
         .repos({ q: keyword, per_page: 10, sort: 'stars'})
         .then(res => {
             console.log(res.data);
-
+            this.setState({plugins: this.mapItems(res.data.items)})
         });
     }
 

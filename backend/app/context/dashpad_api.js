@@ -2,13 +2,13 @@ const { UIEventType } = require('../constants');
 const _ = require('lodash');
 const Config = require('../../configs/config');
 const BackendStore = require('../store');
-const uischemaKeyPath = 'app.uischema';
+const uischemaKeyPath = 'app.uiSchema';
 const Octokit = require('@octokit/rest');
 let _isBrowser = false;
 
 class DashpahApi {
     constructor({ dispatch, state, isBrowser }) {
-        _isBrowser = isBrowser
+        _isBrowser = isBrowser;
         BackendStore.init(state);
         this.dispatch = dispatch;
         const packageInfo = state.app.packageInfo;
@@ -43,15 +43,12 @@ class DashpahApi {
             const Github = new Octokit({
                 auth: `token ${github.authToken}`,
                 baseUrl: github.api,
-                previews: ['mercy-preview']
+                previews: ['mercy-preview'],
             });
             this.platform = {
-                Github
-            }
+                Github,
+            };
         }
-
-
-
     }
     updatePackageInfo(packageInfo) {
         if (packageInfo) {
@@ -88,21 +85,37 @@ class DashpahApi {
         return BackendStore.get(`${uischemaKeyPath}.${keyPath}`);
     }
 
-    getVars(keyPath) {
-        return this.getState(this.getVarsRaw(keyPath));
+    getVarsState(keyPath) {
+        return this.getState(this.getVars(keyPath));
     }
 
-    getVarsRaw(keyPath) {
+    getVars(keyPath) {
         return BackendStore.get(`${uischemaKeyPath}.$vars.${keyPath}`);
     }
 
     setVars() {
+        const namespace = BackendStore.get('app.packageInfo.namespace');
+        if (_isBrowser || namespace === this.process_namespace) {
+            const payload = _.isString(arguments[0])
+                ? { keyPath: `${arguments[0]}`, value: arguments[1] }
+                : arguments[0];
+            const payloadArr = _.isPlainObject(payload) ? [payload] : payload;
+
+            const action = {
+                type: UIEventType.UPDATE_UI_STATE_BY_VARS,
+                payload: payloadArr,
+            };
+            this.send(action);
+        }
+    }
+
+    setVarsState() {
         const payload = _.isString(arguments[0])
             ? { keyPath: arguments[0], value: arguments[1] }
             : arguments[0];
         const payloadArr = _.isPlainObject(payload) ? [payload] : payload;
         const actions = payloadArr.map(obj => {
-            const keyPath = this.getVarsRaw(obj.keyPath);
+            const keyPath = this.getVars(obj.keyPath);
             return {
                 keyPath,
                 value: obj.value,

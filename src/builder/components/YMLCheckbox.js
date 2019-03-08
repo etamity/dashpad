@@ -30,6 +30,7 @@ export class YMLCheckboxView extends Component {
                         type: 'checkbox',
                         id: id,
                         name: id,
+                        keyPath,
                     },
                     obj
                 );

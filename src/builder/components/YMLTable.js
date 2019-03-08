@@ -6,7 +6,7 @@ const allowedProps = ['responsive', 'striped'];
 export class YMLTableView extends Component {
     render() {
         const { keyPath, obj } = this.props;
-        const assignProps = PropsFilter(obj, allowedProps);
+        const assignProps = PropsFilter(this.props, allowedProps);
         return (<FormGroup key={keyPath}>
             <Table
                 responsive

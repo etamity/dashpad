@@ -8,7 +8,7 @@ const allowedProps = ['value', 'color', 'animated', 'bar', 'striped', 'max', 'da
 export class YMLProgressView extends Component {
     render() {
         const { keyPath, obj } = this.props;
-        const assignProps = PropsFilter(obj, allowedProps);
+        const assignProps = PropsFilter(this.props, allowedProps);
         return (<FormGroup key={keyPath}>
             <Progress
                 {...assignProps}

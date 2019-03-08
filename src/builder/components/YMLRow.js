@@ -26,7 +26,7 @@ export class YMLRowView extends Component {
                 </Col>
             );
         });
-        const assignProps = PropsFilter(obj, allowedProps);
+        const assignProps = PropsFilter(this.props, allowedProps);
         return (
             <FormGroup key={keyPath}
             >

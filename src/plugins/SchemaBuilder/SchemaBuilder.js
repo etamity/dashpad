@@ -8,6 +8,6 @@ export default class SchemaBuilder extends Component {
         };
     }
     render() {
-        return <YMLBuilder schema={this.props.uischema} />;
+        return <YMLBuilder schema={this.props.uiSchema} />;
     }
 }

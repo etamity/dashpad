@@ -27,6 +27,9 @@ const UIEventType = keyMirror({
     COPY_TO_CLIPBOARD: null,
     RUN_CHILD_PROCESS: null,
     KILL_CHILD_PROCESS: null,
+    PUSH_TO_KEYPATH_VARS: null,
+    CLEAN_KEYPATH_VARS: null,
+    UPDATE_UI_STATE_BY_VARS: null,
 });
 
 const ActionEventType = 'ActionEventType';

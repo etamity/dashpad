@@ -21,6 +21,7 @@ export class YMLSelectView extends Component {
                 type: 'select',
                 id: id,
                 name: id,
+                keyPath
             },
             obj
         );

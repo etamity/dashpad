@@ -6,7 +6,8 @@ import { Store } from 'store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import VM from 'libs/VM';
-
+import KeyPathManager from 'libs/KeyPathManager';
+import { SchemaKeys } from './Constants'
 const {
     Constants,
     BackendStore,
@@ -40,7 +41,8 @@ const initState = {
     current: {
         ...current()
     },
-    uischema: null,
+    uiSchema: null,
+    keyPathVars: {},
     packageInfo: null,
     modal: [],
     processes: [],
@@ -64,7 +66,7 @@ const syncBackendAndChildProcessState = state => {
  * @param {*} state Initial state
  */
 const updateUIState = (keyPath, value, state) => {
-    let schemaKey = 'uischema';
+    let schemaKey = SchemaKeys.UISCHEMA;
     if (keyPath.charAt(0) !== '.') {
         schemaKey = schemaKey + '.' + keyPath;
     } else {
@@ -74,6 +76,21 @@ const updateUIState = (keyPath, value, state) => {
         .set(schemaKey, value)
         .value();
 };
+
+/**
+ *
+ * @param {string} keyName The state path string
+ * @param {*} value Update value
+ * @param {*} state Initial state
+ */
+const updateUIStateByVars = (keyPath, value, state) => {
+    const allKeyPaths = KeyPathManager.get(keyPath);
+
+    return (allKeyPaths && allKeyPaths.reduce((root, next) => {
+        return updateUIState(next, value, root);
+    }, state)) || state;
+};
+
 
 /**
  *
@@ -125,10 +142,10 @@ export default function update(state = initState, action) {
         case AppEventType.ON_LOAD_UI:
             const { ymlPath } = payload;
             const { ContentHelper } = Native();
-            const uischema = ContentHelper.loadJson(ymlPath);
+            const uiSchema = ContentHelper.loadJson(ymlPath);
             const packageInfo = updatePackageInfo(ymlPath);
             newState = immutable(state)
-                .set('uischema', uischema)
+                .set(SchemaKeys.UISCHEMA, uiSchema)
                 .value();
             newState = immutable(newState)
                 .set('packageInfo', packageInfo)
@@ -145,6 +162,25 @@ export default function update(state = initState, action) {
             } else {
                 const { keyPath, value } = payload;
                 newState = updateUIState(keyPath, value, state);
+            }
+
+            break;
+        case UIEventType.UPDATE_UI_STATE_BY_VARS:
+            if (_.isArray(payload)) {
+                const stateArr = payload;
+                newState = stateArr.reduce((root, next) => {
+                    const { keyPath, value } = next;
+                    root = immutable(state)
+                    .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
+                    .value();
+                    return updateUIStateByVars(keyPath, value, root);
+                }, state);
+            } else {
+                const { keyPath, value } = payload;
+                newState = updateUIStateByVars(keyPath, value, state);
+                newState = immutable(state)
+                .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
+                .value();
             }
 
             break;
@@ -248,6 +284,13 @@ export const AppAction = {
     updateUIState: payload => {
         const action = {
             type: UIEventType.UPDATE_UI_STATE,
+            payload,
+        };
+        Store.dispatch(action);
+    },
+    addKeyPathVars: payload => {
+        const action = {
+            type: UIEventType.PUSH_TO_KEYPATH_VARS,
             payload,
         };
         Store.dispatch(action);

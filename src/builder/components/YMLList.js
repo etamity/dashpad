@@ -61,7 +61,7 @@ export class YMLListView extends Component {
                         item.color = 'info';
                     }
                 }
-                const assignProps = PropsFilter(item, allowedProps);
+                const assignProps = PropsFilter(this.props, allowedProps);
                 return (
                     <ListGroupItem
                         action

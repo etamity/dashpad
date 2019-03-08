@@ -22,7 +22,7 @@ export class YMLSwitchView extends Component {
     render() {
         const { name, keyPath, obj } = this.props;
         const uniqueKeyPath = `${keyPath}.${name}`;
-        const assignProps = PropsFilter(obj, allowedProps);
+        const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <FormGroup key={uniqueKeyPath}>

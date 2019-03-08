@@ -17,7 +17,7 @@ const allowedProps = [
 export class YMLFormView extends Component {
     render() {
         const { keyPath, obj } = this.props;
-        const pickedProps = PropsFilter(obj, allowedProps);
+        const pickedProps = PropsFilter(this.props, allowedProps);
         return (
             <Form
                 {... pickedProps}

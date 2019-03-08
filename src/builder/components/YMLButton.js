@@ -43,7 +43,7 @@ export class YMLButtonView extends Component {
     render() {
         const { keyPath, obj } = this.props;
         const brand = brandClass(obj.brand, obj.icon, obj.className);
-        const assignProps = PropsFilter(obj, allowedProps);
+        const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
         let ButtonClass = (
             <Button

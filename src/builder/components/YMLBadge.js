@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Badge } from 'reactstrap';
 import { PropsFilter } from './utils';
+
 const allowedProps = ['pill', 'color', 'icon', 'tag', 'data-'];
 
 export class YMLBadgeView extends Component {
@@ -10,7 +11,7 @@ export class YMLBadgeView extends Component {
             <Badge
                 key={keyPath}
                 className="float-right"
-                {...PropsFilter(obj, allowedProps)}
+                {...PropsFilter(this.props, allowedProps)}
             >
                 {obj.label}
             </Badge>

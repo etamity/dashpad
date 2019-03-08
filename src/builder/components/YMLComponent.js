@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FormGroup } from 'reactstrap';
+import { ParseKeyPathVars } from './utils';
 
 import {
     YMLTabsView,
@@ -43,7 +44,7 @@ export class YMLComponent extends Component {
             type,
             obj,
         };
-
+        ParseKeyPathVars(keyPath, name, obj);
         if (!obj) {
             return <div />;
         }

@@ -183,7 +183,7 @@ export class YMLInputView extends Component {
                 return null;
         }
 
-        defaultProps = Object.assign({}, defaultProps, PropsFilter(obj ,allowedProps));
+        defaultProps = Object.assign({}, defaultProps, PropsFilter(this.props ,allowedProps));
         const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <FormGroup>

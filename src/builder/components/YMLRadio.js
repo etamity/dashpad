@@ -17,6 +17,7 @@ export class YMLRadioView extends Component {
                     type: 'radio',
                     id: idkey,
                     name: keyPath,
+                    keyPath,
                 },
                 obj
             );
