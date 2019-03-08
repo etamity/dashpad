@@ -7,7 +7,8 @@ export const ContainerType = keyMirror({
     FORM: null,
     HEADER: null,
     BUTTONGROUP: null,
-    ROW: null
+    ROW: null,
+    COLLAPSE: null
 });
 
 export const ContentType = keyMirror({
