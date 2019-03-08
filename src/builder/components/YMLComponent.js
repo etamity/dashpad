@@ -24,6 +24,7 @@ import {
     YMLButtonGroupView,
     YMLRowView,
     YMLContainerView,
+    YMLCollapseView
 } from './index';
 
 import { ContentType, ContainerType, FieldType, InputType } from './Constants';
@@ -48,6 +49,8 @@ export class YMLComponent extends Component {
         }
 
         switch (type.toUpperCase()) {
+            case ContainerType.COLLAPSE:
+                return <YMLCollapseView {...newProps} />;
             case ContainerType.CONTAINER:
                 return <YMLContainerView {...newProps} />;
             case ContainerType.TABS:
