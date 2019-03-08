@@ -5,14 +5,14 @@ import { renderRoutes } from 'react-router-config';
 
 class AutoRouter extends Component {
     render() {
-        const { routes, base, index } = this.props;
+        const { routes, base, indexRoute } = this.props;
         const baseRoute = (base && ['/', base].join(''));
         return (
             <Switch>
                 {renderRoutes(routes)}
                 <Redirect
                     from={baseRoute}
-                    to={index || '/schemabuilder'}
+                    to={indexRoute || '/dashboard'}
                 />
             </Switch>
         );
