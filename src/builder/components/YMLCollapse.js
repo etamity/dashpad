@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Collapse } from 'reactstrap';
+import { Collapse } from 'reactstrap';
 
 import { YMLComponent } from './index';
 import { EventsHook, getTypes, PropsFilter } from './utils';

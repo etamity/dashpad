@@ -88,7 +88,6 @@ class DefaultHeader extends Component {
         );
     }
     dropdownLink(item, key, classes) {
-        const url = item.url || '';
         const itemIcon = <i className={classes.icon} />;
         const itemBadge = this.navBadge(item.badge);
         const attributes = item.attributes || {};

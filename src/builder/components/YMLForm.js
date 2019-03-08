@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     Form,
 } from 'reactstrap';
-import _ from 'lodash';
 import { getTypes, PropsFilter } from './utils';
 import {
     YMLComponent

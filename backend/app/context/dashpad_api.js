@@ -3,7 +3,7 @@ const _ = require('lodash');
 const Config = require('../../configs/config');
 const BackendStore = require('../store');
 const uischemaKeyPath = 'app.uischema';
-
+const Octokit = require('@octokit/rest');
 let _isBrowser = false;
 
 class DashpahApi {
@@ -35,8 +35,23 @@ class DashpahApi {
             },
             value: () => Config.value().settings,
         };
+        this.initPlatforms();
     }
+    initPlatforms() {
+        const { github } = Config.value().settings.platform;
+        if (github.authToken) {
+            const Github = new Octokit({
+                auth: `token ${github.authToken}`,
+                baseUrl: github.api,
+            });
+            this.platform = {
+                Github
+            }
+        }
 
+
+
+    }
     updatePackageInfo(packageInfo) {
         if (packageInfo) {
             const { packageName, namespace } = packageInfo;

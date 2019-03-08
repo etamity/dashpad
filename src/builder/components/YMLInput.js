@@ -6,8 +6,7 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    Label,
-    CustomInput
+    Label
 } from 'reactstrap';
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';

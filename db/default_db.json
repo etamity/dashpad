@@ -24,6 +24,12 @@
         "username": "",
         "password": "",
         "email": ""
+      },
+      "platform": { 
+        "github": {
+          "api": "https://github.kdc.capitalone.com/api/v3",
+          "authToken": ""
+        }
       }
     },
     "config": {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { PropsFilter, EventsHook } from './utils';
 
 const brandClass = (brand, icon, className) => {

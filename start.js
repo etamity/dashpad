@@ -12,6 +12,7 @@ async function dev() {
     const cwd = process.cwd();
     const web_env = Object.assign({}, process.env, {
         NODE_PATH: config.env.WEB_NODE_PATH,
+        NODE_TLS_REJECT_UNAUTHORIZED: 0
     });
     const startMainProcess = async () => {
         let child = await npx(`react-app-rewired`, ['start'], {
@@ -40,22 +41,20 @@ async function dev() {
     process.on('exit', killWholeProcess);
 }
 
-// checkUpdate().then(result => {
-//   console.log(result);
-//   if (result.status === true) {
-//     console.log('New update detected !');
-//     pullUpdate().then(log => {
-//       console.log('Updated code has pulled !');
-//       dev();
-//     }).catch(error => {
-//       console.error(error);
-//     });
-//   } else {
-//     dev();
-//   }
-// }).catch(error => {
-//   console.error(error);
-//     dev();
-// });
-
-dev();
+checkUpdate().then(result => {
+  console.log(result);
+  if (result.status === true) {
+    console.log('New update detected !');
+    pullUpdate().then(log => {
+      console.log('Updated code has pulled !');
+      dev();
+    }).catch(error => {
+      console.error(error);
+    });
+  } else {
+    dev();
+  }
+}).catch(error => {
+  console.error(error);
+    dev();
+});

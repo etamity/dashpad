@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import {
-    Container,
-    Card,
-    CardBody,
-} from 'reactstrap';
+import { Container, Card, CardBody } from 'reactstrap';
 import { YMLMarkdownView } from 'builder/components/YMLMarkdown';
 import { renderRoutes } from 'react-router-config';
 import * as Pages from './pages';
 import SideMenus from './config/SideMenus';
 import mainDashboardMarkdown from 'docs/index.md';
+import { Button } from 'reactstrap';
+
+import { Dashpad } from 'store';
 
 export default class DashboardView extends Component {
     constructor(props) {
         super(props);
         this.renderDashboard = this.renderDashboard.bind(this);
+        this.doGithubAction = this.doGithubAction.bind(this);
         this.state = {
             markdown: null,
         };
@@ -31,20 +31,28 @@ export default class DashboardView extends Component {
                 this.setState({ markdown: text });
             });
     }
+
+    doGithubAction() {
+        const { Github } = Dashpad.platform;
+
+        const result = Github.search.repos({ q: 'dashpad' }).then(data => {
+            console.log(data);
+        });
+    }
+
     renderDashboard() {
         return (
             <React.Fragment>
                 <Card>
                     <CardBody>
-                        <YMLMarkdownView
-                            obj={{ content: this.state.markdown }}
-                            escapeHtml={false}
-                        />
+                        <Button onClick={this.doGithubAction}>Login</Button>
                     </CardBody>
                 </Card>
             </React.Fragment>
         );
     }
+
+    onLoad;
 
     render() {
         const { route, location } = this.props;

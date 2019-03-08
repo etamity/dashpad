@@ -14,6 +14,6 @@ export const Store = createStore(
     composeWithDevTools(applyMiddleware(routerMiddleware(history)))
 );
 
-const Dashpad = new DashpadApi({ isBrowser:true, dispatch: Store.dispatch, state: Store.getState()});
+export const Dashpad = new DashpadApi({ isBrowser:true, dispatch: Store.dispatch, state: Store.getState()});
 
 VM.addGlobal('Dashpad', Dashpad);

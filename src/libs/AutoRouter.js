@@ -6,14 +6,17 @@ import { renderRoutes } from 'react-router-config';
 class AutoRouter extends Component {
     render() {
         const { routes, base, indexRoute } = this.props;
-        const baseRoute = (base && ['/', base].join(''));
+        const baseRoute = (base && ['/', base].join('')) || '/#/';
         return (
             <Switch>
                 {renderRoutes(routes)}
-                <Redirect
+
+                {indexRoute && <Redirect
+                    push
                     from={baseRoute}
-                    to={indexRoute || '/dashboard'}
-                />
+                    to={indexRoute}
+                />}
+
             </Switch>
         );
     }

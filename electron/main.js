@@ -27,12 +27,13 @@ function createWindow() {
     // and load the index.html of the app.
     let indexPath;
     if (config.devMode && process.argv.indexOf('--noDevServer') === -1) {
-        indexPath = url.format({
-            protocol: 'http:',
-            host: 'localhost:' + port,
-            pathname: '',
-            slashes: true,
-        });
+        // indexPath = url.format({
+        //     protocol: 'http:',
+        //     host: 'localhost:' + port,
+        //     pathname: '/#/dashboard',
+        //     slashes: false,
+        // });
+        indexPath = 'http://localhost:'+ port+ '/#/dashboard';
         installExtensions();
     } else {
         indexPath = url.format({
