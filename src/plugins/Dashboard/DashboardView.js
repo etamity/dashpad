@@ -26,11 +26,19 @@ export default class DashboardView extends Component {
         this.doGithubAction = this.doGithubAction.bind(this);
         this.mapItems = this.mapItems.bind(this);
         this.state = {
-            plugins: null,
+            plugins: [{
+                title: 'asdasd',
+                description: 'asdasdad',
+                stars: 5,
+                owner: {
+                    avatar_url: '',
+                    login: 'etamity'
+                }
+            }],
         };
     }
     componentDidMount() {
-        this.doGithubAction();
+        //this.doGithubAction();
     }
     static Config() {
         return {
