@@ -27,7 +27,7 @@
       },
       "platform": { 
         "github": {
-          "api": "https://github.kdc.capitalone.com/api/v3",
+          "api": "",
           "authToken": ""
         }
       }
