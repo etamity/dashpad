@@ -7,3 +7,10 @@ navs:
     badge:
       variant: info
       text: NEW
+    children:
+      - name: Components
+        icon: icon-speedometer
+        goto: components.yml
+        badge:
+          variant: info
+          text: NEW

@@ -1,1 +1,4 @@
-console.log('this component is mounted!!!!');
+
+const commonFunc = () => {
+    console.log('this Func is commonFunc!!!!');
+}

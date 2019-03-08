@@ -1,16 +1,15 @@
 import keyMirror from 'keymirror';
 
 export const ContainerType = keyMirror({
+    CONTAINER: null,
     TABS: null,
     CARD: null,
-    MODAL: null,
     FORM: null,
-    NOTIFY: null,
-    WIDGET: null,
     HEADER: null,
     BUTTONGROUP: null,
     ROW: null
 });
+
 export const ContentType = keyMirror({
     LIST: null,
     MARKDOWN: null,

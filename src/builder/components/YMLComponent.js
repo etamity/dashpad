@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { FormGroup } from 'reactstrap';
+
 import {
     YMLTabsView,
     YMLFormView,
@@ -21,6 +23,7 @@ import {
     YMLHtmlView,
     YMLButtonGroupView,
     YMLRowView,
+    YMLContainerView,
 } from './index';
 
 import { ContentType, ContainerType, FieldType, InputType } from './Constants';
@@ -39,8 +42,14 @@ export class YMLComponent extends Component {
             type,
             obj,
         };
-        // console.log(type, ':', uniqueKeyPath);
+
+        if (!obj) {
+            return <div />;
+        }
+
         switch (type.toUpperCase()) {
+            case ContainerType.CONTAINER:
+                return <YMLContainerView {...newProps} />;
             case ContainerType.TABS:
                 return <YMLTabsView {...newProps} />;
             case ContainerType.HEADER:
@@ -84,14 +93,31 @@ export class YMLComponent extends Component {
                     ? FieldType.INPUT
                     : obj.type;
                 newProps = { ...this.props, type: subType };
+                console.log('subType', subType);
+                if (subType.toUpperCase() === FieldType.BUTTON) {
+                    return (
+                        <FormGroup key={keyPath}>
+                            <YMLComponent {...newProps} />
+                        </FormGroup>
+                    );
+                }
                 return <YMLComponent {...newProps} />;
             default:
-                if (obj.type && isInputType(obj.type)) {
-                    const subType = FieldType.INPUT;
+                if (obj.type) {
+                    const subType = isInputType(obj.type)
+                        ? FieldType.INPUT
+                        : obj.type;
                     newProps = { ...this.props, type: subType };
+                    if (subType.toUpperCase() === FieldType.BUTTON) {
+                        return (
+                            <FormGroup key={keyPath}>
+                                <YMLComponent {...newProps} />
+                            </FormGroup>
+                        );
+                    }
                     return <YMLComponent {...newProps} />;
                 } else {
-                    const errMsg = `Warning: ${type} not found! Path: ${uniqueKeyPath}`;
+                    const errMsg = `Warning: ${type} type not found! Path: ${uniqueKeyPath}`;
                     console.error(errMsg);
                     toast.error(errMsg, {
                         position: toast.POSITION.TOP_RIGHT,

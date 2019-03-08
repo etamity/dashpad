@@ -1,0 +1,72 @@
+---
+Tabs_2:
+  activeTab: 0
+  Card_1:
+    label: UI Examples
+    Header:
+      title: A registration form
+      Button_1:
+        brand: twitter
+        label: Toast
+        onClick: >
+          Dashpad.showToast({
+            message: 'Hello, from yaml file'
+          });
+        color: success
+        position: left
+      Button_2:
+        brand: facebook
+        label: Notification
+        onClick: >
+
+          Dashpad.showNotification({
+            title: "Notification title",
+            message: "You can put anything here"
+          });
+
+        color: success
+        position: right
+    Form:
+      Username:
+        type: text
+        label: Username
+        tooltip: Choose your username
+        value: First name
+        prepend:
+          - type: button
+            icon: icon-drop
+            click: next.yaml
+            color: warning
+        append:
+          - type: text
+            icon: icon-drop
+            click: next.yaml
+            label: hajajaj
+            color: success
+      Button_submit:
+        type: submit
+        label: Show Modal
+        click: next.yaml
+        brand: youtube
+        color: warning
+        onClick: >
+          const state = Dashpad.getState();
+          const username = state.Tabs_2.Card_1.Form.Username.value;
+
+          console.log(username);
+          Dashpad.showModal({
+            title: 'test1!!',
+            message: username
+          });
+          Dashpad.showToast({
+            message: 'Hello, from yaml file username:' + username
+          });
+
+        size: lg
+        className: 'mr-3'
+      Button_cancel:
+        type: button
+        label: cancel
+        icon: icon-drop
+        click: next.yaml
+        color: warning

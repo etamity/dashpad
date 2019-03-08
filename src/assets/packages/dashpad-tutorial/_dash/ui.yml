@@ -12,9 +12,12 @@ Tabs_1:
       label: test
       onClick: >
         (e) => {
-            const username = Dashpad.getVars('username.0');
+            const username = Dashpad.getVars('username');
             console.log(username);
-            Dashpad.setVars('header', username);
+            Dashpad.setState([
+              {keyPath: 'Tabs_1.Card_1.Header.title', value: username},
+              {keyPath: 'Tabs_1.Card_1.Progress.value', value: 40}
+            ]);
           }
         
     Header:
@@ -28,17 +31,18 @@ Tabs_1:
               title: 'Notification title',
               message: 'Notification message'
             });
-            console.log(Dashpad.settings.delete('test1'));
-            }
+          }
       title: This is the title of the card
       Button_2:
         label: Show Toast
         position: right
         brand: facebook
         onClick: >
-          Dashpad.showToast({
-            message: 'Toast message'
-          });
+          (e) => {
+            Dashpad.showToast({
+              message: 'Toast message'
+            });
+          }
     Html:
       content: <h2>Hi, this is html content</h2>
     Text:
@@ -85,16 +89,20 @@ Tabs_1:
         - label: submit
           color: info
           onClick: >
-            const username = Dashpad.getVars('username');
-            Dashpad.showModal({
-              title: 'Your username is',
-              message: username
-            });
+            (e) => {
+                const username = Dashpad.getVars('username');
+                console.log(username);
+                Dashpad.showModal({
+                  title: 'Your username is',
+                  message: username
+                });
+
+            }
         - label: Run Node Script
           color: danger
           onClick: >
             (e) => {
-              const username = Dashpad.getState('Tabs_1.Card_1.Row.Username.value');
+              const username = Dashpad.getVars('username');
               Dashpad.run('index.js', {username});
             }
     Table:

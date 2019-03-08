@@ -18,14 +18,15 @@ export class YMLTabsView extends Component {
         let tabs = {};
         getTypes(obj).forEach(({name, type}, index) => {
             const nameTypeArr = (name && name.split('_')) || ['No_Name'];
+            const props = obj[name];
             const tabName =
-            (obj[name] && obj[name].label) || nameTypeArr[nameTypeArr.length - 1]
+            (props && (props.tab|| props.label)) || nameTypeArr[nameTypeArr.length - 1]
             const newProps = {
                 name: name,
                 key: keyPath + index,
                 keyPath: keyPath,
                 type,
-                obj: obj[name],
+                obj: props,
             };
             tabs[tabName] = (
                 <YMLComponent {...newProps} />
@@ -34,7 +35,7 @@ export class YMLTabsView extends Component {
         return (
             <TabView
                 key={keyPath}
-                activeTab={(obj && obj.selected) || 0}
+                activeTab={obj.selected || 0}
                 tabs={tabs}
             />
         );

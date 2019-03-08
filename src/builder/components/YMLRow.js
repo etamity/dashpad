@@ -19,7 +19,7 @@ export class YMLRowView extends Component {
                 type: type,
                 obj: obj[name],
             };
-            const colProps = childProps.obj.col || {};
+            const colProps = (childProps.obj && childProps.obj.col) || {};
             return (
                 <Col key={childProps.key} {...colProps}>
                     <YMLComponent {...childProps} />{' '}

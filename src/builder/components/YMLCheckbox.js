@@ -20,7 +20,7 @@ export class YMLCheckboxView extends Component {
         const { keyPath, obj } = this.props;
 
         const options =
-            obj &&
+            obj && obj.options &&
             obj.options.map((option, index) => {
                 const idkey = keyPath + index;
                 const id = 'nf-checkbox-' + index;

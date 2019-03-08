@@ -9,7 +9,7 @@ export class YMLSelectView extends Component {
         const { keyPath, obj } = this.props;
         const id = `${obj.multiple ? 'multiple-' : ''}select-` + keyPath;
         const options =
-        obj &&
+        obj && obj.options &&
         obj.options.map((option, index) => (
                 <option key={`${keyPath}.${index}`} value={index}>
                     {option}

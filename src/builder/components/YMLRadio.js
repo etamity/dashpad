@@ -8,7 +8,7 @@ export class YMLRadioView extends Component {
  render() {
     const { keyPath, obj } = this.props;
     const options =
-    obj &&
+    obj && obj.options &&
     obj.options.map((option, index) => {
             const idkey = `${keyPath}.${index}`;
             const defaultProps = Object.assign(
