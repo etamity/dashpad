@@ -21,12 +21,10 @@ const requireNoCache = function(filePath) {
 };
 
 
-const DashPackageYmlPaths = pathHelper
-    .getAllDashSpace()
-    .map(dashSpacePath => path.join(dashSpacePath, '/**/*.yml'));
+
 if (!production) {
     const chokidar = require('chokidar');
-    const watcher = chokidar.watch(['./backend/**/*.js', DashPackageYmlPaths]);
+    const watcher = chokidar.watch(['./backend/**/*.js', path.join(pathHelper.PACKAGES, '/**/*.yml')]);
     watcher.on('ready', () => {
         watcher.on('change', filePath => {
             if (filePath.includes('backend/')) {

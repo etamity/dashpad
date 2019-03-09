@@ -9,11 +9,13 @@ const PACKAGES = path.join(WORKSPACE, 'packages');
 
 const getDashSpace = packageName =>
     path.join(PACKAGES, packageName, config.project.folder);
+
 const getPackagePath = packageName =>
     path.join(PACKAGES, packageName);
 
 const getDashConfigFile = packageName =>
     path.join(getDashSpace(packageName), config.project.config);
+
 const getPackageJsonFile = packageName =>
     path.join(getPackagePath(packageName), 'package.json');
 
@@ -26,26 +28,25 @@ const getCurrentPackagePath = ()=> {
     return getDashSpace(packageName);
 }
 
-const getAllPackagesPath = () => {
+const getAllPackagesName = () => {
     fileManager.createFolder(PACKAGES);
     return fileManager
-        .getDirs(PACKAGES)
-        .filter(packageName =>
-            fileManager.isExist(getPackageJsonFile(packageName))
-        );
+        .getFiles(PACKAGES, '**/package.json')
+        .map(path => {
+            const packageName = path.split('packages/')[1];
+            return packageName.substring(0, packageName.lastIndexOf('/')); //path.match(/packages\/(.*?)\/_/)[1];
+        });
 };
 
-const getAllDashSpace = () =>
-    getAllPackagesPath().map(packageName => getDashSpace(packageName));
 
-const getAllPackageJsonFiles = () =>
-    getAllPackagesPath().map(packageName => ({
-        packageName,
-        file: getPackageJsonFile(packageName),
-    }));
+const getAllDashSpace = () =>
+    getAllPackagesName().map(packageName => getDashSpace(packageName));
+
+const getAllPackageJsonFiles = () => fileManager.getFiles(PACKAGES, '**/package.json');
+
 
 const getAllDashConfigFiles = () =>
-    getAllPackagesPath().map(packageName => ({
+    getAllPackagesName().map(packageName => ({
         packageName,
         file: getDashConfigFile(packageName),
     }));
@@ -57,7 +58,7 @@ module.exports = {
     getDashConfigFile,
     getPackageJsonFile,
     getAllDashSpace,
-    getAllPackagesPath,
+    getAllPackagesName,
     getAllDashConfigFiles,
     getAllPackageJsonFiles,
     getPackagePath,

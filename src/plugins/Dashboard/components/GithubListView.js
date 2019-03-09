@@ -1,60 +1,71 @@
 import React, { Component } from 'react';
 import {
     ListGroupItem,
-    ListGroupItemHeading,
-    ListGroupItemText,
     Row,
     Col,
     Button,
 } from 'reactstrap';
-import { YMLLinkView } from 'builder/components/index';
+import moment from 'moment';
+import { shell } from 'electron';
+import Native from 'libs/Native';
+
+const { ModuleHelper } = Native();
 
 export class GithubListView extends Component {
+
+    constructor() {
+        super()
+        this.doInstall = this.doInstall.bind(this);
+        this.doUnInstall = this.doUnInstall.bind(this);
+    }
+    doInstall(content) {
+        ModuleHelper.install(content.full_name,content.clone_url);
+    }
+    doUnInstall(content) {
+        ModuleHelper.uninstall(content.full_name);
+    }
     render() {
         const { items } = this.props;
         const pluginList =
             items &&
             items.map((content, index) => {
-                const { title, description, link, stars, owner, raw } = content;
+                const updated_at = moment(content.updated_at);
+                console.log(updated_at.fromNow());
                 return (
                     <Row key={index}>
-                        <Col md="1">
-                            <img
-                                className="img-thumbnail"
-                                alt={''}
-                                src={owner.avatar_url}
-                            />
-                            <p className="text-center">{owner.login}</p>
-                        </Col>
                         <Col>
                             <ListGroupItem>
-                                <ListGroupItemHeading>
-                                    <Row className="d-flex justify-content-between">
-                                        <YMLLinkView
-                                            obj={{
-                                                size: 'lg',
-                                                link,
-                                                label: title,
-                                                color: 'primary',
-                                            }}
-                                        />
-                                        <Button className="text-right" outline color="success">
-                                            <i className="fa fa-star fa-lg" />{' '}
-                                            {stars}
-                                        </Button>
-                                    </Row>
-                                </ListGroupItemHeading>
-                                <ListGroupItemText>
-                                    {description}
-                                </ListGroupItemText>
+                                <span className="d-flex justify-content-between">
+                                    <h3
+                                        className="text-primary cursor-pointer"
+                                        onClick={() => {
+                                            content.clone_url && shell.openExternal(content.clone_url);
+                                        }}
+                                    >
+                                        {content.full_name}
+                                    </h3>
+                                    <span className="p-2">
+                                        <i className="fa fa-star fa-sm" />{' '}
+                                        {content.stargazers_count}
+                                        
+                                    </span>
+                                </span>
+                                <p>
+                                    {content.description}
+                                </p>
+                                <p className="text-right"><b>Updated</b>: {updated_at.fromNow()}</p>
                             </ListGroupItem>
                         </Col>
-                        <Col md="2">
-                            <Button color="primary" block>
+                        <Col md="2" className="align-self-center">
+                            <Button color="success" block onClick={() => {
+                                this.doInstall(content);
+                            }}>
                                 {' '}
                                 Install{' '}
                             </Button>
-                            <Button color="danger" block>
+                            <Button color="danger" block onClick={() => {
+                                this.doUnInstall(content);
+                            }}>
                                 {' '}
                                 Uninstall{' '}
                             </Button>

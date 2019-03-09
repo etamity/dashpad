@@ -30,7 +30,7 @@ class TabView extends Component {
 
         const titles = Object.keys(tabsContent) || [];
         const titlesView = titles.map((title, index) => {
-            let label = (title.indexOf('[') > -1 && title.slice(0, title.indexOf('[')).trim()) || title;
+            let label = title.indexOf('[') > -1 ? title.slice(0, title.indexOf('[')).trim() : title;
             let icon = title
                 .slice(title.indexOf('[') + 1, title.lastIndexOf(']'))
                 .trim();

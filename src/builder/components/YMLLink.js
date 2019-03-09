@@ -18,7 +18,7 @@ export class YMLLinkView extends Component {
 
         return (
             <FormGroup key={keyPath}>
-                <YMLButtonView {...newProps} />
+                <YMLButtonView {...newProps} children={this.props.children}/>
             </FormGroup>
         );
     }

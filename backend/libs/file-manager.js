@@ -5,13 +5,16 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const yaml = require('js-yaml');
 const nodePath = require('path');
-
+const glob = require("glob");
 module.exports = {
     isExist: (path) => {
         return fs.existsSync(path);
     },
     getDirs: (path) => {
         return fs.readdirSync(path).sort();
+    },
+    getFiles: (path, patttern = '**/*.yml') => {
+        return glob.sync(`${path}/${patttern}`);
     },
     createFolder:(path) => {
         fse.ensureDirSync(path);

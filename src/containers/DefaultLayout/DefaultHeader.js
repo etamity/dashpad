@@ -74,7 +74,7 @@ class DefaultHeader extends Component {
                 ) : (
                     <NavLink
                         to={url}
-                        className={classes.link}
+                        className={classes.link + ' text-uppercase'}
                         activeClassName="active"
                         onClick={this.hideMobile}
                         {...attributes}

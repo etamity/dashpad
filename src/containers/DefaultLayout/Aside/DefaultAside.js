@@ -101,7 +101,7 @@ class DefaultAside extends Component {
             </ListGroup>
         );
         const tabs = {
-            '.icon-list': ProcessListGoup,
+            '[icon-list]': ProcessListGoup,
         };
         return (
             <React.Fragment>

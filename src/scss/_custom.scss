@@ -16,3 +16,8 @@ main {
 .sidebar .nav-link.active .nav-icon {
     color: white;
 }
+
+.app-header .nav-item .nav-link.active {
+    color: $linkedin;
+    font-weight: 500;
+}

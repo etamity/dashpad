@@ -41,7 +41,7 @@ const allowedEvents = [
 
 export class YMLButtonView extends Component {
     render() {
-        const { keyPath, obj } = this.props;
+        const { keyPath, obj, children } = this.props;
         const brand = brandClass(obj.brand, obj.icon, obj.className);
         const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
@@ -53,9 +53,9 @@ export class YMLButtonView extends Component {
                 {...assignEvents}
             >
                 {(obj.icon || obj.brand) && <i className={brand.icon} />}
-                {(obj.label || obj.brand) && (
+                {(obj.label || obj.brand || children) && (
                     <span className="d-none d-md-inline">
-                        {obj.label || obj.brand}
+                        {obj.label || obj.brand || children}
                     </span>
                 )}
             </Button>
