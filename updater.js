@@ -10,6 +10,10 @@ const checkUpdate = () => {
             let localHash = local.split('\n')[0];
             command = `git ls-remote origin master`;
             const child_next = shell.exec(command, { async: true });
+            child_next.stderr.on('data', local => {
+                console.log('err', local);
+                reject(local);
+            });
             child_next.stdout.on('data', remote => {
                 let remoteHash = remote.split('\t')[0];
                 let result = {

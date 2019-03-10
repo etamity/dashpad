@@ -7,7 +7,6 @@ import TopMenus from './config/TopMenus';
 import { GithubListView } from './components/GithubListView';
 import {
     Button,
-    FormGroup,
     Input,
     InputGroup,
     InputGroupAddon,
@@ -42,7 +41,6 @@ export default class DashboardView extends Component {
         Github.search
             .repos({ q: keyword, per_page: 10, sort: 'stars' })
             .then(res => {
-                console.log(res.data.items);
                 this.setState({ plugins: res.data.items });
             });
     }
