@@ -36,7 +36,7 @@ const isInputType = type =>
 export class YMLComponent extends Component {
     render() {
         const { name, type, keyPath, obj } = this.props;
-        const uniqueKeyPath = `${keyPath}.${name}`;
+        const uniqueKeyPath = keyPath ? `${keyPath}.${name}` : name;
         let newProps = {
             name,
             key: uniqueKeyPath,

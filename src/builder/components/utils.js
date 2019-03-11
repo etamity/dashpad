@@ -69,7 +69,6 @@ export const ParseKeyPathVars = (keyPath, name, obj) => {
             }
             obj.refs[key] = keyName;
             obj[key] = defualtVal;
-            console.log(Store.getState(), keyPath, obj,key, defualtVal);
             KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
         }
     });
@@ -85,7 +84,6 @@ export const EventsHook = (props, events) => {
                 const keyPathRefs =  _.get(Store.getState().app.uiSchema, keyRefs);
   
                 if (keyPathRefs) {
-                    console.log('val', keyPathRefs);
                     AppAction.updateUIState({
                         keyPath: `$vars.${keyPathRefs}`,
                         value: e.target.value,
