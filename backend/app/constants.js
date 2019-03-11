@@ -20,6 +20,7 @@ const ProcessEventType = keyMirror({
 
 const UIEventType = keyMirror({
     UPDATE_UI_STATE: null,
+    UPDATE_VARS_STATE: null,
     SHOW_NOTIFICATION: null,
     SHOW_TOAST: null,
     SHOW_MODAL: null,

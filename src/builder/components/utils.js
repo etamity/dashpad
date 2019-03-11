@@ -64,6 +64,10 @@ export const ParseKeyPathVars = (keyPath, name, obj) => {
         if (val && _.isString(val) && val.indexOf('${') > -1) {
             const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
             const defualtVal = _.get(Store.getState().app.uiSchema, `$vars.${keyName}`);
+            if (!obj.refs) {
+                obj.refs = {};
+            }
+            obj.refs[key] = keyName;
             obj[key] = defualtVal;
             console.log(Store.getState(), keyPath, obj,key, defualtVal);
             KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
@@ -76,8 +80,19 @@ export const EventsHook = (props, events) => {
     return events.reduce((eventProps, next) => {
         eventProps[next] = e => {
             if (next === 'onChange' && type === FieldType.INPUT) {
+                const keyPathFull = (keyPath + '.value').substring(1);
+                const keyRefs = (keyPath + '.refs.value').substring(1);
+                const keyPathRefs =  _.get(Store.getState().app.uiSchema, keyRefs);
+  
+                if (keyPathRefs) {
+                    console.log('val', keyPathRefs);
+                    AppAction.updateUIState({
+                        keyPath: `$vars.${keyPathRefs}`,
+                        value: e.target.value,
+                    });
+                } 
                 AppAction.updateUIState({
-                    keyPath: keyPath + '.value',
+                    keyPath: keyPathFull,
                     value: e.target.value,
                 });
             }

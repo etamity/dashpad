@@ -92,6 +92,10 @@ const updateUIStateByVars = (keyPath, value, state) => {
 };
 
 
+const updateVarsState = (keyPath, value, state) => {
+
+}
+
 /**
  *
  * @param {*} text Copy text to clipboard
@@ -163,6 +167,9 @@ export default function update(state = initState, action) {
                 const { keyPath, value } = payload;
                 newState = updateUIState(keyPath, value, state);
             }
+
+            break;
+        case UIEventType.UPDATE_VARS_STATE:
 
             break;
         case UIEventType.UPDATE_UI_STATE_BY_VARS:

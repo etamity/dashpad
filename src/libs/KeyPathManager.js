@@ -10,6 +10,9 @@ export default {
     get: (keyName) => {
         return state[keyName];
     },
+    set: (keyName, value) => {
+        state = immutable(state).set(keyName, value).value();
+    },
     value: () => state,
     clear: () => {
         state = {};
