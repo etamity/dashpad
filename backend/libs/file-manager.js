@@ -5,61 +5,61 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const yaml = require('js-yaml');
 const nodePath = require('path');
-const glob = require("glob");
+const glob = require('glob');
 module.exports = {
-    isExist: (path) => {
+    isExist: path => {
         return fs.existsSync(path);
     },
-    getDirs: (path) => {
+    getDirs: path => {
         return fs.readdirSync(path).sort();
     },
     getFiles: (path, patttern = '**/*.yml') => {
-        return glob.sync(`${path}/${patttern}`);
+        return glob.sync(`${path}/${patttern}`, {
+            ignore: ['**/node_modules/**', './node_modules/**'],
+        });
     },
-    createFolder:(path) => {
+    createFolder: path => {
         fse.ensureDirSync(path);
     },
-    deleteFoler: (path) =>{
+    deleteFoler: path => {
         return shell.exec(`rm -rf ${path}`);
     },
-    loadJsonDb: (path) => {
+    loadJsonDb: path => {
         const dir = nodePath.resolve(path.substring(0, path.lastIndexOf('/')));
         if (!fse.existsSync(dir)) {
             fse.ensureDirSync(dir);
         }
         return low(new FileSync(path));
     },
-    loadJson: (path) => {
+    loadJson: path => {
         try {
             const ext = nodePath.extname(path);
             const resolvePath = nodePath.resolve(path);
             if (ext === '.json') {
-                return fse.readJsonSync(resolvePath)
+                return fse.readJsonSync(resolvePath);
             } else if (ext === '.yml') {
-                return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'))
+                return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'));
             } else {
                 return null;
             }
         } catch (error) {
             console.error(error);
         }
-        
     },
-    read: (path) => {
+    read: path => {
         return new Promise((resolve, reject) => {
-            fs.readFile(path, 'utf8', function (error, data) {
+            fs.readFile(path, 'utf8', function(error, data) {
                 if (error) {
                     reject(error);
                     return;
                 }
                 resolve(data);
-
             });
         });
     },
-    write:(path, data) => {
+    write: (path, data) => {
         return new Promise((resolve, reject) => {
-            fs.writeFile(path, data, 'utf8', function (error) {
+            fs.writeFile(path, data, 'utf8', function(error) {
                 if (error) {
                     console.error(error);
                     reject(error);
@@ -69,7 +69,7 @@ module.exports = {
             });
         });
     },
-    copyFolder:(from, to, options) => {
+    copyFolder: (from, to, options) => {
         console.log('Copy From', from, 'to', to);
         return new Promise((resolve, reject) => {
             fse.copy(from, to, options, err => {
@@ -78,13 +78,12 @@ module.exports = {
                     reject();
                 }
                 resolve();
-            })
+            });
         });
     },
     copyFiles: (from, to) => {
         let command = `cp -r ${from} ${to}`;
         console.log('running command: ' + command);
         return shell.exec(command);
-
-    }
-}
+    },
+};

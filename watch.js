@@ -24,7 +24,9 @@ const requireNoCache = function(filePath) {
 
 if (!production) {
     const chokidar = require('chokidar');
-    const watcher = chokidar.watch(['./backend/**/*.js', path.join(pathHelper.PACKAGES, '/**/*.yml')]);
+    const watcher = chokidar.watch(['./backend/**/*.js', path.join(pathHelper.PACKAGES, '/**/*.yml')],  {
+        ignored: ['node_modules']
+      });
     watcher.on('ready', () => {
         watcher.on('change', filePath => {
             if (filePath.includes('backend/')) {
