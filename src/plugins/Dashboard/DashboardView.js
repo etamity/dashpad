@@ -37,12 +37,15 @@ export default class DashboardView extends Component {
 
     doGithubAction(e) {
         const { Github } = Dashpad.platform;
-        const keyword = (e && e.target && e.target.value) || 'topic:dashpad';
-        Github.search
+        if (Github) {
+            const keyword = (e && e.target && e.target.value) || 'topic:dashpad';
+            Github.search
             .repos({ q: keyword, per_page: 10, sort: 'stars' })
             .then(res => {
                 this.setState({ plugins: res.data.items });
             });
+        }
+
     }
 
     renderDashboard() {

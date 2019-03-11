@@ -170,7 +170,7 @@ export default function update(state = initState, action) {
                 const stateArr = payload;
                 newState = stateArr.reduce((root, next) => {
                     const { keyPath, value } = next;
-                    root = immutable(state)
+                    root = immutable(root)
                     .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
                     .value();
                     return updateUIStateByVars(keyPath, value, root);
