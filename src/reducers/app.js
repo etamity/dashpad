@@ -221,7 +221,8 @@ export default function update(state = initState, action) {
             toast(message, Object.assign({}, defaultOptions, options));
             break;
         case UIEventType.COPY_TO_CLIPBOARD:
-            copyToClipboard(payload);
+            const { text } = payload;
+            copyToClipboard(text);
             return state;
         case UIEventType.SHOW_NOTIFICATION:
             Notifier.notify(payload);
