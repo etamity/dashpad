@@ -245,8 +245,10 @@ export default function update(state = initState, action) {
 const updatePackageInfo = filePath => {
     const pathArr = filePath.split('/');
     const fileName = pathArr[pathArr.length - 1];
-    const packageName = filePath.match(/packages\/(.*?)\/_/)[1].toLoweCcase();
-    const namespace = (filePath.match(/packages\/(.*?).yml/)[1] + '.yml').toLoweCcase();
+    let packageName = filePath.match(/packages\/(.*?)\/_/)[1];
+    let namespace = (filePath.match(/packages\/(.*?).yml/)[1] + '.yml');
+    packageName = packageName && packageName.toLowerCase();
+    namespace = namespace && namespace.toLowerCase();
     const packageInfo = {
         fileName,
         packageName,
