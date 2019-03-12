@@ -35,6 +35,7 @@ class DashpahApi {
             },
             value: () => Config.value().settings,
         };
+        this.platform = {};
         this.initPlatforms();
     }
     initPlatforms() {
@@ -45,9 +46,7 @@ class DashpahApi {
                 baseUrl: github.api,
                 previews: ['mercy-preview'],
             });
-            this.platform = {
-                Github,
-            };
+            this.platform[Github] = Github;
         }
     }
     updatePackageInfo(packageInfo) {
