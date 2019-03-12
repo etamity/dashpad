@@ -245,13 +245,13 @@ export default function update(state = initState, action) {
 const updatePackageInfo = filePath => {
     const pathArr = filePath.split('/');
     const fileName = pathArr[pathArr.length - 1];
-    const packageName = filePath.match(/packages\/(.*?)\/_/)[1];
-    const namespace = filePath.match(/packages\/(.*?).yml/)[1] + '.yml';
+    const packageName = filePath.match(/packages\/(.*?)\/_/)[1].toLoweCcase();
+    const namespace = (filePath.match(/packages\/(.*?).yml/)[1] + '.yml').toLoweCcase();
     const packageInfo = {
         fileName,
         packageName,
         filePath,
-        namespace,
+        namespace
     };
     const Dashpad = VM.getGlobal('Dashpad');
     if (Dashpad) {
