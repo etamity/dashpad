@@ -33,7 +33,13 @@ const Config = {
         return _.get(config(), `config.${keyPath}`);
     },
     delete: (keyPath)=> {
-        const newConfig = immutable.del(config(), `config.${keyPath}`);
+        const keyPathPrefix = `config.${keyPath}`;
+        let newConfig = immutable.del(config(), keyPathPrefix);
+        let aKeyPath = keyPathPrefix.substring(0, keyPathPrefix.lastIndexOf('.'));
+        const packageSettings = _.get(newConfig, aKeyPath);
+        if (_.isEmpty(packageSettings)) {
+            newConfig = immutable.del(newConfig, aKeyPath);
+        }
         fse.writeJSONSync(configPath, newConfig, { spaces: 2});
         return newConfig;
     },
@@ -47,7 +53,7 @@ const Config = {
     }
 };
 
-Config.set('config.devMode', devMode);
+Config.set('devMode', devMode);
 
 
 module.exports = Config;

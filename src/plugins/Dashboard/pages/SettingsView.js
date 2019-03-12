@@ -50,8 +50,8 @@ export class SettingsView extends Component {
             message: 'Are you sure want to continue?',
             variant: 'danger',
             onConfirm: () => {
-                Config.delete(`settings${keyPathName}`);
-                this.setState({settings: Config.value().settings});
+                const configJson = Config.delete(`settings${keyPathName}`);
+                this.setState({settings: configJson.config.settings});
             }
         })
     }

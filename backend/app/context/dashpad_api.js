@@ -30,8 +30,8 @@ class DashpahApi {
                 return Config.get(`settings.${this.packageName}`);
             },
             delete: keyPath => {
-                Config.delete(`settings.${this.packageName}.${keyPath}`);
-                return Config.get(`settings.${this.packageName}`);
+                const aKeyPath = `settings.${this.packageName}`;
+                Config.delete(`${aKeyPath}.${keyPath}`);
             },
             value: () => Config.value().settings,
         };
