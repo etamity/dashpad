@@ -85,7 +85,6 @@ const updateUIState = (keyPath, value, state) => {
  */
 const updateUIStateByVars = (keyPath, value, state) => {
     const allKeyPaths = KeyPathManager.get(keyPath);
-    console.log('allKeyPaths',allKeyPaths, keyPath);
     return (allKeyPaths && allKeyPaths.reduce((root, next) => {
         return updateUIState(next, value, root);
     }, state)) || state;
