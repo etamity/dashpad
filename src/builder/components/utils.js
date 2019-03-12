@@ -69,7 +69,6 @@ export const ParseKeyPathVars = (keyPath, name, obj) => {
             }
             obj.refs[key] = keyName;
             obj[key] = defualtVal;
-            console.log(`${keyPath}.${name}.${key}`);
             KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
         }
     });

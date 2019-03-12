@@ -40,13 +40,13 @@ class DashpahApi {
     }
     initPlatforms() {
         const { github } = Config.value().settings.platform;
-        if (github.authToken) {
+        if (github.authtoken) {
             const Github = new Octokit({
-                auth: `token ${github.authToken}`,
+                auth: `token ${github.authtoken}`,
                 baseUrl: github.api,
                 previews: ['mercy-preview'],
             });
-            this.platform[Github] = Github;
+            this.platform['Github'] = Github;
         }
     }
     updatePackageInfo(packageInfo) {

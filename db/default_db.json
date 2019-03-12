@@ -28,7 +28,7 @@
       "platform": { 
         "github": {
           "api": "",
-          "authToken": ""
+          "authtoken": ""
         }
       }
     },

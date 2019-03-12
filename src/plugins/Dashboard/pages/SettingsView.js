@@ -59,7 +59,7 @@ export class SettingsView extends Component {
         this.setState({ showPassword: !this.state.showPassword });
     }
     updateConfig(keyPath, value) {
-        const akeyPath = keyPath.substring(1, keyPath.length);
+        const akeyPath = keyPath.substring(1);
         let settings = immutable(this.state.settings)
             .set(akeyPath, value)
             .value();
