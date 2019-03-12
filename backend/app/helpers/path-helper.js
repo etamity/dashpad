@@ -45,7 +45,10 @@ const getAllDashSpace = () =>
 const getAllPackageJsonFiles = () => fileManager.getFiles(PACKAGES, '**/package.json');
 
 
-const getAllDashConfigFiles = () => fileManager.getFiles(PACKAGES, '**/_dash/config.yml');
+const getAllDashConfigFiles = () => getAllPackagesName().map(packageName => ({	
+        packageName,	
+        file: getDashConfigFile(packageName),	
+    }));
 
 module.exports = {
     WORKSPACE,

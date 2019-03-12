@@ -43,7 +43,6 @@ export class DefaultLayout extends Component {
         this.props.history.push('/login');
     }
     loadUIFile(packageName, uiFile) {
-        console.log(packageName, uiFile);
         const { PathHelper } = Native();
         const ymlPath = [PathHelper.getDashSpace(packageName), uiFile].join(
             '/'
