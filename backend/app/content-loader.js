@@ -5,7 +5,7 @@ const FileManager = require('../libs/file-manager');
 const path = require('path');
 const reloadConfig = () => {
     const navs = ContentHelper.loadNavs();
-    if (navs && navs.length > 0) {
+    if (navs) {
         const action = {
             type: AppEventType.ON_LOAD_NAVS,
             payload: { navs }

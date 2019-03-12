@@ -3,9 +3,9 @@ const fileManager = require('../../libs/file-manager');
 const loadJson = fileManager.loadJson;
 
 const loadConfigs = () =>
-    pathHelper.getAllDashConfigFiles().map(packageModule =>
-        Object.assign({}, packageModule, {
-            content: loadJson(packageModule.file),
+    pathHelper.getAllDashConfigFiles().map(file =>
+        Object.assign({}, {
+            content: loadJson(file),
         })
     );
 

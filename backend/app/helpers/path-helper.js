@@ -34,7 +34,7 @@ const getAllPackagesName = () => {
         .getFiles(PACKAGES, '**/package.json')
         .map(path => {
             const packageName = path.split('packages/')[1];
-            return packageName.substring(0, packageName.lastIndexOf('/')); //path.match(/packages\/(.*?)\/_/)[1];
+            return packageName.substring(0, packageName.lastIndexOf('/'));
         });
 };
 
@@ -45,11 +45,7 @@ const getAllDashSpace = () =>
 const getAllPackageJsonFiles = () => fileManager.getFiles(PACKAGES, '**/package.json');
 
 
-const getAllDashConfigFiles = () =>
-    getAllPackagesName().map(packageName => ({
-        packageName,
-        file: getDashConfigFile(packageName),
-    }));
+const getAllDashConfigFiles = () => fileManager.getFiles(PACKAGES, '**/_dash/config.yml');
 
 module.exports = {
     WORKSPACE,

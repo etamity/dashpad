@@ -20,6 +20,7 @@ export default class DashboardView extends Component {
         this.renderDashboard = this.renderDashboard.bind(this);
         this.doGithubAction = this.doGithubAction.bind(this);
         this.state = {
+            searchWords: '',
             plugins: [
             ],
         };
@@ -37,12 +38,16 @@ export default class DashboardView extends Component {
 
     doGithubAction(e) {
         const { Github } = Dashpad.platform;
-        const keyword = (e && e.target && e.target.value) || 'topic:dashpad';
-        Github.search
+        if (Github) {
+            const searchWords = this.state.searchWords;
+            const keyword =`"${searchWords}"+topic:Dashpad`;
+            Github.search
             .repos({ q: keyword, per_page: 10, sort: 'stars' })
             .then(res => {
                 this.setState({ plugins: res.data.items });
             });
+        }
+
     }
 
     renderDashboard() {
@@ -56,6 +61,9 @@ export default class DashboardView extends Component {
                                 id="search-group"
                                 name="search-group"
                                 placeholder="Search plugins ..."
+                                onChange={(e) => {
+                                    this.setState({searchWords: e.target.value});
+                                }}
                             />
                             <InputGroupAddon addonType="append">
                                 <Button

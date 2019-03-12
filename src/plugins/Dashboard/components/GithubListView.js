@@ -3,7 +3,7 @@ import { ListGroupItem, Row, Col, Button, Progress } from 'reactstrap';
 import moment from 'moment';
 import { shell } from 'electron';
 import Native from 'libs/Native';
-
+import { GithubListItem } from './GithubListItem';
 const { ModuleHelper } = Native();
 
 export class GithubListView extends Component {
@@ -31,64 +31,9 @@ export class GithubListView extends Component {
         const { items } = this.props;
         const pluginList =
             items &&
-            items.map((content, index) => {
-                const updated_at = moment(content.updated_at);
-                console.log(updated_at.fromNow());
-                return (
-                    <Row key={index}>
-                        <Col>
-                            <ListGroupItem>
-                                <span className="d-flex justify-content-between">
-                                    <h3
-                                        className="text-primary cursor-pointer"
-                                        onClick={() => {
-                                            content.clone_url &&
-                                                shell.openExternal(
-                                                    content.clone_url
-                                                );
-                                        }}
-                                    >
-                                        {content.full_name}
-                                    </h3>
-                                    <span className="p-2">
-                                        <i className="fa fa-star fa-sm" />{' '}
-                                        {content.stargazers_count}
-                                    </span>
-                                </span>
-                                <p>{content.description}</p>
-                                <p className="text-right">
-                                    <b>Updated</b>: {updated_at.fromNow()}
-                                </p>
-                                {this.state.progressing && (
-                                    <Progress animated max="1" value="1" />
-                                )}
-                            </ListGroupItem>
-                        </Col>
-                        <Col md="2" className="align-self-center">
-                            <Button
-                                color="success"
-                                block
-                                onClick={() => {
-                                    this.doInstall(content);
-                                }}
-                            >
-                                {' '}
-                                Install{' '}
-                            </Button>
-                            <Button
-                                color="danger"
-                                block
-                                onClick={() => {
-                                    this.doUnInstall(content);
-                                }}
-                            >
-                                {' '}
-                                Uninstall{' '}
-                            </Button>
-                        </Col>
-                    </Row>
-                );
-            });
+            items.map((content, index) => (
+                <GithubListItem key={index} content={content} />
+            ));
 
         return pluginList;
     }

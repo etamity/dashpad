@@ -8,10 +8,7 @@ export default {
          state =  immutable(state).push(keyName, keyPath).value();
     },
     get: (keyName) => {
-        return _.get(state, keyName);
-    },
-    set: (keyName, value) => {
-        state = immutable(state).set(keyName, value).value();
+        return  _.get(state, keyName);
     },
     value: () => state,
     clear: () => {
