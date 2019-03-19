@@ -97,7 +97,6 @@ export class YMLComponent extends Component {
                     ? FieldType.INPUT
                     : obj.type;
                 newProps = { ...this.props, type: subType };
-                console.log('subType', subType);
                 if (subType.toUpperCase() === FieldType.BUTTON) {
                     return (
                         <FormGroup key={keyPath}>

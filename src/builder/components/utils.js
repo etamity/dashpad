@@ -77,8 +77,9 @@ export const ParseKeyPathVars = (keyPath, name, obj) => {
 export const EventsHook = (props, events) => {
     const { name, keyPath, type, obj } = props;
     return events.reduce((eventProps, next) => {
+        const _type = type && type.toUpperCase();
         eventProps[next] = e => {
-            if (next === 'onChange' && type === FieldType.INPUT) {
+            if (next === 'onChange' && _type === FieldType.INPUT) {
                 const keyPathFull = (keyPath + '.value');
                 const keyRefs = (keyPath + '.refs.value');
                 const keyPathRefs =  _.get(Store.getState().app.uiSchema, keyRefs);
@@ -94,7 +95,7 @@ export const EventsHook = (props, events) => {
                     value: e.target.value,
                 });
             }
-            if (next === 'onClick' && type === ContentType.LINK) {
+            if (next === 'onClick' && _type === ContentType.LINK) {
                 obj.link && shell.openExternal(obj.link);
             }
             VM.func(
