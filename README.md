@@ -1,12 +1,12 @@
 # Dashpad
 
-A hackable universal dashboard framework for your desktop task automation and vistualise tooling.
+A hackable universal dashboard framework for your desktop task automation and visualise tooling.
 
 [docs](https://etamity.github.io/dashpad/)
 
 ## Video Demo
 
-[![Screens](https://github.com/etamity/dashpad/blob/master/screenshots/Screenshot-1.png?raw=true)](https://youtu.be/TMYI7pmLVLM)
+[![Screens](https://github.com/etamity/dashpad/blob/master/screenshots/Screenshot-1.png?raw=true)](https://youtu.be/xdE6z8N6nyw)
 
 [Tutorial Module](https://github.com/etamity/dashpad-tutorial)
 
