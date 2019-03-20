@@ -136,6 +136,31 @@ Dashpad will parse `Tabs_mytabs` as `Tabs` component and the component name is `
 
 ## Components
 
+-   #### **[Container](#container)**
+-   #### **[Tabs](#tabs)**
+-   #### **[Card](#card)**
+-   #### **[Collapse](#collapse)**
+-   #### **[Form](#form)**
+-   #### **[Row](#row)**
+-   #### **[Button](#button)**
+-   #### **[Input](#input)**
+-   #### **[Field](#field)**
+-   #### **[Checkbox](#checkbox)**
+-   #### **[Radio](#radio)**
+-   #### **[Link](#link)**
+-   #### **[Select](#select)**
+-   #### **[Switch](#switch)**
+-   #### **[Badge](#badge)**
+-   #### **[Markdown](#markdown)**
+-   #### **[List](#list)**
+-   #### **[Html](#html)**
+-   #### **[Table](#table)**
+-   #### **[Buttongroup](#buttongroup)**
+-   #### **[Progress](#progress)**
+-   #### **[Text](#text)**
+
+---
+
 -   ### **Container**
 
 ```yaml
