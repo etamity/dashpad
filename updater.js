@@ -32,7 +32,7 @@ const pullUpdate = () => {
     return new Promise((resolve, reject) => {
         let currentPath = process.cwd();
         let command = `cd ${currentPath}`;
-        command = `${command} && git pull`;
+        command = `${command} && git pull --allow-unrelated-histories`;
         const child = shell.exec(command, { async: true });
         child.stdout.on('data', result => {
             console.log(result);
