@@ -118,6 +118,7 @@ Tabs_1:
                         title: 'Notification title',
                         message: 'Notification message'
                         });
+                        console.log('e', e, 'this', this);
                     }
 ```
 
@@ -150,7 +151,6 @@ Container:
 ```yaml
 Tabs:
     activeTab: 0
-    onMount: console.log('component is mounted!')
     Card_1:
         label: tab1
     Card_2:
@@ -450,7 +450,9 @@ Buttongroup:
     className: d-flex
     childClassName: m-1
     onClick: >
-        console.log('test group', this.e.target);
+        (e) => {
+            console.log('test group', this.e.target);
+        }
     items:
         - label: Button 1
         - label: Button 2
