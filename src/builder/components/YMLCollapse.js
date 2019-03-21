@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Collapse } from 'reactstrap';
 
 import { YMLComponent } from './index';
 import { EventsHook, getTypes, PropsFilter } from './utils';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = [
     'isOpen',
@@ -22,7 +23,7 @@ const allowedEvents = [
     'onExited'
 ];
 
-export class YMLCollapseView extends Component {
+export class YMLCollapseView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const controls = getTypes(obj).map(({name, type}, index) => {

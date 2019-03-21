@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { YMLComponent } from './YMLComponent';
 import TabView from 'components/TabView';
 import { getTypes } from './utils';
 import VM from 'libs/VM';
-export class YMLTabsView extends Component {
+import { YMLBase } from './YMLBase';
+
+export class YMLTabsView extends YMLBase {
     componentWillMount() {
         const { obj } = this.props;
         obj && obj.onWillMount && VM.run(obj.onWillMount);

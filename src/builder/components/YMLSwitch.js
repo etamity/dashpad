@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Label, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 import { PropsFilter, EventsHook } from './utils';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = [
     'variant',
@@ -17,7 +18,7 @@ const allowedProps = [
 
 const allowedEvents = ['onClick', 'onChange'];
 
-export class YMLSwitchView extends Component {
+export class YMLSwitchView extends YMLBase {
 
     render() {
         const { name, keyPath, obj } = this.props;

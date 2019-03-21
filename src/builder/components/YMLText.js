@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { EventsHook } from './utils';
+import { YMLBase } from './YMLBase';
+
 const textClass = obj => {
     return classNames(
         obj.tag,
@@ -15,7 +17,7 @@ const textClass = obj => {
 };
 
 const allowedEvents = ['onClick'];
-export class YMLTextView extends Component {
+export class YMLTextView extends YMLBase {
 
     render() {
         const { keyPath, obj } = this.props;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     FormGroup,
     FormText,
@@ -11,8 +11,9 @@ import {
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';
 import { PropsFilter, EventsHook } from './utils';
+import { YMLBase } from './YMLBase';
 
-export class YMLInputGroupView extends Component {
+export class YMLInputGroupView extends YMLBase {
     render() {
         const { obj } = this.props;
         return obj.map(item => {
@@ -61,7 +62,7 @@ const allowedProps = [
 
 const allowedEvents = ['onClick', 'onChange'];
 
-export class YMLInputView extends Component {
+export class YMLInputView extends YMLBase {
 
     render() {
         const { keyPath, obj } = this.props;

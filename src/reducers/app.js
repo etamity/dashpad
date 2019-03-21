@@ -141,6 +141,7 @@ export default function update(state = initState, action) {
         case AppEventType.ON_LOAD_UI:
             const { ymlPath } = payload;
             const { ContentHelper } = Native();
+            KeyPathManager.clear();
             const uiSchema = ContentHelper.loadJson(ymlPath);
             const packageInfo = updatePackageInfo(ymlPath);
             newState = immutable(state)

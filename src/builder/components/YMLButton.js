@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { PropsFilter, EventsHook } from './utils';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import { YMLBase } from './YMLBase';
 
 const brandClass = (brand, icon, className) => {
     return {
@@ -39,9 +42,11 @@ const allowedEvents = [
     'onClick'
 ];
 
-export class YMLButtonView extends Component {
+export class YMLButtonView extends YMLBase {
     render() {
+
         const { keyPath, obj, children } = this.props;
+        console.log('render button', this.props.name );
         const brand = brandClass(obj.brand, obj.icon, obj.className);
         const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
@@ -70,7 +75,16 @@ export class YMLButtonView extends Component {
                 </DropdownItem>
             );
         }
-
         return ButtonClass;
     }
 }
+
+const mapStateToProps = (state, props) => {
+    console.log(props, _.get(state.app.uiSchema, props.keyPath));
+    return {
+        ...props,
+        obj: _.get(state.app.uiSchema, props.keyPath),
+    };
+};
+
+export const YMLButton = connect(mapStateToProps)(YMLButtonView);

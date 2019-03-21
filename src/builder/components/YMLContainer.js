@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container } from 'reactstrap';
 
 import { YMLComponent } from './index';
 import { getTypes } from './utils';
+import { YMLBase } from './YMLBase';
 
-export class YMLContainerView extends Component {
+export class YMLContainerView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const controls = getTypes(obj).map(({name, type}, index) => {

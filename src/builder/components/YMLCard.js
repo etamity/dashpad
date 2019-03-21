@@ -3,8 +3,9 @@ import { Row, Col, Label, Card, CardHeader, CardBody } from 'reactstrap';
 import _ from 'lodash';
 import { YMLComponent } from './index';
 import { getTypes } from './utils';
+import { YMLBase } from './YMLBase';
 
-export class YMLCardHeaderView extends Component {
+export class YMLCardHeaderView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const childComps = getTypes(obj).map(({name, type}, index) => {

@@ -48,8 +48,7 @@ class TabView extends Component {
                         {label && (
                             <h6
                                 style={{
-                                    textTransform: 'capitalize',
-                                    cursor: 'default',
+                                    textTransform: 'capitalize'
                                 }}
                             >
                                 {label}

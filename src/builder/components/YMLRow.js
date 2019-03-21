@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, Col, FormGroup } from 'reactstrap';
 import { YMLComponent } from './YMLComponent';
 import { getTypes, PropsFilter } from './utils';
 import classNames from 'classnames';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = ['noGutters', 'fluid', 'data-'];
 
 const styles = (style) => classNames(style);
-export class YMLRowView extends Component {
+export class YMLRowView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
 

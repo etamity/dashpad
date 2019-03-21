@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Form,
 } from 'reactstrap';
@@ -6,6 +6,7 @@ import { getTypes, PropsFilter } from './utils';
 import {
     YMLComponent
 } from './index';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = [
     'action',
@@ -14,7 +15,7 @@ const allowedProps = [
     'data-'
 ];
 
-export class YMLFormView extends Component {
+export class YMLFormView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const pickedProps = PropsFilter(this.props, allowedProps);

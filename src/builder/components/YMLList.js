@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     ListGroup,
     ListGroupItem,
@@ -8,13 +8,13 @@ import {
 } from 'reactstrap';
 import _ from 'lodash';
 import { PropsFilter } from './utils';
-
+import { YMLBase } from './YMLBase';
 import { YMLBadgeView } from './index';
 
 import classNames from 'classnames';
 
 const allowedProps = ['action', 'disabled', 'tag', 'href', 'color', 'active', 'data-'];
-export class YMLListView extends Component {
+export class YMLListView extends YMLBase {
     render() {
         const { name, type, keyPath, obj } = this.props;
         const { items } = obj;

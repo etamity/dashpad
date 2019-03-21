@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FormGroup } from 'reactstrap';
 import { ParseKeyPathVars } from './utils';
+import { YMLBase } from './YMLBase';
 
 import {
     YMLTabsView,
@@ -33,7 +34,7 @@ import { ContentType, ContainerType, FieldType, InputType } from './Constants';
 const isInputType = type =>
     !!(type && Object.keys(InputType).includes(type.toUpperCase()));
 
-export class YMLComponent extends Component {
+export class YMLComponent extends YMLBase {
     render() {
         const { name, type, keyPath, obj } = this.props;
         const uniqueKeyPath = keyPath ? `${keyPath}.${name}` : name;

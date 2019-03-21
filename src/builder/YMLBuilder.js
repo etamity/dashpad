@@ -7,7 +7,6 @@ import { Container } from 'reactstrap';
  * Yaml file entry parser
  */
 export class YMLBuilder extends Component {
-
     render() {
         const { schema } = this.props;
         return (

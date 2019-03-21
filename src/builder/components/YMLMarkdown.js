@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Prism from 'prismjs';
+import { YMLBase } from './YMLBase';
 
-class Markdown extends Component {
+class Markdown extends YMLBase {
     componentDidMount() {
         Prism.highlightAll();
     }
@@ -15,7 +16,7 @@ class Markdown extends Component {
         return <ReactMarkdown source={this.props.source} escapeHtml={false} />;
     }
 }
-export class YMLMarkdownView extends Component {
+export class YMLMarkdownView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         return (

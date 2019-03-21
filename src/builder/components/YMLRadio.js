@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter } from './utils';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = ['name', 'id', 'type', 'bsSize', 'state', 'valid', 'plaintext', 'addon', 'data-'];
 
-export class YMLRadioView extends Component {
+export class YMLRadioView extends YMLBase {
  render() {
     const { keyPath, obj } = this.props;
     const options =

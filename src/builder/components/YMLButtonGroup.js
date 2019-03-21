@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Row, ButtonDropdown, ButtonGroup, ButtonToolbar, FormGroup, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { ButtonGroupType } from './Constants';
 import { YMLButtonView } from './index';
-export class YMLButtonGroupView extends Component {
+import { YMLBase } from './YMLBase';
+
+export class YMLButtonGroupView extends YMLBase {
     constructor(props) {
         super(props);
     

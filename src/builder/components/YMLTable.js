@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Table, FormGroup} from 'reactstrap';
 import { PropsFilter } from './utils';
+import { YMLBase } from './YMLBase';
+
 const allowedProps = ['responsive', 'striped'];
 
-export class YMLTableView extends Component {
+export class YMLTableView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const assignProps = PropsFilter(this.props, allowedProps);

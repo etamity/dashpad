@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FormGroup } from 'reactstrap';
-export class YMLHtmlView extends Component {
+import { YMLBase } from './YMLBase';
+
+export class YMLHtmlView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         return (

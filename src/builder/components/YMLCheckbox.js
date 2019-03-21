@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter, EventsHook } from './utils';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = [
     'name',
@@ -14,7 +15,8 @@ const allowedProps = [
     'data-',
 ];
 const allowedEvents = ['onClick'];
-export class YMLCheckboxView extends Component {
+
+export class YMLCheckboxView extends YMLBase {
  
     render() {
         const { keyPath, obj } = this.props;

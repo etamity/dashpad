@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter } from './utils';
+import { YMLBase } from './YMLBase';
 
 const allowedProps = ['name', 'id', 'multiple', 'type','bsSize', 'state', 'valid', 'plaintext', 'addon', 'data-'];
 
-export class YMLSelectView extends Component {
+export class YMLSelectView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const id = `${obj.multiple ? 'multiple-' : ''}select-` + keyPath;
