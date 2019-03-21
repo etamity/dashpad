@@ -44,9 +44,7 @@ const allowedEvents = [
 
 export class YMLButtonView extends YMLBase {
     render() {
-
         const { keyPath, obj, children } = this.props;
-        console.log('render button', this.props.name );
         const brand = brandClass(obj.brand, obj.icon, obj.className);
         const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
