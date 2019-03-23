@@ -1,6 +1,6 @@
 const pathHelper = require('./path-helper');
 const fileManager = require('../../libs/file-manager');
-const loadJson = fileManager.loadJson;
+const { loadJson , loadFile, isExist } = fileManager;
 
 const loadConfigs = () =>
     pathHelper.getAllDashConfigFiles().map(packageModule =>
@@ -31,5 +31,7 @@ module.exports = {
     loadConfigs,
     loadNavs,
     loadJson,
+    loadFile,
     loadPackageJson,
+    isExist
 };

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state => {
     return {
-        uiSchema: state.app.uiSchema,
+        uiSchema: state.app.uiSchema
     };
 };
 

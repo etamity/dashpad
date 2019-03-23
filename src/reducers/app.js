@@ -13,6 +13,7 @@ const {
     BackendStore,
     ProcessManager,
     Notifier,
+    ContentHelper
 } = Native();
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
 
@@ -140,16 +141,32 @@ export default function update(state = initState, action) {
             break;
         case AppEventType.ON_LOAD_UI:
             const { ymlPath } = payload;
-            const { ContentHelper } = Native();
             KeyPathManager.clear();
             const uiSchema = ContentHelper.loadJson(ymlPath);
             const packageInfo = updatePackageInfo(ymlPath);
+            const { filePath } = packageInfo;
+            const jsFilePath = filePath && filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
+   
+            if (ContentHelper.isExist(jsFilePath)) {
+                const jsScript = ContentHelper.loadFile(jsFilePath);
+                VM.buildVmScope(jsScript);
+            } else {
+                VM.buildVmScope('"";\n');
+            }
+            
             newState = immutable(state)
                 .set(SchemaKeys.UISCHEMA, uiSchema)
                 .value();
             newState = immutable(newState)
                 .set('packageInfo', packageInfo)
                 .value();
+            break;
+        case AppEventType.ON_LOAD_SCRIPT:
+            const { jsPath } = payload;
+            if (ContentHelper.isExist(jsPath)) {
+                const jsScript = ContentHelper.loadFile(jsPath);
+                VM.buildVmScope(jsScript);
+            }
             break;
         case UIEventType.UPDATE_UI_STATE:
             if (_.isArray(payload)) {
@@ -276,6 +293,13 @@ export const AppAction = {
             type: AppEventType.ON_LOAD_UI,
             payload: { ymlPath },
         };
+        Store.dispatch(action);
+    },
+    loadScript: jsPath => {
+        const action = {
+            type: AppEventType.ON_LOAD_SCRIPT,
+            payload: { jsPath }
+        }
         Store.dispatch(action);
     },
     loadProcessesList: children => {

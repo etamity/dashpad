@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { connect } from 'react-redux';
 import VM from 'libs/VM';
 import KeyPathManager from 'libs/KeyPathManager';
 import { AppAction } from 'reducers/app';
@@ -40,15 +39,6 @@ const specialCharacters = [
     '}',
     '~',
 ];
-export const dynamicMapRedux = (props, component) => {
-    const propsKey = Object.keys[props];
-    const mapStateToProps = state => {
-        return {
-            ...propsKey,
-        };
-    };
-    return connect(mapStateToProps)(component);
-};
 
 export const PropsFilter = (props, filters) => {
     const { obj } = props;
@@ -57,19 +47,49 @@ export const PropsFilter = (props, filters) => {
             !_.isObject(val) && filters.some(filter => key.indexOf(filter) > -1)
         );
     });
+}; 
+
+const getVarsValue = (val) => {
+    const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
+    return _.get(
+        Store.getState().app.uiSchema,
+        `$vars.${keyName}`
+    ) || val ;
+}
+
+const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
+    if (_.isString(val) && val.indexOf('${') > -1) {
+        const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
+        const defualtVal = getVarsValue(val);
+        if (!obj.refs) {
+            obj.refs = {};
+        }
+        obj.refs[key] = keyName;
+        obj[key] = defualtVal;
+        KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
+
+    } else if (_.isArray(val)) {
+        const items = val.map((iValue, index) => {
+            if (!!key && _.isString(iValue) && iValue.indexOf('${') > -1) {
+                const keyName = iValue.slice(iValue.indexOf('${') + 2, iValue.indexOf('}'));
+                if (!obj.refs) {
+                    obj.refs = {};
+                }
+                obj.refs[`${key}.${index}`] = keyName;
+                KeyPathManager.push(keyName, `${keyPath}.${name}.${key}.${index}`);
+                const defaultVal = getVarsValue(iValue);
+                return defaultVal;
+            }
+            return iValue;
+        });
+        obj[key] = items;
+    }
 };
 
 export const ParseKeyPathVars = (keyPath, name, obj) => {
     _.forEach(obj, (val, key) => {
-        if (val && _.isString(val) && val.indexOf('${') > -1) {
-            const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
-            const defualtVal = _.get(Store.getState().app.uiSchema, `$vars.${keyName}`);
-            if (!obj.refs) {
-                obj.refs = {};
-            }
-            obj.refs[key] = keyName;
-            obj[key] = defualtVal;
-            KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
+        if (!!val && !_.isEmpty(val)) {
+            addVarsToKeyPathManager(val, key, keyPath, name, obj);
         }
     });
 };
@@ -80,10 +100,13 @@ export const EventsHook = (props, events) => {
         const _type = type && type.toUpperCase();
         eventProps[next] = e => {
             if (next === 'onChange' && _type === FieldType.INPUT) {
-                const keyPathFull = (keyPath + '.value');
-                const keyRefs = (keyPath + '.refs.value');
-                const keyPathRefs =  _.get(Store.getState().app.uiSchema, keyRefs);
-  
+                const keyPathFull = keyPath + '.value';
+                const keyRefs = keyPath + '.refs.value';
+                const keyPathRefs = _.get(
+                    Store.getState().app.uiSchema,
+                    keyRefs
+                );
+
                 if (keyPathRefs) {
                     AppAction.updateUIState({
                         keyPath: `$vars.${keyPathRefs}`,
@@ -98,15 +121,15 @@ export const EventsHook = (props, events) => {
             if (next === 'onClick' && _type === ContentType.LINK) {
                 obj.link && shell.openExternal(obj.link);
             }
-            VM.func(
+            VM.run(
                 obj[next],
                 {
-                    props: Object.create({
+                    props: {
                         obj,
                         type,
                         keyPath,
                         name,
-                    }),
+                    },
                 },
                 e
             );

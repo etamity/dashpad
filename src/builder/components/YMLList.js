@@ -13,7 +13,15 @@ import { YMLBadgeView } from './index';
 
 import classNames from 'classnames';
 
-const allowedProps = ['action', 'disabled', 'tag', 'href', 'color', 'active', 'data-'];
+const allowedProps = [
+    'action',
+    'disabled',
+    'tag',
+    'href',
+    'color',
+    'active',
+    'data-',
+];
 export class YMLListView extends YMLBase {
     render() {
         const { name, type, keyPath, obj } = this.props;
@@ -22,27 +30,30 @@ export class YMLListView extends YMLBase {
             items &&
             items.map((item, index) => {
                 const parseContent = content => {
-                    const view = (
-                        <React.Fragment>
-                            {content.title && (
-                                <ListGroupItemHeading>
-                                    <div>{content.title} </div>
-                                </ListGroupItemHeading>
-                            )}
-                            {content.description && (
-                                <ListGroupItemText>
-                                    {content.description}
-                                </ListGroupItemText>
-                            )}
-                        </React.Fragment>
-                    );
-                    return _.isObject(item.content) ? view : item.content;
+                    if (_.isPlainObject(item.content)) {
+                        const view = (
+                            <React.Fragment>
+                                {content.title && (
+                                    <ListGroupItemHeading>
+                                        <div>{content.title} </div>
+                                    </ListGroupItemHeading>
+                                )}
+                                {content.description && (
+                                    <ListGroupItemText>
+                                        {content.description}
+                                    </ListGroupItemText>
+                                )}
+                            </React.Fragment>
+                        );
+                        return view;
+                    }
+                    return item.content;
                 };
 
                 let content = item;
                 let classes = {};
                 let newProps = {};
-                if (_.isObject(item)) {
+                if (_.isPlainObject(item)) {
                     content = parseContent(item.content);
                     classes = {
                         itemClass: classNames({
@@ -69,7 +80,8 @@ export class YMLListView extends YMLBase {
                         className={classes.itemClass}
                         {...assignProps}
                     >
-                        {content} {item.Badge && <YMLBadgeView {...newProps} />}
+                        {content}{' '}
+                        {item && item.Badge && <YMLBadgeView {...newProps} />}
                     </ListGroupItem>
                 );
             });

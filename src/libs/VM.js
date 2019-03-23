@@ -1,14 +1,24 @@
 const FundationTypes =
-    'setInterval,window,__cjsWrapper,require,__core-js_shared__,setTimeout,console,true,false,Array,ArrayBuffer,Boolean,Collator,DataView,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,document';
+    'setInterval,__cjsWrapper,require,__core-js_shared__,setTimeout,console,true,false,Array,ArrayBuffer,Boolean,Collator,DataView,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,document';
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
 var ARGUMENT_NAMES = /([^\s,]+)/g;
+
+const VMScope = () => {
+    return {
+        run: function(code) {
+            eval(code);
+        },
+        runEvent: function(code, e) {
+            eval(code);
+        },
+    };
+};
 
 class VM {
     constructor(context) {
         this.context = context || {};
         this.globals = this.context.globals || [];
         this.preloadCode = [];
-        this.events = {};
     }
 
     sandbox(code, ctx, funcParams) {
@@ -50,7 +60,7 @@ class VM {
                 Function,
                 context
             ))(); // create the sandbox function
-            context = Array.prototype.concat.call(that, args);  // create the argument list for the sandbox
+            context = Array.prototype.concat.call(that, args); // create the argument list for the sandbox
 
             let sandbox = Function.prototype.bind.apply(
                 sandboxContext,
@@ -68,11 +78,34 @@ class VM {
     addCode(code) {
         this.preloadCode.push(code);
     }
+
+    buildVmScope(code, ctx, args) {
+        if (!code) return;
+        const allCode = [this.getCode(), code, `return ${VMScope.toString()}()`].join('\n');
+        this.context.vm = this.sandbox(allCode, ctx, args)();
+    }
+
     run(code, ctx, args) {
         if (!code) return;
-        const allCode = [this.getCode(), code].join('\n');
-        this.sandbox(allCode, ctx, args)();
+        const isFunc = this.checkIfFunction(code);
+        if (isFunc) {
+            const argNames = this.getParamNames(code);
+            let funcBody = code.slice(code.indexOf('=>') + 2);
+            funcBody = funcBody
+                .slice(funcBody.indexOf('{') + 1, funcBody.lastIndexOf('}'))
+                .trim();
+
+            if (argNames.length > 0) {
+                this.context.vm.runEvent.call(ctx, funcBody, args);
+            } else {
+                this.context.vm.run.call(ctx, funcBody);
+            }
+        } else {
+            this.context.vm.run.call(ctx, code);
+            console.error('No defined function assign to an event !', arguments[1]);
+        }
     }
+
     getParamNames(func) {
         const fnStr = func.toString().replace(STRIP_COMMENTS, '');
         let result = fnStr
@@ -103,26 +136,7 @@ class VM {
     checkIfFunction(code) {
         return code.indexOf('function') > -1 || code.indexOf('=>') > -1;
     }
-    func(code, ctx, args) {
-        if (!code) return;
-        const isFunc = this.checkIfFunction(code);
-        if (isFunc) {
-            const argNames = this.getParamNames(code);
-            let funcBody = code.slice(code.indexOf('=>') + 2);
-            funcBody = funcBody
-                .slice(funcBody.indexOf('{') + 1, funcBody.lastIndexOf('}'))
-                .trim();
 
-            if (argNames.length > 0) {
-                this.run(funcBody, ctx, { [argNames]: args });
-            } else {
-                this.run(funcBody, ctx);
-            }
-        } else {
-            this.run(code, ctx);
-            console.error('No defined function assign to an event !');
-        }
-    }
     addGlobal(name, obj) {
         this.globals[name] = obj;
     }

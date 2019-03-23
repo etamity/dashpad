@@ -7,6 +7,7 @@ const AppEventType = keyMirror({
     ON_WINDOW_ACTIVE: null,
     ON_LOAD_NAVS: null,
     ON_LOAD_UI: null,
+    ON_LOAD_SCRIPT: null,
     ON_LOAD_PROCESSES_CHILD: null,
     ON_BACKEND_ERROR: null,
     UPDATE_CURRENT_PACKAGE: null,

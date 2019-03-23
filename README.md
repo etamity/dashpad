@@ -103,9 +103,9 @@ Create `_dash/ui.yaml` file and fill the ui schema:
 
 ```yaml
 ---
-Tabs_1:
+Tabs:
     activeTab: 0
-    Card_1:
+    Card:
         label: The first Tab
         Header:
             title: A registration form
@@ -125,6 +125,51 @@ Tabs_1:
 and now you go back to dashpad and click side menu `My First Module`, you will see new you ui has been created.
 
 if you click `Notification` button, you will recevie a notification.
+
+### **Note**
+
+If you want to split the js code from yml file into a external js file,  you can just create a js file with exact same name as yaml file, and write logic or function in that js file, Dashpad will preload the code for yaml file usage.
+
+e.g
+
+You `_dash/ui.yaml` file already and you create another js file `_dash/ui.js`, then you can write js code in the file.
+
+> ui.js
+``` js
+const onTabsMount = () => {
+    console.log('Tab Mounted');
+}
+
+const onTabsChanged = () => {
+    console.log('Tab Changed');
+}
+
+console.log('This code is loaded');
+
+```
+
+and then you can call `onTabsMount` in component events, such as `onClick`, `onMount`, `onWillMount` etc.
+
+```yaml
+---
+Tabs:
+    activeTab: 0
+    onMount: >
+        (e) => {
+            onTabsMount();
+        }
+    onChange: >
+        (e) => {
+            onTabsChanged();
+        }
+    Card:
+        label: The first Tab
+
+        Header:
+            title: A registration form
+```
+
+Now you check the console, will find message `'This code is loaded'` is there, and then is `'Tab Mounted'`, if you change the tab will see the output `'Tab Changed'`.
 
 ## UI Schema
 
@@ -759,19 +804,6 @@ e.g.
 
 ```js
 Dashpad.run('index.js', { obj: 'hey, node can get this parameter!' });
-```
-
--   ### **loadScript** (In Yaml file only)
-
-load UI scirpt from yml file
-
-e.g.
-
-`Dashpad.loadScript(uiScript);`
-
-```js
-Dashpad.loadScript('onMount.js'); // OR
-loadScript('onMount.js');
 ```
 
 ## Github API

@@ -7,6 +7,7 @@ import { Container } from 'reactstrap';
  * Yaml file entry parser
  */
 export class YMLBuilder extends Component {
+
     render() {
         const { schema } = this.props;
         return (
@@ -18,7 +19,7 @@ export class YMLBuilder extends Component {
                         obj: schema[name],
                     };
                     return (
-                        <Container key={name + index} className="animated fadeIn">
+                        <Container key={type + '_' + index + '_' + name} className="animated fadeIn">
                             <YMLComponent {...newProps} />
                         </Container>
                     );

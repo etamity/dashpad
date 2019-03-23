@@ -24,6 +24,9 @@ module.exports = {
     deleteFoler: path => {
         return shell.exec(`rm -rf ${path}`);
     },
+    loadFile: path => {
+        return fs.readFileSync(nodePath.resolve(path), 'utf8');
+    },
     loadJsonDb: path => {
         const dir = nodePath.resolve(path.substring(0, path.lastIndexOf('/')));
         if (!fse.existsSync(dir)) {

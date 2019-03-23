@@ -2,22 +2,24 @@ import React from 'react';
 import { YMLComponent } from './YMLComponent';
 import TabView from 'components/TabView';
 import { getTypes } from './utils';
-import VM from 'libs/VM';
 import { YMLBase } from './YMLBase';
+import { PropsFilter, EventsHook } from './utils';
+
+const allowedProps = [
+    'disabled',
+    'data-',
+];
+
+const allowedEvents = [
+    'onChange'
+];
 
 export class YMLTabsView extends YMLBase {
-    componentWillMount() {
-        const { obj } = this.props;
-        obj && obj.onWillMount && VM.run(obj.onWillMount);
-    }
-    componentDidMount() {
-        const { obj } = this.props;
-        obj && obj.onMount && VM.run(obj.onMount);
-    }
-
     render() {
         const { keyPath, obj } = this.props;
         let tabs = {};
+        const assignProps = PropsFilter(this.props, allowedProps);
+        const assignEvents = EventsHook(this.props, allowedEvents);
         getTypes(obj).forEach(({name, type}, index) => {
             const nameTypeArr = (name && name.split('_')) || ['No_Name'];
             const props = obj[name];
@@ -37,8 +39,10 @@ export class YMLTabsView extends YMLBase {
         return (
             <TabView
                 key={keyPath}
-                activeTab={obj.selected || 0}
+                activeTab={obj.activeTab || 0}
                 tabs={tabs}
+                {...assignProps}
+                {...assignEvents}
             />
         );
     }

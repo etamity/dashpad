@@ -20,16 +20,20 @@ const requireNoCache = function(filePath) {
     return require(filePath);
 };
 
-
+const watchYamlFile = path.join(pathHelper.PACKAGES, '/**/*.yml');
+const watchJsFile = path.join(pathHelper.PACKAGES, '/**/*.js');
 
 if (!production) {
     const chokidar = require('chokidar');
-    const watcher = chokidar.watch(['./backend/**/*.js', path.join(pathHelper.PACKAGES, '/**/*.yml')],  {
-        ignored: ['node_modules']
-      });
+    const watcher = chokidar.watch(
+        ['./backend/**/*.js', watchYamlFile, watchJsFile],
+        {
+            ignored: ['node_modules'],
+        }
+    );
     watcher.on('ready', () => {
         watcher.on('change', filePath => {
-            if (filePath.includes('backend/')) {
+            if (filePath.includes('/backend/')) {
                 log.warn('Clearing /backend module cache from server');
                 requireNoCache(path.resolve(filePath));
                 // Object.keys(require.cache).forEach((id) => {
@@ -40,25 +44,32 @@ if (!production) {
                 // });
                 //app.exit(0);
                 //npxSync('node', ['electron/wait-react.js'], { cwd, stdio: 'inherit' })
-          
+
                 log.info('Reloaded:', filePath);
             }
-
-            if (filePath.includes('.yml')) {
-                console.log('Reload ... UI files', filePath);
+            if (filePath.includes('/packages/')) {
                 const contentLoader = requireNoCache(
                     './backend/app/content-loader.js'
                 );
-        
-                contentLoader.reloadConfig();
-        
-                if (!filePath.includes('config.yml')) {
-                    contentLoader.reloadUISchema(filePath);
-                }
-        
-                log.info('Reloaded:', filePath);
-            }
 
-        })
+                if (filePath.includes('.yml')) {
+                    console.log('Reload ... UI files', filePath);
+
+                    contentLoader.reloadConfig();
+
+                    if (!filePath.includes('config.yml')) {
+                        contentLoader.reloadUISchema(filePath);
+                    }
+
+                    log.info('Reloaded:', filePath);
+                } else if (
+                    filePath.includes('/_dash/') &&
+                    filePath.includes('.js')
+                ) {
+                    console.log('Reload ... JS files', filePath);
+                    contentLoader.reloadScript(filePath);
+                }
+            }
+        });
     });
 }

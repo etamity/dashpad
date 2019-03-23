@@ -1,8 +1,7 @@
 const ContentHelper = require('./helpers/content-helper');
 const WebContent = require('./web-content');
 const { AppEventType, ActionEventType } = require('./constants');
-const FileManager = require('../libs/file-manager');
-const path = require('path');
+
 const reloadConfig = () => {
     const navs = ContentHelper.loadNavs();
     if (navs) {
@@ -23,14 +22,17 @@ const reloadUISchema = ymlPath => {
 }
 
 
-const loadScript = jsPath => FileManager.read(jsPath)
-
-const loadJson = jsonPath => FileManager.loadJson(path.resolve(jsonPath))
+const reloadScript = jsPath => {
+    const action = {
+        type: AppEventType.ON_LOAD_SCRIPT,
+        payload: { jsPath }
+    }
+    WebContent.sendToUI(ActionEventType, action);
+}
 
 
 module.exports = {
+    reloadScript,
     reloadConfig,
     reloadUISchema,
-    loadScript,
-    loadJson
 };
