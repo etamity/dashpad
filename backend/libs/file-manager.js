@@ -3,7 +3,7 @@ const fse = require('fs-extra');
 const shell = require('shelljs');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const yaml = require('js-yaml');
+const yaml = require('./yaml');
 const nodePath = require('path');
 const glob = require('glob');
 module.exports = {
@@ -41,7 +41,7 @@ module.exports = {
             if (ext === '.json') {
                 return fse.readJsonSync(resolvePath);
             } else if (ext === '.yml') {
-                return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'));
+                return yaml.load(resolvePath);
             } else {
                 return null;
             }

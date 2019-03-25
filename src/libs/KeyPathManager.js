@@ -10,6 +10,9 @@ export default {
     get: (keyName) => {
         return  _.get(state, keyName);
     },
+    isExist: (keyName) => {
+        return !!_.get(state, keyName);
+    },
     value: () => state,
     clear: () => {
         state = {};

@@ -3,6 +3,7 @@ import keyMirror from 'keymirror';
 export const ContainerType = keyMirror({
     CONTAINER: null,
     TABS: null,
+    TAB: null,
     CARD: null,
     FORM: null,
     HEADER: null,

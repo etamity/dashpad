@@ -171,6 +171,58 @@ Tabs:
 
 Now you check the console, will find message `'This code is loaded'` is there, and then is `'Tab Mounted'`, if you change the tab will see the output `'Tab Changed'`.
 
+## Yaml Spliting
+
+You can split your yaml file into sub component file, but you have to named the file start with `@filename.yml`, this is for recognising the file is component file, so when you update the component file, it will only re-render main entry file.
+
+e.g
+
+```yaml
+Tabs:
+    Tab_1: !import components/@Card_dashpad.yml
+    Tab_2: !import components/@Card_test.yml
+```
+
+## This Context
+
+You can access `this` ref in any events, such as `onClick`, `onMount`, `onWillMount` etc. 
+
+```yaml
+Container:
+    Collapse:
+      isOpen: true
+      List:
+        items:
+            - Some example text!
+            - another example text!
+    Button_1:
+      label: Get Context
+      position: left
+      brand: linkedin
+      onClick: >
+        (e) => {
+          console.log(this);
+
+          const brand = this.get('brand');
+
+          const isOpen = this.getSibling('Collapse.isOpen');
+
+          const newButtonLabel = (isOpen ? 'isOpen' : 'isClosed') 
+
+          this.set('label', newButtonLabel+ ' : ' + brand);
+
+          this.setSibling('Collapse.isOpen', !isOpen);
+        }
+```
+
+`this.props` refer to the event target itself, you can direct acces target's props, keypath, type, name etc.
+`this.get` refer to the event target itself, you can access target's props;
+`this.set` refer to the event target itself, you can set target's props value directly;
+`this.setSibling` refer to the event target sibling, you can set sibling's props value directly;
+`this.getSibling` refer to the event target sibling, you can get sibling's props value directly;
+
+**If you want to access parent node's props, the only way to access is to set $vars variables, make it global, as when you want to access cross tree node's state, it suppose to be global state.**
+
 ## UI Schema
 
 The yaml ui schema is a tree structure file, when dashpad parse the ui, it alwasy will look for the key name of the object, the format will look like `Type_name`. E.g. `Tabs_mytabs`
@@ -805,6 +857,34 @@ e.g.
 ```js
 Dashpad.run('index.js', { obj: 'hey, node can get this parameter!' });
 ```
+
+## VM Enviroment
+
+The reason to have js VM library is to avoid global scope poisioning. All yml (frontend) script will be running in a closure function.
+
+E.g
+
+``` js
+// VM filter the global object in frontend
+(function anonymous(window..., Dashpad
+) {
+"use strict";
+
+commonFunc('just loaded!!');
+
+return function VMScope() {
+  return {
+    run: function run(code) {
+      eval(code);
+    },
+    runEvent: function runEvent(code, e) {
+      eval(code);
+    }
+  };
+}()
+})
+```
+So all global objects are being filtered, `window` object will be `undefined`.
 
 ## Github API
 

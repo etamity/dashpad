@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import VM from 'libs/VM';
 import KeyPathManager from 'libs/KeyPathManager';
+import Context from './context';
 import { AppAction } from 'reducers/app';
 import { FieldType, ContentType } from './Constants';
 import { shell } from 'electron';
@@ -47,15 +48,15 @@ export const PropsFilter = (props, filters) => {
             !_.isObject(val) && filters.some(filter => key.indexOf(filter) > -1)
         );
     });
-}; 
+};
 
-const getVarsValue = (val) => {
+const getVarsValue = val => {
     const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
-    return _.get(
-        Store.getState().app.uiSchema,
-        `$vars.${keyName}`
-    );
-}
+    const isExist = KeyPathManager.isExist(keyName);
+    return isExist
+        ? _.get(Store.getState().app.uiSchema, `$vars.${keyName}`)
+        : val;
+};
 
 const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
     if (_.isString(val) && val.indexOf('${') > -1) {
@@ -67,16 +68,21 @@ const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
         obj.refs[key] = keyName;
         obj[key] = defualtVal;
         KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
-
     } else if (_.isArray(val)) {
         const items = val.map((iValue, index) => {
             if (!!key && _.isString(iValue) && iValue.indexOf('${') > -1) {
-                const keyName = iValue.slice(iValue.indexOf('${') + 2, iValue.indexOf('}'));
+                const keyName = iValue.slice(
+                    iValue.indexOf('${') + 2,
+                    iValue.indexOf('}')
+                );
                 if (!obj.refs) {
                     obj.refs = {};
                 }
                 obj.refs[`${key}.${index}`] = keyName;
-                KeyPathManager.push(keyName, `${keyPath}.${name}.${key}.${index}`);
+                KeyPathManager.push(
+                    keyName,
+                    `${keyPath}.${name}.${key}.${index}`
+                );
                 const defaultVal = getVarsValue(iValue);
                 return defaultVal;
             }
@@ -123,14 +129,7 @@ export const EventsHook = (props, events) => {
             }
             VM.run(
                 obj[next],
-                {
-                    props: {
-                        obj,
-                        type,
-                        keyPath,
-                        name,
-                    },
-                },
+                Context(props),
                 e
             );
         };

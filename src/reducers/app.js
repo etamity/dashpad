@@ -142,8 +142,10 @@ export default function update(state = initState, action) {
         case AppEventType.ON_LOAD_UI:
             const { ymlPath } = payload;
             KeyPathManager.clear();
-            const uiSchema = ContentHelper.loadJson(ymlPath);
-            const packageInfo = updatePackageInfo(ymlPath);
+            const resolvePath = ymlPath || state.packageInfo.filePath;
+            const packageInfo = updatePackageInfo(resolvePath);
+            const uiSchema = ContentHelper.loadJson(resolvePath);
+
             const { filePath } = packageInfo;
             const jsFilePath = filePath && filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
    

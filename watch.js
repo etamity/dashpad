@@ -58,7 +58,14 @@ if (!production) {
                     contentLoader.reloadConfig();
 
                     if (!filePath.includes('config.yml')) {
-                        contentLoader.reloadUISchema(filePath);
+                        const fileName = filePath.slice(
+                            filePath.lastIndexOf('/')
+                        );
+                        if (fileName.includes('@')) {
+                            contentLoader.reloadUISchema();
+                        } else {
+                            contentLoader.reloadUISchema(filePath);
+                        }
                     }
 
                     log.info('Reloaded:', filePath);

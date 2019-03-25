@@ -66,6 +66,7 @@ export class YMLComponent extends React.Component {
             case ContainerType.ROW:
                 return <YMLRowView {...newProps} />;
             case ContainerType.CARD:
+            case ContainerType.TAB:
                 return <YMLCardView {...newProps} />;
             case ContentType.LIST:
                 return <YMLListView {...newProps} />;
