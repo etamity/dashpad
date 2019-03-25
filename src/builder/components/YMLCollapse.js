@@ -36,9 +36,8 @@ export class YMLCollapseView extends YMLBase {
             };
             return <YMLComponent key={keyPath} {...childProps} />
         });
-        const assignProps = PropsFilter(obj, allowedProps);
+        const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
-
         return (
             <React.Fragment key={keyPath}>
                 <Collapse {...assignProps} {...assignEvents}>

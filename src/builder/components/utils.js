@@ -54,7 +54,7 @@ const getVarsValue = (val) => {
     return _.get(
         Store.getState().app.uiSchema,
         `$vars.${keyName}`
-    ) || val ;
+    );
 }
 
 const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
