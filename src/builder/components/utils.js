@@ -52,10 +52,7 @@ export const PropsFilter = (props, filters) => {
 
 const getVarsValue = val => {
     const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
-    const isExist = KeyPathManager.isExist(keyName);
-    return isExist
-        ? _.get(Store.getState().app.uiSchema, `$vars.${keyName}`)
-        : val;
+    return  _.get(Store.getState().app.uiSchema, `$vars.${keyName}`);
 };
 
 const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
