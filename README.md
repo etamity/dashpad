@@ -195,7 +195,7 @@ Container:
         items:
             - Some example text!
             - another example text!
-    Button_1:
+    Button:
       label: Get Context
       position: left
       brand: linkedin
@@ -216,9 +216,13 @@ Container:
 ```
 
 `this.props` refer to the event target itself, you can direct acces target's props, keypath, type, name etc.
+
 `this.get` refer to the event target itself, you can access target's props;
+
 `this.set` refer to the event target itself, you can set target's props value directly;
+
 `this.setSibling` refer to the event target sibling, you can set sibling's props value directly;
+
 `this.getSibling` refer to the event target sibling, you can get sibling's props value directly;
 
 **If you want to access parent node's props, the only way to access is to set $vars variables, make it global, as when you want to access cross tree node's state, it suppose to be global state.**
