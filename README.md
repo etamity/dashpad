@@ -179,9 +179,11 @@ e.g
 
 ```yaml
 Tabs:
-    Tab_1: !import components/@Card_dashpad.yml
-    Tab_2: !import components/@Card_test.yml
+    Slot_1: !import components/@Card_dashpad.yml
+    Slot_2: !import components/@Card_test.yml
 ```
+
+`Slot` is a warpper component which doesn't doing anything on appearance, it useful to organise structure or import sepreated file components.
 
 ## This Context
 
