@@ -21,3 +21,4 @@ export *  from './YMLButtonGroup';
 export *  from './YMLRow';
 export * from './YMLContainer';
 export * from './YMLCollapse';
+export * from './YMLSlot'

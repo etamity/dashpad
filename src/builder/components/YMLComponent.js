@@ -25,7 +25,8 @@ import {
     YMLButtonGroupView,
     YMLRowView,
     YMLContainerView,
-    YMLCollapseView
+    YMLCollapseView,
+    YMLSlotView
 } from './index';
 
 import { ContentType, ContainerType, FieldType, InputType } from './Constants';
@@ -68,6 +69,8 @@ export class YMLComponent extends React.Component {
             case ContainerType.CARD:
             case ContainerType.TAB:
                 return <YMLCardView {...newProps} />;
+            case ContainerType.SLOT:
+                return <YMLSlotView {...newProps} />;
             case ContentType.LIST:
                 return <YMLListView {...newProps} />;
             case ContentType.MARKDOWN:
