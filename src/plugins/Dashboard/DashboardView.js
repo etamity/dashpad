@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { Container, Card, CardBody } from 'reactstrap';
+import { Container, Card, CardBody, CardHeader } from 'reactstrap';
 import { renderRoutes } from 'react-router-config';
 import * as Pages from './pages';
 import SideMenus from './config/SideMenus';
 import TopMenus from './config/TopMenus';
 import { GithubListView } from './components/GithubListView';
-import {
-    Button,
-    Input,
-    InputGroup,
-    InputGroupAddon,
-} from 'reactstrap';
+import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 
 import { Dashpad } from 'store';
 
@@ -21,8 +16,7 @@ export default class DashboardView extends Component {
         this.doGithubAction = this.doGithubAction.bind(this);
         this.state = {
             searchWords: '',
-            plugins: [
-            ],
+            plugins: [],
         };
     }
     componentDidMount() {
@@ -40,20 +34,22 @@ export default class DashboardView extends Component {
         const { Github } = Dashpad.platform;
         if (Github) {
             const searchWords = this.state.searchWords;
-            const keyword =`"${searchWords}"+topic:Dashpad`;
+            const keyword = `"${searchWords}"+topic:Dashpad`;
             Github.search
-            .repos({ q: keyword, per_page: 10, sort: 'stars' })
-            .then(res => {
-                this.setState({ plugins: res.data.items });
-            });
+                .repos({ q: keyword, per_page: 10, sort: 'stars' })
+                .then(res => {
+                    this.setState({ plugins: res.data.items });
+                });
         }
-
     }
 
     renderDashboard() {
         return (
             <React.Fragment>
                 <Card>
+                    <CardHeader>
+                        IP: {this.props.ip}
+                    </CardHeader>
                     <CardBody>
                         <InputGroup>
                             <Input
@@ -61,8 +57,10 @@ export default class DashboardView extends Component {
                                 id="search-group"
                                 name="search-group"
                                 placeholder="Search plugins ..."
-                                onChange={(e) => {
-                                    this.setState({searchWords: e.target.value});
+                                onChange={e => {
+                                    this.setState({
+                                        searchWords: e.target.value,
+                                    });
                                 }}
                             />
                             <InputGroupAddon addonType="append">
@@ -88,13 +86,7 @@ export default class DashboardView extends Component {
     onLoad;
 
     render() {
-        const { route, location } = this.props;
-        const subRoutes =
-            route.routes &&
-            route.routes.filter(route => {
-                const pathArr = route.path.split('/');
-                return location.pathname.includes(pathArr[pathArr.length - 1]);
-            });
+        const { subRoutes } = this.props;
         const renderView =
             subRoutes.length > 0
                 ? renderRoutes(subRoutes)

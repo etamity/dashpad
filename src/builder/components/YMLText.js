@@ -18,7 +18,7 @@ const textClass = obj => {
 };
 
 const allowedEvents = [UIEvent.ON_CLICK];
-console.log('allowedEvents', allowedEvents);
+
 export class YMLTextView extends YMLBase {
 
     render() {

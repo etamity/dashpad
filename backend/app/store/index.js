@@ -6,7 +6,7 @@ let state = {
     app: {},
     version: {
         name: dashPackageInfo.name,
-        version: dashPackageInfo.version,
+        version: dashPackageInfo.version
     }
 };
 module.exports = {

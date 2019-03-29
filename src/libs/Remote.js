@@ -10,6 +10,8 @@ export const Remote = () => {
     const Notifier = remote.require('node-notifier');
     const DashpadApi = remote.require('../backend/app/context/dashpad_api.js');
     const ModuleHelper = remote.require('../backend/app/helpers/module_helper.js');
+    const Utils = remote.require('../backend/libs/utils.js');
+
     return {
         ProcessManager,
         ContentHelper,
@@ -20,7 +22,8 @@ export const Remote = () => {
         Config,
         Notifier,
         DashpadApi,
-        ModuleHelper
+        ModuleHelper,
+        Utils
     }
 
 }

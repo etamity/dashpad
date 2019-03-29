@@ -1,11 +1,11 @@
 require("util").inspect.defaultOptions.depth = null;
 const config = require('./backend/configs/config').value();
-
 const port = config.port;
 const express = require('express');
 const app = express();
 const packageJson = require('./package.json');
 const proxy = require('express-http-proxy');
+const server = require('http').createServer(app);
 
 function dynamic(lib) {
     return function (req, res, next) {
@@ -24,7 +24,14 @@ try {
 }
 app.use('/', proxy(packageJson.proxy));
 
+if (config.socket) {
+    const io = require('socket.io')(server);
+    io.on('connection', client => {
+        require('./backend/socket')(client);
+    });
+}
+
 console.log(`Api Server http://localhost:${port}/`);
-app.listen(port);
+server.listen(port);
 
 module.exports = app;

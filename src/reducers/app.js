@@ -13,7 +13,8 @@ const {
     BackendStore,
     ProcessManager,
     Notifier,
-    ContentHelper
+    ContentHelper,
+    Utils
 } = Native();
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
 
@@ -47,6 +48,9 @@ const initState = {
     packageInfo: null,
     modal: [],
     processes: [],
+    system: {
+        ip: Utils.getLocalIp()
+    }
 };
 
 BackendStore.set('app', JSON.parse(JSON.stringify(initState)));
