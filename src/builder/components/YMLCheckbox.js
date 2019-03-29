@@ -2,7 +2,7 @@ import React from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
-
+import { UIEvent } from './Constants';
 const allowedProps = [
     'name',
     'id',
@@ -14,7 +14,7 @@ const allowedProps = [
     'addon',
     'data-',
 ];
-const allowedEvents = ['onClick'];
+const allowedEvents = [UIEvent.ON_CLICK];
 
 export class YMLCheckboxView extends YMLBase {
  

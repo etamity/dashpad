@@ -3,6 +3,7 @@ import { Label, FormGroup, InputGroup, InputGroupAddon } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
+import { UIEvent } from './Constants';
 
 const allowedProps = [
     'variant',
@@ -16,7 +17,7 @@ const allowedProps = [
     'data-'
 ];
 
-const allowedEvents = ['onClick', 'onChange'];
+const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLSwitchView extends YMLBase {
 

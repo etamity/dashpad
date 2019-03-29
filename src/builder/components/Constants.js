@@ -56,3 +56,8 @@ export const ButtonGroupType = keyMirror({
     DROPDOWN: null,
     WRAP: null
 });
+
+export const UIEvent = ({
+    ON_CLICK: 'onClick',
+    ON_CHANGE: 'onChange',
+});

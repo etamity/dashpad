@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { PropsFilter, EventsHook } from './utils';
+import { UIEvent } from './Constants';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { YMLBase } from './YMLBase';
@@ -39,7 +40,7 @@ const allowedProps = [
 ];
 
 const allowedEvents = [
-    'onClick'
+    UIEvent.ON_CLICK
 ];
 
 export class YMLButtonView extends YMLBase {

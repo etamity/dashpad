@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
+import { UIEvent } from './Constants';
 
 const textClass = obj => {
     return classNames(
@@ -16,7 +17,8 @@ const textClass = obj => {
     );
 };
 
-const allowedEvents = ['onClick'];
+const allowedEvents = [UIEvent.ON_CLICK];
+console.log('allowedEvents', allowedEvents);
 export class YMLTextView extends YMLBase {
 
     render() {

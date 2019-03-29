@@ -12,21 +12,21 @@ A hackable universal dashboard framework for your desktop task automation and vi
 
 ## Install
 
-`yarn`
+`npm i`
 
 ## Start
 
-`yarn start`
+`npm start`
 
 ## Build
 
 Your build version will be under `build` folder.
 
-`yarn run build && yarn run pack:mac`
+`npm run build && npm run pack:mac`
 
 or
 
-`yarn run build && yarn run pack:win`
+`npm run build && npm run pack:win`
 
 ## Config
 
@@ -49,7 +49,7 @@ The application config file is in `/db/db.json`, you can change the window size 
 
 ## Cli Command
 
-If you wish to use `dashpad` command, you global install and link it inside your project root folder.
+If you wish to use `dashpad` command, run npm global install and link it inside your project root folder.
 
 `npm i -g & npm link`
 
@@ -95,7 +95,7 @@ navs:
           text: NEW
 ```
 
-Now you restart your dashpad, you will see the new side menu `My First Module`.
+Now restart dashpad, you will see the new side menu `My First Module`.
 
 ### Step 3
 
@@ -122,9 +122,9 @@ Tabs:
                     }
 ```
 
-and now you go back to dashpad and click side menu `My First Module`, you will see new you ui has been created.
+and now go back to dashpad and click side menu `My First Module`, you will see new you ui has been created.
 
-if you click `Notification` button, you will recevie a notification.
+if click `Notification` button, you will recevie a notification.
 
 ### **Note**
 
@@ -132,7 +132,7 @@ If you want to split the js code from yml file into a external js file,  you can
 
 e.g
 
-You `_dash/ui.yaml` file already and you create another js file `_dash/ui.js`, then you can write js code in the file.
+If `_dash/ui.yaml` file exist already then create another js file call `_dash/ui.js`, so that you can write js code in the file.
 
 > ui.js
 ``` js
@@ -169,11 +169,11 @@ Tabs:
             title: A registration form
 ```
 
-Now you check the console, will find message `'This code is loaded'` is there, and then is `'Tab Mounted'`, if you change the tab will see the output `'Tab Changed'`.
+Now check the console, will find message `'This code is loaded'` is there, and then is `'Tab Mounted'`, if change the tab will see the output `'Tab Changed'`.
 
 ## Yaml Spliting
 
-You can split your yaml file into sub component file, but you have to named the file start with `@filename.yml`, this is for recognising the file is component file, so when you update the component file, it will only re-render main entry file.
+You can split yaml file into sub component files, but have to named the file start with `@`, e.g `@filename.yml`, this is for recognising the file as a component, so when you update the component file, it will only re-render main entry file.
 
 e.g
 
@@ -183,7 +183,7 @@ Tabs:
     Slot_2: !import components/@Card_test.yml
 ```
 
-`Slot` is a warpper component which doesn't doing anything on appearance, it useful to organise structure or import sepreated file components.
+`Slot` is a warpper component which doesn't doing anything on appearance, it's useful to organise structure or import sepreated file components.
 
 ## This Context
 

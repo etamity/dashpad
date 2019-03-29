@@ -3,7 +3,7 @@ import VM from 'libs/VM';
 import KeyPathManager from 'libs/KeyPathManager';
 import Context from './context';
 import { AppAction } from 'reducers/app';
-import { FieldType, ContentType } from './Constants';
+import { FieldType, ContentType , UIEvent} from './Constants';
 import { shell } from 'electron';
 import { Store } from 'store';
 
@@ -52,19 +52,23 @@ export const PropsFilter = (props, filters) => {
 
 const getVarsValue = val => {
     const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
-    return  _.get(Store.getState().app.uiSchema, `$vars.${keyName}`);
+    return _.get(Store.getState().app.uiSchema, `$vars.${keyName}`);
 };
 
 const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
     if (_.isString(val) && val.indexOf('${') > -1) {
         const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
-        const defualtVal = getVarsValue(val);
+        const defaultVal = getVarsValue(val);
         if (!obj.refs) {
             obj.refs = {};
         }
         obj.refs[key] = keyName;
-        obj[key] = defualtVal;
         KeyPathManager.push(keyName, `${keyPath}.${name}.${key}`);
+        if (key.indexOf('.') > -1) {
+            return defaultVal;
+        }
+
+        obj[key] = defaultVal;
     } else if (_.isArray(val)) {
         const items = val.map((iValue, index) => {
             if (!!key && _.isString(iValue) && iValue.indexOf('${') > -1) {
@@ -82,11 +86,22 @@ const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
                 );
                 const defaultVal = getVarsValue(iValue);
                 return defaultVal;
+            } else if (_.isArray(iValue)) {
+                return iValue.map((subVal, subIndex) => {
+                    return addVarsToKeyPathManager(
+                        subVal,
+                        `${key}.${index}.${subIndex}`,
+                        keyPath,
+                        name,
+                        obj
+                    );
+                });
             }
             return iValue;
         });
         obj[key] = items;
     }
+    return val;
 };
 
 export const ParseKeyPathVars = (keyPath, name, obj) => {
@@ -98,11 +113,11 @@ export const ParseKeyPathVars = (keyPath, name, obj) => {
 };
 
 export const EventsHook = (props, events) => {
-    const { name, keyPath, type, obj } = props;
+    const { keyPath, type, obj } = props;
     return events.reduce((eventProps, next) => {
         const _type = type && type.toUpperCase();
         eventProps[next] = e => {
-            if (next === 'onChange' && _type === FieldType.INPUT) {
+            if (next === UIEvent.ON_CHANGE && _type === FieldType.INPUT) {
                 const keyPathFull = keyPath + '.value';
                 const keyRefs = keyPath + '.refs.value';
                 const keyPathRefs = _.get(
@@ -121,14 +136,10 @@ export const EventsHook = (props, events) => {
                     value: e.target.value,
                 });
             }
-            if (next === 'onClick' && _type === ContentType.LINK) {
+            if (next === UIEvent.ON_CLICK && _type === ContentType.LINK) {
                 obj.link && shell.openExternal(obj.link);
             }
-            VM.run(
-                obj[next],
-                Context(props),
-                e
-            );
+            VM.run(obj[next], Context(props), e);
         };
         return eventProps;
     }, Object.create(null));

@@ -4,6 +4,7 @@ import TabView from 'components/TabView';
 import { getTypes } from './utils';
 import { YMLBase } from './YMLBase';
 import { PropsFilter, EventsHook } from './utils';
+import { UIEvent } from './Constants';
 
 const allowedProps = [
     'disabled',
@@ -11,7 +12,7 @@ const allowedProps = [
 ];
 
 const allowedEvents = [
-    'onChange'
+    UIEvent.ON_CHANGE
 ];
 
 export class YMLTabsView extends YMLBase {
