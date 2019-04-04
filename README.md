@@ -10,6 +10,10 @@ A hackable universal dashboard framework for your desktop task automation and vi
 
 [Tutorial Module](https://github.com/etamity/dashpad-tutorial)
 
+## Environment Requirement
+
+- Node >= v8.12
+
 ## Install
 
 `npm i`
