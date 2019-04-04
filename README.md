@@ -13,6 +13,7 @@ A hackable universal dashboard framework for your desktop task automation and vi
 ## Environment Requirement
 
 - Node >= v8.12
+    If you get `Unexpected token function` error, which mean you need to change node version.
 
 ## Install
 
