@@ -13,20 +13,15 @@ const allowedProps = [
     'tag',
     'timeout',
     'data-',
-    'className'
+    'className',
 ];
 
-const allowedEvents = [
-    'onEntering',
-    'onEntered',
-    'onExiting',
-    'onExited'
-];
+const allowedEvents = ['onEntering', 'onEntered', 'onExiting', 'onExited'];
 
 export class YMLCollapseView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
-        const controls = getTypes(obj).map(({name, type}, index) => {
+        const controls = getTypes(obj).map(({ name, type }, index) => {
             const childProps = {
                 name,
                 keyPath: keyPath,
@@ -34,7 +29,7 @@ export class YMLCollapseView extends YMLBase {
                 type: type,
                 obj: obj[name],
             };
-            return <YMLComponent key={keyPath} {...childProps} />
+            return <YMLComponent key={keyPath} {...childProps} />;
         });
         const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);

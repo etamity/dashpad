@@ -26,13 +26,12 @@ import {
     YMLRowView,
     YMLContainerView,
     YMLCollapseView,
-    YMLSlotView
+    YMLSlotView,
+    YMLFieldView
 } from './index';
 
-import { ContentType, ContainerType, FieldType, InputType } from './Constants';
+import { ContentType, ContainerType, FieldType, isInputType } from './Constants';
 
-const isInputType = type =>
-    !!(type && Object.keys(InputType).includes(type.toUpperCase()));
 
 export class YMLComponent extends React.Component {
     render() {
@@ -98,18 +97,7 @@ export class YMLComponent extends React.Component {
             case FieldType.SWITCH:
                 return <YMLSwitchView {...newProps} />;
             case FieldType.FIELD:
-                const subType = isInputType(obj.type)
-                    ? FieldType.INPUT
-                    : obj.type;
-                newProps = { ...this.props, type: subType };
-                if (subType.toUpperCase() === FieldType.BUTTON) {
-                    return (
-                        <FormGroup key={keyPath}>
-                            <YMLComponent {...newProps} />
-                        </FormGroup>
-                    );
-                }
-                return <YMLComponent {...newProps} />;
+                return <YMLFieldView {...newProps} />;
             default:
                 if (obj.type) {
                     const subType = isInputType(obj.type)

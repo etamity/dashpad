@@ -5,7 +5,10 @@ import Context from './context';
 
 export class YMLBase extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState);
+        return (
+            !_.isEqual(this.props, nextProps) ||
+            !_.isEqual(this.state, nextState)
+        );
     }
     componentWillMount() {
         const { obj } = this.props;

@@ -8,7 +8,7 @@ import { YMLBase } from './YMLBase';
 export class YMLContainerView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
-        const controls = getTypes(obj).map(({name, type}, index) => {
+        const controls = getTypes(obj).map(({ name, type }, index) => {
             const childProps = {
                 name,
                 keyPath: keyPath,
@@ -16,14 +16,12 @@ export class YMLContainerView extends YMLBase {
                 type: type,
                 obj: obj[name],
             };
-            return <YMLComponent key={keyPath} {...childProps} />
+            return <YMLComponent key={keyPath} {...childProps} />;
         });
 
         return (
             <React.Fragment key={keyPath}>
-                <Container>
-                {controls.map(comp => comp)}
-                </Container>
+                <Container>{controls.map(comp => comp)}</Container>
             </React.Fragment>
         );
     }

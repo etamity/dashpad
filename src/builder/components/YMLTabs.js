@@ -6,14 +6,9 @@ import { YMLBase } from './YMLBase';
 import { PropsFilter, EventsHook } from './utils';
 import { UIEvent } from './Constants';
 
-const allowedProps = [
-    'disabled',
-    'data-',
-];
+const allowedProps = ['disabled', 'data-'];
 
-const allowedEvents = [
-    UIEvent.ON_CHANGE
-];
+const allowedEvents = [UIEvent.ON_CHANGE];
 
 export class YMLTabsView extends YMLBase {
     render() {
@@ -21,11 +16,12 @@ export class YMLTabsView extends YMLBase {
         let tabs = {};
         const assignProps = PropsFilter(this.props, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
-        getTypes(obj).forEach(({name, type}, index) => {
+        getTypes(obj).forEach(({ name, type }, index) => {
             const nameTypeArr = (name && name.split('_')) || ['No_Name'];
             const props = obj[name];
             const tabName =
-            (props && (props.tab|| props.label)) || nameTypeArr[nameTypeArr.length - 1]
+                (props && (props.tab || props.label)) ||
+                nameTypeArr[nameTypeArr.length - 1];
             const newProps = {
                 name: name,
                 key: keyPath + index,
@@ -33,9 +29,7 @@ export class YMLTabsView extends YMLBase {
                 type,
                 obj: props,
             };
-            tabs[tabName] = (
-                <YMLComponent {...newProps} />
-            ); 
+            tabs[tabName] = <YMLComponent {...newProps} />;
         });
         return (
             <TabView

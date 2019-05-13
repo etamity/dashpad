@@ -63,10 +63,7 @@ export class YMLButtonGroupView extends YMLBase {
                 break;
             case ButtonGroupType.DROPDOWN:
                 ButtonGroupContainer = (
-                    <ButtonDropdown
-                        isOpen={dropdownOpen}
-                        toggle={this.toggle}
-                    >
+                    <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle caret>{obj.label}</DropdownToggle>
                         <DropdownMenu>{childrenButtons}</DropdownMenu>
                     </ButtonDropdown>

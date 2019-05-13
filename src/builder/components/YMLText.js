@@ -20,7 +20,6 @@ const textClass = obj => {
 const allowedEvents = [UIEvent.ON_CLICK];
 
 export class YMLTextView extends YMLBase {
-
     render() {
         const { keyPath, obj } = this.props;
         const assignEvents = EventsHook(this.props, allowedEvents);

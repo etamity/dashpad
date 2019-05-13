@@ -6,7 +6,7 @@ import {
     InputGroup,
     InputGroupAddon,
     InputGroupText,
-    Label
+    Label,
 } from 'reactstrap';
 import { InputType, InputAddonType } from './Constants';
 import { YMLButtonView } from './YMLButton';
@@ -57,13 +57,12 @@ const allowedProps = [
     'defaultValue',
     'data-',
     'className',
-    'tooltip'
+    'tooltip',
 ];
 
 const allowedEvents = ['onClick', 'onChange'];
 
 export class YMLInputView extends YMLBase {
-
     render() {
         const { keyPath, obj } = this.props;
         let defaultProps;
@@ -184,7 +183,11 @@ export class YMLInputView extends YMLBase {
                 return null;
         }
 
-        defaultProps = Object.assign({}, defaultProps, PropsFilter(this.props ,allowedProps));
+        defaultProps = Object.assign(
+            {},
+            defaultProps,
+            PropsFilter(this.props, allowedProps)
+        );
         const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <FormGroup>
@@ -193,10 +196,7 @@ export class YMLInputView extends YMLBase {
                     <InputGroupAddon addonType="prepend">
                         {obj.prepend && <YMLInputGroupView obj={obj.prepend} />}
                     </InputGroupAddon>
-                    < Input
-                        {...defaultProps}
-                        {...assignEvents}    
-                    />
+                    <Input {...defaultProps} {...assignEvents} />
                     <InputGroupAddon addonType="append">
                         {obj.append && <YMLInputGroupView obj={obj.append} />}
                     </InputGroupAddon>

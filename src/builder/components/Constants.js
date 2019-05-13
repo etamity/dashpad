@@ -61,3 +61,6 @@ export const UIEvent = ({
     ON_CLICK: 'onClick',
     ON_CHANGE: 'onChange',
 });
+
+export const isInputType = type =>
+    !!(type && Object.keys(InputType).includes(type.toUpperCase()));

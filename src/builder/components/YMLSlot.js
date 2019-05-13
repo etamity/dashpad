@@ -6,7 +6,7 @@ import { YMLBase } from './YMLBase';
 export class YMLSlotView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
-        const controls = getTypes(obj).map(({name, type}, index) => {
+        const controls = getTypes(obj).map(({ name, type }, index) => {
             const childProps = {
                 name,
                 keyPath: keyPath,
@@ -14,7 +14,7 @@ export class YMLSlotView extends YMLBase {
                 type: type,
                 obj: obj[name],
             };
-            return <YMLComponent key={keyPath} {...childProps} />
+            return <YMLComponent key={keyPath} {...childProps} />;
         });
 
         return (

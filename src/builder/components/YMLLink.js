@@ -19,7 +19,7 @@ export class YMLLinkView extends YMLBase {
 
         return (
             <FormGroup key={keyPath}>
-                <YMLButtonView {...newProps} children={this.props.children}/>
+                <YMLButtonView {...newProps} children={this.props.children} />
             </FormGroup>
         );
     }

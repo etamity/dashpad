@@ -14,13 +14,12 @@ const allowedProps = [
     'size',
     'dataOn',
     'dataOff',
-    'data-'
+    'data-',
 ];
 
 const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLSwitchView extends YMLBase {
-
     render() {
         const { name, keyPath, obj } = this.props;
         const uniqueKeyPath = `${keyPath}.${name}`;
@@ -29,7 +28,7 @@ export class YMLSwitchView extends YMLBase {
         return (
             <FormGroup key={uniqueKeyPath}>
                 <InputGroup>
-                    <AppSwitch {...assignProps} {...assignEvents}/>
+                    <AppSwitch {...assignProps} {...assignEvents} />
                     <InputGroupAddon className="ml-2" addonType="append">
                         <Label htmlFor={uniqueKeyPath}>{obj.label} </Label>
                     </InputGroupAddon>

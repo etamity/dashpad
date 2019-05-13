@@ -7,7 +7,7 @@ import { YMLBase } from './YMLBase';
 
 const allowedProps = ['noGutters', 'fluid', 'data-'];
 
-const styles = (style) => classNames(style);
+const styles = style => classNames(style);
 export class YMLRowView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
@@ -29,9 +29,10 @@ export class YMLRowView extends YMLBase {
         });
         const assignProps = PropsFilter(this.props, allowedProps);
         return (
-            <FormGroup key={keyPath}
-            >
-                <Row className={styles(obj.className)} {...assignProps}>{childComps}</Row>
+            <FormGroup key={keyPath}>
+                <Row className={styles(obj.className)} {...assignProps}>
+                    {childComps}
+                </Row>
             </FormGroup>
         );
     }

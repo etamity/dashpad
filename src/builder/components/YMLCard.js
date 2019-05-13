@@ -8,7 +8,7 @@ import { YMLBase } from './YMLBase';
 export class YMLCardHeaderView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
-        const childComps = getTypes(obj).map(({name, type}, index) => {
+        const childComps = getTypes(obj).map(({ name, type }, index) => {
             const childProps = {
                 name,
                 keyPath,
@@ -19,9 +19,7 @@ export class YMLCardHeaderView extends YMLBase {
             return {
                 type: childProps.type,
                 position: childProps.obj.position,
-                view: (
-                    <YMLComponent {...childProps} />
-                ),
+                view: <YMLComponent {...childProps} />,
             };
         });
         const headLeft = _.filter(childComps, { position: 'left' }).map(
@@ -59,7 +57,7 @@ export class YMLCardHeaderView extends YMLBase {
 export class YMLCardView extends Component {
     render() {
         const { keyPath, obj } = this.props;
-        const controls = getTypes(obj).map(({name, type}, index) => {
+        const controls = getTypes(obj).map(({ name, type }, index) => {
             const childProps = {
                 name,
                 keyPath: keyPath,

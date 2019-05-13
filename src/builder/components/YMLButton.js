@@ -36,12 +36,10 @@ const allowedProps = [
     'variant',
     'divider',
     'data-',
-    'header'
+    'header',
 ];
 
-const allowedEvents = [
-    UIEvent.ON_CLICK
-];
+const allowedEvents = [UIEvent.ON_CLICK];
 
 export class YMLButtonView extends YMLBase {
     render() {
@@ -66,10 +64,7 @@ export class YMLButtonView extends YMLBase {
         );
         if (obj.type === 'dropdown') {
             ButtonClass = (
-                <DropdownItem
-                    {...assignProps}
-                    {...assignEvents}
-                >
+                <DropdownItem {...assignProps} {...assignEvents}>
                     <span className="d-none d-md-inline">{obj.label}</span>
                 </DropdownItem>
             );

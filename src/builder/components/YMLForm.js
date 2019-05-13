@@ -1,39 +1,27 @@
 import React from 'react';
-import {
-    Form,
-} from 'reactstrap';
+import { Form } from 'reactstrap';
 import { getTypes, PropsFilter } from './utils';
-import {
-    YMLComponent
-} from './index';
+import { YMLComponent } from './index';
 import { YMLBase } from './YMLBase';
 
-const allowedProps = [
-    'action',
-    'method',
-    'encType',
-    'data-'
-];
+const allowedProps = ['action', 'method', 'encType', 'data-'];
 
 export class YMLFormView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const pickedProps = PropsFilter(this.props, allowedProps);
         return (
-            <Form
-                {... pickedProps}
-                className="form-horizontal"
-            >
-                {getTypes(obj).map(({name, type}, index) => {
+            <Form {...pickedProps} className="form-horizontal">
+                {getTypes(obj).map(({ name, type }, index) => {
                     const field = obj[name];
                     const newProps = {
                         name,
                         key: keyPath + index,
                         keyPath: keyPath,
                         type,
-                        obj:field,
+                        obj: field,
                     };
-                    return <YMLComponent {...newProps}/>;
+                    return <YMLComponent {...newProps} />;
                 })}
             </Form>
         );
