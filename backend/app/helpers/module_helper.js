@@ -8,19 +8,25 @@ shell.config.execPath = nodePath;
 const install = (packName, gitLink) => {
     const packSpace = pathHelper.PACKAGES;
     return new Promise((resolve, reject) => {
-        shell.exec(
-            `cd ${packSpace} && git clone ${gitLink} ${packName} && cd ${pathHelper.getPackagePath(packName)} && npm i && cd ${packSpace}`,
-            (code, stdout, stderr) => {
-                if (code !== 0) {
-                  console.error(code, stderr);
-                  shell.echo('Error: Git commit failed');
-                    reject({code,stderr});
+        try {
+            shell.exec(
+                `cd ${packSpace} && git clone ${gitLink} ${packName} && cd ${pathHelper.getPackagePath(
+                    packName
+                )} && npm i && cd ${packSpace}`,
+                (code, stdout, stderr) => {
+                    if (code !== 0) {
+                        console.error(code, stderr);
+                        shell.echo('Error: Git commit failed');
+                        reject({ code, stderr });
+                    }
+                    shell.echo('Plguin Installed');
+                    contentLoader.reloadConfig();
+                    resolve(stdout);
                 }
-                shell.echo('Plguin Installed');
-                contentLoader.reloadConfig();
-                resolve(stdout);
-            }
-        );
+            );
+        } catch (error) {
+            console.error(error);
+        }
     });
 };
 

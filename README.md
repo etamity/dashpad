@@ -869,6 +869,13 @@ e.g.
 ```js
 Dashpad.run('index.js', { obj: 'hey, node can get this parameter!' });
 ```
+-   ### **exit**
+
+Once your task is finished, call `Dashpad.exit();` to exit the process in the node.
+
+e.g.
+
+`Dashpad.exit();`
 
 ## VM Enviroment
 

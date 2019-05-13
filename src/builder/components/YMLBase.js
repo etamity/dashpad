@@ -4,8 +4,8 @@ import VM from 'libs/VM';
 import Context from './context';
 
 export class YMLBase extends React.Component {
-    shouldComponentUpdate(nextProps) {
-        return !_.isEqual(this.props, nextProps);
+    shouldComponentUpdate(nextProps, nextState) {
+        return !_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState);
     }
     componentWillMount() {
         const { obj } = this.props;
