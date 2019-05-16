@@ -202,7 +202,7 @@ export class SettingsView extends Component {
                 </CardHeader>
                 <CardBody>
                     {Object.keys(tabs)
-                        .filter(key => !_.isObject(tabs[key]))
+                        .filter(key => !_.isObject(tabs[key]) && (key.charAt(0) !== '_'))
                         .map(field =>
                             this.renderField(keyPath, field, tabs[field])
                         )}

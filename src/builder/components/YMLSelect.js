@@ -28,7 +28,6 @@ export class YMLSelectView extends YMLBase {
                     {option}
                 </option>
             ));
-        const assignProps = PropsFilter(this.props, allowedProps);
         const defaultProps = Object.assign(
             {},
             {
@@ -37,15 +36,16 @@ export class YMLSelectView extends YMLBase {
                 name: id,
                 keyPath,
             },
-            assignProps
+            obj
         );
+        const assignProps = PropsFilter({ obj: defaultProps }, allowedProps);
         return (
             <FormGroup key={keyPath} row>
                 <Col md="3">
                     <Label htmlFor={id}>{obj.label}</Label>
                 </Col>
                 <Col md="9">
-                    <Input {...defaultProps}>{options}</Input>
+                    <Input {...assignProps}>{options}</Input>
                 </Col>
             </FormGroup>
         );

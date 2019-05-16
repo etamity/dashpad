@@ -28,8 +28,12 @@
       },
       "platform": { 
         "github": {
-          "api": "",
+          "endpoint": "",
           "authtoken": ""
+        },
+        "jenkins": {
+          "endpoint": "",
+          "_crumb": ""
         }
       }
     }

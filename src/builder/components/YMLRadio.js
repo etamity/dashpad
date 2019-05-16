@@ -23,7 +23,6 @@ export class YMLRadioView extends YMLBase {
             obj.options &&
             obj.options.map((option, index) => {
                 const idkey = `${keyPath}.${index}`;
-                const assignProps = PropsFilter(this.props, allowedProps);
                 const defaultProps = Object.assign(
                     {},
                     {
@@ -32,12 +31,12 @@ export class YMLRadioView extends YMLBase {
                         name: keyPath,
                         keyPath,
                     },
-                    assignProps
+                    obj
                 );
-
+                const assignProps = PropsFilter({ obj: defaultProps }, allowedProps);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>
-                        <Input {...defaultProps} />
+                        <Input {...assignProps} />
                         <Label check htmlFor={idkey}>
                             {option}
                         </Label>

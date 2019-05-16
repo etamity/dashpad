@@ -2,6 +2,25 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Prism from 'prismjs';
 import { YMLBase } from './YMLBase';
+import { PropsFilter } from './utils';
+
+const allowedProps = [
+    'escapeHtml',
+    'skipHtml',
+    'sourcePos',
+    'rawSourcePos',
+    'includeNodeIndex',
+    'allowedTypes',
+    'disallowedTypes',
+    'unwrapDisallowed',
+    'allowNode',
+    'allowedTypes',
+    'linkTarget',
+    'transformLinkUri',
+    'transformImageUri',
+    'renderers',
+    'data-',
+];
 
 class Markdown extends YMLBase {
     componentDidMount() {
@@ -13,17 +32,18 @@ class Markdown extends YMLBase {
     }
 
     render() {
-        return <ReactMarkdown source={this.props.source} escapeHtml={false} />;
+        return <ReactMarkdown source={this.props.content} {...this.props} />;
     }
 }
 export class YMLMarkdownView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
+        const assignProps = PropsFilter(this.props, allowedProps);
         return (
             <Markdown
                 key={keyPath}
-                source={obj.content || ''}
-                escapeHtml={false}
+                content={obj.content}
+                {...assignProps}
             />
         );
     }

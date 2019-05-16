@@ -4,6 +4,7 @@ const Config = require('../../configs/config');
 const BackendStore = require('../store');
 const uischemaKeyPath = 'app.uiSchema';
 const Octokit = require('@octokit/rest');
+const jenkinsapi = require('./platforms/jenkins-api');
 let _isBrowser = false;
 
 class DashpahApi {
@@ -39,14 +40,27 @@ class DashpahApi {
         this.initPlatforms();
     }
     initPlatforms() {
-        const { github } = Config.value().settings.platform;
-        if (github.authtoken) {
+        const { settings } = Config.value();
+        const { github, jenkins } = settings.platform;
+        const { credential } = settings;
+        if (github.authtoken && github.endpoint) {
             const Github = new Octokit({
                 auth: `token ${github.authtoken}`,
-                baseUrl: github.api,
+                baseUrl: github.endpoint,
                 previews: ['mercy-preview'],
             });
             this.platform['Github'] = Github;
+        }
+        const JenkinsConnect = (url) => {
+            const jenkinsUrl = new URL(url);
+            jenkinsUrl.username = credential.username;
+            jenkinsUrl.password = credential.password;
+            return jenkinsapi.init(jenkinsUrl.href);
+        }
+        this.platform['JenkinsConnect'] = JenkinsConnect;
+        
+        if (jenkins.endpoint) {
+            this.platform['Jenkins'] = JenkinsConnect(jenkins.endpoint);
         }
     }
     updatePackageInfo(packageInfo) {
