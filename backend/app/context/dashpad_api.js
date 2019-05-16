@@ -37,6 +37,7 @@ class DashpahApi {
             value: () => Config.value().settings,
         };
         this.platform = {};
+        this.utils = require('./utils/index');
         this.initPlatforms();
     }
     initPlatforms() {

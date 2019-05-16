@@ -32,8 +32,7 @@
           "authtoken": ""
         },
         "jenkins": {
-          "endpoint": "",
-          "_crumb": ""
+          "endpoint": ""
         }
       }
     }
