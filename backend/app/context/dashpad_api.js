@@ -197,7 +197,9 @@ class DashpahApi {
     }
 
     exit() {
-        process && process.exit(0);
+        setTimeout(() => {
+            process && process.exit(0);
+        }, 200);
     }
 }
 
