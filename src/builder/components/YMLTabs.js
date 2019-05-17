@@ -25,7 +25,7 @@ export class YMLTabsView extends YMLBase {
             const newProps = {
                 name: name,
                 key: keyPath + index,
-                keyPath: keyPath,
+                keyPath,
                 type,
                 obj: props,
             };

@@ -81,7 +81,11 @@ class VM {
 
     buildVmScope(code, ctx, args) {
         if (!code) return;
-        const allCode = [this.getCode(), code, `return ${VMScope.toString()}()`].join('\n');
+        const allCode = [
+            this.getCode(),
+            code,
+            `return ${VMScope.toString()}()`,
+        ].join('\n');
         this.context.vm = this.sandbox(allCode, ctx, args)();
     }
 
@@ -102,7 +106,10 @@ class VM {
             }
         } else {
             this.context.vm.run.call(ctx, code);
-            console.error('No defined function assign to an event !', arguments[1]);
+            console.error(
+                'No defined function assign to an event !',
+                arguments[1]
+            );
         }
     }
 

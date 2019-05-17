@@ -61,6 +61,7 @@
     "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
+    "react-ace": "^6.5.0",
     "react-app-polyfill": "^0.1.3",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.6.3",

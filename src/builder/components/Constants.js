@@ -16,6 +16,7 @@ export const ContainerType = keyMirror({
 export const ContentType = keyMirror({
     LIST: null,
     MARKDOWN: null,
+    CODE: null,
     TEXT: null,
     LINK: null,
     PROGRESS: null,
@@ -60,6 +61,16 @@ export const ButtonGroupType = keyMirror({
 export const UIEvent = ({
     ON_CLICK: 'onClick',
     ON_CHANGE: 'onChange',
+
+    ON_LOAD: 'onLoad',
+    ON_BEFORE_LOAD: 'onBeforeLoad',
+    ON_COPY: 'onCopy',
+    ON_PASTE: 'onPaste',
+    ON_SELECTION_CHANGE: 'onSelectionChange',
+    ON_CURSOR_CHANGE: 'onCursorChange',
+    ON_FOCUS: 'onFocus',
+    ON_INPUT: 'onInput',
+    ON_SCROLL: 'onScroll'
 });
 
 export const isInputType = type =>

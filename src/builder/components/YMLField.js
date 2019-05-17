@@ -9,11 +9,10 @@ export class YMLFieldView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const subType = isInputType(obj.type) ? FieldType.INPUT : obj.type;
-        let newProps = { ...this.props, type: subType };
         const childComps = getTypes(obj).map(({ name, type }, index) => {
             const childProps = {
                 name,
-                keyPath,
+                keyPath: keyPath,
                 key: keyPath + index,
                 type: type,
                 obj: obj[name],
@@ -24,6 +23,7 @@ export class YMLFieldView extends YMLBase {
                 </InputGroup>
             );
         });
+        let newProps = { ...this.props, type: subType, keyPath: keyPath.substring(0, keyPath.lastIndexOf('.'))};
         const renderChildComponent = (childComps.length > 0 && childComps) || (
                 <YMLComponent {...newProps} />
         );

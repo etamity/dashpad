@@ -27,7 +27,8 @@ import {
     YMLContainerView,
     YMLCollapseView,
     YMLSlotView,
-    YMLFieldView
+    YMLFieldView,
+    YMLCodeEditorView
 } from './index';
 
 import { ContentType, ContainerType, FieldType, isInputType } from './Constants';
@@ -98,6 +99,8 @@ export class YMLComponent extends React.Component {
                 return <YMLSwitchView {...newProps} />;
             case FieldType.FIELD:
                 return <YMLFieldView {...newProps} />;
+            case ContentType.CODE:
+                return <YMLCodeEditorView {...newProps} />;
             default:
                 if (obj.type) {
                     const subType = isInputType(obj.type)
