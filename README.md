@@ -1415,18 +1415,18 @@ Add sub menu into menu item
 ```
 
 
-## Publish Your Tools/Plguins
+## Publish Your Tools/Plugins
 
 Once you push your code, add `dashpad` topic on the github descirption area, your plugin will show up on the Dashpad main page, it will be nice to add README.md to tell a bit more about your plugin, let people know what it does.
 
 ## Routing
 
 When you created new plugin, it will automatically create new route for you.
-For example when you created a new plguin under `src/plugins/NewPlguin`, and export the plugin in the `src/plugins/index.js` file:
+For example when you created a new plugin under `src/plugins/NewPlugin`, and export the plugin in the `src/plugins/index.js` file:
 
-`export * from './NewPlguin';`
+`export * from './NewPlugin';`
 
-it will generate a new route `/newplguin`.
+it will generate a new route `/newplugin`.
 
 ## Custom Style
 
