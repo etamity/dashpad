@@ -58,7 +58,8 @@ const getVarsValue = val => {
 const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
     if (_.isString(val) && val.indexOf('${') > -1) {
         const keyName = val.slice(val.indexOf('${') + 2, val.indexOf('}'));
-        const defaultVal = getVarsValue(val);
+        let defaultVal = getVarsValue(val);
+        defaultVal = _.isObject(defaultVal) ? JSON.stringify(defaultVal, null, 2) : defaultVal;
         if (!obj.refs) {
             obj.refs = {};
         }
@@ -84,7 +85,8 @@ const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
                     keyName,
                     `${keyPath}.${name}.${key}.${index}`
                 );
-                const defaultVal = getVarsValue(iValue);
+                let defaultVal = getVarsValue(iValue);
+                defaultVal = _.isObject(defaultVal) ? JSON.stringify(defaultVal, null, 2) : defaultVal;
                 return defaultVal;
             } else if (_.isArray(iValue)) {
                 return iValue.map((subVal, subIndex) => {

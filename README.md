@@ -267,6 +267,7 @@ Dashpad will parse `Tabs_mytabs` as `Tabs` component and the component name is `
 -   #### **[Buttongroup](#buttongroup-1)**
 -   #### **[Progress](#progress-1)**
 -   #### **[Text](#text-1)**
+-   #### **[Code](#code-1)**
 
 ---
 
@@ -613,6 +614,19 @@ Text:
     weight: bold # ['ligth', 'normal', 'bold']
     transform: uppercase # ['uppercase', 'lowercase', 'capitalise']
 ```
+
+-   ### **Code**
+
+```yaml
+Code:
+    width: '100%'
+    theme: solarized_dark #['javascript', 'java', 'python', 'xml', 'ruby', 'sass', 'markdown', 'mysql', 'json', 'html', 'handlebars', 'golang', 'csharp', 'elixir', 'typescript', 'css', 'sh', 'yaml', 'sql', 'jsx', 'css']
+    mode: markdown #['github', 'solarized_dark', 'terminal']
+    value: const js = console.log;
+    wrapEnabled: true
+    readOnly: true
+```
+
 
 ## Dashpad Api
 

@@ -48,6 +48,7 @@ const allowedProps = [
     'bgSize',
     'type',
     'size',
+    'rows',
     'valid',
     'invalid',
     'placeholder',
