@@ -44,7 +44,7 @@ class DashpahApi {
         const { settings } = Config.value();
         const { github, jenkins } = settings.platform;
         const { credential } = settings;
-        if (github.authtoken && github.endpoint) {
+        if (github && github.authtoken && github.endpoint) {
             const Github = new Octokit({
                 auth: `token ${github.authtoken}`,
                 baseUrl: github.endpoint,
@@ -60,7 +60,7 @@ class DashpahApi {
         }
         this.platform['JenkinsConnect'] = JenkinsConnect;
         
-        if (jenkins.endpoint) {
+        if (jenkins && jenkins.endpoint) {
             this.platform['Jenkins'] = JenkinsConnect(jenkins.endpoint);
         }
     }
