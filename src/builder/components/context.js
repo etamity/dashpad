@@ -27,11 +27,38 @@ export default (props) => {
             value: value,
         });
     }
+    const getParent = (key) => {
+        let parentKeyPath = props.keyPath.substring(0, props.keyPath.lastIndexOf('.'));
+        parentKeyPath = parentKeyPath.substring(0, parentKeyPath.lastIndexOf('.'));
+        const keyPath = `${parentKeyPath}.${key}`;
+        return _.get(state, keyPath);
+    }
+    const setParent = (key, value) => {
+        let parentKeyPath = props.keyPath.substring(0, props.keyPath.lastIndexOf('.'));
+        parentKeyPath = parentKeyPath.substring(0, parentKeyPath.lastIndexOf('.'));
+        const keyPath = `${parentKeyPath}.${key}`;
+        AppAction.updateUIState({
+            keyPath: keyPath,
+            value: value,
+        });
+    }
+
     return {
-        props,
+        ...props,
         set,
         get,
+        getParent,
+        setParent,
         getSibling,
         setSibling
     }
 }
+
+
+const getParent = (keyPath, key) => {
+    const parentKeyPath = keyPath.substring(0, keyPath.lastIndexOf('.'));
+    const keyPath1 = `${parentKeyPath}.${key}`;
+    return keyPath1
+}
+
+console.log(getParent('a.b.c.d.e', 'test'));

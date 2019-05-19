@@ -8,7 +8,7 @@ import {
     DropdownToggle,
     DropdownMenu,
 } from 'reactstrap';
-import { ButtonGroupType } from './Constants';
+import { ButtonGroupType, FieldType } from './Constants';
 import { YMLButtonView } from './index';
 import { YMLBase } from './YMLBase';
 
@@ -35,6 +35,9 @@ export class YMLButtonGroupView extends YMLBase {
             obj.items.map((item, index) => (
                 <YMLButtonView
                     key={keyPath + index}
+                    name={'items.' + index}
+                    keyPath={keyPath + '.items.' + index}
+                    type= {FieldType.BUTTON.toLowerCase()}
                     obj={Object.assign({}, item, {
                         type: obj.type,
                         onClick: item.onClick || obj.onClick,
