@@ -17,6 +17,7 @@ module.exports = {
     },
     get: (source, start, end) => {
         const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
-        return source.match(reg)[1];
+        const regArr = source.match(reg);
+        return (regArr && regArr.length > 0 && regArr[0]) || '';
     }
 }

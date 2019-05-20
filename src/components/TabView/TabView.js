@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
+import { AppAction } from 'reducers/app';
+
 class TabView extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            activeTab: props.activeTab || 0,
-        };
         this.toggle = this.toggle.bind(this);
     }
 
     toggle(tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab,
+        if (this.props.activeTab !== tab) {
+            AppAction.updateUIState({
+                keyPath: this.props.keyPath + '.activeTab',
+                value: tab,
             });
             if (this.props.onChange) {
                 this.props.onChange(tab);
@@ -38,7 +38,7 @@ class TabView extends Component {
                 <NavItem key={index}>
                     <NavLink
                         className={classnames({
-                            active: this.state.activeTab === index,
+                            active: this.props.activeTab === index,
                         })}
                         onClick={() => {
                             this.toggle(index);
@@ -59,7 +59,7 @@ class TabView extends Component {
             );
         });
         const tabs = titles.map((title, index) => {
-            return this.state.activeTab === index ? (
+            return this.props.activeTab === index ? (
                 <TabPane tabId={index} key={index}>
                     {tabsContent[title]}{' '}
                 </TabPane>
@@ -71,7 +71,7 @@ class TabView extends Component {
         return (
             <React.Fragment>
                 <Nav tabs>{titlesView}</Nav>
-                <TabContent activeTab={this.state.activeTab}>{tabs}</TabContent>
+                <TabContent activeTab={this.props.activeTab}>{tabs}</TabContent>
             </React.Fragment>
         );
     }
@@ -79,7 +79,12 @@ class TabView extends Component {
 
 TabView.propTypes = {
     tabs: PropTypes.object,
+    activeTab: PropTypes.number,
     onChange: PropTypes.func,
 };
+
+TabView.defaultProps = {
+    activeTab: 0
+}
 
 export default TabView;
