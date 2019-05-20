@@ -34,6 +34,7 @@ export class YMLTabsView extends YMLBase {
         return (
             <TabView
                 key={keyPath}
+                keyPath={keyPath}
                 activeTab={obj.activeTab || 0}
                 tabs={tabs}
                 {...assignProps}

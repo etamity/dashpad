@@ -10,6 +10,7 @@ import {
     YMLMarkdownView,
     YMLListView,
     YMLCardHeaderView,
+    YMLCardFooterView,
     YMLCardView,
     YMLButtonView,
     YMLRadioView,
@@ -60,6 +61,8 @@ export class YMLComponent extends React.Component {
                 return <YMLTabsView {...newProps} />;
             case ContainerType.HEADER:
                 return <YMLCardHeaderView {...newProps} />;
+            case ContainerType.FOOTER:
+                return <YMLCardFooterView {...newProps} />;
             case ContainerType.FORM:
                 return <YMLFormView {...newProps} />;
             case ContainerType.BUTTONGROUP:
