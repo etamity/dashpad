@@ -7,6 +7,7 @@ export const ContainerType = keyMirror({
     CARD: null,
     FORM: null,
     HEADER: null,
+    FOOTER: null,
     BUTTONGROUP: null,
     ROW: null,
     COLLAPSE: null,
