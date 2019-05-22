@@ -60,7 +60,7 @@ class ProcessManager extends EventEmitter {
             optionsArgs
         );
         const filePath = path.resolve(nodeScriptPath);
-        const loaderPath = path.resolve('./backend/app/module_loader.js');
+        const loaderPath = path.resolve('./backend/app/babel_transpile.js');
         const child = fork(loaderPath, null, options);
         child.packageInfo = {
             namespace,
