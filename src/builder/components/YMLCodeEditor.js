@@ -88,10 +88,18 @@ const allowedEvents = [
     UIEvent.ON_BEFORE_LOAD,
 ];
 
+const defaultProps = {
+        width: '100%',
+        theme: 'solarized_dark',
+        mode: 'json',
+        wrapEnabled: true
+};
+
 export class YMLCodeEditorView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
-        const assignProps = PropsFilter(this.props, allowedProps);
+        const mergeProps = Object.assign({}, defaultProps, obj);
+        const assignProps = PropsFilter({obj: mergeProps}, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
         let CodeComponent = AceEditor;
         

@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 import _ from 'lodash';
 import immutable from 'object-path-immutable';
 import { AppAction } from 'reducers/app';
-
+import AceEditor from 'react-ace';
 const { Config } = Native();
 export class SettingsView extends Component {
     static Config() {
@@ -46,14 +46,14 @@ export class SettingsView extends Component {
     }
     doDeleteButtonClick(keyPathName) {
         AppAction.showModal({
-            title:'Delete this settings value',
+            title: 'Delete this settings value',
             message: 'Are you sure want to continue?',
             variant: 'danger',
             onConfirm: () => {
                 const configJson = Config.delete(`settings${keyPathName}`);
-                this.setState({settings: configJson.config.settings});
-            }
-        })
+                this.setState({ settings: configJson.config.settings });
+            },
+        });
     }
     doShowPasswordButtonClick() {
         this.setState({ showPassword: !this.state.showPassword });
@@ -93,6 +93,7 @@ export class SettingsView extends Component {
         } else if (_.isBoolean(value)) {
             inputType = 'boolean';
         }
+
         const defaultInput = (
             <InputGroup>
                 <Input
@@ -105,8 +106,8 @@ export class SettingsView extends Component {
                 <InputGroupAddon addonType="append">
                     <Button
                         color="danger"
-                        onClick={()=>{
-                            this.doDeleteButtonClick(keyPathName)
+                        onClick={() => {
+                            this.doDeleteButtonClick(keyPathName);
                         }}
                     >
                         <i className="icon-trash" />
@@ -136,8 +137,8 @@ export class SettingsView extends Component {
                 <InputGroupAddon addonType="append">
                     <Button
                         color="danger"
-                        onClick={()=>{
-                            this.doDeleteButtonClick(title)
+                        onClick={() => {
+                            this.doDeleteButtonClick(title);
                         }}
                     >
                         <i className="icon-trash" />
@@ -202,7 +203,58 @@ export class SettingsView extends Component {
                 </CardHeader>
                 <CardBody>
                     {Object.keys(tabs)
-                        .filter(key => !_.isObject(tabs[key]) && (key.charAt(0) !== '_'))
+                        .filter(
+                            key =>
+                                _.isObject(tabs[key]) && key.charAt(0) !== '_'
+                        )
+                        .map(field => {
+                            const keyPathName = `${keyPath}.${field}`.toLowerCase();
+                            return (
+                                <FormGroup key={`field-${keyPathName}`} row>
+                                    <Col md="2">
+                                        <Label
+                                            style={{
+                                                textTransform: 'capitalize',
+                                            }}
+                                        >
+                                            <b>{field}</b>
+                                        </Label>
+                                    </Col>
+                                    <Col xs="12" md="10">
+                                        <AceEditor
+                                            key={keyPath}
+                                            keyPath={keyPath}
+                                            width="100%"
+                                            theme="solarized_dark"
+                                            mode="json"
+                                            wrapEnabled={true}
+                                            onChange={val => {
+                                                try {
+                                                    this.updateConfig(
+                                                        keyPathName,
+                                                        JSON.parse(val)
+                                                    );
+                                                } catch (err) {
+                                                    //console.log(err);
+                                                }
+                                            }}
+                                            height="150px"
+                                            minLines={2}
+                                            value={JSON.stringify(
+                                                tabs[field],
+                                                null,
+                                                2
+                                            )}
+                                        />
+                                    </Col>
+                                </FormGroup>
+                            );
+                        })}
+                    {Object.keys(tabs)
+                        .filter(
+                            key =>
+                                !_.isObject(tabs[key]) && key.charAt(0) !== '_'
+                        )
                         .map(field =>
                             this.renderField(keyPath, field, tabs[field])
                         )}

@@ -20,18 +20,18 @@ class DashpahApi {
         }
         this.settings = {
             set: (keyPath, value) => {
-                Config.set(`settings.${this.packageName}.${keyPath}`, value);
-                return Config.get(`settings.${this.packageName}`);
+                Config.set(`settings.${this.getSettingKey()}.${keyPath}`, value);
+                return Config.get(`settings.${this.getSettingKey()}`);
             },
             get: keyPath => {
-                return Config.get(`settings.${this.packageName}.${keyPath}`);
+                return Config.get(`settings.${this.getSettingKey()}.${keyPath}`);
             },
             push: (keyPath, value) => {
-                Config.push(`settings.${this.packageName}.${keyPath}`, value);
-                return Config.get(`settings.${this.packageName}`);
+                Config.push(`settings.${this.getSettingKey()}.${keyPath}`, value);
+                return Config.get(`settings.${this.getSettingKey()}`);
             },
             delete: keyPath => {
-                const aKeyPath = `settings.${this.packageName}`;
+                const aKeyPath = `settings.${this.getSettingKey()}`;
                 Config.delete(`${aKeyPath}.${keyPath}`);
             },
             value: () => Config.value().settings,
@@ -39,6 +39,9 @@ class DashpahApi {
         this.platform = {};
         this.utils = require('./utils/index');
         this.initPlatforms();
+    }
+    getSettingKey(){
+        return this.packageName.replace('/', '.');
     }
     initPlatforms() {
         const { settings } = Config.value();
