@@ -13,7 +13,10 @@
     "window": {
       "width": 1308,
       "height": 1024,
-      "show": false
+      "show": false,
+      "webPreferences": {
+        "webSecurity": false
+      }
     },
     "project": {
       "root": "documents/dashpad",

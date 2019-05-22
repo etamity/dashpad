@@ -2,35 +2,41 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
+import { AppAction } from 'reducers/app';
+
 class TabView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: props.activeTab || 0,
+            activeTab: null,
         };
         this.toggle = this.toggle.bind(this);
     }
 
     toggle(tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab,
-            });
-            if (this.props.onChange) {
-                this.props.onChange(tab);
-            }
+        AppAction.updateUIState({
+            keyPath: this.props.keyPath + '.activeTab',
+            value: tab,
+        });
+        this.setState({ activeTab: tab });
+        if (this.props.onChange) {
+            this.props.onChange(tab);
         }
     }
 
     render() {
         const tabsContent = this.props.tabs;
+        const activeTab = this.state.activeTab || this.props.activeTab;
         if (!tabsContent) {
             return null;
         }
 
         const titles = Object.keys(tabsContent) || [];
         const titlesView = titles.map((title, index) => {
-            let label = title.indexOf('[') > -1 ? title.slice(0, title.indexOf('[')).trim() : title;
+            let label =
+                title.indexOf('[') > -1
+                    ? title.slice(0, title.indexOf('[')).trim()
+                    : title;
             let icon = title
                 .slice(title.indexOf('[') + 1, title.lastIndexOf(']'))
                 .trim();
@@ -38,7 +44,7 @@ class TabView extends Component {
                 <NavItem key={index}>
                     <NavLink
                         className={classnames({
-                            active: this.state.activeTab === index,
+                            active: activeTab === index,
                         })}
                         onClick={() => {
                             this.toggle(index);
@@ -48,7 +54,7 @@ class TabView extends Component {
                         {label && (
                             <h6
                                 style={{
-                                    textTransform: 'capitalize'
+                                    textTransform: 'capitalize',
                                 }}
                             >
                                 {label}
@@ -59,7 +65,7 @@ class TabView extends Component {
             );
         });
         const tabs = titles.map((title, index) => {
-            return this.state.activeTab === index ? (
+            return activeTab === index ? (
                 <TabPane tabId={index} key={index}>
                     {tabsContent[title]}{' '}
                 </TabPane>
@@ -71,7 +77,7 @@ class TabView extends Component {
         return (
             <React.Fragment>
                 <Nav tabs>{titlesView}</Nav>
-                <TabContent activeTab={this.state.activeTab}>{tabs}</TabContent>
+                <TabContent activeTab={activeTab}>{tabs}</TabContent>
             </React.Fragment>
         );
     }
@@ -79,7 +85,12 @@ class TabView extends Component {
 
 TabView.propTypes = {
     tabs: PropTypes.object,
+    activeTab: PropTypes.number,
     onChange: PropTypes.func,
+};
+
+TabView.defaultProps = {
+    activeTab: 0,
 };
 
 export default TabView;

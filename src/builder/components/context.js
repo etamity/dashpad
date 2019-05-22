@@ -52,13 +52,4 @@ export default (props) => {
         getSibling,
         setSibling
     }
-}
-
-
-const getParent = (keyPath, key) => {
-    const parentKeyPath = keyPath.substring(0, keyPath.lastIndexOf('.'));
-    const keyPath1 = `${parentKeyPath}.${key}`;
-    return keyPath1
-}
-
-console.log(getParent('a.b.c.d.e', 'test'));
+};

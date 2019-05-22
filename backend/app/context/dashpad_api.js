@@ -196,10 +196,10 @@ class DashpahApi {
         this.send(action);
     }
 
-    exit() {
+    exit(delay) {
         setTimeout(() => {
             process && process.exit(0);
-        }, 200);
+        }, delay || 1000);
     }
 }
 

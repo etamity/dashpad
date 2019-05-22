@@ -108,7 +108,7 @@ const addVarsToKeyPathManager = (val, key, keyPath, name, obj) => {
 
 export const ParseKeyPathVars = (keyPath, name, obj) => {
     _.forEach(obj, (val, key) => {
-        if (!!val && !_.isEmpty(val)) {
+        if (!!val && !_.isEmpty(val) && !Object.values(UIEvent).some(val => key === val)) {
             addVarsToKeyPathManager(val, key, keyPath, name, obj);
         }
     });

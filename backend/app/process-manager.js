@@ -32,6 +32,9 @@ class ProcessManager extends EventEmitter {
         this.children = [];
         this.current = null;
     }
+    refresh() {
+        dispatch(this.children);
+    }
     getByNamespace(namespace) {
         return this.children.find(child =>
             child.packageInfo.namespace.includes(namespace)
