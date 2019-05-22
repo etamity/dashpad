@@ -74,7 +74,7 @@ class ProcessManager extends EventEmitter {
             payload: {
                 filePath,
                 params,
-                state: BackendStore.get()
+                state: BackendStore.get(),
             },
         };
         //console.log('from Main: ', action.payload);
@@ -89,12 +89,11 @@ class ProcessManager extends EventEmitter {
             this.children.push(child);
             this.current = child;
             child.on('message', action => {
-                if (!!action && (typeof action === 'object')) {
+                if (!!action && typeof action === 'object') {
                     WebContent.sendToUI(ActionEventType, action);
                 } else {
                     console.error(action);
                 }
-
             });
             child.on('exit', () => {
                 console.log('exit', child.pid);
