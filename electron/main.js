@@ -1,7 +1,8 @@
 'use strict';
 // Import parts of electron to use
+import path from 'path';
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
+// const path = require('path');
 const url = require('url');
 const config = require('../backend/configs/config').value();
 const port = config.uiport;
@@ -16,9 +17,11 @@ const installExtensions = async () => {
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
     await Promise.all(
-      extensions.map(name => installer.default(installer[name], forceDownload))
+        extensions.map(name =>
+            installer.default(installer[name], forceDownload)
+        )
     ).catch(err => console.error(err));
-  };
+};
 
 function createWindow() {
     // Create the browser window.
@@ -33,7 +36,7 @@ function createWindow() {
         //     pathname: '/#/dashboard',
         //     slashes: false,
         // });
-        indexPath = 'http://localhost:'+ port+ '/#/dashboard';
+        indexPath = 'http://localhost:' + port + '/#/dashboard';
         installExtensions();
     } else {
         indexPath = url.format({
