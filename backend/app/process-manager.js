@@ -45,7 +45,7 @@ class ProcessManager extends EventEmitter {
         return this.children.find(child => child.pid === pid);
     }
 
-    startProcess(script, params, optionsArgs) {
+    startProcess(script, params) {
         const { namespace, packageName } = BackendStore.get('app.packageInfo');
         const packageJson = ContentHelper.loadPackageJson(packageName);
         const packagePath = PathHelper.getPackagePath(packageName);
@@ -53,18 +53,9 @@ class ProcessManager extends EventEmitter {
             packagePath,
             script || packageJson.main || 'index.js',
         ].join('/');
-
-        options = Object.assign(
-            {},
-            options,
-            {
-                cwd: packagePath,
-            },
-            optionsArgs
-        );
-        const filePath = path.resolve(nodeScriptPath);
         const loaderPath = path.resolve('./backend/app/babel_transpile.js');
-        const child = fork(loaderPath, null, options);
+        const filePath = path.resolve(nodeScriptPath);
+        const child = fork(loaderPath, [filePath]);
         child.packageInfo = {
             namespace,
             packageName,
