@@ -1,8 +1,8 @@
 'use strict';
 // Import parts of electron to use
-import path from 'path';
+// import path from 'path';
 const { app, BrowserWindow } = require('electron');
-// const path = require('path');
+const path = require('path');
 const url = require('url');
 const config = require('../backend/configs/config').value();
 const port = config.uiport;

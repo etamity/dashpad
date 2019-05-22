@@ -1,4 +1,3 @@
-require("@babel/register")({});
 require('util').inspect.defaultOptions.depth = null;
 const { ProcessEventType } = require('./constants');
 const DashpadApi = require('./context/dashpad_api');
