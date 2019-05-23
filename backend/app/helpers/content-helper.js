@@ -1,6 +1,7 @@
 const pathHelper = require('./path-helper');
 const fileManager = require('../../libs/file-manager');
 const Config = require('../../configs/config');
+const _ = require('lodash');
 const { loadJson, loadFile, isExist } = fileManager;
 
 const loadConfigs = () =>
@@ -16,7 +17,7 @@ const loadNavs = () =>
             const packageSettingKey = config.packageName.replace('/', '.');
             if (settings) {
                 const currentSettings = Config.get(`settings.${packageSettingKey}`);
-                const mergeSettings = Object.assign({}, currentSettings, settings);
+                const mergeSettings = _.merge({}, currentSettings, settings);
                 Config.set(`settings.${packageSettingKey}`, mergeSettings);
             }
             return {
