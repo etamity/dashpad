@@ -4,7 +4,7 @@ const DashpadApi = require('./context/dashpad_api');
 const BackendStore = require('./store');
 const module_path = process.argv.slice(2)[0];
 console.log('module_path', module_path);
-const script = require(module_path).default;
+const script = require(module_path);
 process.on('message', action => {
     if (!!action && (typeof action === 'object')) {
         const { type, payload } = action;
@@ -17,6 +17,7 @@ process.on('message', action => {
                 global.Dashpad = new DashpadApi(context);
                 //console.log('from laoder: ', this_context);
                 typeof script === 'function' && script(payload.params);
+                typeof script.default === 'function' && script.default(payload.params);
                 break;
 
             case ProcessEventType.UPDATE_MODULE_STATE:

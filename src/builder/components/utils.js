@@ -138,8 +138,13 @@ export const EventsHook = (props, events) => {
                     value: e.target.value,
                 });
             }
-            if (next === UIEvent.ON_CLICK && _type === ContentType.LINK) {
+            if (next === UIEvent.ON_CLICK && (_type === ContentType.LINK || obj.link || obj.goto)) {
                 obj.link && shell.openExternal(obj.link);
+                if (obj.goto) {
+                    const filePath = Store.getState().app.packageInfo.filePath;
+                    const dir = filePath.substring(0, filePath.lastIndexOf('/') + 1);
+                    AppAction.loadUISchemaPath(dir + obj.goto);
+                }
             }
             VM.run(obj[next], Context(props), e);
         };

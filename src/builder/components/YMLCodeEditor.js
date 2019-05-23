@@ -3,6 +3,7 @@ import AceEditor, { split as SplitEditor, diff as DiffEditor } from 'react-ace';
 import { YMLBase } from './YMLBase';
 import { PropsFilter, EventsHook } from './utils';
 import { UIEvent } from './Constants';
+import _ from 'lodash';
 import 'brace/mode/jsx';
 
 const languages = [
@@ -99,6 +100,9 @@ export class YMLCodeEditorView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const mergeProps = Object.assign({}, defaultProps, obj);
+        if (mergeProps.mode === 'json' && _.isObject(mergeProps.value)) {
+            mergeProps.value = JSON.stringify(mergeProps.value, null, 2);
+        }
         const assignProps = PropsFilter({obj: mergeProps}, allowedProps);
         const assignEvents = EventsHook(this.props, allowedEvents);
         let CodeComponent = AceEditor;
@@ -113,6 +117,7 @@ export class YMLCodeEditorView extends YMLBase {
             default:
                 CodeComponent = AceEditor;
         }
+
         return (
             <CodeComponent
                 name={keyPath}
