@@ -72,8 +72,10 @@ export class SettingsView extends Component {
         Config.set('settings', this.state.settings);
         toast.success('[INFO] Settings updated!');
     }
-    doEditAction() {
-        this.setState({ editing: !this.state.editing });
+    doEditAction(keyPath) {
+        this.setState({ editing: {
+            [keyPath]: !this.state.editing[keyPath]
+        } });
     }
     renderField(keyPath, title, value) {
         const keyPathName = `${keyPath}.${title}`.toLowerCase();
@@ -217,7 +219,7 @@ export class SettingsView extends Component {
         );
     }
     renderFromGroup(keyPath, keyName, value) {
-        const renderComponent = this.state.editing ? (
+        const renderComponent = this.state.editing[keyPath] ? (
             <AceEditor
                 key={keyPath}
                 keyPath={keyPath}
@@ -242,7 +244,7 @@ export class SettingsView extends Component {
                 .map(field => this.renderField(keyPath, field, value[field]))
         );
 
-        const buttonIcon = this.state.editing ? 'icon-check' : 'icon-pencil';
+        const buttonIcon = this.state.editing[keyPath] ? 'icon-check' : 'icon-pencil';
         return (
             <Card key={keyPath}>
                 <CardHeader>
@@ -259,7 +261,7 @@ export class SettingsView extends Component {
                             className="d-flex justify-content-end align-items-center"
                         >
                             <Button
-                                onClick={this.doEditAction}
+                                onClick={()=> this.doEditAction(keyPath)}
                                 className="btn-stack-overflow"
                             >
                                 <i className={buttonIcon} />
