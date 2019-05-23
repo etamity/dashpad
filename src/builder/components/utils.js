@@ -137,10 +137,15 @@ export const EventsHook = (props, events) => {
                 });
             }
             if (next === UIEvent.ON_CLICK && (_type === ContentType.LINK || obj.link || obj.goto)) {
-                obj.link && shell.openExternal(obj.link);
+                const filePath = Store.getState().app.packageInfo.filePath;
+                const dir = filePath.substring(0, filePath.lastIndexOf('/') + 1);
+                if (obj.link) {
+                    const link = obj.link.search('http') > -1 ? obj.link : 'file://' + dir + obj.link;
+                    shell.openExternal(link);
+                    console.log(link);
+                }
                 if (obj.goto) {
-                    const filePath = Store.getState().app.packageInfo.filePath;
-                    const dir = filePath.substring(0, filePath.lastIndexOf('/') + 1);
+
                     AppAction.loadUISchemaPath(dir + obj.goto);
                 }
             }
