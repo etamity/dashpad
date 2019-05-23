@@ -158,10 +158,14 @@ class DashpahApi {
         this.send(action);
     }
 
-    showToast({ message, options }) {
+    showToast() {
+        const payload = _.isString(arguments[0])
+        ? { message: arguments[0], options: null }
+        : arguments[0];
+
         const action = {
             type: UIEventType.SHOW_TOAST,
-            payload: { message, options },
+            payload
         };
         this.send(action);
     }

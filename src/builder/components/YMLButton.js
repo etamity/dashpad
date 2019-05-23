@@ -36,6 +36,7 @@ const allowedProps = [
     'variant',
     'divider',
     'data-',
+    'link',
     'header',
 ];
 
