@@ -78,7 +78,7 @@ export class SettingsView extends Component {
         } });
     }
     renderField(keyPath, title, value) {
-        const keyPathName = `${keyPath}.${title}`.toLowerCase();
+        const keyPathName = `${keyPath}.${title}`;
         let inputType = 'text';
         if (_.isString(value)) {
             switch (title.toLowerCase()) {
@@ -275,12 +275,12 @@ export class SettingsView extends Component {
     }
 
     renderTabContent(keyPath, key, tabs) {
-        const keyPathName = `${keyPath}.${key}`.toLowerCase();
+        const keyPathName = `${keyPath}.${key}`;
         return Object.keys(tabs).map(tab => {
             const fieldGroup = tabs[tab];
             let inputFieldGroup = null;
             if (_.isObject(fieldGroup)) {
-                const subKeyPath = `${keyPathName}.${tab}`.toLowerCase();
+                const subKeyPath = `${keyPathName}.${tab}`;
                 inputFieldGroup = this.renderFromGroup(
                     subKeyPath,
                     tab,
