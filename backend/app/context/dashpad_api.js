@@ -160,7 +160,7 @@ class DashpahApi {
 
     showToast() {
         const payload = _.isString(arguments[0])
-        ? { message: arguments[0], options: null }
+        ? { message: arguments[0], options: arguments[1] }
         : arguments[0];
 
         const action = {

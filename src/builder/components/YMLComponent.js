@@ -11,6 +11,7 @@ import {
     YMLListView,
     YMLCardHeaderView,
     YMLCardFooterView,
+    YMLJsonSchemaView,
     YMLCardView,
     YMLButtonView,
     YMLRadioView,
@@ -76,6 +77,8 @@ export class YMLComponent extends React.Component {
                 return <YMLSlotView {...newProps} />;
             case ContentType.LIST:
                 return <YMLListView {...newProps} />;
+            case ContentType.JSONSCHEMA:
+                return <YMLJsonSchemaView {...newProps} />;
             case ContentType.MARKDOWN:
                 return <YMLMarkdownView {...newProps} />;
             case ContentType.LINK:
