@@ -20,14 +20,23 @@ class DashpahApi {
         }
         this.settings = {
             set: (keyPath, value) => {
-                Config.set(`settings.${this.getSettingKey()}.${keyPath}`, value);
-                return Config.get(`settings.${this.getSettingKey()}`);
+                return _.isString(keyPath)
+                    ? Config.set(
+                          `settings.${this.getSettingKey()}.${keyPath}`,
+                          value
+                      )
+                    : Config.set(`settings.${this.getSettingKey()}`, keyPath);
             },
             get: keyPath => {
-                return Config.get(`settings.${this.getSettingKey()}.${keyPath}`);
+                return keyPath
+                    ? Config.get(`settings.${this.getSettingKey()}.${keyPath}`)
+                    : Config.get(`settings.${this.getSettingKey()}`);
             },
             push: (keyPath, value) => {
-                Config.push(`settings.${this.getSettingKey()}.${keyPath}`, value);
+                Config.push(
+                    `settings.${this.getSettingKey()}.${keyPath}`,
+                    value
+                );
                 return Config.get(`settings.${this.getSettingKey()}`);
             },
             delete: keyPath => {
@@ -40,7 +49,7 @@ class DashpahApi {
         this.utils = require('./utils/index');
         this.initPlatforms();
     }
-    getSettingKey(){
+    getSettingKey() {
         return this.packageName.replace('/', '.');
     }
     initPlatforms() {
@@ -55,14 +64,14 @@ class DashpahApi {
             });
             this.platform['Github'] = Github;
         }
-        const JenkinsConnect = (url) => {
+        const JenkinsConnect = url => {
             const jenkinsUrl = new URL(url);
             jenkinsUrl.username = credential.username;
             jenkinsUrl.password = credential.password;
             return jenkinsapi.init(jenkinsUrl.href);
-        }
+        };
         this.platform['JenkinsConnect'] = JenkinsConnect;
-        
+
         if (jenkins && jenkins.endpoint) {
             this.platform['Jenkins'] = JenkinsConnect(jenkins.endpoint);
         }
