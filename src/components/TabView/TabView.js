@@ -26,12 +26,15 @@ class TabView extends Component {
 
     render() {
         const tabsContent = this.props.tabs;
-        const activeTab = this.state.activeTab || this.props.activeTab;
+        let activeTab = this.state.activeTab || this.props.activeTab;
         if (!tabsContent) {
             return null;
         }
 
         const titles = Object.keys(tabsContent) || [];
+        if (activeTab >= titles.length ) {
+            activeTab = 0
+        }
         const titlesView = titles.map((title, index) => {
             let label =
                 title.indexOf('[') > -1
