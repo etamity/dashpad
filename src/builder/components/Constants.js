@@ -17,6 +17,7 @@ export const ContainerType = keyMirror({
 export const ContentType = keyMirror({
     LIST: null,
     MARKDOWN: null,
+    JSONSCHEMA: null,
     CODE: null,
     TEXT: null,
     LINK: null,
@@ -62,6 +63,9 @@ export const ButtonGroupType = keyMirror({
 export const UIEvent = ({
     ON_CLICK: 'onClick',
     ON_CHANGE: 'onChange',
+
+    ON_SUBMIT: 'onSubmit',
+    ON_ERROR: 'onError',
 
     ON_LOAD: 'onLoad',
     ON_BEFORE_LOAD: 'onBeforeLoad',

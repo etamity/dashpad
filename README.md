@@ -842,8 +842,12 @@ e.g.
 `Dashpad.showToast({message, options});`
 
 ```js
+const options = {
+  type: 'info' // 'info' | 'success' | 'warning' | 'error' | 'default'
+}
 Dashpad.showToast({
     message: 'This is toast',
+    options
 });
 ```
 

@@ -45,6 +45,7 @@ export class YMLInputGroupView extends YMLBase {
 }
 
 const allowedProps = [
+    'accept',
     'bgSize',
     'type',
     'size',
@@ -146,10 +147,9 @@ export class YMLInputView extends YMLBase {
                         type: 'file',
                         id: 'file-input' + keyPath,
                         name: 'file-input' + keyPath,
-                        tooltip: 'Please choose file',
+                        tooltip: 'Please choose file'
                     }
                 );
-
                 break;
             case InputType.PASSWORD:
                 defaultProps = Object.assign(
@@ -189,6 +189,9 @@ export class YMLInputView extends YMLBase {
             defaultProps,
             PropsFilter(this.props, allowedProps)
         );
+        if (obj.type.toUpperCase() === InputType.FILE) {
+            delete defaultProps.value;
+        }
         const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <FormGroup>
