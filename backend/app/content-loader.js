@@ -29,8 +29,6 @@ const reloadScript = jsPath => {
     }
     WebContent.sendToUI(ActionEventType, action);
 }
-
-
 module.exports = {
     reloadScript,
     reloadConfig,

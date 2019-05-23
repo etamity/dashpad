@@ -1,6 +1,7 @@
 const pathHelper = require('./path-helper');
 const fileManager = require('../../libs/file-manager');
-const { loadJson , loadFile, isExist } = fileManager;
+const Config = require('../../configs/config');
+const { loadJson, loadFile, isExist } = fileManager;
 
 const loadConfigs = () =>
     pathHelper.getAllDashConfigFiles().map(packageModule =>
@@ -8,20 +9,28 @@ const loadConfigs = () =>
             content: loadJson(packageModule.file),
         })
     );
-
 const loadNavs = () =>
     loadConfigs()
-        .map(config => ({
-            ...config,
-            content: (config.content && config.content.navs) || [],
-        }))
+        .map(config => {
+            const settings = config.content && config.content.settings;
+            const packageSettingKey = config.packageName.replace('/', '.');
+            if (settings) {
+                const currentSettings = Config.get(`settings.${packageSettingKey}`);
+                const mergeSettings = Object.assign({}, currentSettings, settings);
+                Config.set(`settings.${packageSettingKey}`, mergeSettings);
+            }
+            return {
+                ...config,
+                content: (config.content && config.content.navs) || [],
+            };
+        })
         .filter(config => !!config.content)
-        .map(config =>
-            config.content.map(nav => ({
+        .map(config => {
+            return config.content.map(nav => ({
                 ...nav,
                 packageName: config.packageName,
-            }))
-        )
+            }));
+        })
         .reduce((result, next) => result.concat(next), []);
 
 const loadPackageJson = packageName =>
@@ -33,5 +42,5 @@ module.exports = {
     loadJson,
     loadFile,
     loadPackageJson,
-    isExist
+    isExist,
 };
