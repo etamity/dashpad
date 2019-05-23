@@ -74,7 +74,6 @@ export class YMLButtonView extends YMLBase {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(props, _.get(state.app.uiSchema, props.keyPath));
     return {
         ...props,
         obj: _.get(state.app.uiSchema, props.keyPath),

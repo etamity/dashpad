@@ -34,6 +34,7 @@ export class SettingsView extends Component {
             settings: Config.value().settings,
             showPassword: false,
             tooltipOpen: false,
+            editing: false,
         };
         this.doSaveAction = this.doSaveAction.bind(this);
         this.updateConfig = this.updateConfig.bind(this);
@@ -43,7 +44,9 @@ export class SettingsView extends Component {
         this.doDeleteButtonClick = this.doDeleteButtonClick.bind(this);
         this.renderField = this.renderField.bind(this);
         this.renderTabContent = this.renderTabContent.bind(this);
+        this.doEditAction = this.doEditAction.bind(this);
     }
+
     doDeleteButtonClick(keyPathName) {
         AppAction.showModal({
             title: 'Delete this settings value',
@@ -69,6 +72,9 @@ export class SettingsView extends Component {
         Config.set('settings', this.state.settings);
         toast.success('[INFO] Settings updated!');
     }
+    doEditAction() {
+        this.setState({ editing: !this.state.editing });
+    }
     renderField(keyPath, title, value) {
         const keyPathName = `${keyPath}.${title}`.toLowerCase();
         let inputType = 'text';
@@ -92,8 +98,21 @@ export class SettingsView extends Component {
             inputType = 'date';
         } else if (_.isBoolean(value)) {
             inputType = 'boolean';
+        } else if (_.isObject(value)) {
+            return this.renderObject(keyPath, title, value);
         }
-
+        const deleteButton = (
+            <InputGroupAddon addonType="append">
+                <Button
+                    className="btn-youtube"
+                    onClick={() => {
+                        this.doDeleteButtonClick(keyPathName);
+                    }}
+                >
+                    <i className="icon-trash" />
+                </Button>
+            </InputGroupAddon>
+        );
         const defaultInput = (
             <InputGroup>
                 <Input
@@ -103,16 +122,7 @@ export class SettingsView extends Component {
                         this.updateConfig(keyPathName, e.target.value)
                     }
                 />
-                <InputGroupAddon addonType="append">
-                    <Button
-                        color="danger"
-                        onClick={() => {
-                            this.doDeleteButtonClick(keyPathName);
-                        }}
-                    >
-                        <i className="icon-trash" />
-                    </Button>
-                </InputGroupAddon>
+                {deleteButton}
             </InputGroup>
         );
         const passwordInput = (
@@ -134,16 +144,7 @@ export class SettingsView extends Component {
                         this.updateConfig(keyPathName, e.target.value)
                     }
                 />
-                <InputGroupAddon addonType="append">
-                    <Button
-                        color="danger"
-                        onClick={() => {
-                            this.doDeleteButtonClick(title);
-                        }}
-                    >
-                        <i className="icon-trash" />
-                    </Button>
-                </InputGroupAddon>
+                 {deleteButton}
             </InputGroup>
         );
 
@@ -159,12 +160,7 @@ export class SettingsView extends Component {
                     color={'primary'}
                 />
                 <InputGroupAddon className="ml-2" addonType="append">
-                    <Label
-                        htmlFor={keyPathName}
-                        style={{ textTransform: 'capitalize' }}
-                    >
-                        {title}{' '}
-                    </Label>
+                    <Label htmlFor={keyPathName}>{title} </Label>
                 </InputGroupAddon>
             </InputGroup>
         );
@@ -182,7 +178,7 @@ export class SettingsView extends Component {
         return (
             <FormGroup key={`field-${keyPathName}`} row>
                 <Col md="3">
-                    <Label style={{ textTransform: 'capitalize' }}>
+                    <Label>
                         <b>{title}</b>
                     </Label>
                 </Col>
@@ -192,73 +188,86 @@ export class SettingsView extends Component {
             </FormGroup>
         );
     }
-
-    renderFromGroup(keyPath, tab, tabs) {
+    renderObject(keyPath, keyName, value) {
         return (
             <Card key={keyPath}>
                 <CardHeader>
-                    <strong style={{ textTransform: 'capitalize' }}>
-                        {tab}
-                    </strong>
+                    <Row>
+                        <Col
+                            md="8"
+                            className="d-flex justify-content-start align-items-center"
+                        >
+                            <strong>{keyName}</strong>
+                        </Col>
+                        <Col className="d-flex justify-content-center align-items-center" />
+                        <Col
+                            md="2"
+                            className="d-flex justify-content-end align-items-center"
+                        />
+                    </Row>
                 </CardHeader>
                 <CardBody>
-                    {Object.keys(tabs)
-                        .filter(
-                            key =>
-                                _.isObject(tabs[key]) && key.charAt(0) !== '_'
-                        )
-                        .map(field => {
-                            const keyPathName = `${keyPath}.${field}`.toLowerCase();
-                            return (
-                                <FormGroup key={`field-${keyPathName}`} row>
-                                    <Col md="2">
-                                        <Label
-                                            style={{
-                                                textTransform: 'capitalize',
-                                            }}
-                                        >
-                                            <b>{field}</b>
-                                        </Label>
-                                    </Col>
-                                    <Col xs="12" md="10">
-                                        <AceEditor
-                                            key={keyPath}
-                                            keyPath={keyPath}
-                                            width="100%"
-                                            theme="solarized_dark"
-                                            mode="json"
-                                            wrapEnabled={true}
-                                            onChange={val => {
-                                                try {
-                                                    this.updateConfig(
-                                                        keyPathName,
-                                                        JSON.parse(val)
-                                                    );
-                                                } catch (err) {
-                                                    //console.log(err);
-                                                }
-                                            }}
-                                            height="150px"
-                                            minLines={2}
-                                            value={JSON.stringify(
-                                                tabs[field],
-                                                null,
-                                                2
-                                            )}
-                                        />
-                                    </Col>
-                                </FormGroup>
-                            );
-                        })}
-                    {Object.keys(tabs)
-                        .filter(
-                            key =>
-                                !_.isObject(tabs[key]) && key.charAt(0) !== '_'
-                        )
+                    {Object.keys(value)
+                        .filter(key => key.charAt(0) !== '_')
                         .map(field =>
-                            this.renderField(keyPath, field, tabs[field])
+                            this.renderField(keyPath, field, value[field])
                         )}
                 </CardBody>
+            </Card>
+        );
+    }
+    renderFromGroup(keyPath, keyName, value) {
+        const renderComponent = this.state.editing ? (
+            <AceEditor
+                key={keyPath}
+                keyPath={keyPath}
+                width="100%"
+                theme="solarized_dark"
+                mode="json"
+                wrapEnabled={true}
+                onChange={val => {
+                    try {
+                        this.updateConfig(keyPath, JSON.parse(val));
+                    } catch (err) {
+                        //console.log(err);
+                    }
+                }}
+                height="150px"
+                minLines={2}
+                value={JSON.stringify(value, null, 2)}
+            />
+        ) : (
+            Object.keys(value)
+                .filter(key => key.charAt(0) !== '_')
+                .map(field => this.renderField(keyPath, field, value[field]))
+        );
+
+        const buttonIcon = this.state.editing ? 'icon-check' : 'icon-pencil';
+        return (
+            <Card key={keyPath}>
+                <CardHeader>
+                    <Row>
+                        <Col
+                            md="8"
+                            className="d-flex justify-content-start align-items-center"
+                        >
+                            <strong>{keyName}</strong>
+                        </Col>
+                        <Col className="d-flex justify-content-center align-items-center" />
+                        <Col
+                            md="2"
+                            className="d-flex justify-content-end align-items-center"
+                        >
+                            <Button
+                                onClick={this.doEditAction}
+                                className="btn-stack-overflow"
+                            >
+                                <i className={buttonIcon} />
+                            </Button>
+                        </Col>
+                    </Row>
+                </CardHeader>
+                <CardBody>{renderComponent}</CardBody>
             </Card>
         );
     }
