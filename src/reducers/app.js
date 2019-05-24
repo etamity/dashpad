@@ -271,8 +271,6 @@ const updatePackageInfo = filePath => {
     const fileName = pathArr[pathArr.length - 1];
     let packageName = filePath.match(/packages\/(.*?)\/_/)[1];
     let namespace = (filePath.match(/packages\/(.*?).yml/)[1] + '.yml');
-    packageName = packageName && packageName.toLowerCase();
-    namespace = namespace && namespace.toLowerCase();
     const packageInfo = {
         fileName,
         packageName,

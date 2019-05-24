@@ -92,13 +92,18 @@ Create `_dash/config.yml` file, and copy the menu items as below:
 ```yaml
 ---
 navs:
-    - name: My First Module
-      icon: icon-speedometer
-      isOpen: true
-      goto: ui.yml # Your entry ui file
-      badge:
-          variant: info
-          text: NEW
+  - name: My First Module
+    icon: icon-speedometer
+    isOpen: true
+    goto: ui.yml # Your entry ui file
+    badge:
+        variant: info
+        text: NEW
+# This settings will display in Dashpad settings in UI
+# settings: 
+  # username: Joey
+  # token: someToken
+  # configFile: !import someConfigFile.json
 ```
 
 Now restart dashpad, you will see the new side menu `My First Module`.
@@ -244,7 +249,7 @@ Dashpad will parse `Tabs_mytabs` as `Tabs` component and the component name is `
 **Important** :  `Type_name` the `Type` must start with capital character, so Dashpad will recognise it is a component Type, otherwise will parse it as an attribute.
 
 ## Components
-
+-   #### **[Alert](#alert-1)**
 -   #### **[Container](#container-1)**
 -   #### **[Tabs](#tabs-1)**
 -   #### **[Card](#card-1)**
@@ -270,6 +275,25 @@ Dashpad will parse `Tabs_mytabs` as `Tabs` component and the component name is `
 -   #### **[Code](#code-1)**
 
 ---
+
+-   ### **Alert**
+
+```yaml
+Alert:
+  color: warning
+  Html:
+    content: >
+      <h4 className="alert-heading">Well done!</h4>
+        <p>
+          Aww yeah, you successfully read this important alert message. This example text is going
+          to run a bit longer so that you can see how spacing within an alert works with this kind
+          of content.
+        </p>
+        <hr />
+        <p className="mb-0">
+          Whenever you need to, be sure to use margin utilities to keep things nice and tidy.
+      </p>
+```
 
 -   ### **Container**
 
@@ -769,7 +793,8 @@ You can have your own scope settings variable by access `Dashpad.settings`
 e.g.
 
 ```js
-Dashpad.settings.get(keyPath); // get the settings under your package name
+Dashpad.settings.get(); // get all settings under your package name
+Dashpad.settings.get(keyPath); // get the keyPath settings under your package name
 Dashpad.settings.set(keyPath, value); // set the variables under your package name
 Dashpad.settings.push(keyPath, value); // push an element into an array under your package name
 Dashpad.settings.delete(keyPath); // delete the variables under your package name
