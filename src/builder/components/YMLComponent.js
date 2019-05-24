@@ -31,7 +31,8 @@ import {
     YMLSlotView,
     YMLFieldView,
     YMLCodeEditorView,
-    YMLAlertView
+    YMLAlertView,
+    YMLListContentView
 } from './index';
 
 import { ContentType, ContainerType, FieldType, isInputType } from './Constants';
@@ -83,6 +84,8 @@ export class YMLComponent extends React.Component {
                 return <YMLSlotView {...newProps} />;
             case ContentType.LIST:
                 return <YMLListView {...newProps} />;
+            case ContentType.LISTCONTENT:
+                return <YMLListContentView {...newProps} />;
             case ContentType.JSONSCHEMA:
                 return <YMLJsonSchemaView {...newProps} />;
             case ContentType.MARKDOWN:

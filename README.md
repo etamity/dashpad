@@ -572,12 +572,9 @@ List:
         - list item 1
         - list item 2
         - list item 3
-        - content:
+        - Listcontent:
               title: list item 4
               description: this is list item 4 content
-              Badge:
-                  icon: icon-drop
-                  label: new
 ```
 
 -   ### **Html**
