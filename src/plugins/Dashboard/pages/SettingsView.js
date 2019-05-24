@@ -73,9 +73,11 @@ export class SettingsView extends Component {
         toast.success('[INFO] Settings updated!');
     }
     doEditAction(keyPath) {
-        this.setState({ editing: {
-            [keyPath]: !this.state.editing[keyPath]
-        } });
+        this.setState({
+            editing: {
+                [keyPath]: !this.state.editing[keyPath],
+            },
+        });
     }
     renderField(keyPath, title, value) {
         const keyPathName = `${keyPath}.${title}`;
@@ -146,7 +148,7 @@ export class SettingsView extends Component {
                         this.updateConfig(keyPathName, e.target.value)
                     }
                 />
-                 {deleteButton}
+                {deleteButton}
             </InputGroup>
         );
 
@@ -191,8 +193,9 @@ export class SettingsView extends Component {
         );
     }
     renderObject(keyPath, keyName, value) {
+        const keyPathName = keyPath + '.' + keyName;
         return (
-            <Card key={keyPath}>
+            <Card key={keyPathName}>
                 <CardHeader>
                     <Row>
                         <Col
@@ -212,7 +215,7 @@ export class SettingsView extends Component {
                     {Object.keys(value)
                         .filter(key => key.charAt(0) !== '_')
                         .map(field =>
-                            this.renderField(keyPath, field, value[field])
+                            this.renderField(keyPathName, field, value[field])
                         )}
                 </CardBody>
             </Card>
@@ -244,7 +247,9 @@ export class SettingsView extends Component {
                 .map(field => this.renderField(keyPath, field, value[field]))
         );
 
-        const buttonIcon = this.state.editing[keyPath] ? 'icon-check' : 'icon-pencil';
+        const buttonIcon = this.state.editing[keyPath]
+            ? 'icon-check'
+            : 'icon-pencil';
         return (
             <Card key={keyPath}>
                 <CardHeader>
@@ -261,7 +266,7 @@ export class SettingsView extends Component {
                             className="d-flex justify-content-end align-items-center"
                         >
                             <Button
-                                onClick={()=> this.doEditAction(keyPath)}
+                                onClick={() => this.doEditAction(keyPath)}
                                 className="btn-stack-overflow"
                             >
                                 <i className={buttonIcon} />
