@@ -11,7 +11,8 @@ export const ContainerType = keyMirror({
     BUTTONGROUP: null,
     ROW: null,
     COLLAPSE: null,
-    SLOT: null
+    SLOT: null,
+    ALERT: null
 });
 
 export const ContentType = keyMirror({

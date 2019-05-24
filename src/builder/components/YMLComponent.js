@@ -30,7 +30,8 @@ import {
     YMLCollapseView,
     YMLSlotView,
     YMLFieldView,
-    YMLCodeEditorView
+    YMLCodeEditorView,
+    YMLAlertView
 } from './index';
 
 import { ContentType, ContainerType, FieldType, isInputType } from './Constants';
@@ -39,6 +40,9 @@ import { ContentType, ContainerType, FieldType, isInputType } from './Constants'
 export class YMLComponent extends React.Component {
     render() {
         const { name, type, keyPath, obj } = this.props;
+        if (!!obj.hidden) {
+            return <React.Fragment />;
+        }
         const uniqueKeyPath = keyPath ? `${keyPath}.${name}` : name;
 
         ParseKeyPathVars(keyPath, name, obj);
@@ -56,6 +60,8 @@ export class YMLComponent extends React.Component {
         switch (type.toUpperCase()) {
             case ContainerType.COLLAPSE:
                 return <YMLCollapseView {...newProps} />;
+            case ContainerType.ALERT:
+                return <YMLAlertView {...newProps} />;
             case ContainerType.CONTAINER:
                 return <YMLContainerView {...newProps} />;
             case ContainerType.TABS:
