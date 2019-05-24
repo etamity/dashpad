@@ -7,9 +7,9 @@ import {
     FormGroup,
 } from 'reactstrap';
 import _ from 'lodash';
-import { PropsFilter } from './utils';
+import { PropsFilter, EventsHook, getTypes } from './utils';
 import { YMLBase } from './YMLBase';
-import { YMLBadgeView } from './index';
+import { YMLComponent } from './YMLComponent';
 
 import classNames from 'classnames';
 
@@ -22,72 +22,65 @@ const allowedProps = [
     'active',
     'data-',
 ];
+
+const allowedEvents = [UIEvent.ON_CLICK];
+
+export const YMLListContentView = ({obj}) => (
+    <React.Fragment>
+        {obj.title && (
+            <ListGroupItemHeading>
+                <div>{obj.title} </div>
+            </ListGroupItemHeading>
+        )}
+        {obj.description && <ListGroupItemText>{obj.description}</ListGroupItemText>}
+    </React.Fragment>
+);
+
 export class YMLListView extends YMLBase {
+    
     render() {
-        const { name, type, keyPath, obj } = this.props;
+        const { keyPath, obj } = this.props;
         const { items } = obj;
+        let classes = {};
         const list =
             items &&
             items.map((item, index) => {
-                const parseContent = content => {
-                    if (_.isPlainObject(item.content)) {
-                        const view = (
-                            <React.Fragment>
-                                {content.title && (
-                                    <ListGroupItemHeading>
-                                        <div>{content.title} </div>
-                                    </ListGroupItemHeading>
-                                )}
-                                {content.description && (
-                                    <ListGroupItemText>
-                                        {content.description}
-                                    </ListGroupItemText>
-                                )}
-                            </React.Fragment>
-                        );
-                        return view;
-                    }
-                    return item.content;
+                classes = {
+                    itemClass: classNames({
+                        [`list-group-item-accent-${item.variant ||
+                            'success'}`]: true,
+                        active: obj.selected === index,
+                    }),
                 };
+                const assignProps = PropsFilter(this.props, allowedProps);
+                const assignEvents = EventsHook(this.props, allowedEvents);
 
-                let content = item;
-                let classes = {};
-                let newProps = {};
-                if (_.isPlainObject(item)) {
-                    content = parseContent(item.content);
-                    classes = {
-                        itemClass: classNames({
-                            [`list-group-item-accent-${item.variant ||
-                                'success'}`]: true,
-                            active: obj.selected === index,
-                        }),
-                    };
-                    newProps = {
+                const content = getTypes(item).map(({ name, type }, index) => {
+                    const field = item[name];
+                    const newProps = {
                         name,
+                        key: keyPath + index,
                         keyPath: keyPath,
                         type,
-                        obj: item.Badge,
+                        obj: field,
                     };
-                    if (!item.color && index % 2 === 0) {
-                        item.color = 'info';
-                    }
-                }
-                const assignProps = PropsFilter(this.props, allowedProps);
+                    return <YMLComponent {...newProps} {...assignProps}
+                    {...assignEvents} />;
+                })
                 return (
                     <ListGroupItem
                         action
                         key={keyPath + index}
                         className={classes.itemClass}
-                        {...assignProps}
                     >
-                        {content}{' '}
-                        {item && item.Badge && <YMLBadgeView {...newProps} />}
+                        {content.length > 0 ? content : item}
                     </ListGroupItem>
                 );
             });
+        
         return (
             <FormGroup key={keyPath}>
-                <ListGroup className="list-group-accent" tag={'div'}>
+                <ListGroup className="list-group-accent" tag="div">
                     {list}
                 </ListGroup>
             </FormGroup>

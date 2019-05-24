@@ -165,7 +165,7 @@ export const getTypes = obj => {
         return [];
     }
     return Object.keys(obj)
-        .filter(name => isFirstLetterIsUpper(name))
+        .filter(name => isFirstLetterIsUpper(name) && _.isNaN(Number(name)))
         .map(name => ({
             type: name.split('_')[0],
             name,
