@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
 import { UIEvent } from './Constants';
-
+import _ from 'lodash';
 const textClass = obj => {
     return classNames(
         obj.tag,
@@ -23,6 +23,9 @@ export class YMLTextView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const assignEvents = EventsHook(this.props, allowedEvents);
+        if ( _.isObject(obj.content)) {
+            obj.content = JSON.stringify(obj.content, null, 2);
+        }
         return (
             <p
                 key={keyPath}

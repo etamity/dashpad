@@ -1,5 +1,6 @@
 export * from './YMLComponent';
 export * from './YMLButton';
+export * from './YMLBadge';
 export * from './YMLRadio';
 export * from './YMLCheckbox';
 export * from './YMLSelect';
@@ -25,4 +26,6 @@ export * from './YMLSlot';
 export * from './YMLField';
 export * from './YMLJsonSchema';
 export * from './YMLCodeEditor';
+export * from './YMLAlert';
+
 

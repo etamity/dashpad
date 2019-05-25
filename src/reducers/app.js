@@ -6,7 +6,6 @@ import { Store } from 'store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import VM from 'libs/VM';
-import KeyPathManager from 'libs/KeyPathManager';
 import { SchemaKeys } from './Constants'
 const {
     Constants,
@@ -84,20 +83,6 @@ const updateUIState = (keyPath, value, state) => {
 
 /**
  *
- * @param {string} keyName The state path string
- * @param {*} value Update value
- * @param {*} state Initial state
- */
-const updateUIStateByVars = (keyPath, value, state) => {
-    const allKeyPaths = KeyPathManager.get(keyPath);
-    return (allKeyPaths && allKeyPaths.reduce((root, next) => {
-        return updateUIState(next, value, root);
-    }, state)) || state;
-};
-
-
-/**
- *
  * @param {*} text Copy text to clipboard
  */
 const copyToClipboard = text => {
@@ -145,7 +130,6 @@ export default function update(state = initState, action) {
             break;
         case AppEventType.ON_LOAD_UI:
             const { ymlPath } = payload;
-            KeyPathManager.clear();
             const resolvePath = ymlPath || state.packageInfo.filePath;
             const packageInfo = updatePackageInfo(resolvePath);
             const uiSchema = ContentHelper.loadJson(resolvePath);
@@ -196,15 +180,14 @@ export default function update(state = initState, action) {
                 const stateArr = payload;
                 newState = stateArr.reduce((root, next) => {
                     const { keyPath, value } = next;
-                    root = immutable(root)
+                    return root = immutable(root)
                     .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
                     .value();
-                    return updateUIStateByVars(keyPath, value, root);
                 }, state);
+                console.log(payload, newState);
             } else {
                 const { keyPath, value } = payload;
-                newState = updateUIStateByVars(keyPath, value, state);
-                newState = immutable(newState)
+                newState = immutable(state)
                 .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
                 .value();
             }
@@ -271,8 +254,6 @@ const updatePackageInfo = filePath => {
     const fileName = pathArr[pathArr.length - 1];
     let packageName = filePath.match(/packages\/(.*?)\/_/)[1];
     let namespace = (filePath.match(/packages\/(.*?).yml/)[1] + '.yml');
-    packageName = packageName && packageName.toLowerCase();
-    namespace = namespace && namespace.toLowerCase();
     const packageInfo = {
         fileName,
         packageName,

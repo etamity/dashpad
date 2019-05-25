@@ -11,11 +11,14 @@ export const ContainerType = keyMirror({
     BUTTONGROUP: null,
     ROW: null,
     COLLAPSE: null,
-    SLOT: null
+    SLOT: null,
+    ALERT: null
 });
 
 export const ContentType = keyMirror({
+    BADGE: null,
     LIST: null,
+    LISTITEM: null,
     MARKDOWN: null,
     JSONSCHEMA: null,
     CODE: null,
