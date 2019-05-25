@@ -18,7 +18,7 @@ export class YMLCardHeaderView extends YMLBase {
             };
             return {
                 type: childProps.type,
-                position: childProps.obj.position,
+                position: childProps.obj.position || 'right' ,
                 view: <YMLComponent {...childProps} />,
             };
         });
