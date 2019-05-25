@@ -16,8 +16,9 @@ export const ContainerType = keyMirror({
 });
 
 export const ContentType = keyMirror({
+    BADGE: null,
     LIST: null,
-    LISTCONTENT: null,
+    LISTITEM: null,
     MARKDOWN: null,
     JSONSCHEMA: null,
     CODE: null,
