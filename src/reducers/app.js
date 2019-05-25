@@ -184,7 +184,6 @@ export default function update(state = initState, action) {
                     .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
                     .value();
                 }, state);
-                console.log(payload, newState);
             } else {
                 const { keyPath, value } = payload;
                 newState = immutable(state)
