@@ -572,9 +572,18 @@ List:
         - list item 1
         - list item 2
         - list item 3
-        - Listcontent:
-              title: list item 4
-              description: this is list item 4 content
+        - title: list item 4
+          description: this is list item 4 content
+        - Text:
+            context: just text
+    Table:
+        labels: ['id', 'name', 'email', 'color']
+        dataset:
+            - ['1', 'joey', 'etamity@gmail.com', 'red']
+            - ['2', 'joe', 'joey@gmail.com', 'blue']
+            - ['3', 'jack', 'jack@gmail.com', 'green']
+            - ['3', 'joseph', 'joseph@gmail.com', 'black']
+
 ```
 
 -   ### **Html**

@@ -88,12 +88,12 @@ const updateUIState = (keyPath, value, state) => {
  * @param {*} value Update value
  * @param {*} state Initial state
  */
-const updateUIStateByVars = (keyPath, value, state) => {
-    const allKeyPaths = KeyPathManager.get(keyPath);
-    return (allKeyPaths && allKeyPaths.reduce((root, next) => {
-        return updateUIState(next, value, root);
-    }, state)) || state;
-};
+// const updateUIStateByVars = (keyPath, value, state) => {
+//     const allKeyPaths = KeyPathManager.get(keyPath);
+//     return (allKeyPaths && allKeyPaths.reduce((root, next) => {
+//         return updateUIState(next, value, root);
+//     }, state)) || state;
+// };
 
 
 /**
@@ -196,15 +196,14 @@ export default function update(state = initState, action) {
                 const stateArr = payload;
                 newState = stateArr.reduce((root, next) => {
                     const { keyPath, value } = next;
-                    root = immutable(root)
+                    return root = immutable(root)
                     .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
                     .value();
-                    return updateUIStateByVars(keyPath, value, root);
                 }, state);
+                console.log(payload, newState);
             } else {
                 const { keyPath, value } = payload;
-                newState = updateUIStateByVars(keyPath, value, state);
-                newState = immutable(newState)
+                newState = immutable(state)
                 .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
                 .value();
             }

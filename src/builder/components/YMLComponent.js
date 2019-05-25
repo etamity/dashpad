@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FormGroup } from 'reactstrap';
 import { ParseKeyPathVars } from './utils';
-
 import {
     YMLTabsView,
     YMLFormView,
@@ -14,6 +13,7 @@ import {
     YMLJsonSchemaView,
     YMLCardView,
     YMLButtonView,
+    YMLBadgeView,
     YMLRadioView,
     YMLCheckboxView,
     YMLSelectView,
@@ -32,31 +32,30 @@ import {
     YMLFieldView,
     YMLCodeEditorView,
     YMLAlertView,
-    YMLListContentView
+    YMLListItemView,
 } from './index';
 
-import { ContentType, ContainerType, FieldType, isInputType } from './Constants';
-
+import {
+    ContentType,
+    ContainerType,
+    FieldType,
+    isInputType,
+} from './Constants';
 
 export class YMLComponent extends React.Component {
     render() {
         const { name, type, keyPath, obj } = this.props;
-        if (!!obj.hidden) {
+        if (!obj || !!obj.hidden) {
             return <React.Fragment />;
         }
         const uniqueKeyPath = keyPath ? `${keyPath}.${name}` : name;
-
-        ParseKeyPathVars(keyPath, name, obj);
         let newProps = {
             name,
             key: uniqueKeyPath,
             keyPath: uniqueKeyPath,
             type,
-            obj,
+            obj: ParseKeyPathVars(keyPath, obj)
         };
-        if (!obj) {
-            return <div />;
-        }
 
         switch (type.toUpperCase()) {
             case ContainerType.COLLAPSE:
@@ -84,8 +83,10 @@ export class YMLComponent extends React.Component {
                 return <YMLSlotView {...newProps} />;
             case ContentType.LIST:
                 return <YMLListView {...newProps} />;
-            case ContentType.LISTCONTENT:
-                return <YMLListContentView {...newProps} />;
+            case ContentType.LISTITEM:
+                return <YMLListItemView {...newProps} />;
+            case ContentType.BADGE:
+                return <YMLBadgeView {...newProps} />;
             case ContentType.JSONSCHEMA:
                 return <YMLJsonSchemaView {...newProps} />;
             case ContentType.MARKDOWN:

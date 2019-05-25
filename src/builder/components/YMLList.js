@@ -6,11 +6,11 @@ import {
     ListGroupItemText,
     FormGroup,
 } from 'reactstrap';
-import _ from 'lodash';
 import { PropsFilter, EventsHook, getTypes } from './utils';
 import { YMLBase } from './YMLBase';
 import { YMLComponent } from './YMLComponent';
-
+import { UIEvent, ContentType } from './Constants';
+import _ from 'lodash';
 import classNames from 'classnames';
 
 const allowedProps = [
@@ -20,66 +20,78 @@ const allowedProps = [
     'href',
     'color',
     'active',
+    'className',
     'data-',
 ];
 
 const allowedEvents = [UIEvent.ON_CLICK];
 
-export const YMLListContentView = ({obj}) => (
-    <React.Fragment>
-        {obj.title && (
-            <ListGroupItemHeading>
-                <div>{obj.title} </div>
-            </ListGroupItemHeading>
-        )}
-        {obj.description && <ListGroupItemText>{obj.description}</ListGroupItemText>}
-    </React.Fragment>
-);
+export class YMLListItemView extends YMLBase {
+    render() {
+        const { keyPath, name, obj } = this.props;
+        const assignEvents = EventsHook(this.props, allowedEvents);
+        const assignProps = PropsFilter(this.props, allowedProps);
+        const childComponents = getTypes(obj).map(({ name, type }, index) => {
+            const newProps = {
+                name,
+                keyPath: keyPath,
+                key: keyPath + index,
+                type: type,
+                obj: obj[name],
+            };
+            return <YMLComponent {...newProps} />;
+        });
+        return (
+            <ListGroupItem
+                action
+                key={keyPath + name}
+                className={obj._activeClass}
+                {...assignProps}
+                {...assignEvents}
+            >
+                {obj.title && (
+                    <ListGroupItemHeading>
+                        <div>{obj.title} </div>
+                    </ListGroupItemHeading>
+                )}
+                {obj.description && (
+                    <ListGroupItemText>{obj.description}</ListGroupItemText>
+                )}
+                {_.isString(obj.content) && obj.content}
+                {childComponents}
+            </ListGroupItem>
+        );
+    }
+}
 
 export class YMLListView extends YMLBase {
-    
     render() {
         const { keyPath, obj } = this.props;
         const { items } = obj;
-        let classes = {};
         const list =
             items &&
             items.map((item, index) => {
-                classes = {
-                    itemClass: classNames({
-                        [`list-group-item-accent-${item.variant ||
-                            'success'}`]: true,
-                        active: obj.selected === index,
-                    }),
+                const filterEvents = Object.keys(obj)
+                    .filter(key => allowedEvents.includes(key))
+                    .map(key => ({ [key]: obj[key] }));
+                const _activeClass = classNames({
+                    [`list-group-item-accent-${obj.variant ||
+                        'success'}`]: true,
+                    active: obj.active === index,
+                });
+                const newProps = {
+                    name: 'items.' + index,
+                    key: keyPath + '.items.' + index,
+                    keyPath,
+                    type: ContentType.LISTITEM,
+                    obj: Object.assign({}, item, ...filterEvents, {
+                        _activeClass,
+                    }, _.isString(item) && {content: item}),
                 };
-                const assignProps = PropsFilter(this.props, allowedProps);
-                const assignEvents = EventsHook(this.props, allowedEvents);
-
-                const content = getTypes(item).map(({ name, type }, index) => {
-                    const field = item[name];
-                    const newProps = {
-                        name,
-                        key: keyPath + index,
-                        keyPath: keyPath,
-                        type,
-                        obj: field,
-                    };
-                    return <YMLComponent {...newProps} {...assignProps}
-                    {...assignEvents} />;
-                })
-                return (
-                    <ListGroupItem
-                        action
-                        key={keyPath + index}
-                        className={classes.itemClass}
-                    >
-                        {content.length > 0 ? content : item}
-                    </ListGroupItem>
-                );
+                return <YMLComponent {...newProps} />;
             });
-        
         return (
-            <FormGroup key={keyPath}>
+            <FormGroup key={keyPath} className={obj.className}>
                 <ListGroup className="list-group-accent" tag="div">
                     {list}
                 </ListGroup>
