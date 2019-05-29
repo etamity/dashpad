@@ -59,49 +59,81 @@ export const ParseKeyPathVars = (keyPath, obj) => {
         '\\${',
         '}',
         vars,
-        keyPath
+        keyPath,
+        (keyNames, keyPath, parent) => {
+            const propsNameArr = keyPath.split('.');
+            const propName = propsNameArr[propsNameArr.length - 1];
+            if (!parent.refs) {
+                parent.refs = {};
+            }
+            if (!parent.refs[propName]) {
+                parent.refs[propName] = keyNames[0];
+            }
+        },
+        obj
     );
 };
 
 export const EventsHook = (props, events) => {
-    const { keyPath, type, obj } = props;
+    const { type, obj } = props;
     return events.reduce((eventProps, next) => {
         const _type = type && type.toUpperCase();
-        eventProps[next] = e => {
-            if (next === UIEvent.ON_CHANGE && _type === FieldType.INPUT) {
-                const keyPathFull = keyPath + '.value';
-                AppAction.updateUIState({
-                    keyPath: keyPathFull,
-                    value: e.target.value,
-                });
-            }
-            if (
-                next === UIEvent.ON_CLICK &&
-                _.isPlainObject(obj) &&
-                (_type === ContentType.LINK || obj.link || obj.goto)
-            ) {
-                const filePath = Store.getState().app.packageInfo.filePath;
-                const dir = filePath.substring(
-                    0,
-                    filePath.lastIndexOf('/') + 1
-                );
-                if (obj.link) {
-                    const link =
-                        obj.link.search('http') > -1
-                            ? obj.link
-                            : 'file://' + dir + obj.link;
-                    shell.openExternal(link);
+        if (!eventProps[next]) {
+            eventProps[next] = e => {
+                if (next === UIEvent.ON_CHANGE) {
+                    const { refs } = obj;
+                    refs &&
+                        Object.keys(refs).forEach(propKey => {
+                            let value;
+                            switch (_type) {
+                                case FieldType.INPUT:
+                                    value = e.target.value;
+                                    break;
+                                case ContentType.CODE:
+                                    value = e;
+                                    if (!obj.mode || obj.mode === 'json') {
+                                        value = JSON.parse(e);
+                                    }
+                                    break;
+                                default:
+                            }
+                            if (value) {
+                                const keyPathFull = `$vars.${refs[propKey]}`;
+                                AppAction.updateUIState({
+                                    keyPath: keyPathFull,
+                                    value,
+                                });
+                            }
+                        });
                 }
-                if (obj.goto) {
-                    AppAction.loadUISchemaPath(dir + obj.goto);
+                if (
+                    next === UIEvent.ON_CLICK &&
+                    _.isPlainObject(obj) &&
+                    (_type === ContentType.LINK || obj.link || obj.goto)
+                ) {
+                    const filePath = Store.getState().app.packageInfo.filePath;
+                    const dir = filePath.substring(
+                        0,
+                        filePath.lastIndexOf('/') + 1
+                    );
+                    if (obj.link) {
+                        const link =
+                            obj.link.search('http') > -1
+                                ? obj.link
+                                : 'file://' + dir + obj.link;
+                        shell.openExternal(link);
+                    }
+                    if (obj.goto) {
+                        AppAction.loadUISchemaPath(dir + obj.goto);
+                    }
                 }
-            }
-            try {
-                VM.run(obj[next], Context(props), e);
-            } catch (err) {
-                console.error(err);
-            }
-        };
+                try {
+                    VM.run(obj[next], Context(props), e);
+                } catch (err) {
+                    console.error(err);
+                }
+            };
+        }
         return eventProps;
     }, Object.create(null));
 };

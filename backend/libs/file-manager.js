@@ -72,6 +72,9 @@ module.exports = {
             });
         });
     },
+    writeSync: (path, data) => {
+        return fs.writeFileSync(path, data, 'utf8');
+    },
     copyFolder: (from, to, options) => {
         console.log('Copy From', from, 'to', to);
         return new Promise((resolve, reject) => {

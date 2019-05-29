@@ -13,6 +13,7 @@ class DashpahApi {
         BackendStore.init(state);
         this.dispatch = dispatch;
         const packageInfo = state.app.packageInfo;
+        this.packageInfo = packageInfo;
         if (packageInfo) {
             const { packageName, namespace } = packageInfo;
             this.process_namespace = namespace;
