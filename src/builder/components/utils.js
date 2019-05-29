@@ -75,7 +75,7 @@ export const ParseKeyPathVars = (keyPath, obj) => {
 };
 
 export const EventsHook = (props, events) => {
-    const { type, obj } = props;
+    const { keyPath, type, obj } = props;
     return events.reduce((eventProps, next) => {
         const _type = type && type.toUpperCase();
         if (!eventProps[next]) {
@@ -98,9 +98,14 @@ export const EventsHook = (props, events) => {
                                 default:
                             }
                             if (value) {
-                                const keyPathFull = `$vars.${refs[propKey]}`;
+                                const keyPathVars = `$vars.${refs[propKey]}`;
                                 AppAction.updateUIState({
-                                    keyPath: keyPathFull,
+                                    keyPath: keyPathVars,
+                                    value,
+                                });
+                                const keyPathPropkey = `${keyPath}.${propKey}`;
+                                AppAction.updateUIState({
+                                    keyPath: keyPathPropkey,
                                     value,
                                 });
                             }
