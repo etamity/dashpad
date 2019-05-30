@@ -97,6 +97,10 @@ const defaultProps = {
 };
 
 export class YMLCodeEditorView extends YMLBase {
+    constructor(props) {
+        super()
+        this.assignEvents = EventsHook(props, allowedEvents);
+    }
     render() {
         const { keyPath, obj } = this.props;
         const mergeProps = Object.assign({}, defaultProps, obj);
@@ -104,7 +108,7 @@ export class YMLCodeEditorView extends YMLBase {
             mergeProps.value = JSON.stringify(mergeProps.value, null, 2);
         }
         const assignProps = PropsFilter({obj: mergeProps}, allowedProps);
-        const assignEvents = EventsHook(this.props, allowedEvents);
+      
         let CodeComponent = AceEditor;
         
         switch (obj.type) {
@@ -123,7 +127,7 @@ export class YMLCodeEditorView extends YMLBase {
                 name={keyPath}
                 key={keyPath}
                 {...assignProps}
-                {...assignEvents}
+                {...this.assignEvents}
             />
         );
     }
