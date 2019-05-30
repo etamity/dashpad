@@ -65,6 +65,10 @@ const allowedProps = [
 const allowedEvents = ['onClick', 'onChange'];
 
 export class YMLInputView extends YMLBase {
+    constructor(props) {
+        super(props)
+        this.assignEvents = EventsHook(props, allowedEvents);
+    }
     render() {
         const { keyPath, obj } = this.props;
         let defaultProps;
@@ -192,7 +196,6 @@ export class YMLInputView extends YMLBase {
         if (obj.type.toUpperCase() === InputType.FILE) {
             delete defaultProps.value;
         }
-        const assignEvents = EventsHook(this.props, allowedEvents);
         return (
             <FormGroup>
                 <Label htmlFor={defaultProps.id}>{obj.label}</Label>
@@ -200,7 +203,7 @@ export class YMLInputView extends YMLBase {
                     <InputGroupAddon addonType="prepend">
                         {obj.prepend && <YMLInputGroupView obj={obj.prepend} />}
                     </InputGroupAddon>
-                    <Input {...defaultProps} {...assignEvents} />
+                    <Input {...defaultProps} {...this.assignEvents} />
                     <InputGroupAddon addonType="append">
                         {obj.append && <YMLInputGroupView obj={obj.append} />}
                     </InputGroupAddon>
