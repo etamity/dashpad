@@ -1,8 +1,8 @@
 import React from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
-import { PropsFilter } from './utils';
+import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
-
+import { UIEvent } from './Constants';
 const allowedProps = [
     'name',
     'id',
@@ -14,6 +14,7 @@ const allowedProps = [
     'addon',
     'data-',
 ];
+const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLRadioView extends YMLBase {
     render() {
@@ -33,10 +34,14 @@ export class YMLRadioView extends YMLBase {
                     },
                     obj
                 );
-                const assignProps = PropsFilter({ obj: defaultProps }, allowedProps);
+                const mergedProps = Object.assign({}, this.props, {
+                    obj: defaultProps
+                });
+                const assignProps = PropsFilter(mergedProps,  allowedProps);
+                const assignEvents = EventsHook(mergedProps, allowedEvents);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>
-                        <Input {...assignProps} />
+                        <Input {...assignProps} {...assignEvents} />
                         <Label check htmlFor={idkey}>
                             {option}
                         </Label>

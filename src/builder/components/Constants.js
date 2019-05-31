@@ -78,7 +78,12 @@ export const UIEvent = ({
     ON_CURSOR_CHANGE: 'onCursorChange',
     ON_FOCUS: 'onFocus',
     ON_INPUT: 'onInput',
-    ON_SCROLL: 'onScroll'
+    ON_SCROLL: 'onScroll',
+
+    ON_ENTERING: 'onEntering', 
+    ON_ENTERED: 'onEntered', 
+    ON_EXITING: 'onExiting', 
+    ON_EXITED: 'onExited'
 });
 
 export const isInputType = type =>

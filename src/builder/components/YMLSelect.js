@@ -1,8 +1,8 @@
 import React from 'react';
 import { Label, Input, FormGroup, Col } from 'reactstrap';
-import { PropsFilter } from './utils';
+import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
-
+import { UIEvent } from './Constants';
 const allowedProps = [
     'name',
     'id',
@@ -15,7 +15,7 @@ const allowedProps = [
     'addon',
     'data-',
 ];
-
+const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 export class YMLSelectView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
@@ -38,14 +38,20 @@ export class YMLSelectView extends YMLBase {
             },
             obj
         );
-        const assignProps = PropsFilter({ obj: defaultProps }, allowedProps);
+
+        const mergedProps = Object.assign({}, this.props, {
+            obj: defaultProps
+        });
+        const assignProps = PropsFilter(mergedProps,  allowedProps);
+        const assignEvents = EventsHook(mergedProps, allowedEvents);
+
         return (
             <FormGroup key={keyPath} row>
                 <Col md="3">
                     <Label htmlFor={id}>{obj.label}</Label>
                 </Col>
                 <Col md="9">
-                    <Input {...assignProps}>{options}</Input>
+                    <Input {...assignProps} {...assignEvents}>{options}</Input>
                 </Col>
             </FormGroup>
         );
