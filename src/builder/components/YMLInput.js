@@ -8,7 +8,7 @@ import {
     InputGroupText,
     Label,
 } from 'reactstrap';
-import { InputType, InputAddonType } from './Constants';
+import { InputType, InputAddonType , UIEvent } from './Constants';
 import { YMLButtonView } from './YMLButton';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
@@ -62,7 +62,7 @@ const allowedProps = [
     'tooltip',
 ];
 
-const allowedEvents = ['onClick', 'onChange'];
+const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLInputView extends YMLBase {
     constructor(props) {

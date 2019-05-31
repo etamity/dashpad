@@ -78,67 +78,65 @@ export const EventsHook = (props, events) => {
     const { keyPath, type, obj } = props;
     return events.reduce((eventProps, next) => {
         const _type = type && type.toUpperCase();
-        if (!eventProps[next]) {
-            eventProps[next] = e => {
-                if (next === UIEvent.ON_CHANGE) {
-                    const { refs } = obj;
-                    refs &&
-                        Object.keys(refs).forEach(propKey => {
-                            let value;
-                            switch (_type) {
-                                case FieldType.INPUT:
-                                    value = e.target.value;
-                                    break;
-                                case ContentType.CODE:
-                                    value = e;
-                                    if (!obj.mode || obj.mode === 'json') {
-                                        value = JSON.parse(e);
-                                    }
-                                    break;
-                                default:
-                            }
-                            if (value) {
-                                const keyPathVars = `$vars.${refs[propKey]}`;
-                                AppAction.updateUIState({
-                                    keyPath: keyPathVars,
-                                    value,
-                                });
-                                const keyPathPropkey = `${keyPath}.${propKey}`;
-                                AppAction.updateUIState({
-                                    keyPath: keyPathPropkey,
-                                    value,
-                                });
-                            }
-                        });
+        eventProps[next] = e => {
+            if (next === UIEvent.ON_CHANGE) {
+                const { refs } = obj;
+                refs &&
+                    Object.keys(refs).forEach(propKey => {
+                        let value;
+                        switch (_type) {
+                            case FieldType.INPUT:
+                                value = e.target.value;
+                                break;
+                            case ContentType.CODE:
+                                value = e;
+                                if (!obj.mode || obj.mode === 'json') {
+                                    value = JSON.parse(e);
+                                }
+                                break;
+                            default:
+                        }
+                        if (value) {
+                            const keyPathVars = `$vars.${refs[propKey]}`;
+                            AppAction.updateUIState({
+                                keyPath: keyPathVars,
+                                value,
+                            });
+                            const keyPathPropkey = `${keyPath}.${propKey}`;
+                            AppAction.updateUIState({
+                                keyPath: keyPathPropkey,
+                                value,
+                            });
+                        }
+                    });
+            }
+            if (
+                next === UIEvent.ON_CLICK &&
+                _.isPlainObject(obj) &&
+                (_type === ContentType.LINK || obj.link || obj.goto)
+            ) {
+                const filePath = Store.getState().app.packageInfo.filePath;
+                const dir = filePath.substring(
+                    0,
+                    filePath.lastIndexOf('/') + 1
+                );
+                if (obj.link) {
+                    const link =
+                        obj.link.search('http') > -1
+                            ? obj.link
+                            : 'file://' + dir + obj.link;
+                    shell.openExternal(link);
                 }
-                if (
-                    next === UIEvent.ON_CLICK &&
-                    _.isPlainObject(obj) &&
-                    (_type === ContentType.LINK || obj.link || obj.goto)
-                ) {
-                    const filePath = Store.getState().app.packageInfo.filePath;
-                    const dir = filePath.substring(
-                        0,
-                        filePath.lastIndexOf('/') + 1
-                    );
-                    if (obj.link) {
-                        const link =
-                            obj.link.search('http') > -1
-                                ? obj.link
-                                : 'file://' + dir + obj.link;
-                        shell.openExternal(link);
-                    }
-                    if (obj.goto) {
-                        AppAction.loadUISchemaPath(dir + obj.goto);
-                    }
+                if (obj.goto) {
+                    AppAction.loadUISchemaPath(dir + obj.goto);
                 }
-                try {
-                    VM.run(obj[next], Context(props), e);
-                } catch (err) {
-                    console.error(err);
-                }
-            };
-        }
+            }
+            try {
+                VM.run(obj[next], Context(props), e);
+            } catch (err) {
+                console.error(err);
+            }
+        };
         return eventProps;
     }, Object.create(null));
 };

@@ -130,7 +130,10 @@ Tabs:
                         message: 'Notification message'
                         });
                         console.log('e', e, 'this', this);
+
+                        Dashpad.run('index.js', {someParams: 'test'}); // calling backend index.js
                     }
+                    
 ```
 
 and now go back to dashpad and click side menu `My First Module`, you will see new you ui has been created.

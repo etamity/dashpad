@@ -4,7 +4,7 @@ import { Collapse } from 'reactstrap';
 import { YMLComponent } from './index';
 import { EventsHook, getTypes, PropsFilter } from './utils';
 import { YMLBase } from './YMLBase';
-
+import { UIEvent } from './Constants';
 const allowedProps = [
     'isOpen',
     'appear',
@@ -16,7 +16,12 @@ const allowedProps = [
     'className',
 ];
 
-const allowedEvents = ['onEntering', 'onEntered', 'onExiting', 'onExited'];
+const allowedEvents = [
+    UIEvent.ON_ENTERING,
+    UIEvent.ON_ENTERED,
+    UIEvent.ON_EXITED,
+    UIEvent.ON_EXITING,
+];
 
 export class YMLCollapseView extends YMLBase {
     render() {

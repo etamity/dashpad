@@ -14,7 +14,7 @@ const allowedProps = [
     'addon',
     'data-',
 ];
-const allowedEvents = [UIEvent.ON_CLICK];
+const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLCheckboxView extends YMLBase {
     render() {
@@ -37,8 +37,11 @@ export class YMLCheckboxView extends YMLBase {
                     obj
                 );
 
-                const assignEvents = EventsHook(this.props, allowedEvents);
-                const assignProps = PropsFilter({ obj: defaultProps }, allowedProps);
+                const mergedProps = Object.assign({}, this.props, {
+                    obj: defaultProps
+                });
+                const assignProps = PropsFilter(mergedProps,  allowedProps);
+                const assignEvents = EventsHook(mergedProps, allowedEvents);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>
                         <Input {...assignProps} {...assignEvents} />
