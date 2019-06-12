@@ -9,7 +9,7 @@ require('@babel/register')({
         // Also consider monorepo packages "root" and load their .babelrc files.
         './packages/*'
     ],
-	ignore: [/node_modules/],
+	ignore: [/node_modules\/(?!(@c1.*))/],
     presets: [
         [
             '@babel/preset-env',
