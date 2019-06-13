@@ -22,7 +22,6 @@ const config = () => {
     return fse.readJsonSync(configPath);
 }
 
-
 const Config = {
     set: (keyPath, value) => {
         const newConfig = immutable(config()).set(`config.${keyPath}`, value).value();
@@ -50,6 +49,9 @@ const Config = {
     },
     value: () => {
         return config().config;
+    },
+    saveToFile:(configJson) => {
+        fse.writeJSONSync(configPath, configJson, { spaces: 2});
     }
 };
 

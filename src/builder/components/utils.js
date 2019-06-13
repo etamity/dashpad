@@ -91,7 +91,12 @@ export const EventsHook = (props, events) => {
                             case ContentType.CODE:
                                 value = e;
                                 if (!obj.mode || obj.mode === 'json') {
-                                    value = JSON.parse(e);
+                                    try {
+                                        value = JSON.parse(e);
+                                    }
+                                    catch (err) {
+                                        console.error(err);
+                                    }
                                 }
                                 break;
                             default:
