@@ -126,7 +126,6 @@
     "rimraf": "^2.6.2"
   },
   "scripts": {
-    "boot": "nf start",
     "server": "node server",
     "start": "BROWSER=none node start.js",
     "develop": "react-app-rewired --inspect start",

@@ -15,7 +15,11 @@ cmd
         console.log(option);
     });
 
-
+cmd
+    .description('start')
+    .action((option) => {
+        console.log('start');
+    });
 
 cmd.parse(process.argv);
 
