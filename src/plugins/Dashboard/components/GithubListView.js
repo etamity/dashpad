@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { ListGroupItem, Row, Col, Button, Progress } from 'reactstrap';
-import moment from 'moment';
-import { shell } from 'electron';
 import Native from 'libs/Native';
 import { GithubListItem } from './GithubListItem';
 const { ModuleHelper } = Native();

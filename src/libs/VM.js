@@ -6,10 +6,14 @@ var ARGUMENT_NAMES = /([^\s,]+)/g;
 const VMScope = () => {
     return {
         run: function(code) {
+            /* eslint-disable no-eval */
             eval(code);
+            /* eslint-enable no-eval */
         },
         runEvent: function(code, e) {
+            /* eslint-disable no-eval */
             eval(code);
+            /* eslint-enable no-eval */
         },
     };
 };
