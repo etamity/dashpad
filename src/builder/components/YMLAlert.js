@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, FormGroup } from 'reactstrap';
-import _ from 'lodash';
 import { getTypes, PropsFilter } from './utils';
 import { YMLBase } from './YMLBase';
 import { YMLComponent } from './index';

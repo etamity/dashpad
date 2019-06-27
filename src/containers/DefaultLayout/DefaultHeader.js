@@ -112,11 +112,9 @@ class DefaultHeader extends Component {
     render() {
         // eslint-disable-next-line
         const {
-            children,
             navs,
             rightNavs,
             showToggle,
-            ...attributes
         } = this.props;
         const openAside = this.props.processes.length > 0;
         return (
