@@ -1,4 +1,5 @@
 const electron = require('electron');
+const homedir = require('os').homedir();
 const nodePath = require('path');
 const fse = require('fs-extra');
 const immutable = require('object-path-immutable');
@@ -8,15 +9,13 @@ const app = electron.app || (electron.remote && electron.remote.app);
 const isEnvSet = 'ELECTRON_IS_DEV' in process.env;
 const getFromEnv = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 const devMode = isEnvSet ? getFromEnv : !(app && app.isPackaged);
-
-const configPath = nodePath.resolve('db/db.json');
-
-const defaultConfigPath = nodePath.resolve('db/default_db.json');
-
-const defaultConfig =  fse.readJsonSync(defaultConfigPath);
+const defaultConfig = require('../../db/default_db.json');
+const WORKSPACE = nodePath.join(homedir, defaultConfig.config.project.root);
+const configPath = nodePath.join(WORKSPACE, '/db/db.json');
 
 const config = () => {
     if (!fse.existsSync(configPath)) {
+        fse.ensureDirSync(configPath.substring(0, configPath.lastIndexOf('/')));
         fse.writeJSONSync(configPath, defaultConfig)
     }
     return fse.readJsonSync(configPath);
