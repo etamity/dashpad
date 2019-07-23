@@ -1,7 +1,8 @@
 const pathHelper = require('./path-helper');
 const shell = require('shelljs');
 const contentLoader = require('../content-loader');
-const nodePath = shell.which('node').toString();
+const whichNode = shell.which('node');
+const nodePath = whichNode && whichNode.toString();
 
 shell.config.execPath = nodePath;
 
@@ -19,7 +20,7 @@ const install = (packName, gitLink) => {
                         shell.echo('Error: Git commit failed');
                         reject({ code, stderr });
                     }
-                    shell.echo('Plguin Installed');
+                    shell.echo('Plugin Installed');
                     contentLoader.reloadConfig();
                     resolve(stdout);
                 }

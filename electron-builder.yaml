@@ -1,6 +1,6 @@
 appId: innovation.app.${name}
-copyright: Alien Admin Builder
-productName: AlienAdmin
+copyright: Dashpad Framework
+productName: Dashpad
 extends: null
 
 asar: true
@@ -17,6 +17,14 @@ files:
   - db/
   - build/
   - public/
+  - server.js
+  - config-overrides.js
+  - start.js
+  - updater.js
+  - watch.js
+  - babel.config.js
+  - cli/
+  
 
 dmg:
   contents:

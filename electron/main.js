@@ -29,7 +29,8 @@ function createWindow() {
 
     // and load the index.html of the app.
     let indexPath;
-    if (config.devMode && process.argv.indexOf('--noDevServer') === -1) {
+    const isDev = config.devMode && process.argv.indexOf('--noDevServer') === -1;
+    if (isDev) {
         // indexPath = url.format({
         //     protocol: 'http:',
         //     host: 'localhost:' + port,
@@ -43,15 +44,18 @@ function createWindow() {
             protocol: 'file:',
             pathname: path.join(__dirname, '/../build', 'index.html'),
             slashes: true,
-        });
+        }) + '#/dashboard';
     }
     mainWindow.loadURL(indexPath);
     console.log('indexPath', indexPath);
     // Don't show until we are ready and loaded
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
-        require('../server');
+        require(path.resolve(__dirname + '/../server.js'));
         mainWindow.webContents.openDevTools();
+        // if (isDev) {
+        //     mainWindow.webContents.openDevTools();
+        // }
         // Open the DevTools automatically if developing
     });
 
