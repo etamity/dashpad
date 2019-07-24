@@ -1,7 +1,4 @@
 const path = require('path');
-console.log('__dirname:', __dirname);
-module.paths.push(path.resolve(__dirname, '../../node_modules'));
-
 require('babel-core').transform('code', {
     cwd: path.resolve(__dirname, '../../node_modules'),
     plugins: ['dynamic-import-node'],
