@@ -1,3 +1,4 @@
+const path = require('path');
 require('babel-core').transform('code', {
     plugins: ['dynamic-import-node'],
 });
@@ -48,4 +49,4 @@ require('@babel/register')({
     ],
 });
 require('@babel/polyfill');
-require('./module_loader.js');
+require(path.resolve(__dirname + '/module_loader.js'));
