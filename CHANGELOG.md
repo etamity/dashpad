@@ -1,3 +1,9 @@
+## Relase v1.0.8
+
+- Fixed electron packing
+- Updated binary packing script
+- Updated config location
+
 ## Relase v1.0.7
 
 - Added new ui components parser:
