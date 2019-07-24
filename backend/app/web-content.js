@@ -19,5 +19,4 @@ module.exports = {
         };
         sendToUI(ActionEventType, action);
     }
-    
 }
