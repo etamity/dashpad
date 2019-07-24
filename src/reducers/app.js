@@ -6,14 +6,14 @@ import { Store } from 'store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import VM from 'libs/VM';
-import { SchemaKeys } from './Constants'
+import { SchemaKeys } from './Constants';
 const {
     Constants,
     BackendStore,
     ProcessManager,
     Notifier,
     ContentHelper,
-    Utils
+    Utils,
 } = Native();
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
 
@@ -40,7 +40,7 @@ const initState = {
     config,
     routes,
     current: {
-        ...current()
+        ...current(),
     },
     uiSchema: null,
     keyPathVars: {},
@@ -48,8 +48,8 @@ const initState = {
     modal: [],
     processes: [],
     system: {
-        ip: Utils.getLocalIp()
-    }
+        ip: Utils.getLocalIp(),
+    },
 };
 
 BackendStore.set('app', JSON.parse(JSON.stringify(initState)));
@@ -135,15 +135,17 @@ export default function update(state = initState, action) {
             const uiSchema = ContentHelper.loadJson(resolvePath);
 
             const { filePath } = packageInfo;
-            const jsFilePath = filePath && filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
-   
+            const jsFilePath =
+                filePath &&
+                filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
+
             if (ContentHelper.isExist(jsFilePath)) {
                 const jsScript = ContentHelper.loadFile(jsFilePath);
                 VM.buildVmScope(jsScript);
             } else {
                 VM.buildVmScope('"";\n');
             }
-            
+
             newState = immutable(state)
                 .set(SchemaKeys.UISCHEMA, uiSchema)
                 .value();
@@ -173,22 +175,29 @@ export default function update(state = initState, action) {
 
             break;
         case UIEventType.UPDATE_VARS_STATE:
-
             break;
         case UIEventType.UPDATE_UI_STATE_BY_VARS:
             if (_.isArray(payload)) {
                 const stateArr = payload;
                 newState = stateArr.reduce((root, next) => {
                     const { keyPath, value } = next;
-                    return root = immutable(root)
-                    .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
-                    .value();
+                    return (root = immutable(root)
+                        .set(
+                            `${SchemaKeys.UISCHEMA}.${
+                                SchemaKeys.VARS
+                            }.${keyPath}`,
+                            value
+                        )
+                        .value());
                 }, state);
             } else {
                 const { keyPath, value } = payload;
                 newState = immutable(state)
-                .set(`${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`, value)
-                .value();
+                    .set(
+                        `${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`,
+                        value
+                    )
+                    .value();
             }
 
             break;
@@ -206,6 +215,8 @@ export default function update(state = initState, action) {
             toast.error(errMsg, {
                 position: toast.POSITION.TOP_RIGHT,
             });
+        case UIEventType.CONSOLE_LOG:
+                console.log(payload);
             break;
         case UIEventType.SHOW_MODAL:
             newState = immutable(state)
@@ -252,12 +263,12 @@ const updatePackageInfo = filePath => {
     const pathArr = filePath.split('/');
     const fileName = pathArr[pathArr.length - 1];
     let packageName = filePath.match(/packages\/(.*?)\/_/)[1];
-    let namespace = (filePath.match(/packages\/(.*?).yml/)[1] + '.yml');
+    let namespace = filePath.match(/packages\/(.*?).yml/)[1] + '.yml';
     const packageInfo = {
         fileName,
         packageName,
         filePath,
-        namespace
+        namespace,
     };
     const Dashpad = VM.getGlobal('Dashpad');
     if (Dashpad) {
@@ -284,15 +295,15 @@ export const AppAction = {
     loadScript: jsPath => {
         const action = {
             type: AppEventType.ON_LOAD_SCRIPT,
-            payload: { jsPath }
-        }
+            payload: { jsPath },
+        };
         Store.dispatch(action);
     },
     loadProcessesList: children => {
         const action = {
             type: AppEventType.ON_LOAD_PROCESSES_CHILD,
             payload: {
-                children
+                children,
             },
         };
         Store.dispatch(action);
