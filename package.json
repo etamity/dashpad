@@ -1,6 +1,6 @@
 {
   "name": "dashpad",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A hackable universal dashboard framework for your desktop task automation and vistualise tooling.",
   "author": {
     "name": "Joey Etamity",
@@ -88,7 +88,7 @@
     "node-notifier": "^5.4.0",
     "node-npx": "^1.3.1",
     "node-sass": "^4.10.0",
-    "object-path-immutable": "^3.0.0",
+    "object-path-immutable": "3.0.0",
     "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
@@ -112,26 +112,25 @@
     "reselect": "^4.0.0",
     "shelljs": "^0.8.3",
     "simple-line-icons": "^2.4.1",
-    "socket.io": "^2.2.0"
-  },
-  "devDependencies": {
-    "chokidar": "^2.1.2",
-    "electron": "^3.0.10",
-    "electron-builder": "^20.36.2",
-    "electron-devtools-installer": "^2.2.4",
     "express-http-proxy": "^1.5.0",
+    "chokidar": "^2.1.2",
     "foreman": "^3.0.1",
     "react-app-rewired": "^2.1.0",
     "react-scripts": "^2.1.5",
     "rimraf": "^2.6.2"
   },
+  "devDependencies": {
+    "electron": "^4.2.8",
+    "electron-builder": "^21.1.1",
+    "electron-devtools-installer": "^2.2.4"
+  },
   "scripts": {
     "server": "node server",
     "start": "BROWSER=none node start.js",
-    "develop": "react-app-rewired --inspect start",
-    "build": "react-app-rewired build",
-    "pack:mac": "electron-builder --mac",
-    "pack:win": "electron-builder --win",
+    "develop": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src/ react-app-rewired --inspect start",
+    "build": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src/ react-app-rewired build",
+    "pack:mac": "npm run build && electron-builder --mac",
+    "pack:win": "npm run build && electron-builder --win",
     "electron": "electron . ",
     "electron:bundle": "electron . --noDevServer",
     "electron-start": "node electron/wait-react.js",
@@ -140,7 +139,8 @@
     "eject": "react-scripts eject",
     "clean": "rimraf ./build",
     "pretty": "prettier --write '**/*.js'",
-    "killport": "kill -9 $(lsof -t -i:8888)"
+    "killport": "kill -9 $(lsof -t -i:8888)",
+    "docs:dev": "next"
   },
   "eslintConfig": {
     "extends": "react-app"

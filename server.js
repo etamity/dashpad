@@ -24,13 +24,6 @@ try {
 }
 app.use('/', proxy(packageJson.proxy));
 
-if (config.socket) {
-    const io = require('socket.io')(server);
-    io.on('connection', client => {
-        require('./backend/socket')(client);
-    });
-}
-
 console.log(`Api Server http://localhost:${port}/`);
 server.listen(port);
 

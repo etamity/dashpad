@@ -1,7 +1,7 @@
 'use strict';
 // Import parts of electron to use
 // import path from 'path';
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 const config = require('../backend/configs/config').value();
@@ -23,13 +23,39 @@ const installExtensions = async () => {
     ).catch(err => console.error(err));
 };
 
+function buildMenu() {
+    const menu = Menu.buildFromTemplate([
+        {
+            label: 'Menu',
+            submenu: [
+                {
+                    label: 'Inspector',
+                    click() {
+                        mainWindow.webContents.openDevTools();
+                    },
+                },
+                { type: 'separator' }, // Add this
+                {
+                    label: 'Exit',
+                    click() {
+                        app.quit();
+                    },
+                },
+            ],
+        },
+    ]);
+    Menu.setApplicationMenu(menu);
+}
+
 function createWindow() {
     // Create the browser window.
     global.mainWindow = mainWindow = new BrowserWindow(config.window);
-
+    buildMenu();
     // and load the index.html of the app.
     let indexPath;
-    if (config.devMode && process.argv.indexOf('--noDevServer') === -1) {
+    const isDev =
+        config.devMode && process.argv.indexOf('--noDevServer') === -1;
+    if (isDev) {
         // indexPath = url.format({
         //     protocol: 'http:',
         //     host: 'localhost:' + port,
@@ -39,19 +65,22 @@ function createWindow() {
         indexPath = 'http://localhost:' + port + '/#/dashboard';
         installExtensions();
     } else {
-        indexPath = url.format({
-            protocol: 'file:',
-            pathname: path.join(__dirname, '/../build', 'index.html'),
-            slashes: true,
-        });
+        indexPath =
+            url.format({
+                protocol: 'file:',
+                pathname: path.join(__dirname, '/../build', 'index.html'),
+                slashes: true,
+            }) + '#/dashboard';
     }
     mainWindow.loadURL(indexPath);
     console.log('indexPath', indexPath);
     // Don't show until we are ready and loaded
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
-        require('../server');
-        mainWindow.webContents.openDevTools();
+        require(path.resolve(__dirname + '/../server.js'));
+        // if (isDev) {
+        //     mainWindow.webContents.openDevTools();
+        // }
         // Open the DevTools automatically if developing
     });
 
