@@ -9,7 +9,9 @@ const port = config.uiport;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
-
+const isEnvSet = 'ELECTRON_IS_DEV' in process.env;
+const getFromEnv = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
+const devMode = isEnvSet ? getFromEnv : !(app && app.isPackaged);
 // Keep a reference for dev mode
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');
@@ -54,7 +56,7 @@ function createWindow() {
     // and load the index.html of the app.
     let indexPath;
     const isDev =
-        config.devMode && process.argv.indexOf('--noDevServer') === -1;
+        devMode && process.argv.indexOf('--noDevServer') === -1;
     if (isDev) {
         // indexPath = url.format({
         //     protocol: 'http:',
@@ -77,10 +79,11 @@ function createWindow() {
     // Don't show until we are ready and loaded
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
-        require(path.resolve(__dirname + '/../server.js'));
         if (isDev) {
+            require(path.resolve(__dirname + '/../watch.js'));
             mainWindow.webContents.openDevTools();
         }
+        require(path.resolve(__dirname + '/../server.js'));
         // Open the DevTools automatically if developing
     });
 
