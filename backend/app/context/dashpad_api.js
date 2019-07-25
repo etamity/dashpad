@@ -218,6 +218,19 @@ class DashpahApi {
             process && process.exit(0);
         }, delay || 1000);
     }
+
+    log() {
+        if (_isBrowser) {
+            console.log(arguments);
+        } else {
+            const action = {
+                type: UIEventType.CONSOLE_LOG,
+                payload: arguments
+            };
+            this.send(action);
+        }
+
+    }
 }
 
 module.exports = DashpahApi;

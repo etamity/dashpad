@@ -4,7 +4,6 @@ const DashpadApi = require('./context/dashpad_api');
 const BackendStore = require('./store');
 const module_path = process.argv.slice(2)[0];
 const script = require(module_path);
-
 process.on('message', action => {
     if (!!action && (typeof action === 'object')) {
         const { type, payload } = action;
@@ -24,7 +23,7 @@ process.on('message', action => {
                 break;
             default:
         }
-    } else {
+    } else {  
         console.error(action);
     }
 });

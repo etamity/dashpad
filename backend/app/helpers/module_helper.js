@@ -4,20 +4,20 @@ const contentLoader = require('../content-loader');
 const whichNode = shell.which('node');
 const nodePath = whichNode && whichNode.toString();
 
-shell.config.execPath = nodePath;
+if (nodePath) {
+    shell.config.execPath = nodePath;
+}
 
 const install = (packName, gitLink) => {
     const packSpace = pathHelper.PACKAGES;
     return new Promise((resolve, reject) => {
         try {
             shell.exec(
-                `cd ${packSpace} && git clone ${gitLink} ${packName} && cd ${pathHelper.getPackagePath(
-                    packName
-                )} && npm i && cd ${packSpace}`,
+                `cd ${packSpace} && git clone ${gitLink} ${packName} && cd ${packName} && npm i && cd ${packSpace}`,
                 (code, stdout, stderr) => {
                     if (code !== 0) {
                         console.error(code, stderr);
-                        shell.echo('Error: Git commit failed');
+                        shell.echo('Error: git pull failed');
                         reject({ code, stderr });
                     }
                     shell.echo('Plugin Installed');
@@ -26,6 +26,7 @@ const install = (packName, gitLink) => {
                 }
             );
         } catch (error) {
+            resolve();
             console.error(error);
         }
     });

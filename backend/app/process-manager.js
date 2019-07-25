@@ -11,11 +11,6 @@ const {
     ActionEventType,
 } = require('./constants');
 
-let options = {
-    stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
-    silent: true,
-};
-
 const dispatch = children => {
     const action = {
         type: AppEventType.ON_LOAD_PROCESSES_CHILD,
@@ -53,26 +48,32 @@ class ProcessManager extends EventEmitter {
             packagePath,
             script || packageJson.main || 'index.js',
         ].join('/');
-        const loaderPath = path.resolve('./backend/app/babel_transpile.js');
+        const loaderPath = path.resolve(__dirname + '/babel_transpile.js');
         const filePath = path.resolve(nodeScriptPath);
-        const child = fork(loaderPath, [filePath]);
-        child.packageInfo = {
-            namespace,
-            packageName,
-            script,
-            packageJson,
-            pid: child.pid,
-        };
-        const action = {
-            type: ProcessEventType.LOAD_MODULE_SCRIPT,
-            payload: {
-                filePath,
-                params,
-                state: BackendStore.get(),
-            },
-        };
-        //console.log('from Main: ', action.payload);
-        child.send(action);
+        let child;
+        try {
+            child = fork(loaderPath, [filePath]);
+
+            child.packageInfo = {
+                namespace,
+                packageName,
+                script,
+                packageJson,
+                pid: child.pid,
+            };
+            const action = {
+                type: ProcessEventType.LOAD_MODULE_SCRIPT,
+                payload: {
+                    filePath,
+                    params,
+                    state: BackendStore.get(),
+                },
+            };
+            //console.log('from Main: ', action.payload);
+            child.send(action);
+        } catch (error) {
+            WebContent.sendErrorToUI(error.message);
+        }
         return child;
     }
 

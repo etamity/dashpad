@@ -23,6 +23,7 @@ const requireNoCache = function(filePath) {
 const watchYamlFile = path.join(pathHelper.PACKAGES, '/**/*.yml');
 const watchJsFile = path.join(pathHelper.PACKAGES, '/**/*.js');
 
+console.log('NODE_ENV', process.env.NODE_ENV);
 if (!production) {
     const chokidar = require('chokidar');
     const watcher = chokidar.watch(

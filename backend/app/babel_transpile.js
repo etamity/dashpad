@@ -1,7 +1,10 @@
+const path = require('path');
 require('babel-core').transform('code', {
+    cwd: path.resolve(__dirname, '../../node_modules'),
     plugins: ['dynamic-import-node'],
 });
 require('@babel/register')({
+    cwd: path.resolve(__dirname, '../../node_modules'),
     babelrcRoots: [
         // Keep the root as a root
         '.',
@@ -48,4 +51,4 @@ require('@babel/register')({
     ],
 });
 require('@babel/polyfill');
-require('./module_loader.js');
+require(path.resolve(__dirname + '/module_loader.js'));
