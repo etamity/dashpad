@@ -78,9 +78,9 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         require(path.resolve(__dirname + '/../server.js'));
-        // if (isDev) {
-        //     mainWindow.webContents.openDevTools();
-        // }
+        if (isDev) {
+            mainWindow.webContents.openDevTools();
+        }
         // Open the DevTools automatically if developing
     });
 
