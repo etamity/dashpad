@@ -15,10 +15,7 @@ require('@babel/register')({
 	ignore: [/node_modules\/(?!(@c1.*))/],
     presets: [
         [
-            '@babel/preset-env',
-            {
-                targets: { electron: require('electron/package.json').version },
-            },
+            '@babel/preset-env'
         ],
     ],
     plugins: [

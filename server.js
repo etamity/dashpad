@@ -14,7 +14,6 @@ function dynamic(lib) {
 }
 
 try {
-    require('./watch.js');
     app.use(
         dynamic('./backend/api/index')
     );
