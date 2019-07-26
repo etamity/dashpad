@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { ListGroupItem, Row, Col, Button, Progress } from 'reactstrap';
 import moment from 'moment';
-import { shell } from 'electron';
 import Native from 'libs/Native';
 import { toast } from 'react-toastify';
+import { shell } from 'electron';
+
 const { ModuleHelper } = Native();
 
 export class GithubListItem extends Component {

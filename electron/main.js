@@ -125,4 +125,7 @@ app.on('browser-window-focus', () => {
         mainWindow.webContents.send('ON_WINDOW_ACTIVE');
 });
 
+const shellEnv = require('shell-env');
+process.env.PATH = shellEnv.sync().PATH;
+
 module.exports = app;

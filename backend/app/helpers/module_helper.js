@@ -1,13 +1,10 @@
 const pathHelper = require('./path-helper');
 const shell = require('shelljs');
 const contentLoader = require('../content-loader');
-const whichNode = shell.which('node');
-const nodePath = whichNode && whichNode.toString();
-
+const nodePath = (shell.which('node') || shell.which('nodejs'));
 if (nodePath) {
     shell.config.execPath = nodePath;
 }
-
 const install = (packName, gitLink) => {
     const packSpace = pathHelper.PACKAGES;
     return new Promise((resolve, reject) => {
