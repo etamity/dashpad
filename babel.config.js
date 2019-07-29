@@ -1,5 +1,4 @@
 /* eslint global-require: off */
-
 const productionPlugins = [
   require('babel-plugin-dev-expression'),
 
@@ -11,7 +10,7 @@ const productionPlugins = [
 
 module.exports = api => {
   // see docs about api at https://babeljs.io/docs/en/config-files#apicache
-  api.cache(true);
+  api && api.cache(true);
   return {
     presets: [
       [
