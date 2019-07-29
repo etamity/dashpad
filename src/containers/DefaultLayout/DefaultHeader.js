@@ -25,7 +25,9 @@ const propTypes = {
     navs: PropTypes.array,
 };
 
-const defaultProps = {};
+const defaultProps = {
+    processes: []
+};
 
 class DefaultHeader extends Component {
     navBadge(badge) {
