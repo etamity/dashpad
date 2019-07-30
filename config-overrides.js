@@ -1,35 +1,47 @@
 require("util").inspect.defaultOptions.depth = null;
 const path = require('path');
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-
 const images = require('remark-images')
 const emoji = require('remark-emoji')
+const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+
+// const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 module.exports = {
     webpack: (config, env) => {
+        // if (env == "development") {
+        //     config.resolve.alias["react-dom"] = "@hot-loader/react-dom";
+        // }
+        // config = rewireReactHotLoader(config, env);
         //do stuff with the webpack config...
         config.target = 'electron-renderer';
-        if (process.env.ENTRY_POINT) {
-            config.entry = process.env.ENTRY_POINT;
+        if (process.env.APP_TYPE === 'docs') {
+            config.target = undefined;
             config.resolve.plugins = config.resolve.plugins.filter(
                 plugin => !(plugin instanceof ModuleScopePlugin)
             );
+            config.resolve.alias.electron = path.resolve(__dirname, 'src/libs/Electron.js');
+            config.node = { fs: 'empty' };
         }
 
-        config.module.rules[1].include = [
-            path.resolve(__dirname, 'src'),
-            path.resolve(__dirname, 'docs'),
-        ];
+        // config.module.rules[1].include = [
+        //     path.resolve(__dirname, 'src'),
+        //     path.resolve(__dirname, 'docs'),
+        // ];
+        // config.module.rules.push({
+        //     test: /\.(js|jsx|mdx|md)$/,
+        //     use: 'react-hot-loader/webpack',
+        //     include: /node_modules/
+        //   });
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
-                const jsx = rule.oneOf.find(item => {
-                    console.log(item.include, item.include === path.resolve(__dirname, 'docs'));
-                    return item.include && path.resolve(__dirname, 'docs')
-                });
-                jsx.include = [
-                    path.resolve(__dirname, 'src'),
-                    path.resolve(__dirname, 'docs'),
-                ];
+                // const jsx = rule.oneOf.find(item => {
+                //     console.log(item.include, item.include === path.resolve(__dirname, 'docs'));
+                //     return item.include && path.resolve(__dirname, 'docs')
+                // });
+                // jsx.include = [
+                //     path.resolve(__dirname, 'src'),
+                //     path.resolve(__dirname, 'docs'),
+                // ];
                 return {
                     ...rule,
                     // create-react-app let every file which doesn't match to any filename test falls back to file-loader,
@@ -48,18 +60,16 @@ module.exports = {
                                 }
                               ],
                             include: [
-                                path.resolve(__dirname, 'docs'),
+                                path.resolve(__dirname, 'src'),
                             ],
                         },
                         ...rule.oneOf,
-                        jsx
                     ],
                 };
             }
 
             return rule;
         });
-        config.node = { fs: 'empty' };
         // console.log(config.module);
         // throw Error();
         return config;
@@ -67,15 +77,14 @@ module.exports = {
     paths: paths => {
         // console.log(paths);
         // throw Error();
-        if (process.env.ENTRY_POINT) {
-            paths.appSrc = path.resolve(__dirname, 'docs');
-            paths.appIndexJs = path.resolve(__dirname, 'docs/index.js');
-            paths.appBuild = path.resolve(__dirname, 'docs/build');
+        if (process.env.APP_TYPE === 'docs') {
+            paths.appIndexJs = path.resolve(__dirname, 'src/docs/index.js');
+            paths.appBuild = path.resolve(__dirname, 'docs');
             // console.log(paths);
             // throw Error();
         }
         return {
             ...paths,
         };
-    },
+    }
 };

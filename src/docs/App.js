@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import Document from './pages/index.mdx';
 import Loadable from 'react-loadable';
-import '../src/App.scss';
+import '../App.scss';
 // const loading = () => (
 //     <div className="animated fadeIn pt-3 text-center">Loading...</div>
 // );
@@ -27,6 +27,7 @@ class App extends Component {
             <div>
                 <Suspense fallback={<div>Loading...</div>}>
                     <div>
+                        <h1>ads</h1>
                         <Document />
                     </div>
                 </Suspense>

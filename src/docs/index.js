@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import App from './App';
+import * as serviceWorker from '../serviceWorker';
 
 const rootEl = document.getElementById('root')
 
@@ -14,6 +15,7 @@ if (module.hot) {
     });
 
 }
+serviceWorker.unregister();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
