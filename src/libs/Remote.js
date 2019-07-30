@@ -1,4 +1,4 @@
-const { remote } = require('electron');
+import { remote } from 'electron';
 export const Remote = () => {
     const ContentHelper = remote.require('../backend/app/helpers/content-helper');
     const PathHelper = remote.require('../backend/app/helpers/path-helper');
