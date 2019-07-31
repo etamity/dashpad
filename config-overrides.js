@@ -3,7 +3,7 @@ const path = require('path');
 const images = require('remark-images')
 const emoji = require('remark-emoji')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-
+const mockModules = require('./mock/index.js');
 // const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 module.exports = {
@@ -19,7 +19,8 @@ module.exports = {
             config.resolve.plugins = config.resolve.plugins.filter(
                 plugin => !(plugin instanceof ModuleScopePlugin)
             );
-            config.resolve.alias.electron = path.resolve(__dirname, 'src/libs/Electron.js');
+
+            config.resolve.alias = Object.assign({}, config.resolve.alias, mockModules);
             config.node = { fs: 'empty' };
         }
 
@@ -34,14 +35,6 @@ module.exports = {
         //   });
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
-                // const jsx = rule.oneOf.find(item => {
-                //     console.log(item.include, item.include === path.resolve(__dirname, 'docs'));
-                //     return item.include && path.resolve(__dirname, 'docs')
-                // });
-                // jsx.include = [
-                //     path.resolve(__dirname, 'src'),
-                //     path.resolve(__dirname, 'docs'),
-                // ];
                 return {
                     ...rule,
                     // create-react-app let every file which doesn't match to any filename test falls back to file-loader,

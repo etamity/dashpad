@@ -13,7 +13,7 @@ import {
 import { AppAction } from 'reducers/app';
 import AppBreadcrumb from 'components/AppBreadcrumb';
 import AppSidebarNav from 'components/AppSidebarNav';
-import Native from 'libs/Native';
+import { Remote } from 'libs/Remote';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toggleClasses from '@coreui/react/lib/Shared/toggle-classes';
@@ -43,7 +43,7 @@ export class DefaultLayout extends Component {
         this.props.history.push('/login');
     }
     loadUIFile(packageName, uiFile) {
-        const { PathHelper } = Native();
+        const { PathHelper } = Remote();
         const ymlPath = [PathHelper.getDashSpace(packageName), uiFile].join(
             '/'
         );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Remote } from 'libs/Remote';
 import {
     FormGroup,
     InputGroupAddon,
@@ -14,13 +15,12 @@ import {
 } from 'reactstrap';
 import { AppSwitch } from '@coreui/react';
 import TabView from 'components/TabView/TabView';
-import Native from 'libs/Native';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 import immutable from 'object-path-immutable';
 import { AppAction } from 'reducers/app';
 import AceEditor from 'react-ace';
-const { Config } = Native();
+const { Config } = Remote();
 export class SettingsView extends Component {
     static Config() {
         return {

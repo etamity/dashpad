@@ -1,15 +1,31 @@
 import React, { Component, Suspense } from 'react';
+import { HashRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { Store, history } from '../store';
 import Document from './pages/index.mdx';
 import Loadable from 'react-loadable';
 import '../App.scss';
-// const loading = () => (
-//     <div className="animated fadeIn pt-3 text-center">Loading...</div>
-// );
+const loading = () => (
+    <div className="animated fadeIn pt-3 text-center">Loading...</div>
+);
 
-// const DefaultLayout = Loadable({
-//     loader: () => import('../src/containers/DefaultLayout'),
-//     loading,
-// });
+// Containers
+const DefaultLayout = Loadable({
+    loader: () => import('../containers/DefaultLayout'),
+    loading,
+});
+
+const Page404 = Loadable({
+    loader: () => import('../views/Pages/Page404'),
+    loading,
+});
+
+const Page500 = Loadable({
+    loader: () => import('../views/Pages/Page500'),
+    loading,
+});
+
 const routes = [
     {
         name: 'Settings',
@@ -23,16 +39,31 @@ const routes = [
 ]
 class App extends Component {
     render() {
-        return (
-            <div>
-                <Suspense fallback={<div>Loading...</div>}>
-                    <div>
-                        <h1>ads</h1>
-                        <Document />
-                    </div>
-                </Suspense>
-            </div>
-        );
+        return <Provider store={Store}>
+        <ConnectedRouter history={history}>
+            <HashRouter>
+                <Switch>
+                    <Route
+                        exact
+                        path="/404"
+                        name="Page 404"
+                        component={Page404}
+                    />
+                    <Route
+                        exact
+                        path="/500"
+                        name="Page 500"
+                        component={Page500}
+                    />
+                    <Route
+                        path="/"
+                        name="Admin Dashboard"
+                        component={DefaultLayout}
+                    />
+                </Switch>
+            </HashRouter>
+        </ConnectedRouter>
+    </Provider>
     }
 }
 export default App;
