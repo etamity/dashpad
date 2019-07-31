@@ -1,7 +1,7 @@
 'use strict';
 // Import parts of electron to use
 // import path from 'path';
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const url = require('url');
 const config = require('../backend/configs/config').value();
@@ -39,12 +39,24 @@ function buildMenu() {
                 { type: 'separator' }, // Add this
                 {
                     label: 'Exit',
+                    accelerator: "Command+Q",
                     click() {
                         app.quit();
                     },
                 },
             ],
         },
+        {
+            label: "Edit",
+            submenu: [
+                { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+                { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+                { type: "separator" },
+                { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+                { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+                { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+                { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]}
     ]);
     Menu.setApplicationMenu(menu);
 }
@@ -95,6 +107,13 @@ function createWindow() {
         mainWindow = null;
         app.quit();
     });
+
+    globalShortcut.register('f5', function() {
+		mainWindow.reload();
+	});
+	globalShortcut.register('CommandOrControl+R', function() {
+		mainWindow.reload();
+    });
 }
 
 // This method will be called when Electron has finished
@@ -118,7 +137,13 @@ app.on('activate', () => {
         createWindow();
     }
 });
-
+app.on('will-quit', () => {
+    // Unregister a shortcut.
+    globalShortcut.unregister('CommandOrControl+X')
+  
+    // Unregister all shortcuts.
+    globalShortcut.unregisterAll()
+})
 app.on('browser-window-focus', () => {
     mainWindow &&
         mainWindow.webContents &&

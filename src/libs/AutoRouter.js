@@ -28,4 +28,13 @@ AutoRouter.propTypes = {
     routes: PropTypes.array,
 };
 
+export const currentRoute = (routes, pathname) => {
+    return (
+        routes &&
+        routes.find(route => {
+            return pathname.includes(route.path);
+        })
+    );
+};
+
 export default AutoRouter;
