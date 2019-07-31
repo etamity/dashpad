@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, ListGroup, ListGroupItem, Progress } from 'reactstrap';
 import PropTypes from 'prop-types';
 import TabView from 'components/TabView';
-import Native from 'libs/Native';
+import { Remote } from 'libs/Remote';
 import { AppAction } from 'reducers/app';
 const propTypes = {
     children: PropTypes.node,
@@ -10,7 +10,7 @@ const propTypes = {
 
 const defaultProps = {};
 
-const { ProcessManager } = Native();
+const { ProcessManager } = Remote();
 
 class DefaultAside extends Component {
     constructor(props) {

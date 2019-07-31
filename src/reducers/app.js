@@ -1,7 +1,8 @@
+
+import { Remote } from 'libs/Remote';
 import { RouteBuilder, NavBuilder } from 'libs/NavsBuilder.js';
 import immutable from 'object-path-immutable';
 import * as Plugins from 'plugins';
-import Native from 'libs/Native';
 import { Store } from 'store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
@@ -14,7 +15,8 @@ const {
     Notifier,
     ContentHelper,
     Utils,
-} = Native();
+} = Remote();
+
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
 
 const currentRoute = (routes, pathname) => {
