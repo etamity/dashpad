@@ -5,8 +5,8 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 import App from './App';
 import * as serviceWorker from '../serviceWorker';
 
+process.env.APPTYPE = 'docs';
 const rootEl = document.getElementById('root')
-
 ReactDOM.render(<App />, rootEl);
 if (module.hot) {
     module.hot.accept("./App", () => {

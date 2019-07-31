@@ -1,4 +1,9 @@
-export const NavBuilder = components => {
+export const NavBuilder = (
+    components,
+    defaultTopMenus = [],
+    defaultSideMenus = [],
+    defaultRightMenus = []
+) => {
     const configArr = Object.keys(components)
         .filter(name => !!components[name].Config)
         .map(name => {
@@ -9,19 +14,19 @@ export const NavBuilder = components => {
         .filter(config => !!config.SideMenus)
         .map(config => config.SideMenus);
 
-    const navs = [].concat.apply([], navsArr);
+    const navs = [].concat.apply(defaultSideMenus, navsArr);
 
     const topNavsArr = configArr
         .filter(config => !!config.TopMenus)
         .map(config => config.TopMenus);
 
-    const topNavs = [].concat.apply([], topNavsArr);
+    const topNavs = [].concat.apply(defaultTopMenus, topNavsArr);
 
     const rightNavsArr = configArr
         .filter(config => !!config.TopRightButtons)
         .map(config => config.TopRightButtons);
 
-    const rightNavs = [].concat.apply([], rightNavsArr);
+    const rightNavs = [].concat.apply(defaultRightMenus, rightNavsArr);
     return {
         TopMenus: topNavs,
         SideMenus: {
@@ -42,7 +47,7 @@ export const RouteBuilder = (components, base = '') => {
             component,
             key: index + 1,
             name: config.name || name,
-            config
+            config,
         };
         const { SubRoutes } = config;
 

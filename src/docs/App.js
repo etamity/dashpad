@@ -1,11 +1,14 @@
-import React, { Component, Suspense } from 'react';
+import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Store, history } from '../store';
-import Document from './pages/index.mdx';
+import { Store } from '../store';
+import { history } from 'libs/CombineReducers';
+// import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
 import '../App.scss';
+
 const loading = () => (
     <div className="animated fadeIn pt-3 text-center">Loading...</div>
 );
@@ -25,45 +28,36 @@ const Page500 = Loadable({
     loader: () => import('../views/Pages/Page500'),
     loading,
 });
-
-const routes = [
-    {
-        name: 'Settings',
-        url: '/dashboard/settingsview',
-        icon: 'icon-settings',
-        badge: {
-            variant: 'info',
-            text: 'NEW',
-        }
-    }
-]
 class App extends Component {
     render() {
-        return <Provider store={Store}>
-        <ConnectedRouter history={history}>
-            <HashRouter>
-                <Switch>
-                    <Route
-                        exact
-                        path="/404"
-                        name="Page 404"
-                        component={Page404}
-                    />
-                    <Route
-                        exact
-                        path="/500"
-                        name="Page 500"
-                        component={Page500}
-                    />
-                    <Route
-                        path="/"
-                        name="Admin Dashboard"
-                        component={DefaultLayout}
-                    />
-                </Switch>
-            </HashRouter>
-        </ConnectedRouter>
-    </Provider>
+        return (
+            <Provider store={Store}>
+                <ConnectedRouter history={history}>
+                    <HashRouter>
+                        <Switch>
+                            <Route
+                                exact
+                                path="/404"
+                                name="Page 404"
+                                component={Page404}
+                            />
+                            <Route
+                                exact
+                                path="/500"
+                                name="Page 500"
+                                component={Page500}
+                            />
+                            <Route
+                                path="/"
+                                name="Admin Dashboard"
+                                component={DefaultLayout}
+                            />
+                        </Switch>
+                    </HashRouter>
+                </ConnectedRouter>
+            </Provider>
+        );
     }
 }
+
 export default App;

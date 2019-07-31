@@ -113,6 +113,7 @@
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
+    "redux-thunk": "^2.3.0",
     "remark-emoji": "^2.0.2",
     "remark-images": "^1.0.0",
     "require-all": "^3.0.0",

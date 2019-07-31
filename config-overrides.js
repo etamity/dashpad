@@ -3,7 +3,7 @@ const path = require('path');
 const images = require('remark-images')
 const emoji = require('remark-emoji')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const mockModules = require('./mock/index.js');
+const mockModules = require('./resolve/index.js');
 // const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 module.exports = {
