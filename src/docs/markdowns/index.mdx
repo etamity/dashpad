@@ -1,13 +1,65 @@
-import { YMLHtmlView } from '../../builder/components/YMLHtml'
+export const metadata = {
+    title: 'My Content111',
+};
 
----
-title: My Content111
----
+import { YMLButtonView } from '../../builder/components/YMLButton';
 
-<div><YMLHtmlView obj={{content: '<h1 style="color:red">test!111!</h1>'}} /></div>
+<div
+    onClick={() => {
+        console.log(Dashpad);
+    }}
+>
+    <YMLButtonView
+        obj={{
+            label: 'test',
+            brand: 'facebook',
+            content: '<h1 style="color:red">test!111!</h1>',
+        }}
+    />
+</div>
+
+```yaml ui
+Form:
+    Field_input:
+        type: text
+        label: Text Field
+    Field_button:
+        type: button
+        label: Button Field
+        onClick: >
+            (e) => {
+              console.log('Button clicked', this);
+            }
+    Field_radio:
+        type: radio
+        label: Radio Field
+        options:
+            - Male
+            - Female
+    Field_checkbox:
+        type: checkbox
+        label: Checkbox Field
+        options:
+            - Foot Ball
+            - Piano
+            - Games
+            - Movies
+    Field_select:
+        type: select
+        label: Select Field
+        options:
+            - London
+            - York
+            - Manchester
+            - Liverpool
+    Field_switch:
+        type: switch
+        label: Switch Field
+        checked: true
+        color: danger
+```
 
 # npm init docs
-
 
 This site was generated with [MDX Docs][]: Next.js-based documentation site.
 

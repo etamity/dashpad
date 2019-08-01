@@ -23,16 +23,6 @@ module.exports = {
             config.resolve.alias = Object.assign({}, config.resolve.alias, mockModules);
             config.node = { fs: 'empty' };
         }
-
-        // config.module.rules[1].include = [
-        //     path.resolve(__dirname, 'src'),
-        //     path.resolve(__dirname, 'docs'),
-        // ];
-        // config.module.rules.push({
-        //     test: /\.(js|jsx|mdx|md)$/,
-        //     use: 'react-hot-loader/webpack',
-        //     include: /node_modules/
-        //   });
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
                 return {
@@ -68,8 +58,6 @@ module.exports = {
         return config;
     },
     paths: paths => {
-        // console.log(paths);
-        // throw Error();
         if (process.env.APP_TYPE === 'docs') {
             paths.appIndexJs = path.resolve(__dirname, 'src/docs/index.js');
             paths.appBuild = path.resolve(__dirname, 'docs');
