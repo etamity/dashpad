@@ -60,8 +60,6 @@ export class MdxViewerPlugin extends Component {
                             <AutoRouter
                                 routes={this.props.route.routes}
                                 {...this.props}
-                                base={'/docs'}
-                                indexRoute={'docs/index'}
                             />
                         </MDXProvider>
                     </CardBody>

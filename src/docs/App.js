@@ -49,7 +49,7 @@ class App extends Component {
                             />
                             <Route
                                 path="/"
-                                name="Admin Dashboard"
+                                name="documents"
                                 component={DefaultLayout}
                             />
                         </Switch>

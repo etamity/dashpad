@@ -108,6 +108,8 @@ export class DefaultLayout extends Component {
                             <AutoRouter
                                 routes={this.props.routes}
                                 {...this.props}
+                                base={'/'}
+                                indexRoute={'/docs/0.documents/0.index.mdx'}
                             />
                         </Suspense>
                     </main>
