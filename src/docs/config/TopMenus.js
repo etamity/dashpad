@@ -1,10 +1,10 @@
 export default [{
     name: 'Docs',
-    url: '/',
+    url: '/docs/0.documents/0.index.mdx',
 },
 {
-    name: 'Releases',
-    url: '/releases',
+    name: 'Learn',
+    url: '/learn',
 },
 {
     name: 'Blog',
