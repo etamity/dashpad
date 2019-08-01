@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { ListGroupItem, Row, Col, Button, Progress } from 'reactstrap';
 import moment from 'moment';
-import Native from 'libs/Native';
+import { Remote } from 'libs/Remote';
 import { toast } from 'react-toastify';
 import { shell } from 'electron';
 
-const { ModuleHelper } = Native();
+const { ModuleHelper } = Remote();
 
 export class GithubListItem extends Component {
     constructor() {

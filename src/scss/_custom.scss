@@ -21,3 +21,11 @@ main {
     color: $linkedin;
     font-weight: 500;
 }
+
+.app-header .navbar-toggler {
+    outline: 0
+}
+
+.app-header .nav-item {
+    padding: 0 20px;
+}

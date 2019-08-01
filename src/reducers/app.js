@@ -1,58 +1,22 @@
-import { RouteBuilder, NavBuilder } from 'libs/NavsBuilder.js';
+
+import { Remote } from 'libs/Remote';
 import immutable from 'object-path-immutable';
-import * as Plugins from 'plugins';
-import Native from 'libs/Native';
 import { Store } from 'store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 import VM from 'libs/VM';
 import { SchemaKeys } from './Constants';
+import { currentRoute } from 'libs/AutoRouter';
+
 const {
     Constants,
     BackendStore,
     ProcessManager,
     Notifier,
     ContentHelper,
-    Utils,
-} = Native();
+} = Remote();
+
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
-
-const currentRoute = (routes, pathname) => {
-    return (
-        routes &&
-        routes.find(route => {
-            return pathname.includes(route.path);
-        })
-    );
-};
-const config = NavBuilder(Plugins);
-
-const routes = RouteBuilder(Plugins);
-
-const current = (hash = window.location.hash) => {
-    const route = currentRoute(routes, hash);
-    return {
-        route,
-    };
-};
-
-const initState = {
-    config,
-    routes,
-    current: {
-        ...current(),
-    },
-    uiSchema: null,
-    keyPathVars: {},
-    packageInfo: null,
-    modal: [],
-    processes: [],
-    system: {
-        ip: Utils.getLocalIp(),
-    },
-};
-
-BackendStore.set('app', JSON.parse(JSON.stringify(initState)));
 
 const syncBackendAndChildProcessState = state => {
     const action = {
@@ -60,7 +24,7 @@ const syncBackendAndChildProcessState = state => {
         payload: state,
     };
     ProcessManager.send(action);
-    BackendStore.set('app', JSON.parse(JSON.stringify(state)));
+    BackendStore.set('app', JSON.parse(JSON.stringify(state || {})));
 };
 
 /**
@@ -109,14 +73,14 @@ const copyToClipboard = text => {
     }
 };
 
-export default function update(state = initState, action) {
+export default function update(state, action) {
     let newState = state;
     const { type, payload } = action;
     switch (type) {
         case '@@router/LOCATION_CHANGE':
             const { hash } = payload.location;
             newState = immutable(state)
-                .merge('current', current(hash))
+                .merge('current', currentRoute(state.routes, hash))
                 .value();
             break;
         case AppEventType.ON_LOAD_NAVS:
@@ -124,7 +88,7 @@ export default function update(state = initState, action) {
             newState = immutable(state)
                 .set(
                     'config.SideMenus.items',
-                    config.SideMenus.items.concat(navs)
+                    state.config.SideMenus.items.concat(navs)
                 )
                 .value();
             break;
@@ -235,7 +199,7 @@ export default function update(state = initState, action) {
                 position: toast.POSITION.TOP_CENTER,
                 type: toast.TYPE.INFO,
             };
-            toast(message, Object.assign({}, defaultOptions, options));
+            toast(message, { ...defaultOptions, ...options});
             break;
         case UIEventType.COPY_TO_CLIPBOARD:
             const { text } = payload;

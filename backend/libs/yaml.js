@@ -43,8 +43,12 @@ const load = (path) => {
     root= resolvePath.substring(0, resolvePath.lastIndexOf('/'));
     return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'), { schema: IMPORT_SCHEMA});
 };
+const read = (yaml) => {
+    return yaml.safeLoad(yaml, { schema: IMPORT_SCHEMA});
+};
 
 
 module.exports = {
-    load
+    load,
+    read
 };

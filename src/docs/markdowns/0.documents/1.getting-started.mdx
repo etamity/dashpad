@@ -1,0 +1,65 @@
+export const config = {
+    menu: 'Getting Started'
+};
+
+## Getting Started
+
+---
+
+### Environment Requirement
+
+- Node >= v8.12
+
+    If you get `Unexpected token function` error, which mean you need to change node version.
+
+### Install
+
+`npm i`
+
+### Start
+
+`npm start`
+
+### Build
+
+Your build version will be under `build` folder.
+
+`npm run build && npm run pack:mac`
+
+or
+
+`npm run build && npm run pack:win`
+
+### Config
+
+The application config file is in `/db/db.json`, you can change the window size and port etc.
+
+```json
+{
+  "config": {
+    "port": 9999,
+    "uiport": 8888,
+    "host": "localhost",
+    "window": {
+        "width": 1308,
+        "height": 1024,
+        "show": false
+    },
+    ...
+    }
+```
+
+### Cli Command
+
+If you wish to use `dashpad` command, run npm global install and link it inside your project root folder.
+
+`npm i -g & npm link`
+
+and then you can run `dashpad` in the terminal to open the dashpad.
+
+The default work workspace directory will be under `/Users/${username}/documents/dashpad`
+
+
+### Notice
+
+While running the application, two ports will be using. (8888, and 9999)

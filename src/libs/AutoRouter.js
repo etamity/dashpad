@@ -9,14 +9,12 @@ class AutoRouter extends Component {
         const baseRoute = (base && ['/', base].join('')) || '/#/';
         return (
             <Switch>
-                {renderRoutes(routes)}
-
                 {indexRoute && <Redirect
                     push
                     from={baseRoute}
                     to={indexRoute}
                 />}
-
+                {renderRoutes(routes)}
             </Switch>
         );
     }
@@ -26,6 +24,15 @@ AutoRouter.propTypes = {
     index: PropTypes.string,
     base: PropTypes.string,
     routes: PropTypes.array,
+};
+
+export const currentRoute = (routes, pathname) => {
+    return (
+        routes &&
+        routes.find(route => {
+            return pathname.includes(route.path);
+        })
+    );
 };
 
 export default AutoRouter;
