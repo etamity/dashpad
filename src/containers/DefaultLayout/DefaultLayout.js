@@ -13,7 +13,7 @@ import {
 import { AppAction } from 'reducers/app';
 import AppBreadcrumb from 'components/AppBreadcrumb';
 import AppSidebarNav from 'components/AppSidebarNav';
-import Native from 'libs/Native';
+import { Remote } from 'libs/Remote';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toggleClasses from '@coreui/react/lib/Shared/toggle-classes';
@@ -34,16 +34,16 @@ export class DefaultLayout extends Component {
         super();
         this.modalToggle = this.modalToggle.bind(this);
     }
-    loading = () => (
-        <div className="animated fadeIn pt-1 text-center">Loading...</div>
-    );
+    loading() {
+        return <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    }
 
     signOut(e) {
         e.preventDefault();
         this.props.history.push('/login');
     }
     loadUIFile(packageName, uiFile) {
-        const { PathHelper } = Native();
+        const { PathHelper } = Remote();
         const ymlPath = [PathHelper.getDashSpace(packageName), uiFile].join(
             '/'
         );
@@ -64,7 +64,7 @@ export class DefaultLayout extends Component {
     render() {
         const { TopMenus, TopRightButtons, SideMenus } = this.props.config;
         const { routes, modal } = this.props;
-        const openAside = this.props.processes.length > 0;
+        const openAside = !!this.props.processes && this.props.processes.length > 0;
         const modalProps = modal.length > 0 && modal[modal.length - 1];
         this.toggleAside(openAside);
         return (
@@ -80,7 +80,7 @@ export class DefaultLayout extends Component {
                         <DefaultHeader
                             navs={TopMenus}
                             rightNavs={TopRightButtons}
-                            showToggle={true}
+                            showToggle={!!this.props.processes}
                             onConform={modalProps && modalProps.onConform}
                             onLogout={e => this.signOut(e)}
                             {...this.props}
@@ -108,13 +108,15 @@ export class DefaultLayout extends Component {
                             <AutoRouter
                                 routes={this.props.routes}
                                 {...this.props}
+                                base={'/'}
+                                indexRoute={'/docs/0.documents/0.index.mdx'}
                             />
                         </Suspense>
                     </main>
 
-                    <AppAside fixed>
+                    {!!this.props.processes && <AppAside fixed>
                         <Aside />
-                    </AppAside>
+                    </AppAside>}
                 </div>
                 <AppFooter>
                     <Suspense fallback={this.loading()}>

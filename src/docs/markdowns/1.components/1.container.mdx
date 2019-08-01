@@ -1,0 +1,297 @@
+export const config = {
+    menu: 'Container'
+};
+
+
+## Container Components
+
+---
+
+```yml ui
+  Container_Container:
+    Card_Container:
+      Header:
+        title: Container
+      Row_Code:
+        Markdown:
+          content: >
+            ```yaml
+
+            Container:
+              Card:
+                Text:
+                  position: center
+                  content: this is a container
+            ```
+        Container:
+          Card:
+            Text:
+              position: center
+              content: this is a container
+    Card_Tabs:
+      Header:
+        title: Tabs
+      Row_Code:
+        Markdown:
+          content: >
+            ```yaml
+
+            Tabs:
+                activeTab: 0
+                Card_1:
+                    label: tab1
+                Card_2:
+                    label: tab2
+            ```
+        Tabs:
+          activeTab: 0
+          Card_1:
+            label: tab1
+          Card_2:
+            label: tab2
+    Card_card:
+      Header:
+        title: Card
+      Row_Code:
+        Markdown:
+          content: >
+            ```yaml
+
+            Card:
+                label: tab1
+                Header: 
+                    title: card title
+                    Button_1:
+                        color: danger
+                        label: left button
+                        position: left
+                    Button_2:
+                        color: warning
+                        label: right button
+                        position: right
+                Form:
+                    Username:
+                        label: Username
+                        type: text
+                        value: joey
+            ```
+        Card:
+          label: tab1
+          Header:
+            title: card title
+            Button_1:
+              color: danger
+              label: left button
+              position: left
+            Button_2:
+              color: warning
+              label: right button
+              position: right
+          Form:
+            Username:
+              label: Username
+              type: text
+              value: joey
+    Card_Form:
+      Header:
+        title: Form
+      Row_Code:
+        Markdown:
+          content: >
+            ``` yaml
+            Form:
+                Username:
+                  type: text
+                  label: Username
+                  tooltip: Choose your username
+                  value: First name
+                  prepend:
+                    - type: button
+                      icon: icon-drop
+                      color: warning
+                  append:
+                    - type: text
+                      icon: icon-drop
+                      label: hajajaj
+                      color: success
+                Password:
+                  type: password
+                  label: Password
+                  tooltip: Please input the password
+            ```
+
+        Form:
+          Username:
+            type: text
+            label: Username
+            tooltip: Choose your username
+            value: First name
+            prepend:
+              - type: button
+                icon: icon-drop
+                color: warning
+            append:
+              - type: text
+                icon: icon-drop
+                label: hajajaj
+                color: success
+          Password:
+            type: password
+            label: Password
+            tooltip: Please input the password
+    Card_Row:
+      Header:
+        title: Row
+      Row_Code:
+        Markdown:
+          content: >
+            ```yaml
+
+            Row:
+              fluid: 'true'
+              Username:
+                  col:       
+                      md: 2   # Bootstrap 12 colums in one row
+                      lg: 3   
+                  type: text
+                  value: joey
+                  label: Username
+                  tooltip: Please input your username
+              Password:
+                  col: 
+                      md: 1   # Bootstrap 12 colums in one row
+                      lg: 1
+                  type: password
+                  value: 1234
+                  label: Password
+                  tooltip: Please input your password
+            ```
+        Row:
+          fluid: 'true'
+          Username:
+            col:
+              md: 8 # Bootstrap 12 colums in one row
+              lg: 4
+            type: text
+            value: joey
+            label: Username
+            tooltip: Please input your username
+          Password:
+            col:
+              md: 4 # Bootstrap 12 colums in one row
+              lg: 8
+            type: password
+            value: 1234
+            label: Password
+            tooltip: Please input your password
+    Card_Buttongroup:
+      Header:
+        title: Button group
+      Row_Code:
+        Markdown:
+          content: >
+            ```yaml
+
+            Buttongroup:
+                type: wrap # ['group', 'toolbar', 'dropdown', 'wrap']
+                label: Menu
+                className: d-flex
+                childClassName: m-1
+                onClick: >
+                  (e) => {
+                    console.log('test group', e.target);
+                  }
+                items:
+                  - label: Button 1
+                  - label: Button 2
+                  - label: Button 3
+                  - label: Button 4
+                  - label: Button 5
+                  - label: Button 6
+                  - label: Button 7
+                  - label: Button 8
+                  - label: Button 9
+                  - label: Button 10
+                  - label: Button 11
+                  - label: Button 12
+            Field_Header:
+              title: This is Dropdown
+              Buttongroup_dropdown:
+                type: dropdown # ['group', 'toolbar', 'dropdown', 'wrap']
+                label: Menu
+                className: d-flex
+                childClassName: m-1
+                onClick: >
+                  (e) => {
+                      console.log('test group', e.target);
+                    }
+                items:
+                  - label: Button 1
+                  - label: Button 2
+                  - label: Button 3
+            ```
+        Card:
+          Buttongroup:
+            type: wrap # ['group', 'toolbar', 'dropdown', 'wrap']
+            label: Menu
+            className: d-flex
+            childClassName: m-1
+            onClick: >
+              (e) => {
+                    console.log('test group', e.target);
+              }
+            items:
+              - label: Button 1
+              - label: Button 2
+              - label: Button 3
+              - label: Button 4
+              - label: Button 5
+              - label: Button 6
+              - label: Button 7
+              - label: Button 8
+              - label: Button 9
+              - label: Button 10
+              - label: Button 11
+              - label: Button 12
+          Field_Header:
+            title: This is Dropdown
+            Buttongroup_dropdown:
+              type: dropdown # ['group', 'toolbar', 'dropdown', 'wrap']
+              label: Menu
+              className: d-flex
+              childClassName: m-1
+              onClick: >
+                (e) => {
+                    console.log('test group', e.target);
+                  }
+              items:
+                - label: Button 1
+                - label: Button 2
+                - label: Button 3
+    Card_Header:
+      Header:
+        title: Header
+      Row_Code:
+        Markdown:
+          content: >
+            ```yaml
+
+            Header:
+              Button_1:
+                position: left
+                brand: twitter
+              title: The title
+              Button_2:
+                position: right
+                brand: facebook
+            ```
+        Card:
+          Header:
+            Button_1:
+              position: left
+              brand: twitter
+            title: The title
+            Button_2:
+              position: right
+              brand: facebook
+```

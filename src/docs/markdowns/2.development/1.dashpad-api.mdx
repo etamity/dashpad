@@ -1,0 +1,301 @@
+export const config = {
+    menu: 'Dashpad Api'
+};
+
+## Dashpad Api
+
+---
+
+-   ### **getVars**
+
+You can get variables value from `$vars` properties by keyPath,
+
+e.g.
+
+`Dashpad.getVars(keyPath);`
+
+If you predefined key default value in the yaml file header under `$vars` key:
+
+```yaml
+---
+$vars:
+    username: Joey
+    header: This is Header
+    progress: 0
+```
+
+Then you can get the value simple pass they `username` key to getVars, it will return variables `username` value.
+
+```js
+Dashpad.getVars('username');  // return 'joey'
+```
+
+-   ### **setVars**
+
+You can set variable value to all components where it refers to this variable,
+
+e.g.
+
+`Dashpad.setVars(keyPath, value);`
+
+If you predefined key default value in the yaml file header under `$vars` key:
+
+```yaml
+---
+$vars:
+    username: Joey
+    progress: 0
+```
+
+And you can set the props refers `${username}` and `${progress}` to these variable keys:
+
+```yaml
+---
+Username:
+    type: text
+    label: Username
+    tooltip: Please input your username
+    value: ${username} # set the refers
+Progress:
+    value: ${progress} # set the refers
+    max: 1000
+    animated: true
+
+```
+
+Then you can set the value simple pass they `username` key to getVars, it will set `Username.value` and `Progress.value` props value.
+
+```js
+Dashpad.setVars('username', 'joseph');
+// or
+Dashpad.setVars({ keyPath: 'username', value: 'joseph' });
+```
+
+Or you can set mutiple value in one goal:
+
+```js
+Dashpad.setVars([
+    { keyPath: 'username', value: 'Hello!!!!' },
+    { keyPath: 'username', value: 'this will be set at same time!!!!' },
+]);
+```
+
+-   ### **getVarsState**
+
+You can get current state by keyPath,
+
+e.g.
+
+`Dashpad.getVarsState(keyPath);`
+
+If you predefined key path in the yaml file header under `$vars` key:
+
+```yaml
+---
+$vars:
+    username: Tabs_1.Card_1.Row.Username.value
+    header: Tabs_1.Card_1.Header.title
+```
+
+Then you can get the value simple pass they `username` key to getVarsState, it will return `Tabs_1.Card_1.Row.Username.value` state value.
+
+```js
+Dashpad.getVarsState('username');
+```
+
+-   ### **setVarsState**
+
+You can get current state by keyPath,
+
+e.g.
+
+`Dashpad.setVarsState(keyPath, value);`
+
+If you predefined key path in the yaml file header under `$vars` key:
+
+```yaml
+---
+$vars:
+    username: Tabs_1.Card_1.Row.Username.value
+    header: Tabs_1.Card_1.Header.title
+```
+
+Then you can set the value simple pass they `username` key to getVars, it will set `Tabs_1.Card_1.Row.Username.value` state value.
+
+```js
+Dashpad.setVarsState('username', 'joseph');
+// or
+Dashpad.setVarsState({ keyPath: 'username', value: 'joseph' });
+```
+
+Or you can set mutiple value in one goal:
+
+```js
+Dashpad.setVarsState([
+    { keyPath: 'username', value: 'Hello!!!!' },
+    { keyPath: 'username', value: 'this will be set at same time!!!!' },
+]);
+```
+
+
+-   ### **settings**
+
+You can have your own scope settings variable by access `Dashpad.settings`
+
+e.g.
+
+```js
+Dashpad.settings.get(); // get all settings under your package name
+Dashpad.settings.get(keyPath); // get the keyPath settings under your package name
+Dashpad.settings.set(keyPath, value); // set the variables under your package name
+Dashpad.settings.push(keyPath, value); // push an element into an array under your package name
+Dashpad.settings.delete(keyPath); // delete the variables under your package name
+Dashpad.settings.value(); // get all Dashpad settings
+```
+
+If you have a node package name `sample_module`, and you can set your settings variable as below:
+
+```js
+Dashpad.settings.set('myToken', 'token_data'); // set the variables under your package name
+```
+
+Dashpad will save `token_data` value under `settings.sample_module.myToken`. You will see the settings in the dashboard settings view.
+
+-   ### **getState**
+
+You can get current state by keyPath,
+
+e.g.
+
+`Dashpad.getState(keyPath);`
+
+```js
+Dashpad.getState('Tabs_1.Card_1.Header.title');
+```
+
+-   ### **setState**
+
+You can set current state by keyPath and value,
+
+e.g.
+
+`Dashpad.setState(keyPath, value);`
+
+```js
+Dashpad.setState('Tabs_1.Card_1.Header.title', 'Hello!!!!');
+// or
+Dashpad.setState({ keyPath: 'Tabs_1.Card_1.Header.title', value: 'Hello!!!!' });
+```
+
+Or you can set mutiple value in one goal:
+
+```js
+Dashpad.setState([
+    { keyPath: 'Tabs_1.Card_1.Header.title', value: 'Hello!!!!' },
+    {
+        keyPath: 'Tabs_1.Card_1.Header.Button_1.label',
+        value: 'this will be set at same time!!!!',
+    },
+]);
+```
+
+-   ### **showNotification**
+
+e.g.
+
+`Dashpad.showNotification({titile, message});`
+
+```js
+Dashpad.showNotification({
+    titile: 'Hello world',
+    message: 'This is notification',
+});
+```
+
+-   ### **showToast**
+
+e.g.
+
+`Dashpad.showToast({message, options});`
+
+```js
+const options = {
+  type: 'info' // 'info' | 'success' | 'warning' | 'error' | 'default'
+}
+Dashpad.showToast({
+    message: 'This is toast',
+    options
+});
+```
+
+-   ### **showModal**
+
+e.g.
+
+`Dashpad.showModal({title, message, onConfirm});`
+
+```js
+Dashpad.showModal({
+    title: 'show a modal'
+    message: 'This is modal'
+    });
+```
+
+-   ### **loadJson**
+
+load Json file and return json object
+
+e.g.
+
+`Dashpad.loadJson(jsonfile);`
+
+```js
+const json = Dashpad.loadJson('somejson.json');
+```
+
+-   ### **run** (In Yaml file only)
+
+Run node scirpt from yml file
+
+e.g.
+
+`Dashpad.run(nodeScript, parameters);`
+
+```js
+Dashpad.run('index.js', { obj: 'hey, node can get this parameter!' });
+```
+-   ### **exit**
+
+Once your task is finished, call `Dashpad.exit();` to exit the process in the node.
+
+e.g.
+
+`Dashpad.exit();`
+
+## VM Enviroment
+
+The reason to have js VM library is to avoid global scope poisioning. All yml (frontend) script will be running in a closure function.
+
+E.g
+
+``` js
+// VM filter the global object in frontend
+(function anonymous(window..., Dashpad
+) {
+"use strict";
+
+commonFunc('just loaded!!');
+
+return function VMScope() {
+  return {
+    run: function run(code) {
+      eval(code);
+    },
+    runEvent: function runEvent(code, e) {
+      eval(code);
+    }
+  };
+}()
+})
+```
+So all global objects are being filtered, `window` object will be `undefined`.

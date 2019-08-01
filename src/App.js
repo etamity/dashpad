@@ -3,7 +3,8 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Store, history } from './store';
+import { Store } from './store';
+import { history } from 'libs/CombineReducers';
 // import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
 import './App.scss';

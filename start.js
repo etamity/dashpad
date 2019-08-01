@@ -50,6 +50,7 @@ checkUpdate().then(result => {
       dev();
     }).catch(error => {
       console.error(error);
+      dev();
     });
   } else {
     dev();

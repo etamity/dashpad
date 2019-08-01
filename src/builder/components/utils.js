@@ -130,7 +130,9 @@ export const EventsHook = (props, events) => {
                         obj.link.search('http') > -1
                             ? obj.link
                             : 'file://' + dir + obj.link;
-                    shell.openExternal(link);
+                    if (shell) {
+                        shell.openExternal(link);
+                    }
                 }
                 if (obj.goto) {
                     AppAction.loadUISchemaPath(dir + obj.goto);

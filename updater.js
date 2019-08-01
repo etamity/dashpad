@@ -38,6 +38,10 @@ const pullUpdate = () => {
             console.log(result);
             resolve(result);
         });
+        child.stderr.on('data', result => {
+            console.log('err', result);
+            reject(result);
+        });
     });
 };
 
