@@ -23,7 +23,6 @@ const initState = {
     keyPathVars: {},
     packageInfo: null,
     modal: [],
-    processes: [],
     system: {
         ip: Utils.getLocalIp(),
     },

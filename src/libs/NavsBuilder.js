@@ -40,8 +40,8 @@ export const NavBuilder = (
 export const RouteBuilder = (components, base = '') => {
     const routes = Object.keys(components).map((name, index) => {
         const component = components[name];
-        const config = (component.Config && component.Config()) || {};
-        const path = [base, name].join('/').toLowerCase();
+        const config = (component.Config && component.Config()) || component.config || {};
+        const path = [base, config.route || name].join('/').toLowerCase();
         const route = {
             path,
             component,

@@ -1,9 +1,22 @@
+import 'react-app-polyfill/ie9'; // For IE 9-11 support
+import 'react-app-polyfill/ie11'; // For IE 11 support
+import '../polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import App from './App';
 import * as serviceWorker from '../serviceWorker';
+import 'prismjs';
+import 'prismjs/themes/prism-okaidia.css';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-sass';
+import 'prismjs/components/prism-scss';
+import 'prismjs/components/prism-markup';
+import 'prismjs/components/prism-yaml';
 
 process.env.APPTYPE = 'docs';
 const rootEl = document.getElementById('root')

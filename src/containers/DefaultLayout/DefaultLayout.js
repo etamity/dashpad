@@ -64,7 +64,7 @@ export class DefaultLayout extends Component {
     render() {
         const { TopMenus, TopRightButtons, SideMenus } = this.props.config;
         const { routes, modal } = this.props;
-        const openAside = this.props.processes.length > 0;
+        const openAside = !!this.props.processes && this.props.processes.length > 0;
         const modalProps = modal.length > 0 && modal[modal.length - 1];
         this.toggleAside(openAside);
         return (
@@ -80,7 +80,7 @@ export class DefaultLayout extends Component {
                         <DefaultHeader
                             navs={TopMenus}
                             rightNavs={TopRightButtons}
-                            showToggle={true}
+                            showToggle={!!this.props.processes}
                             onConform={modalProps && modalProps.onConform}
                             onLogout={e => this.signOut(e)}
                             {...this.props}
@@ -112,9 +112,9 @@ export class DefaultLayout extends Component {
                         </Suspense>
                     </main>
 
-                    <AppAside fixed>
+                    {!!this.props.processes && <AppAside fixed>
                         <Aside />
-                    </AppAside>
+                    </AppAside>}
                 </div>
                 <AppFooter>
                     <Suspense fallback={this.loading()}>

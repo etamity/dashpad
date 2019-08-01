@@ -1,0 +1,17 @@
+export const config = {
+    menu: 'Github Api'
+};
+
+## Github API
+
+---
+
+Dashpad has integrated official github rest sdk [@octokit/rest](https://github.com/octokit/rest.js), you can generate auth token on github setting, and set it up on Dashpad settings page, then get the Github object by
+
+``` js
+const { Github } = Dashpad.platform;
+
+Github.search({q, ...});
+```
+
+By default if you didn't set up the auth token, the Github object will be empty.
