@@ -16,14 +16,11 @@ class DefaultFooter extends Component {
         return (
             <React.Fragment>
                 <span>
-                <Button color="link" onClick={()=>{
-                        shell.openExternal('https://github.com/etamity/dashpad');
-                    }}> <i className="fa fa-slack fa-lg" /> Hackable Dashboard Framework </Button>
                 </span>
                 <span className="ml-auto">
                 <Button color="link" onClick={()=>{
                         shell.openExternal('https://github.com/etamity/dashpad');
-                    }}> <i className="fa fa-github fa-lg" /> DashPad &copy; 2019</Button>
+                    }}> <a href="https://github.com/etamity/dashpad" target="_blank"><i className="fa fa-github fa-lg" /> Dashpad &copy; 2019</a></Button>
 
                 </span>
             </React.Fragment>

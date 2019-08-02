@@ -67,9 +67,5 @@ module.exports = {
         return {
             ...paths,
         };
-<<<<<<< HEAD
-    },
-=======
     }
->>>>>>> c13d791fb017ccf6501e62b7af31462c32b26555
 };

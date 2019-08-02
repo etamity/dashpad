@@ -6,7 +6,7 @@ A hackable universal dashboard framework for your desktop task automation and vi
 
 ## Video Demo
 
-[![Screens](https://github.com/etamity/dashpad/blob/master/screenshots/Screenshot-1.png?raw=true)](https://youtu.be/xdE6z8N6nyw)
+[![Screens](https://github.com/etamity/dashpad/blob/master/screenshots/demo.gif?raw=true)](https://youtu.be/xdE6z8N6nyw)
 
 [Tutorial Module](https://github.com/etamity/dashpad-tutorial)
 
@@ -36,7 +36,7 @@ or
 
 ## Config
 
-The application config file is in `/db/db.json`, you can change the window size and port etc.
+The application config file is in `/Users/${username}/documents/dashpad/db/db.json`, you can change the window size and port etc.
 
 ```json
 {
@@ -51,6 +51,7 @@ The application config file is in `/db/db.json`, you can change the window size 
     },
     ...
     }
+}
 ```
 
 ## Cli Command

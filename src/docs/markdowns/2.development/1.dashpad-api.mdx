@@ -1,5 +1,6 @@
 export const config = {
-    menu: 'Dashpad Api'
+    menu: 'Dashpad Api',
+    icon: 'cui-dashboard'
 };
 
 ## Dashpad Api
@@ -67,7 +68,9 @@ Then you can set the value simple pass they `username` key to getVars, it will s
 
 ```js
 Dashpad.setVars('username', 'joseph');
+
 // or
+
 Dashpad.setVars({ keyPath: 'username', value: 'joseph' });
 ```
 
@@ -76,7 +79,7 @@ Or you can set mutiple value in one goal:
 ```js
 Dashpad.setVars([
     { keyPath: 'username', value: 'Hello!!!!' },
-    { keyPath: 'username', value: 'this will be set at same time!!!!' },
+    { keyPath: 'username', value: 'this will be set at same time!!!!' }
 ]);
 ```
 
@@ -133,7 +136,7 @@ Or you can set mutiple value in one goal:
 ```js
 Dashpad.setVarsState([
     { keyPath: 'username', value: 'Hello!!!!' },
-    { keyPath: 'username', value: 'this will be set at same time!!!!' },
+    { keyPath: 'username', value: 'this will be set at same time!!!!' }
 ]);
 ```
 
@@ -194,8 +197,8 @@ Dashpad.setState([
     { keyPath: 'Tabs_1.Card_1.Header.title', value: 'Hello!!!!' },
     {
         keyPath: 'Tabs_1.Card_1.Header.Button_1.label',
-        value: 'this will be set at same time!!!!',
-    },
+        value: 'this will be set at same time!!!!'
+    }
 ]);
 ```
 
@@ -208,7 +211,7 @@ e.g.
 ```js
 Dashpad.showNotification({
     titile: 'Hello world',
-    message: 'This is notification',
+    message: 'This is notification'
 });
 ```
 
@@ -298,4 +301,5 @@ return function VMScope() {
 }()
 })
 ```
+
 So all global objects are being filtered, `window` object will be `undefined`.

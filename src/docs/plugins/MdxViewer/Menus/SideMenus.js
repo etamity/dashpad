@@ -5,11 +5,12 @@ export const SubRoutes = Object.keys(Documents).map(key => {
     const mdxModule = Documents[key].default;
     const { config } = Documents[key];
     const path = key.replace('./', '');
+    const { menu, icon } = config || {};
     mdxModule.Config = () => {
         return {
             path: `docs/${path}`,
             component: mdxModule,
-            name: (config && config.menu) || path,
+            name: menu|| path,
             route: `${path}`,
         };
     };
@@ -26,9 +27,9 @@ export const SubRoutes = Object.keys(Documents).map(key => {
             class: '', // optional class names space delimited list for title item ex: "text-center"
         },
         {
-            name: (config && config.menu) || path,
+            name: menu || path,
             url: `/docs/${path}`,
-            icon: 'icon-speedometer',
+            icon: icon || 'icon-notebook',
         },
     ];
     return mdxModule;
@@ -36,5 +37,19 @@ export const SubRoutes = Object.keys(Documents).map(key => {
 const sideMenus = [].concat.apply([], SubRoutes.map(route => route.subMenus));
 
 const uniqueArray = _.uniqBy(sideMenus, 'name');
+
+uniqueArray.push({
+    name: 'Download',
+    url: 'https://github.com/etamity/dashpad/releases',
+    variant: 'success',
+    class: 'mt-auto',
+    icon: 'icon-cloud-download',
+},{
+    name: 'Github',
+    url: 'https://github.com/etamity/dashpad',
+    variant: 'danger',
+    icon: 'icon-social-github',
+},
+);
 
 export default [...uniqueArray];
