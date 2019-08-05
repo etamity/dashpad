@@ -1,4 +1,3 @@
-const fs = require('fs');
 const fse = require('fs-extra');
 const shell = require('shelljs');
 const low = require('lowdb');
@@ -8,10 +7,10 @@ const nodePath = require('path');
 const glob = require('glob');
 module.exports = {
     isExist: path => {
-        return fs.existsSync(path);
+        return fse.existsSync(path);
     },
     getDirs: path => {
-        return fs.readdirSync(path).sort();
+        return fse.readdirSync(path).sort();
     },
     getFiles: (path, patttern = '**/*.yml') => {
         return glob.sync(`${path}/${patttern}`, {
@@ -25,7 +24,7 @@ module.exports = {
         return shell.exec(`rm -rf ${path}`);
     },
     loadFile: path => {
-        return fs.readFileSync(nodePath.resolve(path), 'utf8');
+        return fse.readFileSync(nodePath.resolve(path), 'utf8');
     },
     loadJsonDb: path => {
         const dir = nodePath.resolve(path.substring(0, path.lastIndexOf('/')));
@@ -51,7 +50,7 @@ module.exports = {
     },
     read: path => {
         return new Promise((resolve, reject) => {
-            fs.readFile(path, 'utf8', function(error, data) {
+            fse.readFile(path, 'utf8', function(error, data) {
                 if (error) {
                     reject(error);
                     return;
@@ -62,7 +61,7 @@ module.exports = {
     },
     write: (path, data) => {
         return new Promise((resolve, reject) => {
-            fs.writeFile(path, data, 'utf8', function(error) {
+            fse.writeFile(path, data, 'utf8', function(error) {
                 if (error) {
                     console.error(error);
                     reject(error);
@@ -73,7 +72,7 @@ module.exports = {
         });
     },
     writeSync: (path, data) => {
-        return fs.writeFileSync(path, data, 'utf8');
+        return fse.writeFileSync(path, data, 'utf8');
     },
     copyFolder: (from, to, options) => {
         console.log('Copy From', from, 'to', to);

@@ -10,6 +10,8 @@ const productionPlugins = [
 
 module.exports = api => {
   // see docs about api at https://babeljs.io/docs/en/config-files#apicache
+  console.log('babel error');
+throw new Error();
   api && api.cache(true);
   return {
     presets: [

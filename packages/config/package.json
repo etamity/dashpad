@@ -1,0 +1,16 @@
+{
+  "name": "@dashpad/config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joey.etamity (etamity@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "lodash": "^4.17.15",
+    "object-path-immutable": "^3.1.1"
+  }
+}

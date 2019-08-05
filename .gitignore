@@ -1,19 +1,18 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
+*.iml
+.nyc_output
+testOutput
+*.log
 package-lock.json
-
-# testing
-/coverage
+yarn.lock
 
 # production
-/build
-/dist
-/docs
-
-.next
-out
+build
+dist
+docs
 
 # misc
 .DS_Store
@@ -22,12 +21,4 @@ out
 .env.development.local
 .env.test.local
 .env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-yarn.lock
 .env
-
-# private
-/db/db.json

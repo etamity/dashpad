@@ -1,4 +1,4 @@
-const { existsSync }  = require('fs')
+const { existsSync }  = require('fs-extra')
 const { fork }  = require('child_process')
 const { resolve } = require('path')
 

@@ -3,16 +3,11 @@ const path = require('path');
 const images = require('remark-images')
 const emoji = require('remark-emoji')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const mockModules = require('./resolve/index.js');
-// const rewireReactHotLoader = require('react-app-rewire-hot-loader');
+const mockModules = require('@dashpad/resolve/index.js');
 
 module.exports = {
     webpack: (config, env) => {
-        // if (env == "development") {
-        //     config.resolve.alias["react-dom"] = "@hot-loader/react-dom";
-        // }
-        // config = rewireReactHotLoader(config, env);
-        //do stuff with the webpack config...
+
         config.target = 'electron-renderer';
         if (process.env.APP_TYPE === 'docs') {
             config.target = undefined;
@@ -53,17 +48,23 @@ module.exports = {
 
             return rule;
         });
-        // console.log(config.module);
-        // throw Error();
+
         return config;
     },
     paths: paths => {
+        let basePath;
         if (process.env.APP_TYPE === 'docs') {
-            paths.appIndexJs = path.resolve(__dirname, 'src/docs/index.js');
-            paths.appBuild = path.resolve(__dirname, 'docs');
-            // console.log(paths);
-            // throw Error();
+            basePath = '../documents';
+        } else {
+            basePath = '../ui';
         }
+        process.env.SKIP_PREFLIGHT_CHECK=true;
+        process.env.NODE_PATH= path.resolve(__dirname, basePath, 'src');
+        paths.appIndexJs = path.resolve(__dirname, basePath, 'src/index.js');
+        paths.appBuild = path.resolve(__dirname, basePath, 'build');
+        paths.appPublic = path.resolve(__dirname, '../public');
+        paths.appHtml = path.resolve(__dirname, '../public/index.html');
+        paths.appSrc = path.resolve(__dirname, basePath, 'src');
         return {
             ...paths,
         };
