@@ -1,0 +1,22 @@
+{
+  "name": "@dashpad/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joey.etamity (etamity@gmail.com)",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
+    "js-yaml": "^3.13.1",
+    "lodash-id": "^0.14.0",
+    "lowdb": "^1.0.0",
+    "shelljs": "^0.8.3",
+    "shortid": "^2.2.14",
+    "@octokit/rest": "^16.17.0"
+  }
+}
