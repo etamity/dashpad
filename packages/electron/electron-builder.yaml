@@ -11,19 +11,11 @@ directories:
 
 files:
   - package.json
-  - backend/
+  - packages/
   - electron/
-  - src/
-  - db/
   - build/
-  - public/
-  - server.js
-  - config-overrides.js
-  - start.js
-  - updater.js
-  - watch.js
-  - babel.config.js
-  - cli/
+  - lerna.json
+  - README.md
   
 
 dmg:

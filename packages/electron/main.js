@@ -4,7 +4,7 @@
 const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const url = require('url');
-const config = require('../backend/configs/config').value();
+const config = require('@dashpad/config').value();
 const port = config.uiport;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -82,7 +82,7 @@ function createWindow() {
         indexPath =
             url.format({
                 protocol: 'file:',
-                pathname: path.join(__dirname, '/../build', 'index.html'),
+                pathname: path.resolve(__dirname, '../../build/index.html'),
                 slashes: true,
             }) + '#/dashboard';
     }
@@ -92,10 +92,10 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         if (isDev) {
-            require(path.resolve(__dirname + '/../watch.js'));
+            require('@dashpad/wabpack/watch.js');
             mainWindow.webContents.openDevTools();
         }
-        require(path.resolve(__dirname + '/../server.js'));
+        require('@dashpad/core/server.js');
         // Open the DevTools automatically if developing
     });
 

@@ -1,25 +1,42 @@
-require("util").inspect.defaultOptions.depth = null;
+require('util').inspect.defaultOptions.depth = null;
 const path = require('path');
-const images = require('remark-images')
-const emoji = require('remark-emoji')
+const images = require('remark-images');
+const emoji = require('remark-emoji');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const mockModules = require('@dashpad/resolve/index.js');
 
 module.exports = {
     webpack: (config, env) => {
-
         config.target = 'electron-renderer';
         if (process.env.APP_TYPE === 'docs') {
+            const mockModules = require('@dashpad/core/resolve');
             config.target = undefined;
             config.resolve.plugins = config.resolve.plugins.filter(
                 plugin => !(plugin instanceof ModuleScopePlugin)
             );
 
-            config.resolve.alias = Object.assign({}, config.resolve.alias, mockModules);
+            config.resolve.alias = { 
+                ...config.resolve.alias, 
+                ...mockModules };
             config.node = { fs: 'empty' };
         }
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
+                if (process.env.APP_TYPE === 'docs') {
+                    const docsBasePath = '../frontend/documents';
+                    const dashpadBasePath = '../frontend/dashpad';
+                    rule.oneOf = rule.oneOf.map(oneOfRule => {
+                        if (
+                            String(oneOfRule.test) ===
+                            String('/\\.(js|mjs|jsx|ts|tsx)$/')
+                        ) {
+                            oneOfRule.include = [
+                                path.resolve(__dirname, docsBasePath),
+                                path.resolve(__dirname, dashpadBasePath),
+                            ];
+                        }
+                        return oneOfRule;
+                    });
+                }
                 return {
                     ...rule,
                     // create-react-app let every file which doesn't match to any filename test falls back to file-loader,
@@ -31,15 +48,13 @@ module.exports = {
                             use: [
                                 'babel-loader',
                                 {
-                                  loader: '@mdx-js/loader',
-                                  options: {
-                                    remarkPlugins: [images, emoji]
-                                  }
-                                }
-                              ],
-                            include: [
-                                path.resolve(__dirname, 'src'),
+                                    loader: '@mdx-js/loader',
+                                    options: {
+                                        remarkPlugins: [images, emoji],
+                                    },
+                                },
                             ],
+                            include: [path.resolve(__dirname, '../frontend')],
                         },
                         ...rule.oneOf,
                     ],
@@ -48,25 +63,26 @@ module.exports = {
 
             return rule;
         });
-
+        // console.log(config);
+        // throw new Error();
         return config;
     },
     paths: paths => {
         let basePath;
         if (process.env.APP_TYPE === 'docs') {
-            basePath = '../documents';
+            basePath = '../frontend/documents';
         } else {
-            basePath = '../ui';
+            basePath = '../frontend/dashpad';
         }
-        process.env.SKIP_PREFLIGHT_CHECK=true;
-        process.env.NODE_PATH= path.resolve(__dirname, basePath, 'src');
-        paths.appIndexJs = path.resolve(__dirname, basePath, 'src/index.js');
+        process.env.SKIP_PREFLIGHT_CHECK = true;
+        process.env.NODE_PATH = path.resolve(__dirname, '../frontend/dashpad');
+        paths.appIndexJs = path.resolve(__dirname, basePath, 'index.js');
         paths.appBuild = path.resolve(__dirname, basePath, 'build');
         paths.appPublic = path.resolve(__dirname, '../public');
         paths.appHtml = path.resolve(__dirname, '../public/index.html');
-        paths.appSrc = path.resolve(__dirname, basePath, 'src');
+        paths.appSrc = path.resolve(__dirname, basePath);
         return {
             ...paths,
         };
-    }
+    },
 };

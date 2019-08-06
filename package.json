@@ -30,9 +30,9 @@
   },
   "scripts": {
     "server": "node server",
-    "start": "BROWSER=none node start.js",
-    "develop": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src/ react-app-rewired --inspect start",
-    "build": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src/ react-app-rewired build",
+    "start": "cd packages/webpack && yarn start",
+    "develop": "cd packages/webpack && yarn develop",
+    "build": "cd packages/webpack && yarn develop",
     "pack:mac": "npm run build && electron-builder --mac",
     "pack:win": "npm run build && electron-builder --win",
     "electron": "electron . ",
@@ -44,8 +44,8 @@
     "clean": "rimraf ./build",
     "pretty": "prettier --write '**/*.js'",
     "killport": "kill -9 $(lsof -t -i:8888)",
-    "docs:dev": "cd packages/webpack && yarn dev:docs:web",
-    "docs:build": "APP_TYPE=docs cd packages/document && react-app-rewired build docs"
+    "dev:docs": "cd packages/webpack && yarn dev:docs:web",
+    "docs:build": "cd packages/webpack && yarn build:docs"
   },
   "eslintConfig": {
     "extends": "react-app"
