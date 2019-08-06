@@ -1,5 +1,5 @@
 const net = require('net');
-const config = require('../backend/configs/config').value();
+const config = require('@dashpad/config').value();
 const port = config.uiport;
 const { npxSync } = require('node-npx')
 process.env.ELECTRON_START_URL = `http://localhost:${port}`;

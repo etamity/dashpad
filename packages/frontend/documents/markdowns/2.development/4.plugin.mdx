@@ -1,0 +1,131 @@
+export const config = {
+    menu: 'Plugin',
+    icon: 'icon-settings'
+};
+
+## Dashpad Plugins Development
+
+---
+
+### Create New Plugin (Dashpad Source Code)
+
+To create new plugin, go to `src/plugins` and create new folder with `NewPlguin` style, and then create and index.js file as entry point.
+
+#### index.js
+
+```javascript
+export * from './NewPlguin';
+```
+
+Also you can copy the template `__SamplePlugin` folder, you can find it under `plugins` folder to start your new plugin.
+
+#### NewPlguin.js
+
+```javascript
+import React, { Component } from 'react';
+
+export class NewPlguin extends Component {
+    static Config() {
+        return {
+            name: 'New Plguin'
+            SideMenus, // Side menu items
+            TopRightIcons, //  Top right icon buttons
+            SubRoutes: [],
+            TopMenus, // Top menu (on left side)
+            Aside, // Aside panel (if any)
+        };
+    }
+    render() {
+        return (
+            <div className="animated fadeIn">
+                <Container />
+            </div>
+        );
+    }
+}
+```
+
+### Sidemenu
+
+    configs/Menu.js
+
+There are two main menu, `Top` menu and Side `menu`
+
+Add MenuItem to `Side` menu
+
+```javascript
+const SideMenuItems = [
+    {
+        name: 'Dashboard',
+        url: '/dashboard',
+        icon: 'icon-speedometer',
+    },
+    {
+        name: 'Frontend Tools',
+        url: '/frontendtools',
+        icon: 'icon-wrench',
+        badge: {
+            variant: 'info',
+            text: 'NEW',
+        },
+    },
+];
+```
+
+Add menu item to `SideMenu` menu
+
+```javascript
+export class NewPlugin extends Component {
+    static get Config() {
+        return {
+            SideMenu: SideMenuItems,
+        };
+    }
+}
+```
+
+Each `SideMenu` menu item also can have submenu, and you can assign it to `children` array in the menu item.
+
+SideMenu
+Add sub menu into menu item
+
+```javascript
+    const SideMenuItems = [
+        {
+            name: 'Dashboard',
+            url: '/dashboard',
+            icon: 'icon-speedometer'
+             children: [
+            {
+                name: 'Colors',
+                url: '/dashboard/page1',
+                icon: 'icon-drop',
+                badge: {
+                    variant: 'info',
+                    text: 'NEW',
+                }
+            },
+            {
+                name: 'Typography',
+                url: '/dashboard/page2',
+                icon: 'icon-pencil',
+            },
+        ],
+        },
+        {
+            name: 'Frontend Tools',
+            url: '/frontendtools',
+            icon: 'icon-wrench',
+            badge: {
+                variant: 'info',
+                text: 'NEW'
+            }
+        }
+    ];
+```
+
+---
+
+### Publish Your Tools/Plugins
+
+Once you push your code, add `dashpad` topic on the github descirption area, your plugin will show up on the Dashpad main page, it will be nice to add README.md to tell a bit more about your plugin, let people know what it does.
