@@ -1,5 +1,4 @@
 'use strict';
-console.log('module.paths', module.paths)
 const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const url = require('url');
@@ -69,13 +68,6 @@ function createWindow() {
         devMode && process.argv.indexOf('--noDevServer') === -1;
     if (isDev) {
         indexPath = 'http://localhost:' + port + '/#/dashboard';
-        console.log('test:',path.join(__dirname, '../../build','index.html'));
-        indexPath =
-            url.format({
-                protocol: 'file:',
-                pathname: path.join(__dirname, '../../build','index.html'),
-                slashes: true,
-            }) + '#/dashboard';
         installExtensions();
     } else {
         indexPath =

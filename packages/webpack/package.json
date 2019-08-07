@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "start.js",
+  "homepage": "./",
   "scripts": {
     "dev:dashpad:web": "react-app-rewired --inspect start",
     "dev:docs:web": "APP_TYPE=docs react-app-rewired --inspect start",

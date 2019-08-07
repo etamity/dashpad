@@ -3,7 +3,7 @@ copyright: Dashpad Framework
 productName: Dashpad
 extends: null
 
-asar: false
+asar: true
 
 directories:
   buildResources: packages/public/
