@@ -21,7 +21,6 @@ const reloadUISchema = ymlPath => {
     WebContent.sendToUI(ActionEventType, action);
 }
 
-
 const reloadScript = jsPath => {
     const action = {
         type: AppEventType.ON_LOAD_SCRIPT,

@@ -162,5 +162,5 @@ class VM {
     }
 }
 const vm = new VM();
-console.log(vm);
+
 export default vm;

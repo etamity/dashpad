@@ -3,17 +3,14 @@ const path = require('path');
 process.env.PORT = config.uiport;
 process.env.CHOKIDAR_USEPOLLING = config.env.CHOKIDAR_USEPOLLING;
 process.env.SKIP_PREFLIGHT_CHECK = config.env.SKIP_PREFLIGHT_CHECK;
-const {
-  checkUpdate,
-  pullUpdate
-} = require('./updater');
+const { checkUpdate, pullUpdate } = require('./updater');
 
 async function dev() {
     const { npx, npxSync } = require('node-npx');
     const cwd = process.cwd();
     const web_env = Object.assign({}, process.env, {
         NODE_PATH: config.env.WEB_NODE_PATH,
-        NODE_TLS_REJECT_UNAUTHORIZED: 0
+        NODE_TLS_REJECT_UNAUTHORIZED: 0,
     });
     const startMainProcess = async () => {
         let child = await npx(`react-app-rewired`, ['--inspect', 'start'], {
@@ -24,10 +21,14 @@ async function dev() {
         child.on('close', () => {
             process.exit(0);
         });
-        npxSync('node', [path.resolve(__dirname, '../electron/wait-react.js')], {
-            cwd,
-            stdio: 'inherit'
-        });
+        npxSync(
+            'node',
+            [path.resolve(__dirname, '../electron/wait-react.js')],
+            {
+                cwd,
+                stdio: 'inherit',
+            }
+        );
         return child;
     };
 

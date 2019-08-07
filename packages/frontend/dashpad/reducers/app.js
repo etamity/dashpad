@@ -1,4 +1,3 @@
-
 import { Remote } from 'libs/Remote';
 import immutable from 'object-path-immutable';
 import { Store } from 'store';
@@ -85,11 +84,16 @@ export default function update(state, action) {
             break;
         case AppEventType.ON_LOAD_NAVS:
             const { navs } = payload;
+            const {
+                initState: {
+                    app: {
+                        config: { SideMenus },
+                    },
+                },
+            } = Store;
+
             newState = immutable(state)
-                .set(
-                    'config.SideMenus.items',
-                    state.config.SideMenus.items.concat(navs)
-                )
+                .set('config.SideMenus.items', SideMenus.items.concat(navs))
                 .value();
             break;
         case AppEventType.ON_LOAD_UI:
@@ -180,7 +184,7 @@ export default function update(state, action) {
                 position: toast.POSITION.TOP_RIGHT,
             });
         case UIEventType.CONSOLE_LOG:
-                console.log(payload);
+            console.log(payload);
             break;
         case UIEventType.SHOW_MODAL:
             newState = immutable(state)
@@ -199,7 +203,7 @@ export default function update(state, action) {
                 position: toast.POSITION.TOP_CENTER,
                 type: toast.TYPE.INFO,
             };
-            toast(message, { ...defaultOptions, ...options});
+            toast(message, { ...defaultOptions, ...options });
             break;
         case UIEventType.COPY_TO_CLIPBOARD:
             const { text } = payload;

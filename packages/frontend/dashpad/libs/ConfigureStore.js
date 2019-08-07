@@ -18,5 +18,6 @@ export default (reducers, initState) => {
       store.replaceReducer(CombineReducers(store.injectedReducers));
     });
   }
+  store.initState = initState;
   return store
 }

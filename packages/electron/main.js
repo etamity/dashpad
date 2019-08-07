@@ -92,7 +92,7 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         if (isDev) {
-            require('@dashpad/wabpack/watch.js');
+            require('@dashpad/webpack/watch.js');
             mainWindow.webContents.openDevTools();
         }
         require('@dashpad/core/server.js');

@@ -1,6 +1,6 @@
 const pathHelper = require('./path-helper');
 const fileManager = require('../../libs/file-manager');
-const Config = require('../../configs/config');
+const Config = require('@dashpad/config');
 const _ = require('lodash');
 const { loadJson, loadFile, isExist } = fileManager;
 
