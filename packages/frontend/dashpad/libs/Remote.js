@@ -6,7 +6,7 @@ export const Remote = () => {
     const ProcessManager = remote.require('@dashpad/core/app/process-manager');
     const ContentLoader = remote.require('@dashpad/core/app/content-loader');
     const BackendStore = remote.require('@dashpad/core/app/store/index');
-    const Config = remote.require('@dashpad/core/configs/config');
+    const Config = remote.require('@dashpad/config');
     const Notifier = remote.require('node-notifier');
     const DashpadApi = remote.require('@dashpad/core/app/context/dashpad_api.js');
     const ModuleHelper = remote.require('@dashpad/core/app/helpers/module_helper.js');

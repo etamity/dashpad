@@ -6,10 +6,11 @@
   "scripts": {
     "dev:dashpad:web": "react-app-rewired --inspect start",
     "dev:docs:web": "APP_TYPE=docs react-app-rewired --inspect start",
-    "build:docs": "APP_TYPE=docs react-app-rewired build docs",
+    "build:docs": "APP_TYPE=docs react-app-rewired build",
+    "build:dashpad": "react-app-rewired build",
     "start": "BROWSER=none node start.js",
     "develop": "react-app-rewired --inspect start",
-    "build": "react-app-rewired build",
+    "server": "node ../core/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "joey.etamity (etamity@gmail.com)",
@@ -43,6 +44,8 @@
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",
     "@coreui/react": "^2.1.1",
+    "@dashpad/config": "*",
+    "@dashpad/core": "*",
     "@mdx-js/loader": "^1.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",

@@ -24,6 +24,7 @@ try {
 app.use('/', proxy(packageJson.proxy));
 
 console.log(`Api Server http://localhost:${port}/`);
+
 server.listen(port);
 
 module.exports = app;

@@ -1,3 +1,14 @@
+## Relase v1.1.0
+
+- Monorepo refactory
+
+## Relase v1.0.9
+
+- Added copy & paste functions
+- Added demo gif
+- Updated documents content
+- Added docmentation project
+
 ## Relase v1.0.8
 
 - Fixed electron packing

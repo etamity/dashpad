@@ -1,7 +1,7 @@
 const fm = require('../libs/file-manager');
 const lodashId = require('lodash-id');
 const JsonModel = require('./json-model')
-const config = require('../configs/config').value();
+const config = require('@dashpad/config').value();
 
 class JsonDb {
     constructor(name) {

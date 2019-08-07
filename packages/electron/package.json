@@ -4,15 +4,23 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "electron": "electron . ",
+    "electron:bundle": "electron . --noDevServer",
+    "electron-start": "node electron/wait-react.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "joey.etamity (etamity@gmail.com)",
   "license": "MIT",
   "dependencies": {
-    "electron": "^4.2.8",
-    "electron-builder": "^21.1.1",
+    "@dashpad/config": "*",
+    "@dashpad/core": "*",
+    "@dashpad/webpack": "*",
     "electron-devtools-installer": "^2.2.4",
     "shell-env": "^3.0.0",
     "shelljs": "^0.8.3"
+  },
+  "devDependencies": {
+    "electron": "^4.2.8",
+    "electron-builder": "^21.2.0"
   }
 }

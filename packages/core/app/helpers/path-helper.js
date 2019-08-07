@@ -1,6 +1,6 @@
 const path = require('path');
 const homedir = require('os').homedir();
-const config = require('../../configs/config').value();
+const config = require('@dashpad/config').value();
 const fileManager = require('../../libs/file-manager');
 const BackendStore = require('../store');
 const WORKSPACE = path.join(homedir, config.project.root);

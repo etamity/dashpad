@@ -16,6 +16,18 @@ A hackable universal dashboard framework for your desktop task automation and vi
 
     If you get `Unexpected token function` error, which mean you need to change node version.
 
+### Getting Started
+
+To get started developing, [set up the nteract monorepo](#set-the-monorepo-up-in-dev-mode).
+
+#### Set the monorepo up in dev mode
+
+Requires [Node.js](https://docs.npmjs.com/getting-started/installing-node) and [yarn](https://yarnpkg.com/lang/en/docs/install/).
+
+1. Fork this repo
+2. Clone your fork or this repo `git clone https://github.com/etamity/dashpad`
+3. `cd` to the directory where you `clone`d it
+
 ## Install
 
 `npm i`

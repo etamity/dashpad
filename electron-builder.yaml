@@ -12,7 +12,6 @@ directories:
 files:
   - package.json
   - packages/
-  - electron/
   - build/
   - lerna.json
   - README.md
