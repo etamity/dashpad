@@ -1487,7 +1487,7 @@ Go to `src/sass` folder to change style, it's using [Bootstrap 4](https://getboo
 
 All exports to renderer thread are under `/src/libs/Remote.js` which can be use in frontend. The reason to import it from frontend is for live reloading node code just by refreshing frontend page.
 
-`backend/electron/main.js` are electron entry file.
+`packages/electron/src/main.js` are electron entry file.
 
 All node backend operation function are under `/backend` folder.
 

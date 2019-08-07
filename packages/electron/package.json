@@ -1,12 +1,13 @@
 {
   "name": "@dashpad/electron",
   "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
+  "description": "dashpad electron",
+  "main": "src/main.js",
   "scripts": {
     "electron": "electron . ",
     "electron:bundle": "electron . --noDevServer",
     "electron-start": "node electron/wait-react.js",
+    "build": "electron-webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "joey.etamity (etamity@gmail.com)",
