@@ -1350,7 +1350,7 @@ NOTE: Prevent Cross Site Request Forgery exploits need be disabled in Configure 
 
 ## Create New Plugin (Dashpad Source Code)
 
-To create new plugin, go to `src/plugins` and create new folder with `NewPlguin` style, and then create and index.js file as entry point.
+To create new plugin, go to `packages/frontend/dashpad/plugins` and create new folder with `NewPlguin` style, and then create and index.js file as entry point.
 
 ### index.js
 
@@ -1473,7 +1473,7 @@ Once you push your code, add `dashpad` topic on the github descirption area, you
 ## Routing
 
 When you created new plugin, it will automatically create new route for you.
-For example when you created a new plugin under `src/plugins/NewPlugin`, and export the plugin in the `src/plugins/index.js` file:
+For example when you created a new plugin under `packages/frontend/dashpad/plugins/NewPlugin`, and export the plugin in the `packages/frontend/dashpad/plugins/index.js` file:
 
 `export * from './NewPlugin';`
 
@@ -1485,11 +1485,11 @@ Go to `src/sass` folder to change style, it's using [Bootstrap 4](https://getboo
 
 ## Electron
 
-All exports to renderer thread are under `/src/libs/Remote.js` which can be use in frontend. The reason to import it from frontend is for live reloading node code just by refreshing frontend page.
+All exports to renderer thread are under `packages/frontend/dashpad/libs/Remote.js` which can be use in frontend. The reason to import it from frontend is for live reloading node code just by refreshing frontend page.
 
-`packages/electron/src/main.js` are electron entry file.
+`packages/electron/main.js` are electron entry file.
 
-All node backend operation function are under `/backend` folder.
+All node backend operation function are under `packages/core` folder.
 
 ## Route Map
 

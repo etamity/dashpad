@@ -6,13 +6,12 @@ extends: null
 asar: false
 
 directories:
-  buildResources: public/
+  buildResources: packages/public/
   output: dist/
 
 files:
   - package.json
   - packages/
-  - node_modules/@dashpad/
   - build/
   - lerna.json
   - README.md

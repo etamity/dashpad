@@ -1,6 +1,5 @@
 'use strict';
-// Import parts of electron to use
-// import path from 'path';
+console.log('module.paths', module.paths)
 const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const url = require('url');
@@ -13,9 +12,9 @@ const isEnvSet = 'ELECTRON_IS_DEV' in process.env;
 const getFromEnv = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 const devMode = isEnvSet ? getFromEnv : !(app && app.isPackaged);
 // Keep a reference for dev mode
+
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');
-    // NOTE: we shoud run `UPGRADE_EXTENSIONS=true yarn dev` after upgrade react
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
     await Promise.all(
@@ -36,7 +35,7 @@ function buildMenu() {
                         mainWindow.webContents.openDevTools();
                     },
                 },
-                { type: 'separator' }, // Add this
+                { type: 'separator' },
                 {
                     label: 'Exit',
                     accelerator: "Command+Q",
@@ -65,24 +64,24 @@ function createWindow() {
     // Create the browser window.
     global.mainWindow = mainWindow = new BrowserWindow(config.window);
     buildMenu();
-    // and load the index.html of the app.
     let indexPath;
     const isDev =
         devMode && process.argv.indexOf('--noDevServer') === -1;
     if (isDev) {
-        // indexPath = url.format({
-        //     protocol: 'http:',
-        //     host: 'localhost:' + port,
-        //     pathname: '/#/dashboard',
-        //     slashes: false,
-        // });
         indexPath = 'http://localhost:' + port + '/#/dashboard';
+        console.log('test:',path.join(__dirname, '../../build','index.html'));
+        indexPath =
+            url.format({
+                protocol: 'file:',
+                pathname: path.join(__dirname, '../../build','index.html'),
+                slashes: true,
+            }) + '#/dashboard';
         installExtensions();
     } else {
         indexPath =
             url.format({
                 protocol: 'file:',
-                pathname: path.resolve(__dirname, '../../build/index.html'),
+                pathname: path.join(__dirname, '../../build','index.html'),
                 slashes: true,
             }) + '#/dashboard';
     }

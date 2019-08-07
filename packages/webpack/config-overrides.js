@@ -80,8 +80,8 @@ module.exports = {
         process.env.SKIP_PREFLIGHT_CHECK = true;
         paths.appIndexJs = path.resolve(__dirname, basePath, 'index.js');
         paths.appBuild = path.resolve(__dirname, '../../' ,process.env.APP_TYPE || 'build');
-        paths.appPublic = path.resolve(__dirname, '../public');
-        paths.appHtml = path.resolve(__dirname, '../public/index.html');
+        paths.appPublic = path.resolve(__dirname, '../../', 'public');
+        paths.appHtml = path.resolve(__dirname, '../../', 'public/index.html');
         paths.appSrc = path.resolve(__dirname, basePath);
         return {
             ...paths,
