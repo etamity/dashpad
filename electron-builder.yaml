@@ -3,7 +3,7 @@ copyright: Dashpad Framework
 productName: Dashpad
 extends: null
 
-asar: true
+asar: false
 
 directories:
   buildResources: public/
@@ -12,9 +12,11 @@ directories:
 files:
   - package.json
   - packages/
+  - node_modules/@dashpad/
   - build/
   - lerna.json
   - README.md
+  - yarn.lock
   
 
 dmg:

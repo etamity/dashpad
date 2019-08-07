@@ -4,13 +4,9 @@
     "description": "A hackable universal dashboard framework for your desktop task automation and vistualise tooling.",
     "author": {
         "name": "Joey Etamity",
-        "github": "https://github.com/etamity"
+        "github": "https://github.com/etamity/dashpad"
     },
-    "workspaces": {
-        "packages": [
-            "packages/*"
-        ]
-    },
+    "workspaces": ["packages/*"],
     "keywords": [
         "dashboard",
         "framework",
@@ -24,7 +20,7 @@
     ],
     "license": "MIT",
     "private": true,
-    "main": "./packages/electron/main.js",
+    "main": "./packages/electron/src/main.js",
     "bin": {
         "dashpad": "packages/cli/command.js"
     },
@@ -33,12 +29,17 @@
         "lerna": "^3.16.4"
     },
     "scripts": {
+        "postinstall":
+        "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder install-app-deps",
         "server": "cd packages/webpack && yarn server",
+        "package": "lerna run package --scope @dashpad/config --stream",
         "start": "cd packages/webpack && yarn start",
         "develop": "cd packages/webpack && yarn develop",
         "build": "cd packages/webpack && yarn build:dashpad",
         "dev:docs": "cd packages/webpack && yarn dev:docs:web",
         "build:docs": "cd packages/webpack && yarn build:docs",
+        "bundle:mac": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder --dir",
+        "bundle": "electron-webpack",
         "pack:mac": "yarn build && electron-builder --mac",
         "pack:win": "yarn build && electron-builder --win",
         "test": "react-app-rewired test",

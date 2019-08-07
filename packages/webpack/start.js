@@ -8,15 +8,14 @@ const { checkUpdate, pullUpdate } = require('./updater');
 async function dev() {
     const { npx, npxSync } = require('node-npx');
     const cwd = process.cwd();
-    const web_env = Object.assign({}, process.env, {
-        NODE_PATH: config.env.WEB_NODE_PATH,
-        NODE_TLS_REJECT_UNAUTHORIZED: 0,
-    });
     const startMainProcess = async () => {
         let child = await npx(`react-app-rewired`, ['--inspect', 'start'], {
             cwd,
             stdio: 'inherit',
-            env: web_env,
+            env: {
+                ...process.env,
+                NODE_TLS_REJECT_UNAUTHORIZED: 0
+            },
         });
         child.on('close', () => {
             process.exit(0);
