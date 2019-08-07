@@ -7,7 +7,6 @@
     "electron": "electron . ",
     "electron:bundle": "electron . --noDevServer",
     "electron-start": "node electron/wait-react.js",
-    "build": "electron-builder --dir --config ../../electron-builder.yaml",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "joey.etamity (etamity@gmail.com)",

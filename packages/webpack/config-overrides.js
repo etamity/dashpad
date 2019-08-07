@@ -3,7 +3,8 @@ const path = require('path');
 const images = require('remark-images');
 const emoji = require('remark-emoji');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-
+const docsBasePath = path.resolve(__dirname, '../frontend/documents');
+const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
 module.exports = {
     webpack: (config, env) => {
         config.target = 'electron-renderer';
@@ -19,8 +20,6 @@ module.exports = {
                 ...mockModules };
             config.node = { fs: 'empty' };
         }
-        const docsBasePath = path.resolve(__dirname, '../frontend/documents');
-        const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
 
         config.resolve.modules = [...config.resolve.modules, dashpadBasePath];
         config.module.rules = config.module.rules.map(rule => {
@@ -73,16 +72,16 @@ module.exports = {
     paths: paths => {
         let basePath;
         if (process.env.APP_TYPE === 'docs') {
-            basePath = '../frontend/documents';
+            basePath = docsBasePath;
         } else {
-            basePath = '../frontend/dashpad';
+            basePath = dashpadBasePath;
         }
         process.env.SKIP_PREFLIGHT_CHECK = true;
-        paths.appIndexJs = path.resolve(__dirname, basePath, 'index.js');
+        paths.appIndexJs = path.join(basePath, 'index.js');
         paths.appBuild = path.resolve(__dirname, '../../' ,process.env.APP_TYPE || 'build');
         paths.appPublic = path.resolve(__dirname, '../../', 'public');
         paths.appHtml = path.resolve(__dirname, '../../', 'public/index.html');
-        paths.appSrc = path.resolve(__dirname, basePath);
+        paths.appSrc = basePath;
         return {
             ...paths,
         };

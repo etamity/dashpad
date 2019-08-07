@@ -1,13 +1,8 @@
 const immutable = require('object-path-immutable');
 const _ = require('lodash');
-const dashPackageInfo = require('../../../../package.json');
 
 let state = {
-    app: {},
-    version: {
-        name: dashPackageInfo.name,
-        version: dashPackageInfo.version
-    }
+    app: {}
 };
 module.exports = {
     init: (_state) => {

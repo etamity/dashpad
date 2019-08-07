@@ -130,18 +130,15 @@
         "start": "lerna run start --stream --scope=@dashpad/webpack",
         "develop": "lerna run develop --stream --scope=@dashpad/webpack",
         "build": "lerna run build:dashpad --stream --scope=@dashpad/webpack",
-        "dev:docs": "lerna run build:web --stream --scope=@dashpad/webpack",
+        "dev:docs": "lerna run dev:docs:web --stream --scope=@dashpad/webpack",
         "build:docs": "lerna run build:docs --stream --scope=@dashpad/webpack",
-        "bundle:mac": "electron-builder --dir",
-        "bundle": "electron-webpack",
         "pack:mac": "yarn build && electron-builder --mac",
         "pack:win": "yarn build && electron-builder --win",
         "test": "react-app-rewired test",
-        "test:debug": "react-app-rewired --inspect-brk test --runInBand",
         "eject": "react-scripts eject",
         "clean": "rimraf ./build",
         "pretty": "prettier --write '**/*.js'",
-        "killport": "kill -9 $(lsof -t -i:8888)"
+        "killport": "kill -9 $(lsof -t -i $1)"
     },
     "eslintConfig": {
         "extends": "react-app"
