@@ -9,8 +9,7 @@
     "workspaces": {
         "packages": [
             "packages/*"
-        ],
-        "nohoist": ["**/**"]
+        ]
     },
     "keywords": [
         "dashboard",

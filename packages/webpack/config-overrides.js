@@ -19,19 +19,22 @@ module.exports = {
                 ...mockModules };
             config.node = { fs: 'empty' };
         }
+        const docsBasePath = path.resolve(__dirname, '../frontend/documents');
+        const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
+
+        config.resolve.modules = [...config.resolve.modules, dashpadBasePath];
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
                 if (process.env.APP_TYPE === 'docs') {
-                    const docsBasePath = '../frontend/documents';
-                    const dashpadBasePath = '../frontend/dashpad';
+
                     rule.oneOf = rule.oneOf.map(oneOfRule => {
                         if (
                             String(oneOfRule.test) ===
                             String('/\\.(js|mjs|jsx|ts|tsx)$/')
                         ) {
                             oneOfRule.include = [
-                                path.resolve(__dirname, docsBasePath),
-                                path.resolve(__dirname, dashpadBasePath),
+                                docsBasePath,
+                                dashpadBasePath,
                             ];
                         }
                         return oneOfRule;
@@ -75,7 +78,6 @@ module.exports = {
             basePath = '../frontend/dashpad';
         }
         process.env.SKIP_PREFLIGHT_CHECK = true;
-        process.env.NODE_PATH = path.resolve(__dirname, '../frontend/dashpad');
         paths.appIndexJs = path.resolve(__dirname, basePath, 'index.js');
         paths.appBuild = path.resolve(__dirname, '../../' ,process.env.APP_TYPE || 'build');
         paths.appPublic = path.resolve(__dirname, '../public');
