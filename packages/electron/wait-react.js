@@ -17,7 +17,7 @@ const tryConnection = () =>
             if (!startedElectron) {
                 console.log('starting electron');
                 startedElectron = true;
-                npxSync('electron', ['-r', '@babel/register', path.resolve(__dirname, 'src/main.js')], { cwd, stdio: 'inherit' })
+                npxSync('electron', ['-r', '@babel/register', path.resolve(__dirname, 'main.js')], { cwd, stdio: 'inherit' })
             }
         }
     );

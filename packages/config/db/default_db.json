@@ -15,7 +15,8 @@
       "height": 1024,
       "show": false,
       "webPreferences": {
-        "webSecurity": false
+        "webSecurity": false,
+        "nodeIntegration": true
       }
     },
     "project": {

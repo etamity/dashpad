@@ -1,9 +1,8 @@
 require("util").inspect.defaultOptions.depth = null;
 const config = require('@dashpad/config').value();
-const port = config.port;
+const {port, uiport} = config;
 const express = require('express');
 const app = express();
-const packageJson = require('../../package.json');
 const proxy = require('express-http-proxy');
 const server = require('http').createServer(app);
 
@@ -21,7 +20,11 @@ try {
 } catch (error) {
     console.log(error);
 }
-app.use('/', proxy(packageJson.proxy));
+const isDev = process.argv.indexOf('--noDevServer') === -1;
+
+if (isDev) {
+    app.use('/', proxy(`http://localhost:${uiport}`));
+}
 
 console.log(`Api Server http://localhost:${port}/`);
 
