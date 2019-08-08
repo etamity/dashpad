@@ -16,6 +16,7 @@ export default class DashboardView extends Component {
         this.doGithubAction = this.doGithubAction.bind(this);
         this.state = {
             searchWords: '',
+            page: 0,
             plugins: [],
         };
     }
@@ -36,8 +37,9 @@ export default class DashboardView extends Component {
             const searchWords = this.state.searchWords;
             const keyword = `"${searchWords}"+topic:Dashpad`;
             Github.search
-                .repos({ q: keyword, per_page: 10, sort: 'stars' })
+                .repos({ q: keyword, per_page: 50, page:this.state.page, sort: 'stars' })
                 .then(res => {
+                    console.log(res);
                     this.setState({ plugins: res.data.items });
                 });
         }
