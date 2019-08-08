@@ -24,20 +24,15 @@ export class YMLRadioView extends YMLBase {
             obj.options &&
             obj.options.map((option, index) => {
                 const idkey = `${keyPath}.${index}`;
-                const defaultProps = Object.assign(
-                    {},
-                    {
-                        type: 'radio',
-                        id: idkey,
-                        name: keyPath,
-                        keyPath,
-                    },
-                    obj
-                );
-                const mergedProps = Object.assign({}, this.props, {
-                    obj: defaultProps
-                });
-                const assignProps = PropsFilter(mergedProps,  allowedProps);
+                const defaultProps = {
+                    type: 'radio',
+                    id: idkey,
+                    name: keyPath,
+                    keyPath,
+                    ...obj,
+                };
+                const mergedProps = { ...this.props, obj: defaultProps };
+                const assignProps = PropsFilter(mergedProps, allowedProps);
                 const assignEvents = EventsHook(mergedProps, allowedEvents);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>

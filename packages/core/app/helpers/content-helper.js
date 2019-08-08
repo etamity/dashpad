@@ -5,18 +5,21 @@ const _ = require('lodash');
 const { loadJson, loadFile, isExist } = fileManager;
 
 const loadConfigs = () =>
-    pathHelper.getAllDashConfigFiles().map(packageModule =>
-        Object.assign({}, packageModule, {
+    pathHelper
+        .getAllDashConfigFiles()
+        .map(packageModule => ({
+            ...packageModule,
             content: loadJson(packageModule.file),
-        })
-    );
+        }));
 const loadNavs = () =>
     loadConfigs()
         .map(config => {
             const settings = config.content && config.content.settings;
             const packageSettingKey = config.packageName.replace('/', '.');
             if (settings) {
-                const currentSettings = Config.get(`settings.${packageSettingKey}`);
+                const currentSettings = Config.get(
+                    `settings.${packageSettingKey}`
+                );
                 const mergeSettings = _.defaults(currentSettings, settings);
                 Config.set(`settings.${packageSettingKey}`, mergeSettings);
             }

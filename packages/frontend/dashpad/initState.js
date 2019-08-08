@@ -1,7 +1,7 @@
 
-import { Remote } from 'libs/Remote';
-import { RouteBuilder, NavBuilder } from 'libs/NavsBuilder.js';
-import { currentRoute } from 'libs/AutoRouter';
+import { Remote } from 'common/libs/Remote';
+import { RouteBuilder, NavBuilder } from 'common/libs/NavsBuilder.js';
+import { currentRoute } from 'common/libs/AutoRouter';
 import * as Plugins from './plugins';
 
 const {

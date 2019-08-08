@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { AppAction } from 'reducers/app';
-import { Store } from 'store';
+import { AppAction } from 'common/reducers/app';
+import { Store } from 'common/store';
 
 export default (props) => {
     const state = Store.getState().app.uiSchema;
@@ -18,7 +18,7 @@ export default (props) => {
         const silbingKeyPath = props.keyPath.substring(0, props.keyPath.lastIndexOf('.'));
         const keyPath = `${silbingKeyPath}.${key}`;
         return _.get(state, keyPath);
-    }
+    } 
     const setSibling = (key, value) => {
         const silbingKeyPath = props.keyPath.substring(0, props.keyPath.lastIndexOf('.'));
         const keyPath = `${silbingKeyPath}.${key}`;

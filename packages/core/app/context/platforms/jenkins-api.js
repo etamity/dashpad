@@ -199,7 +199,7 @@ exports.init = function(host, defaultOptions, defaultParams) {
      */
     const appendParams = function(url, specificParams) {
         // Assign default and specific parameters
-        const params = Object.assign({}, defaultParams, specificParams);
+        const params = { ...defaultParams, ...specificParams };
 
         // Stringify the querystring params
         const paramsString = qs.stringify(params);

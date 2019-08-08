@@ -5,6 +5,8 @@ const emoji = require('remark-emoji');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const docsBasePath = path.resolve(__dirname, '../frontend/documents');
 const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
+const dashpadCommonPath = path.resolve(__dirname, '../frontend/common');
+const frontendPath = path.resolve(__dirname, '../frontend');
 module.exports = {
     webpack: (config, env) => {
         config.target = 'electron-renderer';
@@ -17,11 +19,16 @@ module.exports = {
 
             config.resolve.alias = { 
                 ...config.resolve.alias, 
-                ...mockModules };
+                ...mockModules,
+                'initState': '@dashpad/frontend/documents/initState' };
             config.node = { fs: 'empty' };
+        } else {
+            config.resolve.alias = { 
+                ...config.resolve.alias, 
+                'initState': '@dashpad/frontend/dashpad/initState' };
         }
+        config.resolve.modules = [...config.resolve.modules, frontendPath];
 
-        config.resolve.modules = [...config.resolve.modules, dashpadBasePath];
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
                 if (process.env.APP_TYPE === 'docs') {
@@ -32,8 +39,7 @@ module.exports = {
                             String('/\\.(js|mjs|jsx|ts|tsx)$/')
                         ) {
                             oneOfRule.include = [
-                                docsBasePath,
-                                dashpadBasePath,
+                                frontendPath
                             ];
                         }
                         return oneOfRule;
@@ -56,7 +62,7 @@ module.exports = {
                                     },
                                 },
                             ],
-                            include: [path.resolve(__dirname, '../frontend')],
+                            include: [frontendPath],
                         },
                         ...rule.oneOf,
                     ],
@@ -81,7 +87,7 @@ module.exports = {
         paths.appBuild = path.resolve(__dirname, '../../' ,process.env.APP_TYPE || 'build');
         paths.appPublic = path.resolve(__dirname, '../../', 'public');
         paths.appHtml = path.resolve(__dirname, '../../', 'public/index.html');
-        paths.appSrc = basePath;
+        paths.appSrc = frontendPath;
         return {
             ...paths,
         };

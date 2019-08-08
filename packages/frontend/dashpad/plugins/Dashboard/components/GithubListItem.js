@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListGroupItem, Row, Col, Button, Progress } from 'reactstrap';
 import moment from 'moment';
-import { Remote } from 'libs/Remote';
+import { Remote } from 'common/libs/Remote';
 import { toast } from 'react-toastify';
 import { shell } from 'electron';
 

@@ -1,11 +1,11 @@
-import { Remote } from 'libs/Remote';
+import { Remote } from 'common/libs/Remote';
 import immutable from 'object-path-immutable';
-import { Store } from 'store';
+import { Store } from 'common/store';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
-import VM from 'libs/VM';
+import VM from 'common/libs/VM';
 import { SchemaKeys } from './Constants';
-import { currentRoute } from 'libs/AutoRouter';
+import { currentRoute } from 'common/libs/AutoRouter';
 
 const {
     Constants,

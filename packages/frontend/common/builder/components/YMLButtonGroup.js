@@ -37,12 +37,13 @@ export class YMLButtonGroupView extends YMLBase {
                     key={keyPath + index}
                     name={'items.' + index}
                     keyPath={keyPath + '.items.' + index}
-                    type= {FieldType.BUTTON.toLowerCase()}
-                    obj={Object.assign({}, item, {
+                    type={FieldType.BUTTON.toLowerCase()}
+                    obj={{
+                        ...item,
                         type: obj.type,
                         onClick: item.onClick || obj.onClick,
                         className: item.className || obj.childClassName,
-                    })}
+                    }}
                 />
             ));
         let ButtonGroupContainer = null;

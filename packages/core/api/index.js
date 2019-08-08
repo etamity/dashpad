@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 mockRoute.forEach(route => {
     const feeback = (req, res, next) => {
-        const params = Object.assign({}, req.body, req.params, req.query);
+        const params = {...req.body, ...req.params, ...req.query};
         const result = route.response(params, req, res, next);
         console.info(`[${route.method}]`, route.path, params);
         console.info(`[Response] `, result);

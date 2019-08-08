@@ -1,12 +1,12 @@
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
-import '../dashpad/polyfill';
+import 'common/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import App from './App';
-import * as serviceWorker from '../dashpad/serviceWorker';
+import * as serviceWorker from 'common/serviceWorker';
 import 'prismjs';
 import 'prismjs/themes/prism-okaidia.css';
 import 'prismjs/components/prism-jsx';

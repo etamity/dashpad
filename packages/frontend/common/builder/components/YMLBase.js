@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import VM from 'libs/VM';
+import VM from 'common/libs/VM';
 import Context from './context';
 
 export class YMLBase extends React.Component {

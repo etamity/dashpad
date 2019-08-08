@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Container, Card, CardBody } from 'reactstrap';
 import SideMenus, { SubRoutes } from './Menus/SideMenus';
 import { MDXProvider } from '@mdx-js/react';
-import { YMLBuilder } from 'builder/YMLBuilder';
+import { YMLBuilder } from 'common/builder/YMLBuilder';
 import yaml from 'js-yaml';
-import AutoRouter from 'libs/AutoRouter.js';
+import AutoRouter from 'common/libs/AutoRouter.js';
 import Prism from 'prismjs';
 
 const components = {
