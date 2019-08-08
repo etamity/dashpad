@@ -183,6 +183,7 @@ export default function update(state, action) {
             toast.error(errMsg, {
                 position: toast.POSITION.TOP_RIGHT,
             });
+            break;
         case UIEventType.CONSOLE_LOG:
             console.log(payload);
             break;
