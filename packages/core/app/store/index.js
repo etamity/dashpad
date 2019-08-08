@@ -2,10 +2,10 @@ const immutable = require('object-path-immutable');
 const _ = require('lodash');
 
 let state = {
-    app: {}
+    app: {},
 };
 module.exports = {
-    init: (_state) => {
+    init: _state => {
         state = _state;
         return state;
     },
@@ -15,10 +15,10 @@ module.exports = {
             .value();
         return state;
     },
-    get: (keyPath) => {
+    get: keyPath => {
         return keyPath ? _.get(state, keyPath) : state;
     },
-    delete: (keyPath)=> {
+    delete: keyPath => {
         state = immutable.del(state, keyPath);
         return state;
     },

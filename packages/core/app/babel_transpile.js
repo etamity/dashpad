@@ -10,14 +10,10 @@ require('@babel/register')({
         '.',
 
         // Also consider monorepo packages "root" and load their .babelrc files.
-        './packages/*'
+        './packages/*',
     ],
-	ignore: [/node_modules\/(?!(@c1.*))/],
-    presets: [
-        [
-            '@babel/preset-env'
-        ],
-    ],
+    ignore: [/node_modules\/(?!(@c1.*))/],
+    presets: [['@babel/preset-env']],
     plugins: [
         // Stage 0
         '@babel/plugin-proposal-function-bind',

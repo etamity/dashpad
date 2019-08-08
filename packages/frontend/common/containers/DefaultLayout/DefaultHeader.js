@@ -26,7 +26,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    processes: []
+    processes: [],
 };
 
 class DefaultHeader extends Component {
@@ -113,11 +113,7 @@ class DefaultHeader extends Component {
     }
     render() {
         // eslint-disable-next-line
-        const {
-            navs,
-            rightNavs,
-            showToggle,
-        } = this.props;
+        const { navs, rightNavs, showToggle } = this.props;
         const openAside = this.props.processes.length > 0;
         return (
             <React.Fragment>

@@ -1,2 +1,2 @@
-import AppSidebarNav from './AppSidebarNav'
-export default AppSidebarNav
+import AppSidebarNav from './AppSidebarNav';
+export default AppSidebarNav;

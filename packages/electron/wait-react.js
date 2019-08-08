@@ -1,13 +1,12 @@
 const net = require('net');
 const config = require('@dashpad/config').value();
 const port = config.uiport;
-const { npxSync } = require('node-npx')
+const { npxSync } = require('node-npx');
 //process.env.ELECTRON_START_URL = `http://localhost:${port}`;
 const client = new net.Socket();
 const path = require('path');
-const cwd = process.cwd()
+const cwd = process.cwd();
 let startedElectron = false;
-
 
 const tryConnection = () =>
     client.connect(
@@ -17,7 +16,15 @@ const tryConnection = () =>
             if (!startedElectron) {
                 console.log('starting electron');
                 startedElectron = true;
-                npxSync('electron', ['-r', '@babel/register', path.resolve(__dirname, 'main.js')], { cwd, stdio: 'inherit' })
+                npxSync(
+                    'electron',
+                    [
+                        '-r',
+                        '@babel/register',
+                        path.resolve(__dirname, 'main.js'),
+                    ],
+                    { cwd, stdio: 'inherit' }
+                );
             }
         }
     );

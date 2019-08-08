@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-import TopRightIcons from './Menus/TopRightIcons'
-import TopMenus from './Menus/TopMenus'
-import SideMenus from './Menus/SideMenus'
+import TopRightIcons from './Menus/TopRightIcons';
+import TopMenus from './Menus/TopMenus';
+import SideMenus from './Menus/SideMenus';
 export class SamplePlugin extends Component {
-
-    static Config(){
+    static Config() {
         return {
             SideMenus,
             TopRightIcons,
@@ -15,6 +14,10 @@ export class SamplePlugin extends Component {
         };
     }
     render() {
-        return <Container className="animated mw-100 fadeIn">SamplePlugin Plugin</Container>
+        return (
+            <Container className="animated mw-100 fadeIn">
+                SamplePlugin Plugin
+            </Container>
+        );
     }
 }

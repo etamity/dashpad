@@ -17,30 +17,29 @@ module.exports = {
                 plugin => !(plugin instanceof ModuleScopePlugin)
             );
 
-            config.resolve.alias = { 
-                ...config.resolve.alias, 
+            config.resolve.alias = {
+                ...config.resolve.alias,
                 ...mockModules,
-                'initState': '@dashpad/frontend/documents/initState' };
+                initState: '@dashpad/frontend/documents/initState',
+            };
             config.node = { fs: 'empty' };
         } else {
-            config.resolve.alias = { 
-                ...config.resolve.alias, 
-                'initState': '@dashpad/frontend/dashpad/initState' };
+            config.resolve.alias = {
+                ...config.resolve.alias,
+                initState: '@dashpad/frontend/dashpad/initState',
+            };
         }
         config.resolve.modules = [...config.resolve.modules, frontendPath];
 
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
                 if (process.env.APP_TYPE === 'docs') {
-
                     rule.oneOf = rule.oneOf.map(oneOfRule => {
                         if (
                             String(oneOfRule.test) ===
                             String('/\\.(js|mjs|jsx|ts|tsx)$/')
                         ) {
-                            oneOfRule.include = [
-                                frontendPath
-                            ];
+                            oneOfRule.include = [frontendPath];
                         }
                         return oneOfRule;
                     });
@@ -84,7 +83,11 @@ module.exports = {
         }
         process.env.SKIP_PREFLIGHT_CHECK = true;
         paths.appIndexJs = path.join(basePath, 'index.js');
-        paths.appBuild = path.resolve(__dirname, '../../' ,process.env.APP_TYPE || 'build');
+        paths.appBuild = path.resolve(
+            __dirname,
+            '../../',
+            process.env.APP_TYPE || 'build'
+        );
         paths.appPublic = path.resolve(__dirname, '../../', 'public');
         paths.appHtml = path.resolve(__dirname, '../../', 'public/index.html');
         paths.appSrc = frontendPath;

@@ -5,17 +5,18 @@ const BackendStore = require('./store');
 const module_path = process.argv.slice(2)[0];
 const script = require(module_path);
 process.on('message', action => {
-    if (!!action && (typeof action === 'object')) {
+    if (!!action && typeof action === 'object') {
         const { type, payload } = action;
 
         switch (type) {
             case ProcessEventType.LOAD_MODULE_SCRIPT:
                 const context = {
-                    state: payload.state
-                }
+                    state: payload.state,
+                };
                 global.Dashpad = new DashpadApi(context);
                 typeof script === 'function' && script(payload.params);
-                typeof script.default === 'function' && script.default(payload.params);
+                typeof script.default === 'function' &&
+                    script.default(payload.params);
                 break;
 
             case ProcessEventType.UPDATE_MODULE_STATE:
@@ -23,7 +24,7 @@ process.on('message', action => {
                 break;
             default:
         }
-    } else {  
+    } else {
         console.error(action);
     }
 });

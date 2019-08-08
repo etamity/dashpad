@@ -7,27 +7,27 @@ const reloadConfig = () => {
     if (navs) {
         const action = {
             type: AppEventType.ON_LOAD_NAVS,
-            payload: { navs }
-        }
+            payload: { navs },
+        };
         WebContent.sendToUI(ActionEventType, action);
     }
-}
+};
 
 const reloadUISchema = ymlPath => {
     const action = {
         type: AppEventType.ON_LOAD_UI,
-        payload: { ymlPath }
-    }
+        payload: { ymlPath },
+    };
     WebContent.sendToUI(ActionEventType, action);
-}
+};
 
 const reloadScript = jsPath => {
     const action = {
         type: AppEventType.ON_LOAD_SCRIPT,
-        payload: { jsPath }
-    }
+        payload: { jsPath },
+    };
     WebContent.sendToUI(ActionEventType, action);
-}
+};
 module.exports = {
     reloadScript,
     reloadConfig,

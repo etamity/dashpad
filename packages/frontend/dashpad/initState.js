@@ -1,13 +1,9 @@
-
 import { Remote } from 'common/libs/Remote';
 import { RouteBuilder, NavBuilder } from 'common/libs/NavsBuilder.js';
 import { currentRoute } from 'common/libs/AutoRouter';
 import * as Plugins from './plugins';
 
-const {
-    Utils,
-    BackendStore,
-} = Remote();
+const { Utils, BackendStore } = Remote();
 
 const config = NavBuilder(Plugins);
 

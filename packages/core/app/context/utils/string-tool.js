@@ -3,12 +3,12 @@ module.exports = {
         const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
         return source.replace(reg, val);
     },
-    inject: function (val, map) {
+    inject: function(val, map) {
         let keys = Object.keys(map);
 
-        keys.map((v) => {
+        keys.map(v => {
             let newV = map[v],
-                reg = new RegExp('\\$\{' + v + '\}', 'g');
+                reg = new RegExp('\\${' + v + '}', 'g');
 
             val = val.replace(reg, newV);
         });
@@ -19,5 +19,5 @@ module.exports = {
         const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
         const regArr = source.match(reg);
         return (regArr && regArr.length > 0 && regArr[0]) || '';
-    }
-}
+    },
+};

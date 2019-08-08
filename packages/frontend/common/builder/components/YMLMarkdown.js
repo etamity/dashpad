@@ -40,11 +40,7 @@ export class YMLMarkdownView extends YMLBase {
         const { keyPath, obj } = this.props;
         const assignProps = PropsFilter(this.props, allowedProps);
         return (
-            <Markdown
-                key={keyPath}
-                content={obj.content}
-                {...assignProps}
-            />
+            <Markdown key={keyPath} content={obj.content} {...assignProps} />
         );
     }
 }

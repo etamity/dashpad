@@ -12,7 +12,7 @@ export const ContainerType = keyMirror({
     ROW: null,
     COLLAPSE: null,
     SLOT: null,
-    ALERT: null
+    ALERT: null,
 });
 
 export const ContentType = keyMirror({
@@ -26,7 +26,7 @@ export const ContentType = keyMirror({
     LINK: null,
     PROGRESS: null,
     TABLE: null,
-    HTML: null
+    HTML: null,
 });
 
 export const FieldType = keyMirror({
@@ -36,7 +36,7 @@ export const FieldType = keyMirror({
     SELECT: null,
     CHECKBOX: null,
     SWITCH: null,
-    FIELD: null
+    FIELD: null,
 });
 
 export const InputType = keyMirror({
@@ -60,10 +60,10 @@ export const ButtonGroupType = keyMirror({
     GROUP: null,
     TOOLBAR: null,
     DROPDOWN: null,
-    WRAP: null
+    WRAP: null,
 });
 
-export const UIEvent = ({
+export const UIEvent = {
     ON_CLICK: 'onClick',
     ON_CHANGE: 'onChange',
 
@@ -80,11 +80,11 @@ export const UIEvent = ({
     ON_INPUT: 'onInput',
     ON_SCROLL: 'onScroll',
 
-    ON_ENTERING: 'onEntering', 
-    ON_ENTERED: 'onEntered', 
-    ON_EXITING: 'onExiting', 
-    ON_EXITED: 'onExited'
-});
+    ON_ENTERING: 'onEntering',
+    ON_ENTERED: 'onEntered',
+    ON_EXITING: 'onExiting',
+    ON_EXITED: 'onExited',
+};
 
 export const isInputType = type =>
     !!(type && Object.keys(InputType).includes(type.toUpperCase()));

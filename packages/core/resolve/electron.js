@@ -8,5 +8,5 @@ export const ipcRenderer = {
 };
 
 export const shell = {
-    openExternal: () => {}
-}
+    openExternal: () => {},
+};

@@ -6,7 +6,9 @@
         "name": "Joey Etamity",
         "github": "https://github.com/etamity/dashpad"
     },
-    "workspaces": ["packages/*"],
+    "workspaces": [
+        "packages/*"
+    ],
     "keywords": [
         "dashboard",
         "framework",
@@ -26,11 +28,6 @@
     },
     "proxy": "http://localhost:8888",
     "dependencies": {
-        "@dashpad/config": "*",
-        "@dashpad/core": "*",
-        "@dashpad/webpack": "*",
-        "@dashpad/electron": "*",
-        "@dashpad/frontend": "*",
         "@babel/core": "^7.4.0",
         "@babel/plugin-proposal-class-properties": "^7.4.0",
         "@babel/plugin-proposal-decorators": "^7.4.0",
@@ -59,6 +56,11 @@
         "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
         "@coreui/icons": "0.3.0",
         "@coreui/react": "^2.1.1",
+        "@dashpad/config": "*",
+        "@dashpad/core": "*",
+        "@dashpad/electron": "*",
+        "@dashpad/frontend": "*",
+        "@dashpad/webpack": "*",
         "@octokit/rest": "^16.17.0",
         "babel-core": "7.0.0-bridge.0",
         "babel-eslint": "^10.0.1",
@@ -78,6 +80,7 @@
         "enzyme": "^3.7.0",
         "enzyme-adapter-react-16": "^1.7.0",
         "express": "^4.16.4",
+        "express-http-proxy": "^1.5.0",
         "flag-icon-css": "^3.2.1",
         "font-awesome": "^4.7.0",
         "fs-extra": "^7.0.1",
@@ -113,32 +116,31 @@
         "reactstrap": "^6.5.0",
         "redux": "^4.0.1",
         "redux-devtools-extension": "^2.13.7",
+        "rimraf": "^2.6.2",
         "shell-env": "^3.0.0",
         "shelljs": "^0.8.3",
-        "simple-line-icons": "^2.4.1",
-        "express-http-proxy": "^1.5.0",
-        "rimraf": "^2.6.2"
+        "simple-line-icons": "^2.4.1"
     },
     "devDependencies": {
-        "lerna": "^3.16.4"
+        "lerna": "^3.16.4" 
     },
     "scripts": {
-        "postinstall":
-        "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder install-app-deps",
+        "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder install-app-deps",
         "server": "lerna run start --stream --scope=@dashpad/webpack",
         "package": "lerna run package --scope @dashpad/config --stream",
         "start": "lerna run start --stream --scope=@dashpad/webpack",
         "develop": "lerna run develop --stream --scope=@dashpad/webpack",
         "build": "lerna run build:dashpad --stream --scope=@dashpad/webpack",
         "dev:docs": "lerna run dev:docs:web --stream --scope=@dashpad/webpack",
-        "build:docs": "lerna run build:docs --stream --scope=@dashpad/webpack",
+        "build:docs": "lerna run build:docs --stream --scope=@dashpad/webpack && react-snap",
         "pack:mac": "yarn build && electron-builder --mac",
         "pack:win": "yarn build && electron-builder --win",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject",
         "clean": "rimraf ./build",
-        "pretty": "prettier --write '**/*.js'",
-        "killport": "kill -9 $(lsof -t -i $1)"
+        "pretty": "prettier --write 'packages/**/*.js'",
+        "killport": "kill -9 $(lsof -t -i $1)",
+        "snap": "react-snap"
     },
     "eslintConfig": {
         "extends": "react-app"

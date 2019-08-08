@@ -42,12 +42,26 @@ const resovleObj = {
 const ValueResolver = (source, start, end, replaceVal, keyPath, callback) => {
     if (_.isPlainObject(source)) {
         return _.mapValues(source, (prop, key) =>
-            ValueResolver(prop, start, end, replaceVal, keyPath + '.' + key, callback)
+            ValueResolver(
+                prop,
+                start,
+                end,
+                replaceVal,
+                keyPath + '.' + key,
+                callback
+            )
         );
     }
     if (_.isArray(source)) {
         return source.map((prop, index) =>
-            ValueResolver(prop, start, end, replaceVal, keyPath + '.' + index, callback)
+            ValueResolver(
+                prop,
+                start,
+                end,
+                replaceVal,
+                keyPath + '.' + index,
+                callback
+            )
         );
     }
     const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');

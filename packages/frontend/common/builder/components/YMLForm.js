@@ -23,9 +23,12 @@ export class YMLFormView extends YMLBase {
         const assignEvents = EventsHook(this.props, allowedEvents);
         if (obj.schema && obj.formData) {
             const filters = Object.keys(obj.formData);
-            obj.schema.properties = _.pickBy(obj.schema.properties, (val, key) => {
-                return filters.some(filter => key.indexOf(filter) > -1);
-            });
+            obj.schema.properties = _.pickBy(
+                obj.schema.properties,
+                (val, key) => {
+                    return filters.some(filter => key.indexOf(filter) > -1);
+                }
+            );
         }
         return obj.schema ? (
             <SchemaForm

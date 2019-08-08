@@ -1,73 +1,36 @@
 class DashpahApi {
     constructor() {
-        this.settings = {
-        };
-
+        this.settings = {};
     }
-    getSettingKey() {
+    getSettingKey() {}
+    initPlatforms() {}
+    updatePackageInfo() {}
+    send() {}
 
-    }
-    initPlatforms() {
+    setState() {}
 
-    }
-    updatePackageInfo() {
+    getState() {}
 
-    }
-    send() {
+    getVarsState() {}
 
-    }
+    getVars() {}
 
-    setState() {
+    setVars() {}
 
-    }
+    setVarsState() {}
 
-    getState() {
+    showNotification() {}
 
-    }
+    showToast() {}
 
-    getVarsState() {
+    showModal() {}
+    copyToClipboard() {}
+    run() {}
+    kill() {}
 
-    }
+    exit() {}
 
-    getVars() {
-
-    }
-
-    setVars() {
-
-    }
-
-    setVarsState() {
-
-    }
-
-    showNotification() {
-
-    }
-
-    showToast() {
-
-    }
-
-    showModal() {
-    }
-    copyToClipboard() {
-
-    }
-    run() {
-
-    }
-    kill() {
-
-    }
-
-    exit() {
-
-    }
-
-    log() {
-
-    }
+    log() {}
 }
 
 module.exports = DashpahApi;

@@ -14,7 +14,7 @@ async function dev() {
             stdio: 'inherit',
             env: {
                 ...process.env,
-                NODE_TLS_REJECT_UNAUTHORIZED: 0
+                NODE_TLS_REJECT_UNAUTHORIZED: 0,
             },
         });
         child.on('close', () => {

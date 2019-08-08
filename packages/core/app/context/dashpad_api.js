@@ -161,12 +161,12 @@ class DashpahApi {
 
     showToast() {
         const payload = _.isString(arguments[0])
-        ? { message: arguments[0], options: arguments[1] }
-        : arguments[0];
+            ? { message: arguments[0], options: arguments[1] }
+            : arguments[0];
 
         const action = {
             type: UIEventType.SHOW_TOAST,
-            payload
+            payload,
         };
         this.send(action);
     }
@@ -225,11 +225,10 @@ class DashpahApi {
         } else {
             const action = {
                 type: UIEventType.CONSOLE_LOG,
-                payload: arguments
+                payload: arguments,
             };
             this.send(action);
         }
-
     }
 }
 

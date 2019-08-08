@@ -47,5 +47,5 @@ const pullUpdate = () => {
 
 module.exports = {
     checkUpdate,
-    pullUpdate
+    pullUpdate,
 };

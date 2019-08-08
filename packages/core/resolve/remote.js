@@ -43,7 +43,7 @@ export const Remote = () => {
         saveToFile: () => {},
     };
     const Notifier = {
-        notify: () => {}
+        notify: () => {},
     };
     const DashpadApi = require('./dashpad_api.js');
     const ModuleHelper = {

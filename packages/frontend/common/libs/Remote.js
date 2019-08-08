@@ -1,6 +1,8 @@
 import { remote } from 'electron';
 export const Remote = () => {
-    const ContentHelper = remote.require('@dashpad/core/app/helpers/content-helper');
+    const ContentHelper = remote.require(
+        '@dashpad/core/app/helpers/content-helper'
+    );
     const PathHelper = remote.require('@dashpad/core/app/helpers/path-helper');
     const Constants = remote.require('@dashpad/core/app/constants');
     const ProcessManager = remote.require('@dashpad/core/app/process-manager');
@@ -8,10 +10,14 @@ export const Remote = () => {
     const BackendStore = remote.require('@dashpad/core/app/store/index');
     const Config = remote.require('@dashpad/config');
     const Notifier = remote.require('node-notifier');
-    const DashpadApi = remote.require('@dashpad/core/app/context/dashpad_api.js');
-    const ModuleHelper = remote.require('@dashpad/core/app/helpers/module_helper.js');
+    const DashpadApi = remote.require(
+        '@dashpad/core/app/context/dashpad_api.js'
+    );
+    const ModuleHelper = remote.require(
+        '@dashpad/core/app/helpers/module_helper.js'
+    );
     const Utils = remote.require('@dashpad/core/libs/utils.js');
- 
+
     return {
         ProcessManager,
         ContentHelper,
@@ -23,6 +29,6 @@ export const Remote = () => {
         Notifier,
         DashpadApi,
         ModuleHelper,
-        Utils
-    }
-}
+        Utils,
+    };
+};

@@ -2,7 +2,8 @@ import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import 'common/polyfill';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate, render } from 'react-dom';
+
 import 'react-app-polyfill/ie9'; // For IE 9-11 support
 import 'react-app-polyfill/ie11'; // For IE 11 support
 import App from './App';
@@ -19,15 +20,19 @@ import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-yaml';
 
 process.env.APPTYPE = 'docs';
-const rootEl = document.getElementById('root')
-ReactDOM.render(<App />, rootEl);
-if (module.hot) {
-    module.hot.accept("./App", () => {
-        const NextApp = require('./App').default;
-        ReactDOM.render(<NextApp />, rootEl);
-    });
-
+const rootEl = document.getElementById('root');
+if (rootEl.hasChildNodes()) {
+    hydrate(<App />, rootEl);
+} else {
+    render(<App />, rootEl);
+    if (module.hot) {
+        module.hot.accept('./App', () => {
+            const NextApp = require('./App').default;
+            render(<NextApp />, rootEl);
+        });
+    }
 }
+
 serviceWorker.unregister();
 
 // If you want your app to work offline and load faster, you can change

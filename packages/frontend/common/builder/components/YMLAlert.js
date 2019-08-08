@@ -4,10 +4,7 @@ import { getTypes, PropsFilter } from './utils';
 import { YMLBase } from './YMLBase';
 import { YMLComponent } from './index';
 
-const allowedProps = [
-    'color',
-    'data-',
-];
+const allowedProps = ['color', 'data-'];
 
 export class YMLAlertView extends YMLBase {
     render() {
@@ -16,17 +13,17 @@ export class YMLAlertView extends YMLBase {
         return (
             <FormGroup key={keyPath}>
                 <Alert {...assignProps}>
-                {getTypes(obj).map(({ name, type }, index) => {
-                    const field = obj[name];
-                    const newProps = {
-                        name,
-                        key: keyPath + index,
-                        keyPath: keyPath,
-                        type,
-                        obj: field,
-                    };
-                    return <YMLComponent {...newProps} />;
-                })}
+                    {getTypes(obj).map(({ name, type }, index) => {
+                        const field = obj[name];
+                        const newProps = {
+                            name,
+                            key: keyPath + index,
+                            keyPath: keyPath,
+                            type,
+                            obj: field,
+                        };
+                        return <YMLComponent {...newProps} />;
+                    })}
                 </Alert>
             </FormGroup>
         );

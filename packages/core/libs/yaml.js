@@ -4,11 +4,13 @@ const fs = require('fs');
 
 let root = null;
 
-const YAMLObject = (path) => {
+const YAMLObject = path => {
     const resolvePath = nodePath.resolve(root, path);
-    return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'), { schema: IMPORT_SCHEMA});
-}
-  
+    return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'), {
+        schema: IMPORT_SCHEMA,
+    });
+};
+
 const ImportYamlType = new yaml.Type('!import', {
     // Loader must parse sequence nodes only for this type (i.e. arrays in JS terminology).
     // Other available kinds are 'scalar' (string) and 'mapping' (object).
@@ -38,17 +40,18 @@ const ImportYamlType = new yaml.Type('!import', {
 });
 const IMPORT_SCHEMA = yaml.Schema.create(ImportYamlType);
 
-const load = (path) => {
+const load = path => {
     const resolvePath = nodePath.resolve(path);
-    root= resolvePath.substring(0, resolvePath.lastIndexOf('/'));
-    return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'), { schema: IMPORT_SCHEMA});
+    root = resolvePath.substring(0, resolvePath.lastIndexOf('/'));
+    return yaml.safeLoad(fs.readFileSync(resolvePath, 'utf8'), {
+        schema: IMPORT_SCHEMA,
+    });
 };
-const read = (yaml) => {
-    return yaml.safeLoad(yaml, { schema: IMPORT_SCHEMA});
+const read = yaml => {
+    return yaml.safeLoad(yaml, { schema: IMPORT_SCHEMA });
 };
-
 
 module.exports = {
     load,
-    read
+    read,
 };
