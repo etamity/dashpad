@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { YMLBuilder } from 'builder/YMLBuilder';
+import { YMLBuilder } from 'common/builder/YMLBuilder';
 
 export default class SchemaBuilder extends Component {
     static Config() {

@@ -14,7 +14,7 @@ export default (reducers, initState) => {
 
   const store = createStore(CombineReducers(reducers, initState), composedEnhancers);
   if (module.hot) {
-    module.hot.accept('reducers', () => {
+    module.hot.accept('../reducers', () => {
       store.replaceReducer(CombineReducers(store.injectedReducers));
     });
   }

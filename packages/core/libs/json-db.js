@@ -1,4 +1,4 @@
-const fm = require('../libs/file-manager');
+const fm = require('./file-manager');
 const lodashId = require('lodash-id');
 const JsonModel = require('./json-model')
 const config = require('@dashpad/config').value();

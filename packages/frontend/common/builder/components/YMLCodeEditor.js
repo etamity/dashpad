@@ -27,14 +27,10 @@ const languages = [
     'yaml',
     'sql',
     'jsx',
-    'css'
+    'css',
 ];
 
-const themes = [
-    'github',
-    'solarized_dark',
-    'terminal',
-];
+const themes = ['github', 'solarized_dark', 'terminal'];
 
 languages.forEach(lang => {
     require(`brace/mode/${lang}`);
@@ -90,27 +86,27 @@ const allowedEvents = [
 ];
 
 const defaultProps = {
-        width: '100%',
-        theme: 'solarized_dark',
-        mode: 'json',
-        wrapEnabled: true
+    width: '100%',
+    theme: 'solarized_dark',
+    mode: 'json',
+    wrapEnabled: true,
 };
 
 export class YMLCodeEditorView extends YMLBase {
     constructor(props) {
-        super()
+        super();
         this.assignEvents = EventsHook(props, allowedEvents);
     }
     render() {
         const { keyPath, obj } = this.props;
-        const mergeProps = Object.assign({}, defaultProps, obj);
+        const mergeProps = { ...defaultProps, ...obj };
         if (mergeProps.mode === 'json' && _.isObject(mergeProps.value)) {
             mergeProps.value = JSON.stringify(mergeProps.value, null, 2);
         }
-        const assignProps = PropsFilter({obj: mergeProps}, allowedProps);
-      
+        const assignProps = PropsFilter({ obj: mergeProps }, allowedProps);
+
         let CodeComponent = AceEditor;
-        
+
         switch (obj.type) {
             case 'split':
                 CodeComponent = SplitEditor;

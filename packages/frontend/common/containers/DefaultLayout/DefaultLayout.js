@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react';
-import AutoRouter from 'libs/AutoRouter.js';
+import AutoRouter from 'common/libs/AutoRouter.js';
 import {
     AppAside,
     AppFooter,
@@ -10,10 +10,10 @@ import {
     AppSidebarHeader,
     AppSidebarMinimizer,
 } from '@coreui/react';
-import { AppAction } from 'reducers/app';
-import AppBreadcrumb from 'components/AppBreadcrumb';
-import AppSidebarNav from 'components/AppSidebarNav';
-import { Remote } from 'libs/Remote';
+import { AppAction } from 'common/reducers/app';
+import AppBreadcrumb from 'common/components/AppBreadcrumb';
+import AppSidebarNav from 'common/components/AppSidebarNav';
+import { Remote } from 'common/libs/Remote';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toggleClasses from '@coreui/react/lib/Shared/toggle-classes';
@@ -23,7 +23,7 @@ import {
     checkBreakpoint,
 } from '@coreui/react/lib/Shared/index';
 
-import { ModalBox } from 'components/ModalBox';
+import { ModalBox } from 'common/components/ModalBox';
 import Aside from './Aside';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { YMLComponent } from './YMLComponent';
-import TabView from 'components/TabView';
+import TabView from 'common/components/TabView';
 import { getTypes } from './utils';
 import { YMLBase } from './YMLBase';
 import { PropsFilter, EventsHook } from './utils';

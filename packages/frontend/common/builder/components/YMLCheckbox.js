@@ -26,21 +26,16 @@ export class YMLCheckboxView extends YMLBase {
             obj.options.map((option, index) => {
                 const idkey = keyPath + index;
                 const id = 'nf-checkbox-' + index;
-                const defaultProps = Object.assign(
-                    {},
-                    {
-                        type: 'checkbox',
-                        id: id,
-                        name: id,
-                        keyPath,
-                    },
-                    obj
-                );
+                const defaultProps = {
+                    type: 'checkbox',
+                    id: id,
+                    name: id,
+                    keyPath,
+                    ...obj,
+                };
 
-                const mergedProps = Object.assign({}, this.props, {
-                    obj: defaultProps
-                });
-                const assignProps = PropsFilter(mergedProps,  allowedProps);
+                const mergedProps = { ...this.props, obj: defaultProps };
+                const assignProps = PropsFilter(mergedProps, allowedProps);
                 const assignEvents = EventsHook(mergedProps, allowedEvents);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>

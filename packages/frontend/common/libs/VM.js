@@ -45,7 +45,7 @@ class VM {
             // Allowed types
             let allowedArgs = FundationTypes.split(',');
 
-            const allParams = Object.assign(locals, globals, funcParams);
+            const allParams = { ...locals, ...globals, ...funcParams };
 
             for (let param in allParams) {
                 if (allParams.hasOwnProperty(param)) {

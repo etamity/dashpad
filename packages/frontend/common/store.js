@@ -1,9 +1,9 @@
-import { Remote } from 'libs/Remote';
-import VM from 'libs/VM';
-import ConfigureStore from 'libs/ConfigureStore';
+import { Remote } from 'common/libs/Remote';
+import VM from 'common/libs/VM';
+import ConfigureStore from 'common/libs/ConfigureStore';
 import { ipcRenderer } from 'electron';
 import initState from 'initState';
-import reducers from 'reducers';
+import reducers from 'common/reducers';
 const { Constants, ContentLoader, DashpadApi } = Remote();
 
 const { ActionEventType } = Constants;

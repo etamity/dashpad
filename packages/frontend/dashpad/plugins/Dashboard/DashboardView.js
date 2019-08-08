@@ -7,7 +7,7 @@ import TopMenus from './config/TopMenus';
 import { GithubListView } from './components/GithubListView';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 
-import { Dashpad } from 'store';
+import { Dashpad } from 'common/store';
 
 export default class DashboardView extends Component {
     constructor(props) {

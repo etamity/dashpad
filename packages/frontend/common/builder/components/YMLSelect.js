@@ -28,21 +28,16 @@ export class YMLSelectView extends YMLBase {
                     {option}
                 </option>
             ));
-        const defaultProps = Object.assign(
-            {},
-            {
-                type: 'select',
-                id: id,
-                name: id,
-                keyPath,
-            },
-            obj
-        );
+        const defaultProps = {
+            type: 'select',
+            id: id,
+            name: id,
+            keyPath,
+            ...obj,
+        };
 
-        const mergedProps = Object.assign({}, this.props, {
-            obj: defaultProps
-        });
-        const assignProps = PropsFilter(mergedProps,  allowedProps);
+        const mergedProps = { ...this.props, obj: defaultProps };
+        const assignProps = PropsFilter(mergedProps, allowedProps);
         const assignEvents = EventsHook(mergedProps, allowedEvents);
 
         return (
@@ -51,7 +46,9 @@ export class YMLSelectView extends YMLBase {
                     <Label htmlFor={id}>{obj.label}</Label>
                 </Col>
                 <Col md="9">
-                    <Input {...assignProps} {...assignEvents}>{options}</Input>
+                    <Input {...assignProps} {...assignEvents}>
+                        {options}
+                    </Input>
                 </Col>
             </FormGroup>
         );

@@ -6,9 +6,7 @@ import { YMLBase } from './YMLBase';
 export class YMLLinkView extends YMLBase {
     render() {
         const { name, type, keyPath, obj } = this.props;
-        const props = Object.assign({}, obj, {
-            color: 'link',
-        });
+        const props = { ...obj, color: 'link' };
         let newProps = {
             name,
             key: keyPath,

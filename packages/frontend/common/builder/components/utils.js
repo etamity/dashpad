@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import VM from 'libs/VM';
+import VM from 'common/libs/VM';
 import Context from './context';
-import { AppAction } from 'reducers/app';
+import { AppAction } from 'common/reducers/app';
 import { FieldType, ContentType, UIEvent } from './Constants';
 import { shell } from 'electron';
-import { Store } from 'store';
+import { Store } from 'common/store';
 import { ValueResolver } from './ValueResovler';
 const specialCharacters = [
     '!',

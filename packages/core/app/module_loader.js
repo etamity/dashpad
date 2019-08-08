@@ -10,9 +10,9 @@ process.on('message', action => {
 
         switch (type) {
             case ProcessEventType.LOAD_MODULE_SCRIPT:
-                const context = Object.assign({}, {
+                const context = {
                     state: payload.state
-                });
+                }
                 global.Dashpad = new DashpadApi(context);
                 typeof script === 'function' && script(payload.params);
                 typeof script.default === 'function' && script.default(payload.params);

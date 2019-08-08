@@ -1,11 +1,11 @@
-const shortid = require('shortid')
+const shortid = require('shortid');
 class JsonModel {
     constructor(name, model) {
         this.name = name;
         this.model = model;
     }
     add(data) {
-        const entry = Object.assign({}, data, { id: shortid.generate()});
+        const entry = { data, id: shortid.generate() };
         if (this.model.isArray()) {
             this.model.push(entry).write();
         } else if (this.model.isObject()) {
@@ -23,5 +23,4 @@ class JsonModel {
     }
 }
 
-
-module.exports = JsonModel
+module.exports = JsonModel;

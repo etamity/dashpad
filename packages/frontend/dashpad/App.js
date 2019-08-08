@@ -3,11 +3,11 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Store } from './store';
-import { history } from 'libs/CombineReducers';
+import { Store } from 'common/store';
+import { history } from 'common/libs/CombineReducers';
 // import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
-import './App.scss';
+import 'common/App.scss';
 
 const loading = () => (
     <div className="animated fadeIn pt-3 text-center">Loading...</div>
@@ -15,17 +15,17 @@ const loading = () => (
 
 // Containers
 const DefaultLayout = Loadable({
-    loader: () => import('./containers/DefaultLayout'),
+    loader: () => import('common/containers/DefaultLayout'),
     loading,
 });
 
 const Page404 = Loadable({
-    loader: () => import('./views/Pages/Page404'),
+    loader: () => import('common/views/Pages/Page404'),
     loading,
 });
 
 const Page500 = Loadable({
-    loader: () => import('./views/Pages/Page500'),
+    loader: () => import('common/views/Pages/Page500'),
     loading,
 });
 class App extends Component {

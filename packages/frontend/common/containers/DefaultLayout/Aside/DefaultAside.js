@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, ListGroup, ListGroupItem, Progress } from 'reactstrap';
 import PropTypes from 'prop-types';
-import TabView from 'components/TabView';
-import { Remote } from 'libs/Remote';
-import { AppAction } from 'reducers/app';
+import TabView from 'common/components/TabView';
+import { Remote } from 'common/libs/Remote';
+import { AppAction } from 'common/reducers/app';
 const propTypes = {
     children: PropTypes.node,
 };
