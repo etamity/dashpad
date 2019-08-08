@@ -5,12 +5,10 @@ const _ = require('lodash');
 const { loadJson, loadFile, isExist } = fileManager;
 
 const loadConfigs = () =>
-    pathHelper
-        .getAllDashConfigFiles()
-        .map(packageModule => ({
-            ...packageModule,
-            content: loadJson(packageModule.file),
-        }));
+    pathHelper.getAllDashConfigFiles().map(packageModule => ({
+        ...packageModule,
+        content: loadJson(packageModule.file),
+    }));
 const loadNavs = () =>
     loadConfigs()
         .map(config => {

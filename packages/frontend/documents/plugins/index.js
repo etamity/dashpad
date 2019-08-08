@@ -1,1 +1,1 @@
-export * from './MdxViewer'
+export * from './MdxViewer';

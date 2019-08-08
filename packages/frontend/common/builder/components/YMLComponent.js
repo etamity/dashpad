@@ -54,7 +54,7 @@ export class YMLComponent extends React.Component {
             key: uniqueKeyPath,
             keyPath: uniqueKeyPath,
             type,
-            obj: ParseKeyPathVars(keyPath, obj)
+            obj: ParseKeyPathVars(keyPath, obj),
         };
 
         switch (type.toUpperCase()) {

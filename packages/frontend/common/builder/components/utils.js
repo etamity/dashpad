@@ -93,8 +93,7 @@ export const EventsHook = (props, events) => {
                                 if (!obj.mode || obj.mode === 'json') {
                                     try {
                                         value = JSON.parse(e);
-                                    }
-                                    catch (err) {
+                                    } catch (err) {
                                         console.error(err);
                                     }
                                 }

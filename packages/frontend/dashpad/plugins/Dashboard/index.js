@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
         });
     return {
         subRoutes,
-        ip: state.app.system.ip
+        ip: state.app.system.ip,
     };
 };
 

@@ -5,35 +5,27 @@ const packageJson = require('../package.json');
 const projectVersion = packageJson.version;
 const shell = require('shelljs');
 const cwd = process.cwd();
-const dashpadDir = path.resolve(__dirname+ '/../');
-cmd
-    .version(projectVersion);
+const dashpadDir = path.resolve(__dirname + '/../');
+cmd.version(projectVersion);
 
-
-cmd
-    .command('new [option]')
+cmd.command('new [option]')
     .description('Create new plugin')
-    .action((option) => {
+    .action(option => {
         console.log(option);
     });
 
-cmd
-    .description('.')
-    .action(() => {
-        console.log('starting ... ', dashpadDir + '/start.js');
-        shell.cd(dashpadDir);
-        shell.exec('npm start');
-    });
+cmd.description('.').action(() => {
+    console.log('starting ... ', dashpadDir + '/start.js');
+    shell.cd(dashpadDir);
+    shell.exec('npm start');
+});
 
-cmd
-    .description('publish')
-    .action(() => {
-        console.log('publish ... ');
-    });
+cmd.description('publish').action(() => {
+    console.log('publish ... ');
+});
 
 cmd.parse(process.argv);
 
 if (!cmd.args.length) {
     cmd.help();
 }
-

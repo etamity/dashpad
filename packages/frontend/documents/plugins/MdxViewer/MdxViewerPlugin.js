@@ -8,28 +8,40 @@ import AutoRouter from 'common/libs/AutoRouter.js';
 import Prism from 'prismjs';
 
 const components = {
-    wrapper: (props) => {
+    wrapper: props => {
         const { children } = props;
         return children.map((child, index) => {
             const { mdxType } = child.props;
             if (mdxType === 'pre') {
-                const { mdxType, className, ui, children } = child.props.children.props;
+                const {
+                    mdxType,
+                    className,
+                    ui,
+                    children,
+                } = child.props.children.props;
                 let schema;
                 try {
                     schema = yaml.safeLoad(children);
                 } catch (error) {
                     console.error(error);
                 }
-                if (mdxType === 'code' && ['language-yml', 'language-yaml'].includes(className) && ui ) {
-                    return <YMLBuilder key={`uicontainer-${index}`} schema={schema || {}}></YMLBuilder>
+                if (
+                    mdxType === 'code' &&
+                    ['language-yml', 'language-yaml'].includes(className) &&
+                    ui
+                ) {
+                    return (
+                        <YMLBuilder
+                            key={`uicontainer-${index}`}
+                            schema={schema || {}}
+                        />
+                    );
                 }
             }
             return child;
         });
     },
 };
-
-
 
 export class MdxViewerPlugin extends Component {
     static Config() {
@@ -38,7 +50,7 @@ export class MdxViewerPlugin extends Component {
             SideMenus,
             SubRoutes,
             name: 'Documentation',
-            route
+            route,
         };
     }
     componentDidMount() {

@@ -37,7 +37,7 @@ function buildMenu() {
                 { type: 'separator' },
                 {
                     label: 'Exit',
-                    accelerator: "Command+Q",
+                    accelerator: 'Command+Q',
                     click() {
                         app.quit();
                     },
@@ -45,16 +45,37 @@ function buildMenu() {
             ],
         },
         {
-            label: "Edit",
+            label: 'Edit',
             submenu: [
-                { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-                { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-                { type: "separator" },
-                { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-                { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-                { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-                { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-        ]}
+                {
+                    label: 'Undo',
+                    accelerator: 'CmdOrCtrl+Z',
+                    selector: 'undo:',
+                },
+                {
+                    label: 'Redo',
+                    accelerator: 'Shift+CmdOrCtrl+Z',
+                    selector: 'redo:',
+                },
+                { type: 'separator' },
+                { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+                {
+                    label: 'Copy',
+                    accelerator: 'CmdOrCtrl+C',
+                    selector: 'copy:',
+                },
+                {
+                    label: 'Paste',
+                    accelerator: 'CmdOrCtrl+V',
+                    selector: 'paste:',
+                },
+                {
+                    label: 'Select All',
+                    accelerator: 'CmdOrCtrl+A',
+                    selector: 'selectAll:',
+                },
+            ],
+        },
     ]);
     Menu.setApplicationMenu(menu);
 }
@@ -64,8 +85,7 @@ function createWindow() {
     global.mainWindow = mainWindow = new BrowserWindow(config.window);
     buildMenu();
     let indexPath;
-    const isDev =
-        devMode && process.argv.indexOf('--noDevServer') === -1;
+    const isDev = devMode && process.argv.indexOf('--noDevServer') === -1;
     if (isDev) {
         indexPath = 'http://localhost:' + port + '/#/dashboard';
         installExtensions();
@@ -73,7 +93,7 @@ function createWindow() {
         indexPath =
             url.format({
                 protocol: 'file:',
-                pathname: path.join(__dirname, '../../build','index.html'),
+                pathname: path.join(__dirname, '../../build', 'index.html'),
                 slashes: true,
             }) + '#/dashboard';
     }
@@ -100,10 +120,10 @@ function createWindow() {
     });
 
     globalShortcut.register('f5', function() {
-		mainWindow.reload();
-	});
-	globalShortcut.register('CommandOrControl+R', function() {
-		mainWindow.reload();
+        mainWindow.reload();
+    });
+    globalShortcut.register('CommandOrControl+R', function() {
+        mainWindow.reload();
     });
 }
 
@@ -130,11 +150,11 @@ app.on('activate', () => {
 });
 app.on('will-quit', () => {
     // Unregister a shortcut.
-    globalShortcut.unregister('CommandOrControl+X')
-  
+    globalShortcut.unregister('CommandOrControl+X');
+
     // Unregister all shortcuts.
-    globalShortcut.unregisterAll()
-})
+    globalShortcut.unregisterAll();
+});
 app.on('browser-window-focus', () => {
     mainWindow &&
         mainWindow.webContents &&
@@ -142,12 +162,15 @@ app.on('browser-window-focus', () => {
 });
 
 // SSL/TSL: this is the self signed certificate support
-app.on('certificate-error', (event, webContents, url, error, certificate, callback) => {
-    // On certificate error we disable default behaviour (stop loading the page)
-    // and we then say "it is all fine - true" to the callback
-    event.preventDefault();
-    callback(true);
-});
+app.on(
+    'certificate-error',
+    (event, webContents, url, error, certificate, callback) => {
+        // On certificate error we disable default behaviour (stop loading the page)
+        // and we then say "it is all fine - true" to the callback
+        event.preventDefault();
+        callback(true);
+    }
+);
 const shellEnv = require('shell-env');
 process.env.PATH = shellEnv.sync().PATH;
 

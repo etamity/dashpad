@@ -23,7 +23,7 @@ export class YMLTextView extends YMLBase {
     render() {
         const { keyPath, obj } = this.props;
         const assignEvents = EventsHook(this.props, allowedEvents);
-        if ( _.isObject(obj.content)) {
+        if (_.isObject(obj.content)) {
             obj.content = JSON.stringify(obj.content, null, 2);
         }
         return (

@@ -11,8 +11,9 @@ const wrapReducers = (reducers, initialState) => {
         .filter(key => typeof reducers[key] === 'function')
         .forEach(key => {
             const fn = reducers[key];
-            var defaultState = initialState[key]
-            newReducers[key] = (state = defaultState, action) => fn(state, action);
+            var defaultState = initialState[key];
+            newReducers[key] = (state = defaultState, action) =>
+                fn(state, action);
         });
     Object.keys(initialState).forEach(key => {
         if (newReducers[key] == null) {
@@ -24,7 +25,7 @@ const wrapReducers = (reducers, initialState) => {
 
     return combineReducers({
         router: connectRouter(history),
-        ...newReducers
+        ...newReducers,
     });
 };
 

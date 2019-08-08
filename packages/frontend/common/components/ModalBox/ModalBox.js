@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import { Modal, ModalHeader, ModalBody, Button, ModalFooter } from 'reactstrap';
 
@@ -12,14 +12,15 @@ export class ModalBox extends Component {
                 className={`modal-${props.variant} ` + this.props.className}
             >
                 <ModalHeader toggle={props.toggle}> {props.title}</ModalHeader>
-                <ModalBody>
-                    {props.message}
-                </ModalBody>
+                <ModalBody>{props.message}</ModalBody>
                 <ModalFooter>
-                    <Button color={props.variant} onClick={()=>{
-                        props.toggle && props.toggle()
-                        props.onConfirm && props.onConfirm()
-                    }}>
+                    <Button
+                        color={props.variant}
+                        onClick={() => {
+                            props.toggle && props.toggle();
+                            props.onConfirm && props.onConfirm();
+                        }}
+                    >
                         Confirm
                     </Button>{' '}
                     <Button color="secondary" onClick={props.toggle}>
@@ -29,4 +30,4 @@ export class ModalBox extends Component {
             </Modal>
         );
     }
-};
+}

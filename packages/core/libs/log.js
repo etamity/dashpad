@@ -6,10 +6,16 @@ const warn = chalk.keyword('orange');
 const success = chalk.green;
 const info = chalk.cyanBright;
 
-const inspect = function () {
-    return [].slice.apply(arguments).map(val => typeof val === 'object' ? 
-    util.inspect(val, {colors:true, depth:null}) : val ).join(' ');
-}
+const inspect = function() {
+    return [].slice
+        .apply(arguments)
+        .map(val =>
+            typeof val === 'object'
+                ? util.inspect(val, { colors: true, depth: null })
+                : val
+        )
+        .join(' ');
+};
 
 module.exports = {
     log,
@@ -23,6 +29,6 @@ module.exports = {
         log(success(inspect(arguments)));
     },
     info: function() {
-        log(info(inspect(arguments)))
+        log(info(inspect(arguments)));
     },
 };

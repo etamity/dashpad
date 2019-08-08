@@ -47,9 +47,7 @@ export default class DashboardView extends Component {
         return (
             <React.Fragment>
                 <Card>
-                    <CardHeader>
-                        IP: {this.props.ip}
-                    </CardHeader>
+                    <CardHeader>IP: {this.props.ip}</CardHeader>
                     <CardBody>
                         <InputGroup>
                             <Input

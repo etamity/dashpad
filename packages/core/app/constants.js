@@ -1,4 +1,3 @@
-
 const keyMirror = require('keymirror');
 
 const AppEventType = keyMirror({
@@ -16,8 +15,8 @@ const AppEventType = keyMirror({
 const ProcessEventType = keyMirror({
     LOAD_MODULE_SCRIPT: null,
     UPDATE_MODULE_STATE: null,
-    ON_CHILD_PROCESS_ACTION: null
-})
+    ON_CHILD_PROCESS_ACTION: null,
+});
 
 const UIEventType = keyMirror({
     UPDATE_UI_STATE: null,
@@ -32,7 +31,7 @@ const UIEventType = keyMirror({
     PUSH_TO_KEYPATH_VARS: null,
     CLEAN_KEYPATH_VARS: null,
     UPDATE_UI_STATE_BY_VARS: null,
-    CONSOLE_LOG: null
+    CONSOLE_LOG: null,
 });
 
 const ActionEventType = 'ActionEventType';
@@ -41,5 +40,5 @@ module.exports = {
     AppEventType,
     ProcessEventType,
     UIEventType,
-    ActionEventType
-}
+    ActionEventType,
+};

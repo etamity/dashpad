@@ -1,12 +1,14 @@
 const fm = require('./file-manager');
 const lodashId = require('lodash-id');
-const JsonModel = require('./json-model')
+const JsonModel = require('./json-model');
 const config = require('@dashpad/config').value();
 
 class JsonDb {
     constructor(name) {
         this.filename = name;
-        this.db = fm.loadJsonDb([config.getPaths().workspace, `${name}.json`].join('/'));
+        this.db = fm.loadJsonDb(
+            [config.getPaths().workspace, `${name}.json`].join('/')
+        );
         this.db._.mixin(lodashId);
         this.collections = [];
     }

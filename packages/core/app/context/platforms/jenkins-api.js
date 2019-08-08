@@ -813,7 +813,6 @@ exports.init = function(host, defaultOptions, defaultParams) {
             'function',
         ]);
 
-
         get_config_xml(jobName, customParams, function(error, data) {
             if (error) {
                 callback(error, data);

@@ -16,15 +16,14 @@ import 'prismjs/components/prism-scss';
 import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-yaml';
 
-const rootEl = document.getElementById('root')
+const rootEl = document.getElementById('root');
 
 ReactDOM.render(<App />, rootEl);
 if (module.hot) {
-    module.hot.accept("./App", () => {
+    module.hot.accept('./App', () => {
         const NextApp = require('./App').default;
         ReactDOM.render(<NextApp />, rootEl);
     });
-
 }
 
 // If you want your app to work offline and load faster, you can change

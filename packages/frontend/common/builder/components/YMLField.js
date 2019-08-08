@@ -23,9 +23,13 @@ export class YMLFieldView extends YMLBase {
                 </InputGroup>
             );
         });
-        let newProps = { ...this.props, type: subType, keyPath: keyPath.substring(0, keyPath.lastIndexOf('.'))};
+        let newProps = {
+            ...this.props,
+            type: subType,
+            keyPath: keyPath.substring(0, keyPath.lastIndexOf('.')),
+        };
         const renderChildComponent = (childComps.length > 0 && childComps) || (
-                <YMLComponent {...newProps} />
+            <YMLComponent {...newProps} />
         );
         return (
             <FormGroup key={keyPath}>

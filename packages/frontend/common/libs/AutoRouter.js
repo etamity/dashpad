@@ -9,11 +9,9 @@ class AutoRouter extends Component {
         const baseRoute = (base && ['/', base].join('')) || '/#/';
         return (
             <Switch>
-                {indexRoute && <Redirect
-                    push
-                    from={baseRoute}
-                    to={indexRoute}
-                />}
+                {indexRoute && (
+                    <Redirect push from={baseRoute} to={indexRoute} />
+                )}
                 {renderRoutes(routes)}
             </Switch>
         );

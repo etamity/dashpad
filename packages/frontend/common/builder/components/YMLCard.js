@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Row, Col, Label, Card, CardHeader, CardBody, CardFooter } from 'reactstrap';
+import {
+    Row,
+    Col,
+    Label,
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+} from 'reactstrap';
 import _ from 'lodash';
 import { YMLComponent } from './index';
 import { getTypes } from './utils';
@@ -18,7 +26,7 @@ export class YMLCardHeaderView extends YMLBase {
             };
             return {
                 type: childProps.type,
-                position: childProps.obj.position || 'right' ,
+                position: childProps.obj.position || 'right',
                 view: <YMLComponent {...childProps} />,
             };
         });
@@ -129,7 +137,11 @@ export class YMLCardView extends Component {
                     <CardBody className={obj.className}>
                         {obj.description && <p> {obj.description} </p>}
                         {controls
-                            .filter(ctrl => ctrl.type !== 'Header' && ctrl.type !== 'Footer')
+                            .filter(
+                                ctrl =>
+                                    ctrl.type !== 'Header' &&
+                                    ctrl.type !== 'Footer'
+                            )
                             .map(comp => comp.view)}
                     </CardBody>
                     {_.filter(controls, { type: 'Footer' }).map(

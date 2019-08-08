@@ -35,7 +35,9 @@ export class DefaultLayout extends Component {
         this.modalToggle = this.modalToggle.bind(this);
     }
     loading() {
-        return <div className="animated fadeIn pt-1 text-center">Loading...</div>
+        return (
+            <div className="animated fadeIn pt-1 text-center">Loading...</div>
+        );
     }
 
     signOut(e) {
@@ -64,7 +66,8 @@ export class DefaultLayout extends Component {
     render() {
         const { TopMenus, TopRightButtons, SideMenus } = this.props.config;
         const { routes, modal } = this.props;
-        const openAside = !!this.props.processes && this.props.processes.length > 0;
+        const openAside =
+            !!this.props.processes && this.props.processes.length > 0;
         const modalProps = modal.length > 0 && modal[modal.length - 1];
         this.toggleAside(openAside);
         return (
@@ -114,9 +117,11 @@ export class DefaultLayout extends Component {
                         </Suspense>
                     </main>
 
-                    {!!this.props.processes && <AppAside fixed>
-                        <Aside />
-                    </AppAside>}
+                    {!!this.props.processes && (
+                        <AppAside fixed>
+                            <Aside />
+                        </AppAside>
+                    )}
                 </div>
                 <AppFooter>
                     <Suspense fallback={this.loading()}>

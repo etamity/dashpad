@@ -32,8 +32,8 @@ class TabView extends Component {
         }
 
         const titles = Object.keys(tabsContent) || [];
-        if (activeTab >= titles.length ) {
-            activeTab = 0
+        if (activeTab >= titles.length) {
+            activeTab = 0;
         }
         const titlesView = titles.map((title, index) => {
             let label =

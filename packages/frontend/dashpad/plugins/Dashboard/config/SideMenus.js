@@ -6,6 +6,6 @@ export default [
         badge: {
             variant: 'info',
             text: 'NEW',
-        }
-    }
+        },
+    },
 ];
