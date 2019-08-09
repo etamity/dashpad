@@ -141,7 +141,8 @@
         "clean": "rimraf ./build",
         "pretty": "prettier --write 'packages/**/*.js'",
         "killport": "kill -9 $(lsof -t -i:8888)",
-        "snap": "react-snap"
+        "snap": "react-snap",
+        "update": "node scripts/index.js"
     },
     "eslintConfig": {
         "extends": "react-app"
