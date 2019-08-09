@@ -16,6 +16,7 @@ files:
   - lerna.json
   - README.md
   - yarn.lock
+  - scripts/
   
 
 dmg:

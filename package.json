@@ -125,8 +125,8 @@
         "lerna": "^3.16.4" 
     },
     "scripts": {
-        "setup": "npm i lerna -g && lerna bootstrap",
-        "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder install-app-deps",
+        "setup": "yarn && lerna bootstrap",
+        "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder install-app-deps && node scripts/index.js",
         "server": "lerna run start --stream --scope=@dashpad/webpack",
         "package": "lerna run package --scope @dashpad/config --stream",
         "start": "lerna run start --stream --scope=@dashpad/webpack",
@@ -140,7 +140,7 @@
         "eject": "react-scripts eject",
         "clean": "rimraf ./build",
         "pretty": "prettier --write 'packages/**/*.js'",
-        "killport": "kill -9 $(lsof -t -i $1)",
+        "killport": "kill -9 $(lsof -t -i:8888)",
         "snap": "react-snap"
     },
     "eslintConfig": {

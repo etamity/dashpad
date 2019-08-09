@@ -39,7 +39,6 @@ export default class DashboardView extends Component {
             Github.search
                 .repos({ q: keyword, per_page: 50, page:this.state.page, sort: 'stars' })
                 .then(res => {
-                    console.log(res);
                     this.setState({ plugins: res.data.items });
                 });
         }

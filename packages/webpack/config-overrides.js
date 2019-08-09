@@ -5,8 +5,8 @@ const emoji = require('remark-emoji');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const docsBasePath = path.resolve(__dirname, '../frontend/documents');
 const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
-const dashpadCommonPath = path.resolve(__dirname, '../frontend/common');
 const frontendPath = path.resolve(__dirname, '../frontend');
+
 module.exports = {
     webpack: (config, env) => {
         config.target = 'electron-renderer';

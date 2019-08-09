@@ -20,22 +20,20 @@ const requireNoCache = function(filePath) {
     return require(filePath);
 };
 
-const watchYamlFile = path.join(pathHelper.PACKAGES, '/**/*.yml');
-const watchJsFile = path.join(pathHelper.PACKAGES, '/**/*.js');
+const watchFiels = ['*.yml', '*.yaml', '*.js', '*.mdx'].map(ext =>
+    path.join(pathHelper.PACKAGES, '/**/', ext)
+);
+console.log(watchFiels);
 const watchCoreJsFile = path.resolve(__dirname, '../packages/core/**/*.js');
 
 if (!production) {
     const chokidar = require('chokidar');
-    const watcher = chokidar.watch(
-        [watchCoreJsFile, watchYamlFile, watchJsFile],
-        {
-            ignored: /node_modules|\.git/,
-        }
-    );
+    const watcher = chokidar.watch([watchCoreJsFile, ...watchFiels], {
+        ignored: /node_modules|\.git/,
+    });
     watcher.on('ready', () => {
-        console.log('ready....!!!!!');
+        console.log('Start Watching ...');
         watcher.on('change', filePath => {
-            console.log('changing', filePath);
             if (filePath.includes('/packages/core/')) {
                 log.warn('Clearing /backend module cache from server');
                 requireNoCache(path.resolve(filePath));
@@ -67,8 +65,13 @@ if (!production) {
                     filePath.includes('/_dash/') &&
                     filePath.includes('.js')
                 ) {
-                    console.log('Reload ... JS files', filePath);
+                    console.log('Reload ... js file', filePath);
                     contentLoader.reloadScript(filePath);
+                } else if (
+                    filePath.includes('/_dash/') &&
+                    filePath.includes('.mdx')
+                ) {
+                    console.log('Reload ... mdx file');
                 }
             }
         });
