@@ -23,7 +23,7 @@ const requireNoCache = function(filePath) {
 const watchFiels = ['*.yml', '*.yaml', '*.js', '*.mdx'].map(ext =>
     path.join(pathHelper.PACKAGES, '/**/', ext)
 );
-console.log(watchFiels);
+
 const watchCoreJsFile = path.resolve(__dirname, '../packages/core/**/*.js');
 
 if (!production) {
@@ -32,7 +32,7 @@ if (!production) {
         ignored: /node_modules|\.git/,
     });
     watcher.on('ready', () => {
-        console.log('Start Watching ...');
+        log.info('Start Watching ...');
         watcher.on('change', filePath => {
             if (filePath.includes('/packages/core/')) {
                 log.warn('Clearing /backend module cache from server');
@@ -43,35 +43,30 @@ if (!production) {
                 const contentLoader = requireNoCache(
                     '@dashpad/core/app/content-loader.js'
                 );
+                if (filePath.includes('/_dash/')) {
+                    log.info('Reload ... UI files', filePath);
+                    if (filePath.includes('.yml')) {
+                        contentLoader.reloadConfig();
 
-                if (filePath.includes('.yml')) {
-                    console.log('Reload ... UI files', filePath);
-
-                    contentLoader.reloadConfig();
-
-                    if (!filePath.includes('config.yml')) {
-                        const fileName = filePath.slice(
-                            filePath.lastIndexOf('/')
-                        );
-                        if (fileName.includes('@')) {
-                            contentLoader.reloadUISchema();
-                        } else {
-                            contentLoader.reloadUISchema(filePath);
+                        if (!filePath.includes('config.yml')) {
+                            const fileName = filePath.slice(
+                                filePath.lastIndexOf('/')
+                            );
+                            if (fileName.includes('@')) {
+                                contentLoader.reloadUISchema();
+                            } else {
+                                contentLoader.reloadUISchema(filePath);
+                            }
                         }
-                    }
 
-                    log.info('Reloaded:', filePath);
-                } else if (
-                    filePath.includes('/_dash/') &&
-                    filePath.includes('.js')
-                ) {
-                    console.log('Reload ... js file', filePath);
-                    contentLoader.reloadScript(filePath);
-                } else if (
-                    filePath.includes('/_dash/') &&
-                    filePath.includes('.mdx')
-                ) {
-                    console.log('Reload ... mdx file');
+                        log.info('Reloaded:', filePath);
+                    } else if (filePath.includes('.js')) {
+                        log.info('Reload ... js file', filePath);
+                        contentLoader.reloadScript(filePath);
+                    } else if (filePath.includes('.mdx')) {
+                        log.info('Reload ... mdx file');
+                        contentLoader.reloadUISchema(filePath);
+                    }
                 }
             }
         });

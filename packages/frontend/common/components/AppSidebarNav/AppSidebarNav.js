@@ -38,6 +38,7 @@ class AppSidebarNav extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.activeRoute = this.activeRoute.bind(this);
         this.hideMobile = this.hideMobile.bind(this);
+        this.getUIBulderRoute = this.getUIBulderRoute.bind(this);
     }
 
     handleClick(e) {
@@ -146,7 +147,11 @@ class AppSidebarNav extends Component {
     // nav item with nav link
     navItem(item, key) {
         let active = false;
-        if (this.props.location.pathname.indexOf(this.props.schemaRoute) > -1) {
+        if (
+            this.props.location.pathname.indexOf(
+                this.getUIBulderRoute(item.goto)
+            ) > -1
+        ) {
             const { packageInfo } = this.props;
             if (
                 packageInfo &&
@@ -169,13 +174,18 @@ class AppSidebarNav extends Component {
         return this.navLink(item, key, classes);
     }
 
+    getUIBulderRoute(fileName) {
+        return fileName && fileName.split('.').pop() === 'mdx'
+            ? '/mdxbuilder'
+            : '/schemabuilder';
+    }
     // nav link
     navLink(item, key, classes) {
         const url = item.url || '';
         const itemIcon = <i className={classes.icon} />;
         const itemBadge = this.navBadge(item.badge);
         const attributes = item.attributes || {};
-        const file = item.goto || '';
+        const uiRoute = this.getUIBulderRoute(item.goto);
         return (
             <NavItem key={key} className={classes.item}>
                 {attributes.disabled ? (
@@ -199,13 +209,16 @@ class AppSidebarNav extends Component {
                         {item.name}
                         {itemBadge}
                     </RsNavLink>
-                ) : file.includes('.yml') ? (
+                ) : item.goto ? (
                     <Link
-                        to={this.props.schemaRoute}
+                        to={uiRoute}
                         className={classes.link}
                         onClick={() => {
                             this.props.loadFile &&
-                                this.props.loadFile(item.packageName, file);
+                                this.props.loadFile(
+                                    item.packageName,
+                                    item.goto
+                                );
                         }}
                         {...attributes}
                     >
