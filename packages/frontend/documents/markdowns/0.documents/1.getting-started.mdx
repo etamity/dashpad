@@ -13,23 +13,35 @@ export const config = {
 
 If you get `Unexpected token function` error, which mean you need to change node version.
 
-### Install
+### Getting Started
 
-`npm i`
+To get started developing, [set up the nteract monorepo](#set-the-monorepo-up-in-dev-mode).
 
-### Start
+#### Set the monorepo up in dev mode
 
-`npm start`
+Requires [Node.js](https://docs.npmjs.com/getting-started/installing-node) and [yarn](https://yarnpkg.com/lang/en/docs/install/).
 
-### Build
+1. Fork this repo
+2. Clone your fork or this repo `git clone https://github.com/etamity/dashpad`
+3. `cd` to the directory where you `clone`d it
+
+## Install
+
+`lerna bootstrap`
+
+## Start
+
+`yarn start`
+
+## Build
 
 Your build version will be under `build` folder.
 
-`npm run build && npm run pack:mac`
+`yarn pack:mac`
 
 or
 
-`npm run build && npm run pack:win`
+`yarn pack:win`
 
 ### Config
 

@@ -22,17 +22,20 @@ const requireNoCache = function(filePath) {
 
 const watchYamlFile = path.join(pathHelper.PACKAGES, '/**/*.yml');
 const watchJsFile = path.join(pathHelper.PACKAGES, '/**/*.js');
+const watchCoreJsFile = path.resolve(__dirname, '../packages/core/**/*.js');
 
 if (!production) {
     const chokidar = require('chokidar');
     const watcher = chokidar.watch(
-        ['packages/core/**/*.js', watchYamlFile, watchJsFile],
+        [watchCoreJsFile, watchYamlFile, watchJsFile],
         {
-            ignored: ['node_modules'],
+            ignored: /node_modules|\.git/,
         }
     );
     watcher.on('ready', () => {
+        console.log('ready....!!!!!');
         watcher.on('change', filePath => {
+            console.log('changing', filePath);
             if (filePath.includes('/packages/core/')) {
                 log.warn('Clearing /backend module cache from server');
                 requireNoCache(path.resolve(filePath));

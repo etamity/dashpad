@@ -30,21 +30,21 @@ Requires [Node.js](https://docs.npmjs.com/getting-started/installing-node) and [
 
 ## Install
 
-`npm i`
+`yarn setup`
 
 ## Start
 
-`npm start`
+`yarn start`
 
 ## Build
 
 Your build version will be under `build` folder.
 
-`npm run build && npm run pack:mac`
+`yarn pack:mac`
 
 or
 
-`npm run build && npm run pack:win`
+`yarn pack:win`
 
 ## Config
 
