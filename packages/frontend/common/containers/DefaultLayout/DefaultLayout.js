@@ -98,7 +98,6 @@ export class DefaultLayout extends Component {
                             <AppSidebarNav
                                 navConfig={SideMenus}
                                 loadFile={this.loadUIFile}
-                                schemaRoute={'/schemabuilder'}
                                 {...this.props}
                             />
                         </Suspense>

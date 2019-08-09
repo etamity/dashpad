@@ -100,23 +100,30 @@ export default function update(state, action) {
             const { ymlPath } = payload;
             const resolvePath = ymlPath || state.packageInfo.filePath;
             const packageInfo = updatePackageInfo(resolvePath);
-            const uiSchema = ContentHelper.loadJson(resolvePath);
-
-            const { filePath } = packageInfo;
-            const jsFilePath =
-                filePath &&
-                filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
-
-            if (ContentHelper.isExist(jsFilePath)) {
-                const jsScript = ContentHelper.loadFile(jsFilePath);
-                VM.buildVmScope(jsScript);
-            } else {
-                VM.buildVmScope('"";\n');
+            const fileExt = ymlPath && ymlPath.split('.').pop();
+            if (fileExt === 'yaml' || fileExt ==='yml') {
+                const uiSchema = ContentHelper.loadJson(resolvePath);
+                const { filePath } = packageInfo;
+                const jsFilePath =
+                    filePath &&
+                    filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
+    
+                if (ContentHelper.isExist(jsFilePath)) {
+                    const jsScript = ContentHelper.loadFile(jsFilePath);
+                    VM.buildVmScope(jsScript);
+                } else {
+                    VM.buildVmScope('"";\n');
+                }
+    
+                newState = immutable(state)
+                    .set(SchemaKeys.UISCHEMA, uiSchema)
+                    .value();
+            } else if (fileExt ==='mdx') {
+                newState = immutable(state)
+                    .set('mdxFilePath', ymlPath)
+                    .value();
             }
-
-            newState = immutable(state)
-                .set(SchemaKeys.UISCHEMA, uiSchema)
-                .value();
+    
             newState = immutable(newState)
                 .set('packageInfo', packageInfo)
                 .value();
@@ -229,10 +236,12 @@ export default function update(state, action) {
 }
 
 const updatePackageInfo = filePath => {
+    const ext = filePath.split('.').pop();
     const pathArr = filePath.split('/');
     const fileName = pathArr[pathArr.length - 1];
     let packageName = filePath.match(/packages\/(.*?)\/_/)[1];
-    let namespace = filePath.match(/packages\/(.*?).yml/)[1] + '.yml';
+    const regex = new RegExp(`packages/(.*?).${ext}`);
+    let namespace = filePath.match(regex)[1] + `.${ext}`;
     const packageInfo = {
         fileName,
         packageName,
