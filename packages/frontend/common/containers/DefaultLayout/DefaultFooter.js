@@ -39,7 +39,7 @@ class DefaultFooter extends Component {
                         }}
                     >
                         {' '}
-                        <i className="fa fa-github fa-lg" /> DashPad &copy; 2019
+                        <i className="fa fa-github fa-lg" /> Dashpad &copy; 2019
                     </Button>
                 </span>
             </React.Fragment>

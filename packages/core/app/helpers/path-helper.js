@@ -1,9 +1,10 @@
 const path = require('path');
-const homedir = require('os').homedir();
+const { getDocumentsFolder } = require('platform-folders');
 const config = require('@dashpad/config').value();
 const fileManager = require('../../libs/file-manager');
 const BackendStore = require('../store');
-const WORKSPACE = path.join(homedir, config.project.root);
+const WORKSPACE = path.join(getDocumentsFolder(), config.project.root);
+
 const PACKAGES = path.join(WORKSPACE, 'packages');
 
 const getDashSpace = packageName =>

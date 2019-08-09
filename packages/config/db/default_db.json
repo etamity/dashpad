@@ -20,7 +20,7 @@
       }
     },
     "project": {
-      "root": "documents/dashpad",
+      "root": "dashpad",
       "folder": "_dash",
       "config": "config.yml"
     },

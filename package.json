@@ -125,6 +125,7 @@
         "lerna": "^3.16.4" 
     },
     "scripts": {
+        "setup": "npm i lerna -g && lerna bootstrap",
         "postinstall": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=1 electron-builder install-app-deps",
         "server": "lerna run start --stream --scope=@dashpad/webpack",
         "package": "lerna run package --scope @dashpad/config --stream",
