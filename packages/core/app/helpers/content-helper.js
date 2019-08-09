@@ -34,7 +34,6 @@ const loadNavs = () =>
             }));
         })
         .reduce((result, next) => result.concat(next), []);
-
 const loadPackageJson = packageName =>
     loadJson(pathHelper.getPackageJsonFile(packageName));
 

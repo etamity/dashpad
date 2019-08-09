@@ -12,9 +12,9 @@ A hackable universal dashboard framework for your desktop task automation and vi
 
 ## Environment Requirement
 
-- Node >= v8.12
+- Node >= v8.16.0
 
-    If you get `Unexpected token function` error, which mean you need to change node version.
+    If you get `fsevents.watch is not a function` error, try to change node version greater than v8.16.0.
 
 ### Getting Started
 

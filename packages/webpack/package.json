@@ -9,7 +9,7 @@
     "dev:docs:web": "APP_TYPE=docs react-app-rewired --inspect start",
     "build:docs": "APP_TYPE=docs react-app-rewired build",
     "build:dashpad": "react-app-rewired build",
-    "start": "BROWSER=none node start.js",
+    "start": "BROWSER=none node --inspect start.js",
     "develop": "react-app-rewired --inspect start",
     "server": "node ../core/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
