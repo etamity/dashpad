@@ -118,10 +118,6 @@ export default function update(state, action) {
                 newState = immutable(state)
                     .set(SchemaKeys.UISCHEMA, uiSchema)
                     .value();
-            } else if (fileExt ==='mdx') {
-                newState = immutable(state)
-                    .set('mdxFilePath', ymlPath)
-                    .value();
             }
     
             newState = immutable(newState)
@@ -236,12 +232,10 @@ export default function update(state, action) {
 }
 
 const updatePackageInfo = filePath => {
-    const ext = filePath.split('.').pop();
     const pathArr = filePath.split('/');
     const fileName = pathArr[pathArr.length - 1];
-    let packageName = filePath.match(/packages\/(.*?)\/_/)[1];
-    const regex = new RegExp(`packages/(.*?).${ext}`);
-    let namespace = filePath.match(regex)[1] + `.${ext}`;
+    const packageName = filePath.match(/packages\/(.*?)\/_/)[1];
+    const namespace = filePath.slice(filePath.indexOf(packageName));
     const packageInfo = {
         fileName,
         packageName,
@@ -249,7 +243,7 @@ const updatePackageInfo = filePath => {
         namespace,
     };
     const Dashpad = VM.getGlobal('Dashpad');
-    if (Dashpad) {
+    if (Dashpad) { 
         Dashpad.updatePackageInfo(packageInfo);
     }
     return packageInfo;

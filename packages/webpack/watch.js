@@ -44,7 +44,7 @@ if (!production) {
                     '@dashpad/core/app/content-loader.js'
                 );
                 if (filePath.includes('/_dash/')) {
-                    log.info('Reload ... UI files', filePath);
+                    log.info('Reload ... UI files', filePath, filePath.includes('.yml'));
                     if (filePath.includes('.yml')) {
                         contentLoader.reloadConfig();
 

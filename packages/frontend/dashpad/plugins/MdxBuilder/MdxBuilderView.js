@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { MDXProvider } from '@mdx-js/react';
+import { Container, Card, CardBody } from 'reactstrap';
 import yaml from 'js-yaml';
 import { YMLBuilder } from 'common/builder/YMLBuilder';
 import Prism from 'prismjs';
+import { Remote } from 'common/libs/Remote';
 import Loadable from 'react-loadable';
-import Document from '../../../documents/markdowns/0.documents/0.index.mdx'
+import MDX from 'mdx-scoped-runtime';
+
+const { ContentHelper } = Remote();
 const components = {
     wrapper: props => {
         const { children } = props;
@@ -44,11 +47,19 @@ const components = {
 const loading = () => (
     <div className="animated fadeIn pt-3 text-center">Loading...</div>
 );
-
+const scope = {
+    react: React,
+};
 export default class MdxBuilder extends Component {
     static Config() {
         return {
             name: 'MDXUIBuilder',
+        };
+    }
+    constructor() {
+        super();
+        this.state = {
+            MdxContent: '',
         };
     }
     componentDidMount() {
@@ -60,10 +71,32 @@ export default class MdxBuilder extends Component {
     }
     render() {
         const { filePath } = this.props.packageInfo || {};
-        const MdxFileView = Loadable({
-            loader: () => import('/Users/tmi290/Documents/dashpad/packages/etamity/dashpad-tutorial/_dash/mdxview.1.mdx'),
-            loading,
-        });
-        return <MDXProvider components={components}><MdxFileView /></MDXProvider>;
+        const content = filePath && ContentHelper.loadFile(filePath);
+        // const MdxContent = Loadable({
+        //     loader: () => {
+        //         return <MDX
+        //         scope={scope}
+        //         onError={error => console.log(error)}
+        //       >
+        //         {content}
+        //       </MDX>
+        //     },
+        //     loading,
+        // });
+        return (
+            <Container fluid>
+                <Card>
+                    <CardBody>
+                        <MDX
+                            components={components}
+                            scope={scope}
+                            onError={error => console.log(error)}
+                        >
+                            {content}
+                        </MDX>
+                    </CardBody>
+                </Card>
+            </Container>
+        );
     }
 }
