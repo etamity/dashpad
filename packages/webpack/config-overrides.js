@@ -6,8 +6,6 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const docsBasePath = path.resolve(__dirname, '../frontend/documents');
 const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
 const frontendPath = path.resolve(__dirname, '../frontend');
-const pathHelper = require('@dashpad/core/app/helpers/path-helper');
-
 module.exports = {
     webpack: (config, env) => {
         config.target = 'electron-renderer';
@@ -30,7 +28,11 @@ module.exports = {
                 initState: '@dashpad/frontend/dashpad/initState',
             };
         }
-        config.resolve.modules = [...config.resolve.modules, '../../node_modules', frontendPath];
+        config.resolve.modules = [...config.resolve.modules, frontendPath];
+        config.externals = {
+            '@mdx-js/react': 'require("@mdx-js/react")',
+            react: 'require("react")',
+        };
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
                 if (process.env.APP_TYPE === 'docs') {
@@ -61,7 +63,7 @@ module.exports = {
                                     },
                                 },
                             ],
-                            include: [path.resolve(__dirname, '../../node_modules'),frontendPath, pathHelper.PACKAGES],
+                            include: [frontendPath],
                         },
                         ...rule.oneOf,
                     ],

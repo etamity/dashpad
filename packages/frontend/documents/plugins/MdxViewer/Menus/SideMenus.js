@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import Documents from '../MdxFiles';
 import _ from 'lodash';
 export const SubRoutes = Object.keys(Documents).map(key => {
