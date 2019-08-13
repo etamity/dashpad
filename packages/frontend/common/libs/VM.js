@@ -41,7 +41,6 @@ class VM {
 
             delete locals['eval'];
             delete locals['arguments'];
-
             // Allowed types
             let allowedArgs = FundationTypes.split(',');
 
@@ -58,7 +57,6 @@ class VM {
             }
 
             let context = Array.prototype.concat.call(that, params, code);
-
             // create the parameter list for the sandbox (flattern array)
             let sandboxContext = new (Function.prototype.bind.apply(
                 Function,
@@ -83,7 +81,7 @@ class VM {
         this.preloadCode.push(code);
     }
 
-    buildVmScope(code, ctx, args) {
+    buildVmScope(code, ctx=null, args=null) {
         if (!code) return;
         const allCode = [
             this.getCode(),

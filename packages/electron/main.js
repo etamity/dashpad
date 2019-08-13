@@ -103,10 +103,10 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         if (isDev) {
-            require('@dashpad/webpack/watch.js');
+            require('../webpack/watch.js');
             mainWindow.webContents.openDevTools();
         }
-        require('@dashpad/core/server.js');
+        require('../core/server.js');
         // Open the DevTools automatically if developing
     });
 
