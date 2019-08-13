@@ -21,18 +21,13 @@ import 'prismjs/components/prism-yaml';
 
 process.env.APPTYPE = 'docs';
 const rootEl = document.getElementById('root');
-if (rootEl.hasChildNodes()) {
-    hydrate(<App />, rootEl);
-} else {
-    render(<App />, rootEl);
-    if (module.hot) {
-        module.hot.accept('./App', () => {
-            const NextApp = require('./App').default;
-            render(<NextApp />, rootEl);
-        });
-    }
+render(<App />, rootEl);
+if (module.hot) {
+    module.hot.accept('./App', () => {
+        const NextApp = require('./App').default;
+        render(<NextApp />, rootEl);
+    });
 }
-
 serviceWorker.unregister();
 
 // If you want your app to work offline and load faster, you can change

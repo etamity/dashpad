@@ -13,8 +13,6 @@
   "license": "MIT",
   "dependencies": {
     "@dashpad/config": "*",
-    "@dashpad/core": "*",
-    "@dashpad/webpack": "*",
     "electron-devtools-installer": "^2.2.4",
     "shell-env": "^3.0.0",
     "shelljs": "^0.8.3"

@@ -9,10 +9,10 @@ const frontendPath = path.resolve(__dirname, '../frontend');
 module.exports = {
     webpack: (config, env) => {
         config.target = 'electron-renderer';
-        config.resolve.plugins = config.resolve.plugins.filter(
-            plugin => !(plugin instanceof ModuleScopePlugin)
-        );
         if (process.env.APP_TYPE === 'docs') {
+            config.resolve.plugins = config.resolve.plugins.filter(
+                plugin => !(plugin instanceof ModuleScopePlugin)
+            );
             const mockModules = require('@dashpad/core/resolve');
             config.target = undefined;
 
@@ -35,17 +35,15 @@ module.exports = {
         };
         config.module.rules = config.module.rules.map(rule => {
             if (rule.oneOf instanceof Array) {
-                if (process.env.APP_TYPE === 'docs') {
-                    rule.oneOf = rule.oneOf.map(oneOfRule => {
-                        if (
-                            String(oneOfRule.test) ===
-                            String('/\\.(js|mjs|jsx|ts|tsx)$/')
-                        ) {
-                            oneOfRule.include = [frontendPath];
-                        }
-                        return oneOfRule;
-                    });
-                }
+                rule.oneOf = rule.oneOf.map(oneOfRule => {
+                    if (
+                        String(oneOfRule.test) ===
+                        String('/\\.(js|mjs|jsx|ts|tsx)$/')
+                    ) {
+                        oneOfRule.include = [frontendPath];
+                    }
+                    return oneOfRule;
+                });
                 return {
                     ...rule,
                     // create-react-app let every file which doesn't match to any filename test falls back to file-loader,
