@@ -42,22 +42,23 @@ async function dev() {
     process.on('exit', killWholeProcess);
 }
 
-checkUpdate().then(result => {
-  console.log(result);
-  if (result.status === true) {
-    console.log('New update detected !');
-    pullUpdate().then(log => {
-      console.log('Updated code has pulled !');
-      dev();
-    }).catch(error => {
-      console.error(error);
-      dev();
-    });
-  } else {
-    dev();
-  }
-}).catch(error => {
-  console.error(error);
-    dev();
-});
+// checkUpdate().then(result => {
+//   console.log(result);
+//   if (result.status === true) {
+//     console.log('New update detected !');
+//     pullUpdate().then(log => {
+//       console.log('Updated code has pulled !');
+//       dev();
+//     }).catch(error => {
+//       console.error(error);
+//       dev();
+//     });
+//   } else {
+//     dev();
+//   }
+// }).catch(error => {
+//   console.error(error);
+//     dev();
+// });
 
+dev();
