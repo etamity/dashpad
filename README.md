@@ -30,15 +30,22 @@ Requires [Node.js](https://docs.npmjs.com/getting-started/installing-node) and [
 
 ## Install
 
-`yarn setup`
+`yarn install`
 
 ## Start
 
 `yarn start`
 
-## Build
+## build
 
-Your build version will be under `build` folder.
+Your built version will be under `build` folder.
+
+`yarn build`
+
+
+## Bundle
+
+Your bundled version will be under `dist` folder.
 
 `yarn pack:mac`
 

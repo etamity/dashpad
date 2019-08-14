@@ -7,16 +7,12 @@ const VMScope = () => {
     return {
         run: function(code) {
             /* eslint-disable no-eval */
-            with ({}) {
-                eval(code);
-            }
+            eval(code);
             /* eslint-enable no-eval */
         },
         runEvent: function(code, e) {
             /* eslint-disable no-eval */
-            with ({}) {
-                eval(code);
-            }
+            eval(code);
             /* eslint-enable no-eval */
         },
     };
