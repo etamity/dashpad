@@ -3,6 +3,7 @@ const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const url = require('url');
 const config = require('@dashpad/config').value();
+const moment = require('moment');
 const port = config.uiport;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -11,7 +12,7 @@ const isEnvSet = 'ELECTRON_IS_DEV' in process.env;
 const getFromEnv = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 const devMode = isEnvSet ? getFromEnv : !(app && app.isPackaged);
 // Keep a reference for dev mode
-
+const packageJson = require(path.join(__dirname, '../../package.json'));
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -74,6 +75,12 @@ function buildMenu() {
                     accelerator: 'CmdOrCtrl+A',
                     selector: 'selectAll:',
                 },
+            ],
+        },
+        {
+            label: 'About',
+            submenu: [
+                { label: `v${packageJson.version}` }
             ],
         },
     ]);

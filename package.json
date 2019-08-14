@@ -139,7 +139,7 @@
         "build": "lerna run build:dashpad --stream --scope=@dashpad/webpack",
         "dev:docs": "lerna run dev:docs:web --stream --scope=@dashpad/webpack",
         "build:docs": "lerna run build:docs --stream --scope=@dashpad/webpack && react-snap",
-        "pack:mac": "yarn build && electron-builder --mac",
+        "pack:mac": "electron-builder --mac",
         "pack:win": "yarn build && electron-builder --win",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject",

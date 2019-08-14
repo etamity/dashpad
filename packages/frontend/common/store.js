@@ -24,4 +24,5 @@ export const Dashpad = new DashpadApi({
     state: Store.getState(),
 });
 
+window.Dashpad = Dashpad;
 VM.addGlobal('Dashpad', Dashpad);
