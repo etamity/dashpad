@@ -133,7 +133,7 @@
         "postinstall": "node scripts/index.js",
         "server": "lerna run start --stream --scope=@dashpad/webpack",
         "package": "lerna run package --scope @dashpad/config --stream",
-        "start": "lerna run start --stream --scope=@dashpad/webpack",
+        "start": "lerna exec --scope=@dashpad/webpack -- yarn start --color",
         "develop": "lerna run develop --stream --scope=@dashpad/webpack",
         "build": "NODE_OPTIONS=--max_old_space_size=4096 lerna run build:dashpad --stream --scope=@dashpad/webpack",
         "dev:docs": "lerna run dev:docs:web --stream --scope=@dashpad/webpack",

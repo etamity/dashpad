@@ -24,7 +24,7 @@ const watchFiels = ['*.yml', '*.yaml', '*.js', '*.mdx'].map(ext =>
     path.join(pathHelper.PACKAGES, '/**/', ext)
 );
 
-const watchCoreJsFile = path.resolve(__dirname, '../packages/core/**/*.js');
+const watchCoreJsFile = path.resolve(__dirname, '../core/**/*.js');
 
 if (!production) {
     const chokidar = require('chokidar');
@@ -32,7 +32,7 @@ if (!production) {
         ignored: /node_modules|\.git/,
     });
     watcher.on('ready', () => {
-        log.info('Start Watching ...');
+        log.info('Start Watching ...', watchCoreJsFile);
         watcher.on('change', filePath => {
             if (filePath.includes('/packages/core/')) {
                 log.warn('Clearing /backend module cache from server');

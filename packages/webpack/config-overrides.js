@@ -1,4 +1,5 @@
 require('util').inspect.defaultOptions.depth = null;
+const chalk = require('chalk');
 const path = require('path');
 const images = require('remark-images');
 const emoji = require('remark-emoji');
@@ -12,6 +13,21 @@ module.exports = {
         config.resolve.plugins = config.resolve.plugins.filter(
             plugin => !(plugin instanceof ModuleScopePlugin)
         );
+
+        if (process.platform === 'win32') {
+            const win32Bar = require('progress-bar-webpack-plugin');
+            config.plugins.unshift(
+                new win32Bar()
+            );
+        } else {
+            const macoxBar = require('webpackbar');
+            config.plugins.unshift(
+                new macoxBar({
+                    color: 'green',
+                    reporters: ['fancy'],
+                })
+            );
+        }
         if (process.env.APP_TYPE === 'docs') {
             const mockModules = require('@dashpad/core/resolve');
             config.target = undefined;
@@ -25,8 +41,8 @@ module.exports = {
         } else {
             config.node = {
                 __filename: true,
-                __dirname: true
-            }
+                __dirname: true,
+            };
             config.resolve.alias = {
                 ...config.resolve.alias,
                 initState: '@dashpad/frontend/dashpad/initState',
