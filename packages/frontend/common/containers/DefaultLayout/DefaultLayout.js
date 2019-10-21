@@ -25,6 +25,7 @@ import {
 
 import { ModalBox } from 'common/components/ModalBox';
 import Aside from './Aside';
+import LoadingSpinner from 'common/components/LoadingSpinner';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
@@ -34,11 +35,6 @@ export class DefaultLayout extends Component {
         super();
         this.modalToggle = this.modalToggle.bind(this);
     }
-    loading() {
-        return (
-            <div className="animated fadeIn pt-1 text-center">Loading...</div>
-        );
-    }
 
     signOut(e) {
         e.preventDefault();
@@ -46,10 +42,10 @@ export class DefaultLayout extends Component {
     }
     loadUIFile(packageName, uiFile) {
         const { PathHelper } = Remote();
-        const ymlPath = [PathHelper.getDashSpace(packageName), uiFile].join(
+        const uiFilePath = [PathHelper.getDashSpace(packageName), uiFile].join(
             '/'
         );
-        AppAction.loadUISchemaPath(ymlPath);
+        AppAction.loadUISchemaPath(uiFilePath);
     }
 
     toggleAside(force) {
@@ -79,7 +75,7 @@ export class DefaultLayout extends Component {
                     toggle={this.modalToggle}
                 />
                 <AppHeader fixed>
-                    <Suspense fallback={this.loading()}>
+                    <Suspense fallback={<LoadingSpinner />}>
                         <DefaultHeader
                             navs={TopMenus}
                             rightNavs={TopRightButtons}
@@ -106,7 +102,7 @@ export class DefaultLayout extends Component {
                     </AppSidebar>
                     <main className="main">
                         <AppBreadcrumb appRoutes={routes} />
-                        <Suspense fallback={this.loading()}>
+                        <Suspense fallback={<LoadingSpinner />}>
                             <AutoRouter
                                 routes={this.props.routes}
                                 {...this.props}
@@ -123,7 +119,7 @@ export class DefaultLayout extends Component {
                     )}
                 </div>
                 <AppFooter>
-                    <Suspense fallback={this.loading()}>
+                    <Suspense fallback={<LoadingSpinner />}>
                         <DefaultFooter />
                     </Suspense>
                 </AppFooter>

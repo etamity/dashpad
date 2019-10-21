@@ -5,28 +5,26 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Store } from 'common/store';
 import { history } from 'common/libs/CombineReducers';
+import LoadingSpinner from 'common/components/LoadingSpinner';
 // import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
 import 'common/App.scss';
 
-const loading = () => (
-    <div className="animated fadeIn pt-3 text-center">Loading...</div>
-);
 
 // Containers
 const DefaultLayout = Loadable({
     loader: () => import('common/containers/DefaultLayout'),
-    loading,
+    loading: LoadingSpinner,
 });
 
 const Page404 = Loadable({
     loader: () => import('common/views/Pages/Page404'),
-    loading,
+    loading: LoadingSpinner,
 });
 
 const Page500 = Loadable({
     loader: () => import('common/views/Pages/Page500'),
-    loading,
+    loading: LoadingSpinner,
 });
 class App extends Component {
     render() {

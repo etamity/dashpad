@@ -2,11 +2,13 @@ require('util').inspect.defaultOptions.depth = null;
 const path = require('path');
 const images = require('remark-images');
 const emoji = require('remark-emoji');
+const pathHelper = require('@dashpad/core/app/helpers/path-helper');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const docsBasePath = path.resolve(__dirname, '../frontend/documents');
 const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
 const frontendPath = path.resolve(__dirname, '../frontend');
-const log = require('@dashpad/core/libs/log');
+
+// const log = require('@dashpad/core/libs/log');
 
 module.exports = {
     webpack: (config, env) => {
@@ -58,7 +60,7 @@ module.exports = {
                         String(oneOfRule.test) ===
                         String('/\\.(js|mjs|jsx|ts|tsx)$/')
                     ) {
-                        oneOfRule.include = [frontendPath];
+                        oneOfRule.include = [frontendPath, pathHelper.PACKAGES];
                         oneOfRule.exclude = [/node_modules/];
                     }
                     return oneOfRule;
