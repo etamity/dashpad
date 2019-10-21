@@ -16,6 +16,9 @@
   },
   "author": "joey.etamity (etamity@gmail.com)",
   "license": "MIT",
+  "dependencies": {
+    "@dashpad/babel-preset": "*"
+  },
   "devDependencies": {
     "chokidar": "^3.0.2",
     "customize-cra": "^0.4.1",

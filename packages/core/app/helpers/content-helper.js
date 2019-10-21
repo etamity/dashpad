@@ -16,10 +16,10 @@ const loadNavs = () =>
             const packageSettingKey = config.packageName.replace('/', '.');
             if (settings) {
                 const currentSettings = Config.get(
-                    `settings.${packageSettingKey}`
+                    `settings.plugins.${packageSettingKey}`
                 );
                 const mergeSettings = _.defaults(currentSettings, settings);
-                Config.set(`settings.${packageSettingKey}`, mergeSettings);
+                Config.set(`settings.plugins.${packageSettingKey}`, mergeSettings);
             }
             return {
                 ...config,

@@ -52,7 +52,7 @@ class ProcessManager extends EventEmitter {
         const filePath = path.resolve(nodeScriptPath);
         let child;
         try {
-            child = fork(loaderPath, [filePath]);
+            child = fork(loaderPath, [filePath, packagePath]);
 
             child.packageInfo = {
                 namespace,

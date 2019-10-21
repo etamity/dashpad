@@ -1,9 +1,8 @@
-'use strict';
+
 const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const url = require('url');
 const config = require('@dashpad/config').value();
-const moment = require('moment');
 const port = config.uiport;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
