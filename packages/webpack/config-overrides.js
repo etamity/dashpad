@@ -1,5 +1,4 @@
 require('util').inspect.defaultOptions.depth = null;
-const chalk = require('chalk');
 const path = require('path');
 const images = require('remark-images');
 const emoji = require('remark-emoji');
@@ -58,6 +57,7 @@ module.exports = {
                         String('/\\.(js|mjs|jsx|ts|tsx)$/')
                     ) {
                         oneOfRule.include = [frontendPath];
+                        oneOfRule.exclude = [/node_modules/];
                     }
                     return oneOfRule;
                 });
@@ -79,6 +79,7 @@ module.exports = {
                                 },
                             ],
                             include: [frontendPath],
+                            exclude: [/node_modules/]
                         },
                         ...rule.oneOf,
                     ],
@@ -89,6 +90,8 @@ module.exports = {
         });
         // console.log(config);
         // throw new Error();
+        // const SpeedMeasurePlugin= require('speed-measure-webpack-plugin');
+        // const smp = new SpeedMeasurePlugin({ outputFormat: 'human', outputTarget: console.log });
         return config;
     },
     paths: paths => {
@@ -112,4 +115,14 @@ module.exports = {
             ...paths,
         };
     },
+    devServer: function(configFunction) {
+
+        return function(proxy, allowedHost) {
+          const config = configFunction(proxy, allowedHost);
+          config.after = function(app, server) {
+            console.log('hahaahahah!');
+          };
+          return config;
+        };
+      }
 };
