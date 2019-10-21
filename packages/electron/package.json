@@ -16,10 +16,12 @@
     "electron-devtools-installer": "^2.2.4",
     "shell-env": "^3.0.0",
     "shelljs": "^0.8.3",
-    "node-npx": "^1.5.0"
+    "node-npx": "^1.5.0",
+    "node-notifier": "^5.4.0"
   },
   "devDependencies": {
     "electron": "^4.2.8",
-    "electron-builder": "^21.2.0"
+    "electron-builder": "^21.2.0",
+    "redux-devtools-extension": "^2.13.7"
   }
 }

@@ -6,6 +6,8 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const docsBasePath = path.resolve(__dirname, '../frontend/documents');
 const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
 const frontendPath = path.resolve(__dirname, '../frontend');
+const log = require('@dashpad/core/libs/log');
+
 module.exports = {
     webpack: (config, env) => {
         config.target = 'electron-renderer';
@@ -120,7 +122,7 @@ module.exports = {
         return function(proxy, allowedHost) {
           const config = configFunction(proxy, allowedHost);
           config.after = function(app, server) {
-            console.log('hahaahahah!');
+            log.info('Dev Server Started!')
           };
           return config;
         };
