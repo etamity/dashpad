@@ -21,6 +21,10 @@
     "lowdb": "^1.0.0",
     "node-npx": "^1.5.0",
     "shelljs": "^0.8.3",
-    "shortid": "^2.2.14"
+    "shell-env": "^3.0.0",
+    "shortid": "^2.2.14",
+    "platform-folders": "^0.4.1",
+    "jenkins-api": "^0.3.1",
+    "object-path-immutable": "3.0.0"
   }
 }
