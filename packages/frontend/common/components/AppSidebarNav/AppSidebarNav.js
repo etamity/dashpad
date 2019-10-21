@@ -175,9 +175,19 @@ class AppSidebarNav extends Component {
     }
 
     getUIBulderRoute(fileName) {
-        return fileName && fileName.split('.').pop() === 'mdx'
-            ? '/mdxbuilder'
-            : '/schemabuilder';
+        const ext = fileName && fileName.split('.').pop();
+        switch (ext) {
+            case 'mdx':
+                return '/mdxbuilder';
+            case 'yaml':
+            case 'yml':
+                return '/schemabuilder';
+            case 'jsx':
+                return '/jsxbuilder';
+            default:
+                console.warn('Unknow file extension type!', ext);
+                return '/';
+        }
     }
     // nav link
     navLink(item, key, classes) {
