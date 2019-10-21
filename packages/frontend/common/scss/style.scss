@@ -1,7 +1,8 @@
-
-@import "~@coreui/coreui/scss/_variables.scss";
 // If you want to override variables do it here
 @import "variables";
+
+@import "~@coreui/coreui/scss/_variables.scss";
+
 // Import styles
 @import "~@coreui/coreui/scss/coreui.scss";
 

@@ -121,9 +121,9 @@ module.exports = {
 
         return function(proxy, allowedHost) {
           const config = configFunction(proxy, allowedHost);
-          config.after = function(app, server) {
-            log.info('Dev Server Started!')
-          };
+        //   config.after = function(app, server) {
+        //     log.info('Dev Server Started!')
+        //   };
           return config;
         };
       }
