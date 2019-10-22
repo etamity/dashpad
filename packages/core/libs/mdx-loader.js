@@ -14,48 +14,53 @@ const transform = (code, cwd) =>
                 require.resolve('@dashpad/babel-preset'),
                 {
                     env: { targets: { node: 8 } },
-                    transformRuntime: false,
+                    transformRuntime: {
+                        absoluteRuntime: false,
+                        corejs: false,
+                        helpers: true,
+                        regenerator: true,
+                        useESModules: false,
+                    },
                 },
             ],
         ],
     }).code;
 
-const renderWithReact = (fileName) => {
+const renderWithReact = fileName => {
     const mdxCode = fse.readFileSync(path.resolve(fileName), 'utf8');
-    const cwd = path.resolve(fileName.substring(0, fileName.lastIndexOf('/')));
-    const jsx = mdx.sync(mdxCode, { skipExport: true });
+    const dirname = path.resolve(
+        fileName.substring(0, fileName.lastIndexOf('/'))
+    );
+    const jsx = mdx.sync(mdxCode, { skipExport: false });
     // const requireUtil = module.createRequireFromPath(cwd);
-    const code = transform(jsx, cwd);
-    const scope = { mdx: createElement, cwd };
-    console.log(code);
+    const code = transform(jsx, dirname);
+    const scope = {
+        React,
+        mdx: createElement,
+        exports,
+        module,
+        __filename,
+        __dirname,
+        require,
+    };
+    const finalCode = `
+    require('@dashpad/babel-preset/babel-transpile');
+    ${code}; 
+    return React.createElement(MDXContent)`;
+    // eslint-disable-next-line no-new-func
     const fn = new Function(
-        'React',
-        'exports',
-        'require',
-        'module',
-        '__filename',
-        '__dirname',
         ...Object.keys(scope),
-        `${code}; return React.createElement(MDXContent)`
+        finalCode
     );
 
     const element = fn(
-        React,
-        exports,
-        require,
-        module,
-        fileName,
-        cwd,
         ...Object.values(scope)
     );
-    const components = {
-        h1: ({ children }) =>
-            React.createElement('h1', { style: { color: 'tomato' } }, children),
-    };
+    // console.log(element);
     const elementWithProvider = React.createElement(
         MDXProvider,
-        [components],
-        [element]
+        {},
+        element
     );
     return renderToString(elementWithProvider);
 };

@@ -178,12 +178,11 @@ class AppSidebarNav extends Component {
         const ext = fileName && fileName.split('.').pop();
         switch (ext) {
             case 'mdx':
+            case 'jsx':
                 return '/mdxbuilder';
             case 'yaml':
             case 'yml':
                 return '/schemabuilder';
-            case 'jsx':
-                return '/jsxbuilder';
             default:
                 return '/';
         }
