@@ -1,3 +1,4 @@
+require('@dashpad/babel-preset/babel-transpile');
 require('util').inspect.defaultOptions.depth = null;
 const config = require('@dashpad/config').value();
 const { port, uiport } = config;

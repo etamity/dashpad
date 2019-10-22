@@ -21,6 +21,7 @@ export class YMLBuilder extends Component {
                     <Container
                         key={type + '_' + index + '_' + name}
                         className="animated fadeIn"
+                        fluid
                     >
                         <YMLComponent {...newProps} />
                     </Container>

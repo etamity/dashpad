@@ -82,8 +82,6 @@ export default class DashboardView extends Component {
         );
     }
 
-    onLoad;
-
     render() {
         const { subRoutes } = this.props;
         const renderView =
@@ -92,7 +90,7 @@ export default class DashboardView extends Component {
                 : this.renderDashboard();
         return (
             <React.Fragment>
-                <Container>{renderView}</Container>
+                <Container className="animated fadeIn" fluid>{renderView}</Container>
             </React.Fragment>
         );
     }
