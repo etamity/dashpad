@@ -82,7 +82,7 @@ module.exports = {
                                     },
                                 },
                             ],
-                            include: [frontendPath],
+                            include: [frontendPath, pathHelper.PACKAGES],
                             exclude: [/node_modules/]
                         },
                         ...rule.oneOf,

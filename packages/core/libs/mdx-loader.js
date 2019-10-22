@@ -8,7 +8,7 @@ const fse = require('fs-extra');
 
 const transform = (code, cwd) =>
     babel.transform(code, {
-        cwd,
+        cwd: cwd || process.cwd(),
         presets: [
             [
                 require.resolve('@dashpad/babel-preset'),
@@ -32,37 +32,37 @@ const renderWithReact = fileName => {
         fileName.substring(0, fileName.lastIndexOf('/'))
     );
     const jsx = mdx.sync(mdxCode, { skipExport: false });
-    // const requireUtil = module.createRequireFromPath(cwd);
     const code = transform(jsx, dirname);
     const scope = {
         React,
+        react: React,
+        MDXProvider,
         mdx: createElement,
         exports,
         module,
-        __filename,
-        __dirname,
+        __filename: fileName,
+        __dirname: dirname,
         require,
+        components: {},
+        props: {}
     };
     const finalCode = `
-    require('@dashpad/babel-preset/babel-transpile');
     ${code}; 
-    return React.createElement(MDXContent)`;
+    return React.createElement(MDXProvider, { components },
+        React.createElement(MDXContent, props)
+      );`;
+
+      console.log(finalCode);
     // eslint-disable-next-line no-new-func
     const fn = new Function(
         ...Object.keys(scope),
         finalCode
     );
 
-    const element = fn(
+    const Element = fn(
         ...Object.values(scope)
     );
-    // console.log(element);
-    const elementWithProvider = React.createElement(
-        MDXProvider,
-        {},
-        element
-    );
-    return renderToString(elementWithProvider);
+    return renderToString(Element);
 };
 
 module.exports = renderWithReact;

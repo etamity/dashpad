@@ -236,9 +236,11 @@ const updatePackageInfo = filePath => {
     const fileName = pathArr[pathArr.length - 1];
     const packageName = filePath.match(/packages\/(.*?)\/_/)[1];
     const namespace = filePath.slice(filePath.indexOf(packageName));
+    const dirname =  filePath.substring(0, filePath.lastIndexOf('/'));
     const packageInfo = {
         fileName,
         packageName,
+        dirname,
         filePath,
         namespace,
     };
