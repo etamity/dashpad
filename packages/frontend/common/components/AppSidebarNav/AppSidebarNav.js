@@ -185,7 +185,6 @@ class AppSidebarNav extends Component {
             case 'jsx':
                 return '/jsxbuilder';
             default:
-                console.warn('Unknow file extension type!', ext);
                 return '/';
         }
     }
@@ -195,7 +194,7 @@ class AppSidebarNav extends Component {
         const itemIcon = <i className={classes.icon} />;
         const itemBadge = this.navBadge(item.badge);
         const attributes = item.attributes || {};
-        const uiRoute = this.getUIBulderRoute(item.goto);
+        const uiRoute = item.goto && this.getUIBulderRoute(item.goto);
         return (
             <NavItem key={key} className={classes.item}>
                 {attributes.disabled ? (

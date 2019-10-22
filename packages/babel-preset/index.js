@@ -1,4 +1,4 @@
-const { dirname } = require('path');
+const path = require('path');
 
 module.exports = function(_, opts = {}) {
   const nodeEnv = process.env.NODE_ENV;
@@ -12,7 +12,7 @@ module.exports = function(_, opts = {}) {
     'transformRuntime' in opts
       ? opts.transformRuntime
       : {
-          absoluteRuntime: dirname(require.resolve('../package')),
+          absoluteRuntime: path.dirname(require.resolve(path.resolve(__dirname, '../'))),
         };
   const exclude = [
     'transform-typeof-symbol',
