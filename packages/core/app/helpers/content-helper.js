@@ -2,7 +2,7 @@ const pathHelper = require('./path-helper');
 const fileManager = require('../../libs/file-manager');
 const Config = require('@dashpad/config');
 const _ = require('lodash');
-const { loadJson, loadFile, isExist } = fileManager;
+const { loadJson, loadFile, isExist, loadMdxFile } = fileManager;
 
 const loadConfigs = () =>
     pathHelper.getAllDashConfigFiles().map(packageModule => ({
@@ -42,6 +42,7 @@ module.exports = {
     loadNavs,
     loadJson,
     loadFile,
+    loadMdxFile,
     loadPackageJson,
-    isExist,
+    isExist
 };

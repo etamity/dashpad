@@ -1,38 +1,55 @@
 import React from 'react';
-import babel from '@babel/core';
+import { transform } from 'buble-jsx-only';
 import mdx from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';
-import { renderToStaticMarkup } from 'react-dom/server';
 
-const transform = code =>
-    babel.transform(code, {
-        plugins: [
-            '@babel/plugin-transform-react-jsx',
-            '@babel/plugin-proposal-object-rest-spread',
-            'babel-plugin-remove-export-keywords',
-        ],
-    }).code;
-
-const renderWithReact = async (mdxCode, { components } = {}) => {
-    const jsx = await mdx(mdxCode, { skipExport: true });
-
-    const code = transform(jsx);
-    const scope = { mdx: createElement };
-
-    const fn = new Function( // eslint-disable-line no-new-func
-        'React',
-        ...Object.keys(scope),
-        `${code}; return React.createElement(MDXContent)`
-    );
-
-    const element = fn(React, ...Object.values(scope));
-
-    const elementWithProvider = React.createElement(
+export default ({
+    scope = {},
+    components = {},
+    remarkPlugins = [],
+    rehypePlugins = [],
+    children,
+    ...props
+}) => {
+    const fullScope = {
+        mdx: createElement,
         MDXProvider,
-        { components },
-        element
-    );
-    return elementWithProvider;
-};
+        components,
+        props,
+        ...scope,
+    };
 
-export default renderWithReact;
+    const jsx = mdx
+        .sync(children, {
+            remarkPlugins,
+            rehypePlugins,
+            skipExport: true,
+        })
+        .trim();
+
+    const { code } = transform(jsx, {
+        transforms: {
+            arrow: true,
+            modules: true,
+            dangerousForOf: true,
+        },
+        objectAssign: 'Object.assign',
+        jsx: 'React.createElement',
+    });
+    console.log(code);
+    const keys = Object.keys(fullScope);
+    const values = Object.values(fullScope);
+    // eslint-disable-next-line no-new-func
+    const fn = new Function(
+        '_fn',
+        'React',
+        ...keys,
+        `${code}
+
+    return React.createElement(MDXProvider, { components },
+      React.createElement(MDXContent, props)
+    );`
+    );
+
+    return fn({}, React, ...values);
+};
