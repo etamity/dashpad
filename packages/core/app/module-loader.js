@@ -1,9 +1,11 @@
+require('@dashpad/babel-preset/babel-transpile');
 require('util').inspect.defaultOptions.depth = null;
 const { ProcessEventType } = require('./constants');
 const DashpadApi = require('./context/dashpad_api');
 const BackendStore = require('./store');
 const module_path = process.argv.slice(2)[0];
 const script = require(module_path);
+
 process.on('message', action => {
     if (!!action && typeof action === 'object') {
         const { type, payload } = action;
