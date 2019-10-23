@@ -5,7 +5,7 @@ import { routerMiddleware } from 'connected-react-router';
 
 import CombineReducers, { history } from './CombineReducers';
 
-export default (reducers, initState) => {
+const createCombinedStore = (reducers, initState) => {
     const middlewares = [thunkMiddleware, routerMiddleware(history)];
     const middlewareEnhancer = applyMiddleware(...middlewares);
 
@@ -24,3 +24,5 @@ export default (reducers, initState) => {
     store.initState = initState;
     return store;
 };
+
+export default createCombinedStore;

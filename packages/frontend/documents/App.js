@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import { Store } from 'common/store';
 import { HashRouter, Route, Switch } from 'react-router-dom';
-
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { Store } from 'common/store';
 import { history } from 'common/libs/CombineReducers';
 // import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
