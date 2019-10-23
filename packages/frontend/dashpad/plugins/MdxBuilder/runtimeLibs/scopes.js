@@ -1,5 +1,6 @@
-import { Dashpad } from 'common/store';
-console.log(Dashpad);
-export default {
+import { Store, Dashpad } from 'common/store';
 
+export default {
+    Store,
+    Dashpad
 }

@@ -4,23 +4,7 @@ import PropTypes from 'prop-types';
 import remarkUnImporter from '../utils/remark-un-importer';
 import getScope from '../utils/get-scope';
 import MDX from './MDX';
-
-function ErrorRenderer({ children }) {
-    return (
-        <pre
-            className="mdx-scoped-runtime__error"
-            style={{ overflowX: 'auto', background: 'rgba(255, 0, 0, .1)' }}
-        >
-            {`Invalid MDX:\n${children.toString()}`}
-        </pre>
-    );
-}
-
-ErrorRenderer.propTypes = {
-    children: PropTypes.shape({
-        toString: PropTypes.func.isRequired,
-    }).isRequired,
-};
+import ErrorRenderer from './Error';
 
 class MDXScopedRuntime extends React.Component {
     state = { error: undefined };
@@ -75,6 +59,7 @@ class MDXScopedRuntime extends React.Component {
                         ...scope,
                     }}
                     remarkPlugins={[[remarkUnImporter], ...remarkPlugins]}
+                    onError={this.onError}
                 >
                     {children}
                 </MDX>

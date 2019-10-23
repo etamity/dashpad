@@ -4,6 +4,7 @@ import React from 'react';
 import { transform } from 'buble';
 import mdx from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';
+import ErrorRenderer from './Error';
 
 export default ({
     scope = {},
@@ -11,6 +12,7 @@ export default ({
     remarkPlugins = [],
     rehypePlugins = [],
     children,
+    onError,
     ...props
 }) => {
     const fullScope = {
@@ -36,15 +38,22 @@ export default ({
     const keys = Object.keys(fullScope);
     const values = Object.values(fullScope);
     // eslint-disable-next-line no-new-func
-    const fn = new Function(
-        '_fn',
-        'React',
-        ...keys,
-        `${code}
-return React.createElement(MDXProvider, { components },
-            React.createElement(MDXContent, props)
-          );`
-    );
 
-    return fn({}, React, ...values);
+
+    try {
+        const fn = new Function(
+            '_fn',
+            'React',
+            ...keys,
+            `${code}
+    return React.createElement(MDXProvider, { components },
+                React.createElement(MDXContent, props)
+              );`
+        );
+    
+        return fn({}, React, ...values);
+    } catch (err) {
+        onError(err);
+        return <ErrorRenderer>{err}</ErrorRenderer>;
+    }
 };
