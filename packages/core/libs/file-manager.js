@@ -5,7 +5,7 @@ const FileSync = require('lowdb/adapters/FileSync');
 const yaml = require('./yaml');
 const nodePath = require('path');
 const glob = require('glob');
-const mdxLoader = require('./mdx-loader');
+const mdxLoader = require('./mdxLoader');
 
 module.exports = {
     isExist: path => {
