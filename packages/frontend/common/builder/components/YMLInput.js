@@ -12,6 +12,7 @@ import { InputType, InputAddonType, UIEvent } from './Constants';
 import { YMLButtonView } from './YMLButton';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
+import { AppAction } from 'common/reducers/app';
 
 export class YMLInputGroupView extends YMLBase {
     render() {
@@ -68,20 +69,39 @@ export class YMLInputView extends YMLBase {
         super(props);
         const { obj } = this.props;
         this.state = {
-            value: obj.value || obj.defaultValue
-        }
+            value: obj.value || obj.defaultValue,
+        };
         this.assignEvents = EventsHook(props, allowedEvents);
-        this.onChange =this.onChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
     }
     componentWillReceiveProps(props) {
         const { obj } = props;
         this.setState({
-            value: obj.value || obj.defaultValue
+            value: obj.value || obj.defaultValue,
         });
+    }
+    onBlur(e) {
+        const value = e.target.value;
+        const { keyPath, obj } = this.props;
+        const { refs } = obj;
+        console.log(this.props);
+        if (value) {
+            const keyPathVars = `$vars.${refs['value']}`;
+            AppAction.updateUIState({
+                keyPath: keyPathVars,
+                value,
+            });
+            const keyPathPropkey = `${keyPath}.value`;
+            AppAction.updateUIState({
+                keyPath: keyPathPropkey,
+                value,
+            });
+        }
     }
     onChange(e) {
         this.setState({
-            value: e.target.value
+            value: e.target.value,
         });
     }
     render() {
@@ -179,7 +199,7 @@ export class YMLInputView extends YMLBase {
         defaultProps = {
             ...defaultProps,
             ...PropsFilter(this.props, allowedProps),
-            value: this.state.value
+            value: this.state.value,
         };
         if (obj.type.toUpperCase() === InputType.FILE) {
             delete defaultProps.value;
@@ -191,7 +211,12 @@ export class YMLInputView extends YMLBase {
                     <InputGroupAddon addonType="prepend">
                         {obj.prepend && <YMLInputGroupView obj={obj.prepend} />}
                     </InputGroupAddon>
-                    <Input {...defaultProps} {...this.assignEvents} onChange={this.onChange}/>
+                    <Input
+                        {...defaultProps}
+                        {...this.assignEvents}
+                        onChange={this.onChange}
+                        onBlur={this.onBlur}
+                    />
                     <InputGroupAddon addonType="append">
                         {obj.append && <YMLInputGroupView obj={obj.append} />}
                     </InputGroupAddon>

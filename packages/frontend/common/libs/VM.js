@@ -35,6 +35,12 @@ class VM {
             { ...args, ...this.globals }
         );
     }
+    runEvent(code, context, args) {
+        if (!code) return;
+        const argNames = this.getParamNames(code);
+        const funcbody = this.extractFuncbody(code);
+        this.run(funcbody, context, { [argNames]: args });
+    }
     getParamNames(func) {
         const fnStr = func.toString().replace(STRIP_COMMENTS, '');
         let result = fnStr

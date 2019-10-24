@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FormGroup } from 'reactstrap';
 import { ParseKeyPathVars } from './utils';
+import { KeyNameParser } from './ValueResovler';
 import {
     YMLTabsView,
     YMLFormView,
@@ -41,13 +42,13 @@ import {
     FieldType,
     isInputType,
 } from './Constants';
-
 export class YMLComponent extends React.Component {
     render() {
         const { name, type, keyPath, obj } = this.props;
         if (!obj || !!obj.hidden) {
             return <React.Fragment />;
         }
+
         const uniqueKeyPath = keyPath ? `${keyPath}.${name}` : name;
         let newProps = {
             name,
@@ -56,6 +57,7 @@ export class YMLComponent extends React.Component {
             type,
             obj: ParseKeyPathVars(keyPath, obj),
         };
+        console.log(name, type,obj);
 
         switch (type.toUpperCase()) {
             case ContainerType.COLLAPSE:
