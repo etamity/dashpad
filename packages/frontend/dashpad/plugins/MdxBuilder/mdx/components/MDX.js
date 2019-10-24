@@ -5,6 +5,7 @@ import { transform } from 'buble';
 import mdx from '@mdx-js/mdx';
 import { MDXProvider, mdx as createElement } from '@mdx-js/react';
 import ErrorRenderer from './Error';
+import VM from 'common/libs/VM';
 
 export default ({
     scope = {},
@@ -16,6 +17,8 @@ export default ({
     ...props
 }) => {
     const fullScope = {
+        _fn: {},
+        React,
         mdx: createElement,
         MDXProvider,
         components,
@@ -34,24 +37,21 @@ export default ({
     const { code } = transform(jsx, {
         objectAssign: 'Object.assign',
     });
-
+    // eslint-disable-next-line no-new-func
     const keys = Object.keys(fullScope);
     const values = Object.values(fullScope);
-    // eslint-disable-next-line no-new-func
 
 
+    const finalCode = `${code}\nreturn React.createElement(MDXProvider, { components }, 
+React.createElement(MDXContent, props));`.trim();
+    
     try {
         const fn = new Function(
-            '_fn',
-            'React',
             ...keys,
-            `${code}
-    return React.createElement(MDXProvider, { components },
-                React.createElement(MDXContent, props)
-              );`
+            finalCode
         );
     
-        return fn({}, React, ...values);
+        return VM.run(finalCode,null, fullScope);
     } catch (err) {
         onError(err);
         return <ErrorRenderer>{err}</ErrorRenderer>;

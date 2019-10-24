@@ -135,7 +135,10 @@ export const EventsHook = (props, events) => {
                 }
             }
             try {
-                VM.run(obj[next], Context(props), e);
+                const code = obj[next];
+                const argNames = VM.getParamNames(code);
+                const funcbody = VM.extractFuncbody(code);
+                VM.run(funcbody, Context(props), { [argNames]: e });
             } catch (err) {
                 console.error(err);
             }
