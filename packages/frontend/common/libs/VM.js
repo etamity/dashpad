@@ -1,7 +1,7 @@
 const compiler = require('@nx-js/compiler-util');
 
 const AllowedScopes =
-    'setInterval,setTimeout,fetch,FileReader,require,DOMParser,Promise,setInterval,console,Array,ArrayBuffer,Boolean,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,uneval,URIError,document';
+    'clearInterval,setInterval,setTimeout,fetch,FileReader,require,DOMParser,Promise,setInterval,console,Array,ArrayBuffer,Boolean,Date,DateTimeFormat,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,EvalError,Float32Array,Float64Array,Function,Infinity,Intl,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,NumberFormat,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,uneval,URIError,document';
 
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
 var ARGUMENT_NAMES = /([^\s,]+)/g;
@@ -18,7 +18,7 @@ class VM {
         this.preloadCode = [];
         this.addCode(code);
         let compileredCode = compiler.compileCode(this.getCode());
-        compileredCode({...this.context}, { ...this.globals });
+        return compileredCode.call({ ...this.context }, { ...this.globals });
     }
     getCode() {
         return this.preloadCode.join(';\n');
@@ -28,11 +28,12 @@ class VM {
     }
     run(code, ctx = {}, args = {}) {
         if (!code) return;
-        const argNames = this.getParamNames(code);
-        const funcbody = this.extractFuncbody(code);
-        const allCode = [this.getCode(), funcbody].join('\n');
+        const allCode = [this.getCode(), code].join('\n');
         let compileredCode = compiler.compileCode(allCode);
-        compileredCode.call({...ctx, ...this.context}, { [argNames]: args, ...this.globals });
+        return compileredCode.call(
+            { ...ctx, ...this.context },
+            { ...args, ...this.globals }
+        );
     }
     getParamNames(func) {
         const fnStr = func.toString().replace(STRIP_COMMENTS, '');
