@@ -56,7 +56,6 @@ const allowedProps = [
     'disabled',
     'variant',
     'value',
-    'defaultValue',
     'data-',
     'className',
     'tooltip',
@@ -67,7 +66,23 @@ const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 export class YMLInputView extends YMLBase {
     constructor(props) {
         super(props);
+        const { obj } = this.props;
+        this.state = {
+            value: obj.value || obj.defaultValue
+        }
         this.assignEvents = EventsHook(props, allowedEvents);
+        this.onChange =this.onChange.bind(this);
+    }
+    componentWillReceiveProps(props) {
+        const { obj } = props;
+        this.setState({
+            value: obj.value || obj.defaultValue
+        });
+    }
+    onChange(e) {
+        this.setState({
+            value: e.target.value
+        });
     }
     render() {
         const { keyPath, obj } = this.props;
@@ -164,6 +179,7 @@ export class YMLInputView extends YMLBase {
         defaultProps = {
             ...defaultProps,
             ...PropsFilter(this.props, allowedProps),
+            value: this.state.value
         };
         if (obj.type.toUpperCase() === InputType.FILE) {
             delete defaultProps.value;
@@ -175,7 +191,7 @@ export class YMLInputView extends YMLBase {
                     <InputGroupAddon addonType="prepend">
                         {obj.prepend && <YMLInputGroupView obj={obj.prepend} />}
                     </InputGroupAddon>
-                    <Input {...defaultProps} {...this.assignEvents} />
+                    <Input {...defaultProps} {...this.assignEvents} onChange={this.onChange}/>
                     <InputGroupAddon addonType="append">
                         {obj.append && <YMLInputGroupView obj={obj.append} />}
                     </InputGroupAddon>

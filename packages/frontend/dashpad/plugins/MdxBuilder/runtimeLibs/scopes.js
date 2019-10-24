@@ -1,6 +1,3 @@
-import { Store, Dashpad } from 'common/store';
-
-export default {
-    Store,
-    Dashpad
-}
+import * as scopes from 'common/store';
+console.log(scopes);
+export default scopes;

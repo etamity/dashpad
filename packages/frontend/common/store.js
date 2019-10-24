@@ -15,6 +15,10 @@ export const Dashpad = new DashpadApi({
     state: Store.getState(),
 });
 
+// window.Dashpad = Dashpad;
+VM.addGlobal('Dashpad', Dashpad);
+console.log(VM.getGlobal('Dashpad'));
+
 const { ActionEventType } = Constants;
 
 ContentLoader.reloadConfig();
@@ -24,7 +28,3 @@ ipcRenderer.removeAllListeners(ActionEventType);
 ipcRenderer.on(ActionEventType, (e, action) => {
     Store.dispatch(action);
 });
-
-// window.Dashpad = Dashpad;
-VM.addGlobal('Dashpad', Dashpad);
-console.log(Dashpad);

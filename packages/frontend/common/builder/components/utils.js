@@ -85,9 +85,6 @@ export const EventsHook = (props, events) => {
                     Object.keys(refs).forEach(propKey => {
                         let value;
                         switch (_type) {
-                            case FieldType.INPUT:
-                                value = e.target.value;
-                                break;
                             case ContentType.CODE:
                                 value = e;
                                 if (!obj.mode || obj.mode === 'json') {
