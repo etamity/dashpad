@@ -62,7 +62,7 @@ export default props => {
     };
 
     return {
-        ...props,
+        props,
         set,
         get,
         getParent,
