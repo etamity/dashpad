@@ -2,10 +2,10 @@ import _ from 'lodash';
 import VM from 'common/libs/VM';
 import Context from './context';
 import { AppAction } from 'common/reducers/app';
-import { FieldType, ContentType, UIEvent } from './Constants';
+import { ContentType, UIEvent } from './Constants';
 import { shell } from 'electron';
 import { Store } from 'common/store';
-import { ValueResolver } from './ValueResovler';
+import { ValueResolver, KeyNameParser } from './ValueResovler';
 const specialCharacters = [
     '!',
     '#',
@@ -54,63 +54,52 @@ export const PropsFilter = (props, filters) => {
 
 export const ParseKeyPathVars = (keyPath, obj) => {
     const vars = _.get(Store.getState().app.uiSchema, '$vars');
-    return ValueResolver(
-        obj,
-        '\\${',
-        '}',
-        vars,
-        keyPath,
-        (keyNames, keyPath, parent) => {
-            const propsNameArr = keyPath.split('.');
-            const propName = propsNameArr[propsNameArr.length - 1];
-            if (!parent.refs) {
-                parent.refs = {};
-            }
-            if (!parent.refs[propName]) {
-                parent.refs[propName] = keyNames[0];
-            }
-        },
-        obj
-    );
+    const start = '\\${';
+    const end = '}';
+    return ValueResolver(obj, start, end, vars, keyPath, obj);
 };
 
 export const EventsHook = (props, events) => {
-    const { keyPath, type, obj } = props;
+    const { type, obj } = props;
     return events.reduce((eventProps, next) => {
         const _type = type && type.toUpperCase();
         eventProps[next] = e => {
-            if (next === UIEvent.ON_CHANGE) {
-                const { refs } = obj;
-                refs &&
-                    Object.keys(refs).forEach(propKey => {
-                        let value;
-                        switch (_type) {
-                            case ContentType.CODE:
-                                value = e;
-                                if (!obj.mode || obj.mode === 'json') {
-                                    try {
-                                        value = JSON.parse(e);
-                                    } catch (err) {
-                                        console.error(err);
-                                    }
-                                }
-                                break;
-                            default:
-                        }
-                        if (value) {
-                            const keyPathVars = `$vars.${refs[propKey]}`;
-                            AppAction.updateUIState({
-                                keyPath: keyPathVars,
-                                value,
-                            });
-                            const keyPathPropkey = `${keyPath}.${propKey}`;
-                            AppAction.updateUIState({
-                                keyPath: keyPathPropkey,
-                                value,
-                            });
-                        }
-                    });
-            }
+            // if (next === UIEvent.ON_BLUR) {
+            //     const { refs } = obj;
+            //     refs &&
+            //         Object.keys(refs).forEach(propKey => {
+            //             let value;
+            //             switch (_type) {
+            //                 case FieldType.INPUT:
+            //                     value = e.target.value;
+            //                     break;
+            //                 case ContentType.CODE:
+            //                     value = e;
+            //                     if (!obj.mode || obj.mode === 'json') {
+            //                         try {
+            //                             value = JSON.parse(e);
+            //                         } catch (err) {
+            //                             console.error(err);
+            //                         }
+            //                     }
+            //                     break;
+            //                 default:
+            //             }
+            //             console.log('value', value);
+            //             if (value) {
+            //                 const keyPathVars = `$vars.${refs[propKey]}`;
+            //                 AppAction.updateUIState({
+            //                     keyPath: keyPathVars,
+            //                     value,
+            //                 });
+            //                 const keyPathPropkey = `${keyPath}.${propKey}`;
+            //                 AppAction.updateUIState({
+            //                     keyPath: keyPathPropkey,
+            //                     value,
+            //                 });
+            //             }
+            //         });
+            // }
             if (
                 next === UIEvent.ON_CLICK &&
                 _.isPlainObject(obj) &&
@@ -135,10 +124,7 @@ export const EventsHook = (props, events) => {
                 }
             }
             try {
-                const code = obj[next];
-                const argNames = VM.getParamNames(code);
-                const funcbody = VM.extractFuncbody(code);
-                VM.run(funcbody, Context(props), { [argNames]: e });
+                VM.runEvent(obj[next], Context(props), e);
             } catch (err) {
                 console.error(err);
             }
@@ -153,7 +139,7 @@ export const isFirstLetterIsUpper = str => {
 };
 
 export const getTypes = obj => {
-    if (!obj) {
+    if (_.isString(obj) || !obj) {
         return [];
     }
     return Object.keys(obj)

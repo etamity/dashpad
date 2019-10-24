@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import { UIEvent } from './Constants';
-export const ValueResolver = (
-    val,
-    start,
-    end,
-    replaceVal,
-    keyPath,
-    callback,
-    parent
-) => {
+
+export const KeyNameParser = (val, start, end, keyPath) => {
+    const propsNameArr = keyPath.split('.');
+    const propName = propsNameArr[propsNameArr.length - 1];
+    const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
+    const keyNames = val.match(reg);
+    return { keyNames, propName };
+};
+export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
     let result = val;
     if (_.isPlainObject(val)) {
         return _.mapValues(val, (prop, key) => {
@@ -20,7 +20,6 @@ export const ValueResolver = (
                     end,
                     replaceVal,
                     keyPath + '.' + key,
-                    callback,
                     val
                 )
             );
@@ -33,19 +32,14 @@ export const ValueResolver = (
                 end,
                 replaceVal,
                 keyPath + '.' + index,
-                callback,
-                val
+                parent
             )
         );
-    }
-
-    if (_.isString(val)) {
-        const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
-        const keyNames = val.match(reg);
+    } else if (_.isString(val)) {
+        const { keyNames, propName } = KeyNameParser(val, start, end, keyPath);
         if (keyNames) {
             if (keyNames.length === 1) {
                 result = _.get(replaceVal, keyNames[0]);
-                callback && callback(keyNames, keyPath, parent);
             } else {
                 result = keyNames.reduce((root, next) => {
                     let convertVal = _.get(replaceVal, next);
@@ -56,7 +50,10 @@ export const ValueResolver = (
                     return root.replace(replaceReg, convertVal);
                 }, val);
             }
+            parent.refs = { ...parent.refs, [propName]: keyNames };
+            // console.log(parent.refs );
         }
+        return result;
     }
-    return result;
+    return val;
 };

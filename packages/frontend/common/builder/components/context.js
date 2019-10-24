@@ -42,7 +42,7 @@ export default props => {
             0,
             parentKeyPath.lastIndexOf('.')
         );
-        const keyPath = `${parentKeyPath}.${key}`;
+        const keyPath = key ? `${parentKeyPath}.${key}`: parentKeyPath;
         return _.get(state, keyPath);
     };
     const setParent = (key, value) => {

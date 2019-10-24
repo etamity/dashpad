@@ -77,6 +77,7 @@ export const UIEvent = {
     ON_SELECTION_CHANGE: 'onSelectionChange',
     ON_CURSOR_CHANGE: 'onCursorChange',
     ON_FOCUS: 'onFocus',
+    ON_BLUR: 'onBlur',
     ON_INPUT: 'onInput',
     ON_SCROLL: 'onScroll',
 
