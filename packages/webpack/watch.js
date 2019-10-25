@@ -2,7 +2,7 @@ const path = require('path');
 const pathHelper = require('@dashpad/core/app/helpers/path-helper');
 const production = process.env.NODE_ENV === 'production';
 const log = require('@dashpad/core/libs/log');
-let contentLoader = require('@dashpad/core/app/content-loader.js');
+const invalidateModule = require('invalidate-module');
 // const { app } = require('electron');
 // const { npxSync} = require('node-npx');
 // const cwd = process.cwd()
@@ -16,7 +16,7 @@ process.on('uncaughtException', function(err) {
 });
 
 const requireNoCache = function(filePath) {
-    require('invalidate-module')(filePath);
+    invalidateModule(filePath);
     return require(filePath);
 };
 
@@ -45,11 +45,9 @@ watcher.on('ready', () => {
             log.info('Reloaded:', filePath);
         }
         if (filePath.includes('/packages/')) {
-            if (!production) {
-                contentLoader = requireNoCache(
-                    '@dashpad/core/app/content-loader.js'
-                );
-            }
+            const contentLoader = requireNoCache(
+                '@dashpad/core/app/content-loader.js'
+            );
             if (filePath.includes('/_dash/')) {
                 log.info('Reload ... UI files');
                 if (filePath.includes('.yml') || filePath.includes('.yaml')) {
