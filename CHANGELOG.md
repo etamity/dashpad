@@ -1,28 +1,28 @@
-## Relase v1.2.0
+## Release v1.2.0
 
 - UI Upgraded
 - Updated Logo
 - Fixed input field bugs
 - Fixed some value resolving bug
 
-## Relase v1.1.0
+## Release v1.1.0
 
 - Monorepo refactory
 
-## Relase v1.0.9
+## Release v1.0.9
 
 - Added copy & paste functions
 - Added demo gif
 - Updated documents content
 - Added docmentation project
 
-## Relase v1.0.8
+## Release v1.0.8
 
 - Fixed electron packing
 - Updated binary packing script
 - Updated config location
 
-## Relase v1.0.7
+## Release v1.0.7
 
 - Added new ui components parser:
     - YMLHtml
@@ -32,7 +32,7 @@
 - Added `Dashpad` global object for accessing api
 - Added `loadJs` global function to load external ui script
 
-## Relase v1.0.6
+## Release v1.0.6
 
 - Added process management `process-manager.js`
 - Added `module-loader` as entry point for loading packages
@@ -40,7 +40,7 @@
 - Added setting config view
 - Added yaml builder view
 
-## Relase v1.0.5
+## Release v1.0.5
 
 - Refactor yaml ui parser and builder library
 - Added root ui components parser: `YMLComponent` and `YMLBuilder`
@@ -60,14 +60,14 @@
     - YMLList
 - Added yaml ui script `onClick` action handler
 
-## Relase v1.0.4
+## Release v1.0.4
 
 - Added vm script parser
 - Added yaml nav config parser
 - Added yaml ui parser and builder library
 - Added package namespace parser
 
-## Relase v1.0.3
+## Release v1.0.3
 
 - Add default layout structure
 - Added `Plugins` template `__SamplePlugin`
@@ -75,7 +75,7 @@
 - Added static config handling `static Config()` for view
 - Added `object-path-immutable` module for handling all state mutation
 
-## Relase v1.0.2
+## Release v1.0.2
 
 - Added redux handling for react
 - Added basic communication between electron and react
@@ -83,7 +83,7 @@
 - Added `rreact-app-rewired` to update webpack config
 - Update some css
 
-## Relase v1.0.1
+## Release v1.0.1
 
 - React & Redux & Electron & Node setup
 - Hot reloading for whole app
@@ -91,6 +91,6 @@
 - Added Auto router library
 - Added Navs builder library
 
-## Relase v1.0.0
+## Release v1.0.0
 
 - Initial release
