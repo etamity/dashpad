@@ -5,7 +5,7 @@ import { AppAction } from 'common/reducers/app';
 import { ContentType, UIEvent } from './Constants';
 import { shell } from 'electron';
 import { Store } from 'common/store';
-import { ValueResolver, KeyNameParser } from './ValueResovler';
+import { ValueResolver } from './ValueResovler';
 const specialCharacters = [
     '!',
     '#',
