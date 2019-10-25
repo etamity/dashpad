@@ -1,3 +1,10 @@
+## Relase v1.2.0
+
+- UI Upgraded
+- Updated Logo
+- Fixed input field bugs
+- Fixed some value resolving bug
+
 ## Relase v1.1.0
 
 - Monorepo refactory
