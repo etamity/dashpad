@@ -1,5 +1,4 @@
-
-const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 const config = require('@dashpad/config').value();
@@ -77,10 +76,20 @@ function buildMenu() {
             ],
         },
         {
-            label: 'About',
+            label: 'Window',
             submenu: [
-                { label: `v${packageJson.version}` }
+                {
+                    label: 'Refresh',
+                    accelerator: 'CmdOrCtrl+R',
+                    click: () => {
+                        mainWindow.reload();
+                    },
+                },
             ],
+        },
+        {
+            label: 'About',
+            submenu: [{ label: `v${packageJson.version}` }],
         },
     ]);
     Menu.setApplicationMenu(menu);
@@ -124,13 +133,6 @@ function createWindow() {
         mainWindow = null;
         app.quit();
     });
-
-    globalShortcut.register('f5', function() {
-        mainWindow.reload();
-    });
-    globalShortcut.register('CommandOrControl+R', function() {
-        mainWindow.reload();
-    });
 }
 
 // This method will be called when Electron has finished
@@ -154,13 +156,7 @@ app.on('activate', () => {
         createWindow();
     }
 });
-app.on('will-quit', () => {
-    // Unregister a shortcut.
-    globalShortcut.unregister('CommandOrControl+X');
 
-    // Unregister all shortcuts.
-    globalShortcut.unregisterAll();
-});
 app.on('browser-window-focus', () => {
     mainWindow &&
         mainWindow.webContents &&
