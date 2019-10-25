@@ -75,19 +75,8 @@ export class YMLInputView extends YMLBase {
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
-    // componentDidMount() {
-    //     const { obj, keyPath } = this.props;
-    //     this.setState({
-    //         value: obj.value || obj.defaultValue,
-    //     });
-    //     const keyPathPropkey = `${keyPath}.value`;
-    //     AppAction.updateUIState(
-    //     {
-    //         keyPath: keyPathPropkey,
-    //         value: obj.value || obj.defaultValue,
-    //     });
-    // }
     onBlur(e) {
+        // eslint-disable-next-line no-new-wrappers
         const newValue = new String(e.target.value);
         const { keyPath, obj } = this.props;
         const { value } = obj;
