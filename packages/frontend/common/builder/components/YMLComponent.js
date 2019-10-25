@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { FormGroup } from 'reactstrap';
 import { ParseKeyPathVars } from './utils';
-import _ from 'lodash';
 import {
     YMLTabsView,
     YMLFormView,
@@ -35,7 +34,7 @@ import {
     YMLAlertView,
     YMLListItemView,
 } from './index';
-import { AppAction } from 'common/reducers/app';
+
 import {
     ContentType,
     ContainerType,

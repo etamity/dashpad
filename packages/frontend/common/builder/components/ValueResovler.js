@@ -46,6 +46,7 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
                     return root.replace(replaceReg, convertVal);
                 }, val);
             }
+            // eslint-disable-next-line no-new-wrappers
             result = new String(result);
             result._varsKey = keyNames;
         }
