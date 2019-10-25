@@ -98,28 +98,31 @@ export default function update(state, action) {
             break;
         case AppEventType.ON_LOAD_UI:
             const { ymlPath } = payload;
-            const resolvePath = ymlPath || state.packageInfo.filePath;
+            const resolvePath =
+                ymlPath || (state.packageInfo && state.packageInfo.filePath);
+            if (!resolvePath) {
+                return state;
+            }
             const packageInfo = updatePackageInfo(resolvePath);
-            const fileExt = ymlPath && ymlPath.split('.').pop();
-            if (fileExt === 'yaml' || fileExt ==='yml') {
+            const fileExt = resolvePath && resolvePath.split('.').pop();
+            if (fileExt === 'yaml' || fileExt === 'yml') {
                 const uiSchema = ContentHelper.loadJson(resolvePath);
-                const { filePath } = packageInfo;
                 const jsFilePath =
-                    filePath &&
-                    filePath.substring(0, filePath.lastIndexOf('.')) + '.js';
-    
+                    resolvePath &&
+                    resolvePath.substring(0, resolvePath.lastIndexOf('.')) +
+                        '.js';
+
                 if (ContentHelper.isExist(jsFilePath)) {
                     const jsScript = ContentHelper.loadFile(jsFilePath);
                     VM.buildVmScope(jsScript);
                 } else {
                     VM.buildVmScope('"";\n');
                 }
-    
                 newState = immutable(state)
                     .set(SchemaKeys.UISCHEMA, uiSchema)
                     .value();
             }
-    
+
             newState = immutable(newState)
                 .set('packageInfo', packageInfo)
                 .value();
@@ -154,9 +157,7 @@ export default function update(state, action) {
                     const { keyPath, value } = next;
                     return (root = immutable(root)
                         .set(
-                            `${SchemaKeys.UISCHEMA}.${
-                                SchemaKeys.VARS
-                            }.${keyPath}`,
+                            `${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`,
                             value
                         )
                         .value());
@@ -236,7 +237,7 @@ const updatePackageInfo = filePath => {
     const fileName = pathArr[pathArr.length - 1];
     const packageName = filePath.match(/packages\/(.*?)\/_/)[1];
     const namespace = filePath.slice(filePath.indexOf(packageName));
-    const dirname =  filePath.substring(0, filePath.lastIndexOf('/'));
+    const dirname = filePath.substring(0, filePath.lastIndexOf('/'));
     const packageInfo = {
         fileName,
         packageName,
@@ -245,7 +246,7 @@ const updatePackageInfo = filePath => {
         namespace,
     };
     const Dashpad = VM.getGlobal('Dashpad');
-    if (Dashpad) { 
+    if (Dashpad) {
         Dashpad.updatePackageInfo(packageInfo);
     }
     return packageInfo;

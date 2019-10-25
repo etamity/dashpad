@@ -44,28 +44,23 @@ if (!production) {
                     '@dashpad/core/app/content-loader.js'
                 );
                 if (filePath.includes('/_dash/')) {
-                    log.info('Reload ... UI files', filePath, filePath.includes('.yml'));
-                    if (filePath.includes('.yml')) {
-                        contentLoader.reloadConfig();
-
-                        if (!filePath.includes('config.yml')) {
-                            const fileName = filePath.slice(
-                                filePath.lastIndexOf('/')
-                            );
-                            if (fileName.includes('@')) {
-                                contentLoader.reloadUISchema();
-                            } else {
-                                contentLoader.reloadUISchema(filePath);
-                            }
+                    log.info('Reload ... UI files');
+                    if (
+                        filePath.includes('.yml') ||
+                        filePath.includes('.yaml')
+                    ) {
+                        if (filePath.includes('config.yml')) {
+                            contentLoader.reloadConfig();
+                        } else {
+                            contentLoader.reloadUISchema();
                         }
-
                         log.info('Reloaded:', filePath);
                     } else if (filePath.includes('.js')) {
                         log.info('Reload ... js file', filePath);
                         contentLoader.reloadScript(filePath);
                     } else if (filePath.includes('.mdx')) {
                         log.info('Reload ... mdx file');
-                        contentLoader.reloadUISchema(filePath);
+                        contentLoader.reloadUISchema();
                     }
                 }
             }
