@@ -6,7 +6,7 @@ extends: null
 asar: true
 
 directories:
-  buildResources: packages/public/
+  buildResources: public/
   output: dist/
 
 files:
@@ -32,7 +32,7 @@ dmg:
 mac:
   target: dmg
   category: public.app-category.tools
-  icon: public/img/appIcon.icns
+  icon: public/icon.icns
 
 win:
   target: nsis

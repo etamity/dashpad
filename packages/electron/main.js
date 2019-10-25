@@ -97,7 +97,10 @@ function buildMenu() {
 
 function createWindow() {
     // Create the browser window.
-    global.mainWindow = mainWindow = new BrowserWindow(config.window);
+    global.mainWindow = mainWindow = new BrowserWindow({
+        ...config.window,
+        icon: path.resolve('../../public/icon.icns'),
+    });
     buildMenu();
     let indexPath;
     const isDev = devMode && process.argv.indexOf('--noDevServer') === -1;
@@ -118,9 +121,9 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
         if (isDev) {
-            require('../webpack/watch.js');
             mainWindow.webContents.openDevTools();
         }
+        require('../webpack/watch.js');
         require('../core/server.js');
         // Open the DevTools automatically if developing
     });

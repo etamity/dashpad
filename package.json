@@ -1,6 +1,6 @@
 {
     "name": "dashpad",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "A hackable universal dashboard framework for your desktop task automation and vistualise tooling.",
     "author": {
         "name": "Joey Etamity",
@@ -33,6 +33,7 @@
         "@dashpad/core": "*",
         "@dashpad/electron": "*",
         "@dashpad/frontend": "*",
+        "@dashpad/babel-preset": "*",
         "@octokit/rest": "^16.17.0",
         "babel-eslint": "^10.0.1",
         "babel-jest": "^24.5.0",
