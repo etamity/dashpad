@@ -84,16 +84,13 @@ export class YMLListView extends YMLBase {
                     key: keyPath + '.items.' + index,
                     keyPath,
                     type: ContentType.LISTITEM,
-                    obj: Object.assign(
-                        {},
-                        item,
+                    obj: {
                         ...filterEvents,
-                        {
-                            _activeClass,
-                        },
-                        _.isString(item) && { content: item }
-                    ),
+                        _activeClass,
+                        ...(_.isString(item) && { content: item }),
+                    },
                 };
+
                 return <YMLComponent {...newProps} />;
             });
         return (

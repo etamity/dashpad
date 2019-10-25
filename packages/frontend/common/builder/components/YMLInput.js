@@ -75,34 +75,45 @@ export class YMLInputView extends YMLBase {
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
-    componentWillReceiveProps(props) {
-        const { obj } = props;
-        this.setState({
-            value: obj.value || obj.defaultValue,
-        });
-    }
+    // componentDidMount() {
+    //     const { obj, keyPath } = this.props;
+    //     this.setState({
+    //         value: obj.value || obj.defaultValue,
+    //     });
+    //     const keyPathPropkey = `${keyPath}.value`;
+    //     AppAction.updateUIState(
+    //     {
+    //         keyPath: keyPathPropkey,
+    //         value: obj.value || obj.defaultValue,
+    //     });
+    // }
     onBlur(e) {
-        const value = e.target.value;
+        const newValue = new String(e.target.value);
         const { keyPath, obj } = this.props;
-        const { refs } = obj;
-        console.log(this.props);
+        const { value } = obj;
         if (value) {
-            const keyPathVars = `$vars.${refs['value']}`;
-            AppAction.updateUIState({
-                keyPath: keyPathVars,
-                value,
-            });
-            const keyPathPropkey = `${keyPath}.value`;
-            AppAction.updateUIState({
-                keyPath: keyPathPropkey,
-                value,
-            });
+            const { _varsKey } = value;
+            newValue._varsKey = _varsKey;
+            if (_varsKey) {
+                const keyPathVars = `$vars.${_varsKey}`;
+                const keyPathPropkey = `${keyPath}.value`;
+                AppAction.updateUIState([{
+                    keyPath: keyPathVars,
+                    value: e.target.value,
+                },
+                {
+                    keyPath: keyPathPropkey,
+                    value: newValue,
+                }]);
+
+            }
         }
     }
     onChange(e) {
         this.setState({
             value: e.target.value,
         });
+
     }
     render() {
         const { keyPath, obj } = this.props;

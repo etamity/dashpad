@@ -1,27 +1,22 @@
 import _ from 'lodash';
-import { UIEvent } from './Constants';
 
 export const KeyNameParser = (val, start, end, keyPath) => {
-    const propsNameArr = keyPath.split('.');
-    const propName = propsNameArr[propsNameArr.length - 1];
     const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
     const keyNames = val.match(reg);
-    return { keyNames, propName };
+    return keyNames;
 };
+
 export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
     let result = val;
     if (_.isPlainObject(val)) {
         return _.mapValues(val, (prop, key) => {
-            return (
-                (Object.values(UIEvent).includes(key) && prop) ||
-                ValueResolver(
-                    prop,
-                    start,
-                    end,
-                    replaceVal,
-                    keyPath + '.' + key,
-                    val
-                )
+            return ValueResolver(
+                prop,
+                start,
+                end,
+                replaceVal,
+                keyPath + '.' + key,
+                val
             );
         });
     } else if (_.isArray(val)) {
@@ -32,11 +27,12 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
                 end,
                 replaceVal,
                 keyPath + '.' + index,
-                parent
+                val
             )
         );
     } else if (_.isString(val)) {
-        const { keyNames, propName } = KeyNameParser(val, start, end, keyPath);
+        const keyNames = KeyNameParser(val, start, end, keyPath);
+
         if (keyNames) {
             if (keyNames.length === 1) {
                 result = _.get(replaceVal, keyNames[0]);
@@ -50,10 +46,12 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
                     return root.replace(replaceReg, convertVal);
                 }, val);
             }
-            parent.refs = { ...parent.refs, [propName]: keyNames };
-            // console.log(parent.refs );
+            result = new String(result);
+            result._varsKey = keyNames;
         }
+
         return result;
     }
+
     return val;
 };

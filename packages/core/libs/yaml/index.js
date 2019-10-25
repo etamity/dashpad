@@ -1,6 +1,7 @@
 const yaml = require('js-yaml');
 const nodePath = require('path');
 const fs = require('fs');
+const ValueResolveType = require('./value-resolve-type');
 
 let root = null;
 
@@ -38,7 +39,8 @@ const ImportYamlType = new yaml.Type('!import', {
         return json;
     },
 });
-const IMPORT_SCHEMA = yaml.Schema.create(ImportYamlType);
+
+const IMPORT_SCHEMA = yaml.Schema.create([ImportYamlType, ValueResolveType]);
 
 const load = path => {
     const resolvePath = nodePath.resolve(path);
