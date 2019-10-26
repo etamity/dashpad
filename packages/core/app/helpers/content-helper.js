@@ -2,6 +2,7 @@ const pathHelper = require('./path-helper');
 const fileManager = require('../../libs/file-manager');
 const Config = require('@dashpad/config');
 const _ = require('lodash');
+const { createRequireFromPath } = require('module');
 const { loadJson, loadFile, isExist } = fileManager;
 
 const loadConfigs = () =>
@@ -38,11 +39,15 @@ const loadNavs = () =>
 const loadPackageJson = packageName =>
     loadJson(pathHelper.getPackageJsonFile(packageName));
 
+
 module.exports = {
     loadConfigs,
     loadNavs,
     loadJson,
     loadFile,
     loadPackageJson,
-    isExist
+    isExist,
+    requireJsx: (filename) => {
+        return createRequireFromPath(filename);
+    }
 };

@@ -9,6 +9,7 @@
   "author": "joey.etamity (etamity@gmail.com)",
   "license": "MIT",
   "dependencies": {
+    "@babel/standalone": "^7.6.4",
     "@coreui/coreui": "^2.1.11",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",

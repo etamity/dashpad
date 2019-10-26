@@ -56,14 +56,12 @@ watcher.on('ready', () => {
                     } else {
                         contentLoader.reloadUISchema();
                     }
-                    log.info('Reloaded:', filePath);
                 } else if (filePath.includes('.js')) {
-                    log.info('Reload ... js file', filePath);
                     contentLoader.reloadScript(filePath);
-                } else if (filePath.includes('.mdx')) {
-                    log.info('Reload ... mdx file');
+                } else if (filePath.includes('.mdx') || filePath.includes('.jsx')) {
                     contentLoader.reloadUISchema();
                 }
+                log.info('Reloaded:', filePath);
             }
         }
     });

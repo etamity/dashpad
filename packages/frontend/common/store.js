@@ -15,9 +15,7 @@ export const Dashpad = new DashpadApi({
     state: Store.getState(),
 });
 
-// window.Dashpad = Dashpad;
 VM.addGlobal('Dashpad', Dashpad);
-console.log(VM.getGlobal('Dashpad'));
 
 const { ActionEventType } = Constants;
 

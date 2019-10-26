@@ -35,6 +35,11 @@ class VM {
             { ...args, ...this.globals }
         );
     }
+    eval(code, args = {}) {
+        if (!code) return;
+        const run = compiler.compileCode(code);
+        return run({ ...args, ...this.globals });
+    }
     runEvent(code, context, args) {
         if (!code) return;
         const argNames = this.getParamNames(code);

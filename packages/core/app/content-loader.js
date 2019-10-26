@@ -31,5 +31,5 @@ const reloadScript = jsPath => {
 module.exports = {
     reloadScript,
     reloadConfig,
-    reloadUISchema,
+    reloadUISchema
 };
