@@ -23,8 +23,12 @@ class MDXScopedRuntime extends React.Component {
         onError(error);
     };
 
-    componentDidCatch(error) {
-        this.onError(error);
+    componentDidCatch(error, info) {
+        const errorMessage = [
+            error.toString(),
+            info.componentStack.toString(),
+        ].join('');
+        this.onError(errorMessage);
     }
 
     render() {
@@ -36,40 +40,34 @@ class MDXScopedRuntime extends React.Component {
             rehypePlugins,
             components,
             children,
-            resolvePath
+            resolvePath,
         } = this.props;
 
         if (error) {
             return <ErrorRenderer>{error}</ErrorRenderer>;
         }
-        console.log('resolvePath_resolvePath', resolvePath);
-        try {
-            const resolvedScope = allowedImports
-                ? getScope({
-                      remarkPlugins,
-                      rehypePlugins,
-                      mdx: children,
-                      allowedImports,
-                      resolvePath
-                  })
-                : {};
-            return (
-                <MDX
-                    components={{ ...components, ...resolvedScope }}
-                    scope={{
-                        Layout: ({ children }) => children,
-                        ...scope,
-                    }}
-                    remarkPlugins={[[remarkUnImporter], ...remarkPlugins]}
-                    onError={this.onError}
-                >
-                    {children}
-                </MDX>
-            );
-        } catch (err) {
-            this.onError(err);
-            return <ErrorRenderer>{err}</ErrorRenderer>;
-        }
+        const resolvedScope = allowedImports
+            ? getScope({
+                  remarkPlugins,
+                  rehypePlugins,
+                  mdx: children,
+                  allowedImports,
+                  resolvePath,
+              })
+            : {};
+        return (
+            <MDX
+                components={{ ...components, ...resolvedScope }}
+                scope={{
+                    Layout: ({ children }) => children,
+                    ...scope,
+                }}
+                remarkPlugins={[[remarkUnImporter], ...remarkPlugins]}
+                onError={this.onError}
+            >
+                {children}
+            </MDX>
+        );
     }
 }
 
@@ -81,7 +79,7 @@ MDXScopedRuntime.propTypes = {
     allowedImports: PropTypes.shape({}),
     onError: PropTypes.func.isRequired,
     children: PropTypes.node,
-    resolvePath: PropTypes.string.isRequired
+    resolvePath: PropTypes.string.isRequired,
 };
 
 MDXScopedRuntime.defaultProps = {

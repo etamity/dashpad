@@ -10,6 +10,7 @@ const resolveModule = (
     if (modulePath.charAt(0) === '.' && !possibleValue) {
         const Exports = ModuleComplier.compile(basePath, modulePath, allPossibleValues);
         possibleValue = {};
+
         if (imports.ImportDefault) {
             possibleValue.ImportDefault = Exports.default;
         }
