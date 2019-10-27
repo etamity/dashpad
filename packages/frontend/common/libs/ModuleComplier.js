@@ -5,29 +5,37 @@ import path from 'path';
 import VM from 'common/libs/VM';
 
 const { ContentHelper } = Remote();
-const compile = (basePath, modulePath, scopes) => {
-    const filename = modulePath.substring(
-        modulePath.lastIndexOf('/') + 1,
-        modulePath.length - 1
-    );
-    const jsx = ContentHelper.loadFile(path.resolve(basePath, modulePath));
+
+const compile = (jsx, scopes, opts) => {
+    const { basePath, filename, returnCode } = opts;
     try {
         const { code } = transform(jsx, {
+            ...{ filename },
             moduleRoot: process.cwd(),
-            filename,
             presets: ['es2015', 'react', 'flow'],
         });
-        const finalCode = `${code}\nreturn exports;`;
+        const finalCode = returnCode
+            ? [code, returnCode]
+            : [code, 'return exports;'];
 
-        return VM.eval(finalCode, {
+        return VM.eval(finalCode.join('\n').trim(), {
             ...scopes,
             React,
-            require: requireLib(basePath, scopes),
+            ...(basePath && { require: requireLib(basePath, scopes) }),
             exports: {},
         });
     } catch (error) {
         throw new Error(error);
     }
+};
+
+const compileModule = (basePath, modulePath, scopes) => {
+    const filename = modulePath.substring(
+        modulePath.lastIndexOf('/') + 1,
+        modulePath.length - 1
+    );
+    const jsx = ContentHelper.loadFile(path.resolve(basePath, modulePath));
+    return compile(jsx, scopes, { basePath, filename });
 };
 const requireLib = (basePath, scopes) => filename => {
     if (filename.charAt(0) !== '.') {
@@ -42,9 +50,10 @@ const requireLib = (basePath, scopes) => filename => {
             return Exports.Import;
         }
     }
-    return compile(basePath, filename);
+    return compileModule(basePath, filename);
 };
 
 export default {
+    compileModule,
     compile,
 };

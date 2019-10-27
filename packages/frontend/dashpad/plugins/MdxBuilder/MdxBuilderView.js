@@ -13,7 +13,7 @@ const MDXContent = ({ filePath }) => {
     if (!filePath) {
         return <div></div>;
     }
-    const mdx = ContentHelper.loadFile(filePath) + `/n${(new Date()).getMilliseconds()}`;
+    const mdx = ContentHelper.loadFile(filePath);
     return (
         <MDX
             components={componentsLibs}

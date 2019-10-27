@@ -8,7 +8,7 @@ const resolveModule = (
     basePath
 ) => {
     if (modulePath.charAt(0) === '.' && !possibleValue) {
-        const Exports = ModuleComplier.compile(basePath, modulePath, allPossibleValues);
+        const Exports = ModuleComplier.compileModule(basePath, modulePath, allPossibleValues);
         possibleValue = {};
 
         if (imports.ImportDefault) {
