@@ -1,4 +1,5 @@
 import ModuleComplier from 'common/libs/ModuleComplier';
+import path from 'path';
 
 const resolveModule = (
     allPossibleValues,
@@ -8,7 +9,8 @@ const resolveModule = (
     basePath
 ) => {
     if (modulePath.charAt(0) === '.' && !possibleValue) {
-        const Exports = ModuleComplier.compileModule(basePath, modulePath, allPossibleValues);
+        const filePath = path.resolve(basePath, modulePath);
+        const Exports = ModuleComplier.compileModule(filePath, allPossibleValues);
         possibleValue = {};
 
         if (imports.ImportDefault) {
