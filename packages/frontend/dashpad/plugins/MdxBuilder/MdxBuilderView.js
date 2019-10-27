@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Card, CardBody } from 'reactstrap';
+import { Container, Card, CardBody, Alert } from 'reactstrap';
 import Prism from 'prismjs';
 import MDX from './mdx';
 import componentsLibs from './runtimeLibs/components';
@@ -11,9 +11,11 @@ const { ContentHelper } = Remote();
 
 const MDXContent = ({ filePath }) => {
     if (!filePath) {
-        return <div></div>;
+        return <Alert className="text-center">No File loaded!</Alert>;
     }
-    const mdx = ContentHelper.loadFile(filePath);
+    const mdx =
+        ContentHelper.loadFile(filePath) +
+        `\n\n<!-- ${new Date().getMilliseconds()} -->`;
     return (
         <MDX
             components={componentsLibs}

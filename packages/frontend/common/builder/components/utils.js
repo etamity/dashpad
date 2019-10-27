@@ -56,7 +56,7 @@ export const ParseKeyPathVars = (keyPath, obj) => {
     const vars = _.get(Store.getState().app.uiSchema, '$vars');
     const start = '\\${';
     const end = '}';
-    return ValueResolver(obj, start, end, vars, keyPath, obj);
+    return ValueResolver(obj, start, end, vars, keyPath);
 };
 
 export const EventsHook = (props, events) => {

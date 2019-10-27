@@ -17,7 +17,6 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, key) => {
                 end,
                 replaceVal,
                 keyPath + '.' + key,
-                val,
                 key
             );
         });
@@ -29,12 +28,11 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, key) => {
                 end,
                 replaceVal,
                 keyPath + '.' + index,
-                val,
                 index
             )
         );
     } else if (_.isString(val)) {
-        const isEvent = !Object.values(UIEvent).includes(key);
+        const isEvent = Object.values(UIEvent).includes(key);
         const keyNames = KeyNameParser(val, start, end, keyPath);
         if (keyNames && !isEvent) {
             if (keyNames.length === 1) {
