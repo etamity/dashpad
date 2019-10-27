@@ -30,10 +30,7 @@ const compile = (jsx, scopes, opts) => {
 };
 
 const compileModule = (basePath, modulePath, scopes) => {
-    const filename = modulePath.substring(
-        modulePath.lastIndexOf('/') + 1,
-        modulePath.length - 1
-    );
+    const filename = path.basename(modulePath);
     const jsx = ContentHelper.loadFile(path.resolve(basePath, modulePath));
     return compile(jsx, scopes, { basePath, filename });
 };
@@ -50,7 +47,7 @@ const requireLib = (basePath, scopes) => filename => {
             return Exports.Import;
         }
     }
-    return compileModule(basePath, filename);
+    return compileModule(basePath, filename, scopes);
 };
 
 export default {
