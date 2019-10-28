@@ -57,15 +57,20 @@ const requireLib = (basePath, scopes) => filename => {
     if (!(ext && ContentHelper.isExist(modulePath))) {
         throw new Error(`Unknow file: ${modulePath}`);
     }
-    const code = ContentHelper.loadFile(modulePath);
     switch (ext) {
         case '.jsx':
         case '.js':
-            return compile(code, scopes, { modulePath });
+            return compile(ContentHelper.loadFile(modulePath), scopes, { modulePath });
         case '.json':
-            return JSON.parse(code);
+            return JSON.parse(ContentHelper.loadFile(modulePath));
+        case '.png':
+        case '.jpg':  
+        case '.jpeg': 
+        case '.svg': 
+        case '.gif': 
+            return relativePath(basePath)(filename);
         default:
-            return compile(code, scopes, { modulePath });
+            return compile(ContentHelper.loadFile(modulePath), scopes, { modulePath });
     }
 };
 
