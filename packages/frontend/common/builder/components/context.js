@@ -1,60 +1,44 @@
 import _ from 'lodash';
 import { AppAction } from 'common/reducers/app';
 import { Store } from 'common/store';
+import { keyPathUtil } from 'common/libs/Utils';
 
 export default props => {
     const state = Store.getState().app.uiSchema;
     const set = (key, value) => {
-        const keyPath = `${props.keyPath}.${key}`;
+        const keyPath = keyPathUtil(props.keyPath).append(key).value;
         AppAction.updateUIState({
             keyPath: keyPath,
             value: value,
         });
     };
     const get = key => {
-        return props.obj[key];
+        return _.get(props.obj, key);
     };
     const getSibling = key => {
-        const silbingKeyPath = props.keyPath.substring(
-            0,
-            props.keyPath.lastIndexOf('.')
-        );
-        const keyPath = `${silbingKeyPath}.${key}`;
+        const keyPath = keyPathUtil(props.keyPath)
+            .sibling()
+            .append(key).value;
         return _.get(state, keyPath);
     };
     const setSibling = (key, value) => {
-        const silbingKeyPath = props.keyPath.substring(
-            0,
-            props.keyPath.lastIndexOf('.')
-        );
-        const keyPath = `${silbingKeyPath}.${key}`;
+        const keyPath = keyPathUtil(props.keyPath)
+            .sibling()
+            .append(key).value;
         AppAction.updateUIState({
             keyPath: keyPath,
             value: value,
         });
     };
     const getParent = key => {
-        let parentKeyPath = props.keyPath.substring(
-            0,
-            props.keyPath.lastIndexOf('.')
-        );
-        parentKeyPath = parentKeyPath.substring(
-            0,
-            parentKeyPath.lastIndexOf('.')
-        );
-        const keyPath = key ? `${parentKeyPath}.${key}`: parentKeyPath;
+        let parentKeyPath = keyPathUtil(props.keyPath).parent();
+        const keyPath = key ? parentKeyPath.append(key) : parentKeyPath.value;
         return _.get(state, keyPath);
     };
     const setParent = (key, value) => {
-        let parentKeyPath = props.keyPath.substring(
-            0,
-            props.keyPath.lastIndexOf('.')
-        );
-        parentKeyPath = parentKeyPath.substring(
-            0,
-            parentKeyPath.lastIndexOf('.')
-        );
-        const keyPath = `${parentKeyPath}.${key}`;
+        let keyPath = keyPathUtil(props.keyPath)
+            .parent()
+            .append(key).value;
         AppAction.updateUIState({
             keyPath: keyPath,
             value: value,
