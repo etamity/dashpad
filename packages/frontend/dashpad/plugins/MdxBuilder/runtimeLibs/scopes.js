@@ -1,2 +1,6 @@
-import * as scopes from 'common/store';
-export default scopes;
+import path from 'path';
+
+
+export default {
+
+};

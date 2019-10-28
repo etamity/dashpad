@@ -1,7 +1,6 @@
 import ModuleComplier from 'common/libs/ModuleComplier';
 import path from 'path';
 import { Remote } from 'common/libs/Remote';
-import ErrorRenderer from 'common/components/Error';
 
 const { ContentHelper } = Remote();
 

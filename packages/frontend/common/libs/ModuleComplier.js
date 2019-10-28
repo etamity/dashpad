@@ -6,7 +6,8 @@ import VM from 'common/libs/VM';
 
 const { ContentHelper } = Remote();
 
-const relativePath = basePath => filePath => 'file:///' + path.resolve(basePath, filePath);
+const relativePath = basePath => filePath =>
+    'file:///' + path.resolve(basePath, filePath);
 
 const compile = (jsx, scopes, opts) => {
     const { modulePath, returnCode } = opts;
@@ -24,14 +25,14 @@ const compile = (jsx, scopes, opts) => {
             : [code, 'return exports;'];
         const fullScope = {
             ...scopes,
+            resource: relativePath(basePath),
             React,
-
-            ...(isJsx && { require: requireLib(basePath, {
-                ...scopes,
-                _file: relativePath(basePath),
-            }) }),
             exports: {},
+        };
+        if (isJsx) {
+            fullScope.require = requireLib(basePath, scopes);
         }
+        console.log('basefullScopePath', fullScope);
         return VM.eval(finalCode.join('\n').trim(), fullScope);
     } catch (error) {
         throw new Error(error);
