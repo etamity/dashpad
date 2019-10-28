@@ -47,29 +47,34 @@ class MDXScopedRuntime extends React.Component {
             return <ErrorRenderer>{error}</ErrorRenderer>;
         }
         const resolvePath = path.dirname(modulePath);
-        const resolvedScope = allowedImports
-            ? getScope({
-                  remarkPlugins,
-                  rehypePlugins,
-                  mdx: children,
-                  allowedImports,
-                  resolvePath,
-              })
-            : {};
-        return (
-            <MDX
-                components={{ ...components, ...resolvedScope }}
-                modulePath={modulePath}
-                scope={{
-                    Layout: ({ children }) => children,
-                    ...scope,
-                }}
-                remarkPlugins={[[remarkUnImporter], ...remarkPlugins]}
-                onError={this.onError}
-            >
-                {children}
-            </MDX>
-        );
+        try {
+            const resolvedScope = allowedImports
+                ? getScope({
+                      remarkPlugins,
+                      rehypePlugins,
+                      mdx: children,
+                      allowedImports,
+                      resolvePath,
+                  })
+                : {};
+            return (
+                <MDX
+                    components={{ ...components, ...resolvedScope }}
+                    modulePath={modulePath}
+                    scope={{
+                        Layout: ({ children }) => children,
+                        ...scope,
+                    }}
+                    remarkPlugins={[[remarkUnImporter], ...remarkPlugins]}
+                    onError={this.onError}
+                >
+                    {children}
+                </MDX>
+            );
+        } catch (error) {
+            console.error(error);
+            return <ErrorRenderer>{error}</ErrorRenderer>;
+        }
     }
 }
 

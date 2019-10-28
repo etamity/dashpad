@@ -1,6 +1,7 @@
 import ModuleComplier from 'common/libs/ModuleComplier';
 import path from 'path';
 import { Remote } from 'common/libs/Remote';
+import ErrorRenderer from 'common/components/Error';
 
 const { ContentHelper } = Remote();
 
@@ -8,10 +9,12 @@ const resolveModule = (
     allPossibleValues,
     modulePath,
     imports,
-    possibleValue,
+    possibleValue
 ) => {
     const jsx = ContentHelper.loadFile(modulePath);
-    const Exports = ModuleComplier.compile(jsx, allPossibleValues, { modulePath });
+    const Exports = ModuleComplier.compile(jsx, allPossibleValues, {
+        modulePath,
+    });
     possibleValue = {};
 
     if (imports.ImportDefault) {
