@@ -32,7 +32,6 @@ const compile = (jsx, scopes, opts) => {
         if (isJsx) {
             fullScope.require = requireLib(basePath, scopes);
         }
-        console.log('basefullScopePath', fullScope);
         return VM.eval(finalCode.join('\n').trim(), fullScope);
     } catch (error) {
         throw new Error(error);
