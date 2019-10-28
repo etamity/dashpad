@@ -1,28 +1,26 @@
 import ModuleComplier from 'common/libs/ModuleComplier';
 import path from 'path';
+import { Remote } from 'common/libs/Remote';
+
+const { ContentHelper } = Remote();
 
 const resolveModule = (
     allPossibleValues,
     modulePath,
     imports,
     possibleValue,
-    basePath
 ) => {
-    if (modulePath.charAt(0) === '.' && !possibleValue) {
-        const filePath = path.resolve(basePath, modulePath);
-        const Exports = ModuleComplier.compileModule(filePath, allPossibleValues);
-        possibleValue = {};
+    const jsx = ContentHelper.loadFile(modulePath);
+    const Exports = ModuleComplier.compile(jsx, allPossibleValues, { modulePath });
+    possibleValue = {};
 
-        if (imports.ImportDefault) {
-            possibleValue.ImportDefault = Exports.default;
-        }
-        if (imports.Import) {
-            possibleValue.Import = Exports;
-        }
-        return possibleValue;
-    } else {
-        return possibleValue;
+    if (imports.ImportDefault) {
+        possibleValue.ImportDefault = Exports.default;
     }
+    if (imports.Import) {
+        possibleValue.Import = Exports;
+    }
+    return possibleValue;
 };
 
 export default (allPossibleValues, resolvedScope, resolvePath) => {
@@ -37,13 +35,15 @@ export default (allPossibleValues, resolvedScope, resolvePath) => {
 
     Object.entries(resolvedScope).forEach(([modulePath, imports]) => {
         let possibleValue = allPossibleValues[modulePath];
-        possibleValue = resolveModule(
-            allPossibleValues,
-            modulePath,
-            imports,
-            possibleValue,
-            resolvePath
-        );
+        if (modulePath.charAt(0) === '.' && !possibleValue) {
+            const filePath = path.resolve(resolvePath, modulePath);
+            possibleValue = resolveModule(
+                allPossibleValues,
+                filePath,
+                imports,
+                possibleValue
+            );
+        }
 
         if (possibleValue) {
             // ImportDefault

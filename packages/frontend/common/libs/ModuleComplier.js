@@ -7,7 +7,10 @@ import VM from 'common/libs/VM';
 const { ContentHelper } = Remote();
 
 const compile = (jsx, scopes, opts) => {
-    const { basePath, filename, returnCode } = opts;
+    const { modulePath, returnCode } = opts;
+    const filename = path.basename(modulePath);
+    const basePath = path.dirname(modulePath);
+    const isJsx = path.extname(filename) === '.jsx';
     try {
         const { code } = transform(jsx, {
             ...{ filename },
@@ -21,7 +24,7 @@ const compile = (jsx, scopes, opts) => {
         return VM.eval(finalCode.join('\n').trim(), {
             ...scopes,
             React,
-            ...(basePath && { require: requireLib(basePath, scopes) }),
+            ...(isJsx && { require: requireLib(basePath, scopes) }),
             exports: {},
         });
     } catch (error) {
@@ -29,12 +32,6 @@ const compile = (jsx, scopes, opts) => {
     }
 };
 
-const compileModule = (modulePath, scopes) => {
-    const filename = path.basename(modulePath);
-    const basePath = path.dirname(modulePath);
-    const jsx = ContentHelper.loadFile(modulePath);
-    return compile(jsx, scopes, { basePath, filename });
-};
 const requireLib = (basePath, scopes) => filename => {
     if (filename.charAt(0) !== '.') {
         const Exports = scopes[filename];
@@ -48,10 +45,12 @@ const requireLib = (basePath, scopes) => filename => {
             return Exports.Import;
         }
     }
-    return compileModule(path.resolve(basePath, filename), scopes);
+    const modulePath = path.resolve(basePath, filename);
+    const jsx = ContentHelper.loadFile(modulePath);
+    return compile(jsx, scopes, { modulePath });
 };
 
 export default {
-    compileModule,
     compile,
+    requireLib
 };

@@ -13,6 +13,7 @@ export default ({
     rehypePlugins = [],
     children,
     onError,
+    modulePath,
     ...props
 }) => {
     const fullScope = {
@@ -36,7 +37,7 @@ export default ({
         const returnCode = `return React.createElement(MDXProvider, { components }, 
             React.createElement(MDXContent, props));`;
 
-        return ModuleComplier.compile(jsx, fullScope, { returnCode });
+        return ModuleComplier.compile(jsx, fullScope, { modulePath, returnCode });
     } catch (err) {
         onError(err);
         return <ErrorRenderer>{err}</ErrorRenderer>;

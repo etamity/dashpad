@@ -21,7 +21,7 @@ const MDXContent = ({ filePath }) => {
             components={componentsLibs}
             scope={scopes}
             allowedImports={allowedImports}
-            resolvePath={filePath.substring(0, filePath.lastIndexOf('/'))}
+            modulePath={filePath}
         >
             {mdx}
         </MDX>

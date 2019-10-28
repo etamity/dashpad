@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import path from 'path';
 import remarkUnImporter from '../utils/remark-un-importer';
 import getScope from '../utils/get-scope';
 import MDX from './MDX';
@@ -40,12 +40,13 @@ class MDXScopedRuntime extends React.Component {
             rehypePlugins,
             components,
             children,
-            resolvePath,
+            modulePath,
         } = this.props;
 
         if (error) {
             return <ErrorRenderer>{error}</ErrorRenderer>;
         }
+        const resolvePath = path.dirname(modulePath);
         const resolvedScope = allowedImports
             ? getScope({
                   remarkPlugins,
@@ -58,6 +59,7 @@ class MDXScopedRuntime extends React.Component {
         return (
             <MDX
                 components={{ ...components, ...resolvedScope }}
+                modulePath={modulePath}
                 scope={{
                     Layout: ({ children }) => children,
                     ...scope,
