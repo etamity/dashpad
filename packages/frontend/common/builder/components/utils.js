@@ -41,8 +41,8 @@ const specialCharacters = [
 ];
 
 export const PropsFilter = (props, filters) => {
-    const { obj } = props;
-    return _.pickBy(obj, (val, key) => {
+    const { obj, ref } = props;
+    const filteredProps = _.pickBy(obj, (val, key) => {
         return (
             !_.isObject(val) &&
             !isFirstLetterIsUpper(key) &&
@@ -50,6 +50,10 @@ export const PropsFilter = (props, filters) => {
             filters.some(filter => key.indexOf(filter) > -1)
         );
     });
+    return {
+        ...filteredProps,
+        ref
+    }
 };
 
 export const ParseKeyPathVars = (keyPath, obj) => {

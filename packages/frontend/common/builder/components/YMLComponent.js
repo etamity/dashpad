@@ -33,6 +33,7 @@ import {
     YMLCodeEditorView,
     YMLAlertView,
     YMLListItemView,
+    YMLWebview
 } from './index';
 
 import {
@@ -57,7 +58,6 @@ export class YMLComponent extends React.Component {
             type,
             obj: ParseKeyPathVars(keyPath, obj),
         };
-
         switch (type.toUpperCase()) {
             case ContainerType.COLLAPSE:
                 return <YMLCollapseView {...newProps} />;
@@ -67,6 +67,8 @@ export class YMLComponent extends React.Component {
                 return <YMLContainerView {...newProps} />;
             case ContainerType.TABS:
                 return <YMLTabsView {...newProps} />;
+            case ContainerType.WEBVIEW:
+                return <YMLWebview {...newProps} />;
             case ContainerType.HEADER:
                 return <YMLCardHeaderView {...newProps} />;
             case ContainerType.FOOTER:

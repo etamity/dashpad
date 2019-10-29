@@ -13,6 +13,7 @@ export const ContainerType = keyMirror({
     COLLAPSE: null,
     SLOT: null,
     ALERT: null,
+    WEBVIEW: null
 });
 
 export const ContentType = keyMirror({

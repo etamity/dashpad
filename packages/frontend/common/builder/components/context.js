@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { AppAction } from 'common/reducers/app';
 import { Store } from 'common/store';
 import { keyPathUtil } from 'common/libs/Utils';
+import VM from 'common/libs/VM';
 
 export default props => {
     const state = Store.getState().app.uiSchema;
@@ -13,13 +14,17 @@ export default props => {
         });
     };
     const get = key => {
-        return _.get(props.obj, key);
+        const ref = VM.getRef(key);
+        const newProps = _.get(props.obj, key);;
+        return {...newProps, [key]: ref};
     };
     const getSibling = key => {
         const keyPath = keyPathUtil(props.keyPath)
             .sibling()
             .append(key).value;
-        return _.get(state, keyPath);
+        const ref = VM.getRef(keyPath);
+        const newProps = _.get(state, keyPath);
+        return { ...newProps, [key]: ref };
     };
     const setSibling = (key, value) => {
         const keyPath = keyPathUtil(props.keyPath)
@@ -32,9 +37,14 @@ export default props => {
     };
     const getParent = key => {
         let parentKeyPath = keyPathUtil(props.keyPath).parent();
-        const keyPath = key ? parentKeyPath.append(key) : parentKeyPath.value;
-        return _.get(state, keyPath);
+        const keyPath = key
+            ? parentKeyPath.append(key).value
+            : parentKeyPath.value;
+        const ref = VM.getRef(keyPath);
+        const newProps = _.get(state, keyPath);
+        return { ...newProps, [key]: ref };
     };
+
     const setParent = (key, value) => {
         let keyPath = keyPathUtil(props.keyPath)
             .parent()

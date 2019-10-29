@@ -18,6 +18,8 @@ export const keyPathUtil = (keyPath) => {
         },
         append: (key) => keyPathUtil(`${keyPath}.${key}`),
         prepend: (key) => keyPathUtil(`${key}.${keyPath}`),
+        last: () => keyPathUtil(keyPath.split('.').pop()),
+        first: () => keyPathUtil(keyPath.split('.').shift())
     }
 
     return api;
