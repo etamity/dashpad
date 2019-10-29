@@ -9,7 +9,7 @@ export const SubRoutes = Object.keys(Documents).map(key => {
             path: `docs/${path}`,
             component: mdxModule,
             name: (config && config.menu) || path,
-            route: `${path}`,
+            route: `${path}`
         };
     };
     const category = path.split('/')[0].slice(2);
@@ -27,7 +27,7 @@ export const SubRoutes = Object.keys(Documents).map(key => {
         {
             name: (config && config.menu) || path,
             url: `/docs/${path}`,
-            icon: 'icon-speedometer',
+            icon: (config && config.icon) || 'icon-speedometer',
         },
     ];
     return mdxModule;

@@ -13,10 +13,10 @@ const reloadConfig = () => {
     }
 };
 
-const reloadUISchema = ymlPath => {
+const reloadUIFile = filePath => {
     const action = {
         type: AppEventType.ON_LOAD_UI,
-        payload: { ymlPath },
+        payload: { filePath },
     };
     WebContent.sendToUI(ActionEventType, action);
 };
@@ -31,5 +31,5 @@ const reloadScript = jsPath => {
 module.exports = {
     reloadScript,
     reloadConfig,
-    reloadUISchema,
+    reloadUIFile
 };

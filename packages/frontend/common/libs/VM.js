@@ -9,6 +9,7 @@ var ARGUMENT_NAMES = /([^\s,]+)/g;
 class VM {
     constructor(context) {
         this.context = context || {};
+        this.refs = {};
         this.globals = [];
         this.preloadCode = [];
         compiler.expose(...AllowedScopes.split(','));
@@ -35,6 +36,11 @@ class VM {
             { ...args, ...this.globals }
         );
     }
+    eval(code, args = {}) {
+        if (!code) return;
+        const run = compiler.compileCode(code);
+        return run({ ...args, ...this.globals });
+    }
     runEvent(code, context, args) {
         if (!code) return;
         const argNames = this.getParamNames(code);
@@ -56,6 +62,12 @@ class VM {
     }
     checkIfFunction(code) {
         return code.indexOf('function') > -1 || code.indexOf('=>') > -1;
+    }
+    addRef(keyPath, ref) {
+        this.refs[keyPath] = ref;
+    }
+    getRef(keyPath) {
+        return this.refs[keyPath];
     }
     addGlobal(name, obj) {
         this.globals[name] = obj;
