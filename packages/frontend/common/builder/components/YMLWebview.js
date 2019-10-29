@@ -34,7 +34,6 @@ export class YMLWebview extends YMLBase {
                     minHeight: '100vh',
                 }}
                 ref={ref => {
-                    console.log(ref);
                     VM.addRef(keyPath, ref);
                 }}
             />
