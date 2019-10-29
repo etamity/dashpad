@@ -97,15 +97,15 @@ export default function update(state, action) {
                 .value();
             break;
         case AppEventType.ON_LOAD_UI:
-            const { ymlPath } = payload;
+            const { filePath } = payload;
             const resolvePath =
-                ymlPath || (state.packageInfo && state.packageInfo.filePath);
+                filePath || (state.packageInfo && state.packageInfo.filePath);
             if (!resolvePath) {
                 return state;
             }
             const packageInfo = updatePackageInfo(resolvePath);
             const fileExt = resolvePath && resolvePath.split('.').pop();
-            if (fileExt === 'yaml' || fileExt === 'yml') {
+            if (['yaml', 'yml'].includes(fileExt)) {
                 const uiSchema = ContentHelper.loadJson(resolvePath);
                 const jsFilePath =
                     resolvePath &&
@@ -260,10 +260,10 @@ export const AppAction = {
         };
         Store.dispatch(action);
     },
-    loadUISchemaPath: ymlPath => {
+    loadUISchemaPath: filePath => {
         const action = {
             type: AppEventType.ON_LOAD_UI,
-            payload: { ymlPath },
+            payload: { filePath },
         };
         Store.dispatch(action);
     },

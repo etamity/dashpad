@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { UIEvent } from './Constants';
 
 export const KeyNameParser = (val, start, end, keyPath) => {
     const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
@@ -6,7 +7,7 @@ export const KeyNameParser = (val, start, end, keyPath) => {
     return keyNames;
 };
 
-export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
+export const ValueResolver = (val, start, end, replaceVal, keyPath, key) => {
     let result = val;
     if (_.isPlainObject(val)) {
         return _.mapValues(val, (prop, key) => {
@@ -16,7 +17,7 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
                 end,
                 replaceVal,
                 keyPath + '.' + key,
-                val
+                key
             );
         });
     } else if (_.isArray(val)) {
@@ -27,13 +28,13 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, parent) => {
                 end,
                 replaceVal,
                 keyPath + '.' + index,
-                val
+                index
             )
         );
     } else if (_.isString(val)) {
+        const isEvent = Object.values(UIEvent).includes(key);
         const keyNames = KeyNameParser(val, start, end, keyPath);
-
-        if (keyNames) {
+        if (keyNames && !isEvent) {
             if (keyNames.length === 1) {
                 result = _.get(replaceVal, keyNames[0]);
             } else {

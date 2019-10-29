@@ -20,7 +20,10 @@ const requireNoCache = function(filePath) {
     return require(filePath);
 };
 
-const watchFiles = ['*.yml', '*.yaml', '*.js', '*.mdx'].map(ext =>
+const watchFileYaml = ['*.yml', '*.yaml'];
+const watchFileJsx = ['*.js', '*.jsx', '*.mdx'];
+
+const watchFiles = [...watchFileYaml, ...watchFileJsx].map(ext =>
     path.join(pathHelper.PACKAGES, '/**/', ext)
 );
 
@@ -50,19 +53,16 @@ watcher.on('ready', () => {
             );
             if (filePath.includes('/_dash/')) {
                 log.info('Reload ... UI files');
-                if (filePath.includes('.yml') || filePath.includes('.yaml')) {
-                    if (filePath.includes('config.yml')) {
+                const filename = filePath.split('/').pop();
+                const fileExt = '*.' + filename.split('.').pop();
+                if (watchFileYaml.includes(fileExt)) {
+                    if (filename.includes('config')) {
                         contentLoader.reloadConfig();
                     } else {
-                        contentLoader.reloadUISchema();
+                        contentLoader.reloadUIFile();
                     }
-                    log.info('Reloaded:', filePath);
-                } else if (filePath.includes('.js')) {
-                    log.info('Reload ... js file', filePath);
-                    contentLoader.reloadScript(filePath);
-                } else if (filePath.includes('.mdx')) {
-                    log.info('Reload ... mdx file');
-                    contentLoader.reloadUISchema();
+                } else if (watchFileJsx.includes(fileExt)) {
+                    contentLoader.reloadUIFile();
                 }
             }
         }

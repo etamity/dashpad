@@ -41,8 +41,8 @@ const specialCharacters = [
 ];
 
 export const PropsFilter = (props, filters) => {
-    const { obj } = props;
-    return _.pickBy(obj, (val, key) => {
+    const { obj, ref } = props;
+    const filteredProps = _.pickBy(obj, (val, key) => {
         return (
             !_.isObject(val) &&
             !isFirstLetterIsUpper(key) &&
@@ -50,13 +50,17 @@ export const PropsFilter = (props, filters) => {
             filters.some(filter => key.indexOf(filter) > -1)
         );
     });
+    return {
+        ...filteredProps,
+        ref
+    }
 };
 
 export const ParseKeyPathVars = (keyPath, obj) => {
     const vars = _.get(Store.getState().app.uiSchema, '$vars');
     const start = '\\${';
     const end = '}';
-    return ValueResolver(obj, start, end, vars, keyPath, obj);
+    return ValueResolver(obj, start, end, vars, keyPath);
 };
 
 export const EventsHook = (props, events) => {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import path from 'path';
 import remarkUnImporter from '../utils/remark-un-importer';
 import getScope from '../utils/get-scope';
 import MDX from './MDX';
-import ErrorRenderer from './Error';
+import ErrorRenderer from 'common/components/Error';
 
 class MDXScopedRuntime extends React.Component {
     state = { error: undefined };
@@ -23,8 +23,12 @@ class MDXScopedRuntime extends React.Component {
         onError(error);
     };
 
-    componentDidCatch(error) {
-        this.onError(error);
+    componentDidCatch(error, info) {
+        const errorMessage = [
+            error.toString(),
+            info.componentStack.toString(),
+        ].join('');
+        this.onError(errorMessage);
     }
 
     render() {
@@ -36,12 +40,13 @@ class MDXScopedRuntime extends React.Component {
             rehypePlugins,
             components,
             children,
+            modulePath,
         } = this.props;
 
         if (error) {
             return <ErrorRenderer>{error}</ErrorRenderer>;
         }
-
+        const resolvePath = path.dirname(modulePath);
         try {
             const resolvedScope = allowedImports
                 ? getScope({
@@ -49,11 +54,13 @@ class MDXScopedRuntime extends React.Component {
                       rehypePlugins,
                       mdx: children,
                       allowedImports,
+                      resolvePath,
                   })
                 : {};
             return (
                 <MDX
                     components={{ ...components, ...resolvedScope }}
+                    modulePath={modulePath}
                     scope={{
                         Layout: ({ children }) => children,
                         ...scope,
@@ -64,9 +71,9 @@ class MDXScopedRuntime extends React.Component {
                     {children}
                 </MDX>
             );
-        } catch (err) {
-            this.onError(err);
-            return <ErrorRenderer>{err}</ErrorRenderer>;
+        } catch (error) {
+            console.error(error);
+            return <ErrorRenderer>{error}</ErrorRenderer>;
         }
     }
 }
@@ -79,12 +86,14 @@ MDXScopedRuntime.propTypes = {
     allowedImports: PropTypes.shape({}),
     onError: PropTypes.func.isRequired,
     children: PropTypes.node,
+    resolvePath: PropTypes.string.isRequired,
 };
 
 MDXScopedRuntime.defaultProps = {
     scope: {},
     remarkPlugins: [],
     rehypePlugins: [],
+    resolvePath: '',
     onError: () => undefined,
 };
 

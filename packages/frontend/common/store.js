@@ -7,7 +7,16 @@ import reducers from 'common/reducers';
 
 const { Constants, ContentLoader, DashpadApi } = Remote();
 
-export const Store = ConfigureStore(reducers, { app: initState });
+const createSingleton = () => {
+    let store = VM.getGlobal('Store');
+    if (!store) {
+        store = ConfigureStore(reducers, { app: initState });
+        VM.addGlobal('Store', store);
+    }
+    return store;
+};
+
+export const Store = createSingleton();
 
 export const Dashpad = new DashpadApi({
     isBrowser: true,
@@ -15,9 +24,7 @@ export const Dashpad = new DashpadApi({
     state: Store.getState(),
 });
 
-// window.Dashpad = Dashpad;
 VM.addGlobal('Dashpad', Dashpad);
-console.log(VM.getGlobal('Dashpad'));
 
 const { ActionEventType } = Constants;
 

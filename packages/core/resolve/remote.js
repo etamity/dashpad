@@ -31,7 +31,7 @@ export const Remote = () => {
     const ContentLoader = {
         reloadScript: () => {},
         reloadConfig: () => {},
-        reloadUISchema: () => {},
+        reloadUIFile: () => {},
     };
     const BackendStore = require('@dashpad/core/app/store/index');
     const Config = {
