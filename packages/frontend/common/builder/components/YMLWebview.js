@@ -20,10 +20,6 @@ const allowedProps = [
 ];
 
 export class YMLWebview extends YMLBase {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { keyPath } = this.props;
         return (

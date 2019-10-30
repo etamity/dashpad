@@ -15,7 +15,7 @@ e.g.
 
 `Dashpad.getVars(keyPath);`
 
-If you predefined key default value in the yaml file header under `$vars` key:
+If we predefined key default value in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -25,7 +25,7 @@ $vars:
     progress: 0
 ```
 
-Then you can get the value simple pass they `username` key to getVars, it will return variables `username` value.
+Then we can get the value simple pass they `username` key to getVars, it will return variables `username` value.
 
 ```js
 Dashpad.getVars('username');  // return 'joey'
@@ -39,7 +39,7 @@ e.g.
 
 `Dashpad.setVars(keyPath, value);`
 
-If you predefined key default value in the yaml file header under `$vars` key:
+If we predefined key default value in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -48,7 +48,7 @@ $vars:
     progress: 0
 ```
 
-And you can set the props refers `${username}` and `${progress}` to these variable keys:
+And we can set the props refers `${username}` and `${progress}` to these variable keys:
 
 ```yaml
 ---
@@ -64,7 +64,7 @@ Progress:
 
 ```
 
-Then you can set the value simple pass they `username` key to getVars, it will set `Username.value` and `Progress.value` props value.
+Then we can set the value simple pass they `username` key to getVars, it will set `Username.value` and `Progress.value` props value.
 
 ```js
 Dashpad.setVars('username', 'joseph');
@@ -74,7 +74,7 @@ Dashpad.setVars('username', 'joseph');
 Dashpad.setVars({ keyPath: 'username', value: 'joseph' });
 ```
 
-Or you can set mutiple value in one goal:
+Or we can set mutiple value in one goal:
 
 ```js
 Dashpad.setVars([
@@ -91,7 +91,7 @@ e.g.
 
 `Dashpad.getVarsState(keyPath);`
 
-If you predefined key path in the yaml file header under `$vars` key:
+If we predefined key path in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -100,7 +100,7 @@ $vars:
     header: Tabs_1.Card_1.Header.title
 ```
 
-Then you can get the value simple pass they `username` key to getVarsState, it will return `Tabs_1.Card_1.Row.Username.value` state value.
+Then we can get the value simple pass they `username` key to getVarsState, it will return `Tabs_1.Card_1.Row.Username.value` state value.
 
 ```js
 Dashpad.getVarsState('username');
@@ -114,7 +114,7 @@ e.g.
 
 `Dashpad.setVarsState(keyPath, value);`
 
-If you predefined key path in the yaml file header under `$vars` key:
+If we predefined key path in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -123,7 +123,7 @@ $vars:
     header: Tabs_1.Card_1.Header.title
 ```
 
-Then you can set the value simple pass they `username` key to getVars, it will set `Tabs_1.Card_1.Row.Username.value` state value.
+Then we can set the value simple pass they `username` key to getVars, it will set `Tabs_1.Card_1.Row.Username.value` state value.
 
 ```js
 Dashpad.setVarsState('username', 'joseph');
@@ -131,7 +131,7 @@ Dashpad.setVarsState('username', 'joseph');
 Dashpad.setVarsState({ keyPath: 'username', value: 'joseph' });
 ```
 
-Or you can set mutiple value in one goal:
+Or we can set mutiple value in one goal:
 
 ```js
 Dashpad.setVarsState([
@@ -156,7 +156,7 @@ Dashpad.settings.delete(keyPath); // delete the variables under your package nam
 Dashpad.settings.value(); // get all Dashpad settings
 ```
 
-If you have a node package name `sample_module`, and you can set your settings variable as below:
+If we have a node package name `sample_module`, and we can set your settings variable as below:
 
 ```js
 Dashpad.settings.set('myToken', 'token_data'); // set the variables under your package name
@@ -190,7 +190,7 @@ Dashpad.setState('Tabs_1.Card_1.Header.title', 'Hello!!!!');
 Dashpad.setState({ keyPath: 'Tabs_1.Card_1.Header.title', value: 'Hello!!!!' });
 ```
 
-Or you can set mutiple value in one goal:
+Or we can set mutiple value in one goal:
 
 ```js
 Dashpad.setState([

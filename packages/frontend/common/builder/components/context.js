@@ -6,62 +6,38 @@ import VM from 'common/libs/VM';
 
 export default props => {
     const state = Store.getState().app.uiSchema;
-    const set = (key, value) => {
-        const keyPath = keyPathUtil(props.keyPath).append(key).value;
-        AppAction.updateUIState({
-            keyPath: keyPath,
-            value: value,
-        });
-    };
-    const get = key => {
-        const ref = VM.getRef(key);
-        const newProps = _.get(props.obj, key);;
-        return {...newProps, [key]: ref};
-    };
-    const getSibling = key => {
-        const keyPath = keyPathUtil(props.keyPath)
-            .sibling()
-            .append(key).value;
-        const ref = VM.getRef(keyPath);
-        const newProps = _.get(state, keyPath);
-        return { ...newProps, [key]: ref };
-    };
-    const setSibling = (key, value) => {
-        const keyPath = keyPathUtil(props.keyPath)
-            .sibling()
-            .append(key).value;
-        AppAction.updateUIState({
-            keyPath: keyPath,
-            value: value,
-        });
-    };
-    const getParent = key => {
-        let parentKeyPath = keyPathUtil(props.keyPath).parent();
-        const keyPath = key
-            ? parentKeyPath.append(key).value
-            : parentKeyPath.value;
-        const ref = VM.getRef(keyPath);
-        const newProps = _.get(state, keyPath);
-        return { ...newProps, [key]: ref };
-    };
 
-    const setParent = (key, value) => {
-        let keyPath = keyPathUtil(props.keyPath)
-            .parent()
-            .append(key).value;
-        AppAction.updateUIState({
-            keyPath: keyPath,
-            value: value,
-        });
-    };
+    const target = basePath => ({
+        value: () => _.get(state, basePath),
+        ref: () => VM.getRef(basePath),
+        sibling: key => {
+            const keyPath = keyPathUtil(basePath)
+                .sibling()
+                .append(key).value;
+            return target(keyPath);
+        },
+        parent: key => {
+            let parentKeyPath = keyPathUtil(basePath).parent();
+            const keyPath = key
+                ? parentKeyPath.append(key).value
+                : parentKeyPath.value;
+            return target(keyPath);
+        },
+        set: value => {
+            AppAction.updateUIState({
+                keyPath: basePath,
+                value: value,
+            });
+            return target(basePath);
+        },
+        get: key => {
+            const keyPath = keyPathUtil(basePath).append(key).value;
+            return target(keyPath);
+        },
+    });
 
     return {
+        ... target(props.keyPath),
         props,
-        set,
-        get,
-        getParent,
-        setParent,
-        getSibling,
-        setSibling,
     };
 };
