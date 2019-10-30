@@ -34,9 +34,6 @@ export default class MdxBuilder extends Component {
             name: 'MDXUIBuilder',
         };
     }
-    constructor() {
-        super();
-    }
     componentDidMount() {
         Prism.highlightAll();
     }

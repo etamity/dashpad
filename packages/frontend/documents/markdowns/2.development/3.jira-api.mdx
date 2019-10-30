@@ -8,7 +8,7 @@ export const config = {
 
 ---
 
-If you set up the endpoint under `settings.platform.Jenkins.endpoint` in Dashpad, it will connect to that jenkins endpoint by default, then you can use the `Jenkins` object to call jenkins api.
+If we set up the endpoint under `settings.platform.Jenkins.endpoint` in Dashpad, it will connect to that jenkins endpoint by default, then we can use the `Jenkins` object to call jenkins api.
 
 Example:
 
@@ -17,7 +17,7 @@ const { Jenkins } = Dashpad.platform;
 Jenkins.build('some_job', function(err, data) {})
 ```
 
-For connecting to different endpoint, you can use `JenkinsConnect` function to construct a new object to use it. 
+For connecting to different endpoint, we can use `JenkinsConnect` function to construct a new object to use it. 
 
 ``` js
 const { JenkinsConnect } = Dashpad.platform;

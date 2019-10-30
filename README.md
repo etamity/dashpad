@@ -14,7 +14,7 @@ A hackable universal dashboard framework for your desktop task automation and vi
 
 - Node >= v8.16.0
 
-    If you get `fsevents.watch is not a function` error, try to change node version greater than v8.16.0.
+    If we get `fsevents.watch is not a function` error, try to change node version greater than v8.16.0.
 
 ### Getting Started
 
@@ -26,7 +26,7 @@ Requires [Node.js](https://docs.npmjs.com/getting-started/installing-node) and [
 
 1. Fork this repo
 2. Clone your fork or this repo `git clone https://github.com/etamity/dashpad`
-3. `cd` to the directory where you `clone`d it
+3. `cd` to the directory where we `clone`d it
 
 ## Install
 
@@ -55,7 +55,7 @@ or
 
 ## Config
 
-The application config file is in `/Users/${username}/documents/dashpad/db/db.json`, you can change the window size and port etc.
+The application config file is in `/Users/${username}/documents/dashpad/db/db.json`, we can change the window size and port etc.
 
 ```json
 {
@@ -75,11 +75,11 @@ The application config file is in `/Users/${username}/documents/dashpad/db/db.js
 
 ## Cli Command
 
-If you wish to use `dashpad` command, run npm global install and link it inside your project root folder.
+If we wish to use `dashpad` command, run npm global install and link it inside your project root folder.
 
 `npm i -g & npm link`
 
-and then you can run `dashpad` in the terminal to open the dashpad.
+and then we can run `dashpad` in the terminal to open the dashpad.
 
 The default work workspace directory will be under `/Users/${username}/documents/dashpad`
 
@@ -103,7 +103,7 @@ module.exports = function(params) {
 };
 ```
 
-`Dashpad` is a global object that you can access dashpad api here.
+`Dashpad` is a global object that we can access dashpad api here.
 
 ### Step 2
 
@@ -126,7 +126,7 @@ navs:
   # configFile: !import someConfigFile.json
 ```
 
-Now restart dashpad, you will see the new side menu `My First Module`.
+Now restart dashpad, we will see the new side menu `My First Module`.
 
 ### Step 3
 
@@ -156,17 +156,17 @@ Tabs:
                     
 ```
 
-and now go back to dashpad and click side menu `My First Module`, you will see new you ui has been created.
+and now go back to dashpad and click side menu `My First Module`, we will see new we ui has been created.
 
-if click `Notification` button, you will recevie a notification.
+if click `Notification` button, we will recevie a notification.
 
 ### **Note**
 
-If you want to split the js code from yml file into a external js file,  you can just create a js file with exact same name as yaml file, and write logic or function in that js file, Dashpad will preload the code for yaml file usage.
+If we want to split the js code from yml file into a external js file,  we can just create a js file with exact same name as yaml file, and write logic or function in that js file, Dashpad will preload the code for yaml file usage.
 
 e.g
 
-If `_dash/ui.yaml` file exist already then create another js file call `_dash/ui.js`, so that you can write js code in the file.
+If `_dash/ui.yaml` file exist already then create another js file call `_dash/ui.js`, so that we can write js code in the file.
 
 > ui.js
 ``` js
@@ -182,7 +182,7 @@ console.log('This code is loaded');
 
 ```
 
-and then you can call `onTabsMount` in component events, such as `onClick`, `onMount`, `onWillMount` etc.
+and then we can call `onTabsMount` in component events, such as `onClick`, `onMount`, `onWillMount` etc.
 
 ```yaml
 ---
@@ -207,7 +207,7 @@ Now check the console, will find message `'This code is loaded'` is there, and t
 
 ## Yaml Spliting
 
-You can split yaml file into sub component files, but have to named the file start with `@`, e.g `@filename.yml`, this is for recognising the file as a component, so when you update the component file, it will only re-render main entry file.
+You can split yaml file into sub component files, but have to named the file start with `@`, e.g `@filename.yml`, this is for recognising the file as a component, so when we update the component file, it will only re-render main entry file.
 
 e.g
 
@@ -237,31 +237,29 @@ Container:
       brand: linkedin
       onClick: >
         (e) => {
-          console.log(this);
-
-          const brand = this.get('brand');
-
-          const isOpen = this.getSibling('Collapse.isOpen');
-
-          const newButtonLabel = (isOpen ? 'isOpen' : 'isClosed') 
-
-          this.set('label', newButtonLabel+ ' : ' + brand);
-
-          this.setSibling('Collapse.isOpen', !isOpen);
+              console.log(this);
+              const brand = this.get('brand').value();
+              const isOpenProp = this.sibling('Collapse.isOpen');
+              const isOpen = isOpenProp.value();
+              const newButtonLabel = (isOpen ? 'isOpen' : 'isClosed') 
+              this.get('label').set(newButtonLabel+ ' : ' + brand);
+              isOpenProp.set(!isOpen);
         }
 ```
 
-`this.props` refer to the event target itself, you can direct acces target's props, keypath, type, name etc.
+`this.props` refer to the event target itself, we can direct acces target's props object, keypath, type, name etc.
 
-`this.get` refer to the event target itself, you can access target's props;
+`this.get(key)` refer to the event target itself, we can access target's props object; `this.get(key).value()` will return the value of the prop key.
 
-`this.set` refer to the event target itself, you can set target's props value directly;
+`this.set(value)` refer to the event target itself, we can set target's props value directly; We also can do chain keypath lookup: `this.parent(key).sibling(key2).set(value)`.
 
-`this.setSibling` refer to the event target sibling, you can set sibling's props value directly;
+`this.sibling(key)` refer to the event target sibling props object, we can set sibling's props value directly; `this.sibling(key).value()` will return the value of the sibling prop key.
 
-`this.getSibling` refer to the event target sibling, you can get sibling's props value directly;
+`this.parent(key)` refer to the event target parent props object, we can get parent's props value directly; `this.parent(key).value()` will return the value of the parent prop key.
 
-**If you want to access parent node's props, the only way to access is to set $vars variables, make it global, as when you want to access cross tree node's state, it suppose to be global state.**
+`this.ref()` refer to the event target instance, we can access target's instance, currently only 'Webview' component has the value return from `ref()`.
+
+**If we want to access parent node's props, the only way to access is to set $vars variables, make it global, as when we want to access cross tree node's state, it suppose to be global state.**
 
 ## UI Schema
 
@@ -308,13 +306,13 @@ Alert:
     content: >
       <h4 className="alert-heading">Well done!</h4>
         <p>
-          Aww yeah, you successfully read this important alert message. This example text is going
-          to run a bit longer so that you can see how spacing within an alert works with this kind
+          Aww yeah, we successfully read this important alert message. This example text is going
+          to run a bit longer so that we can see how spacing within an alert works with this kind
           of content.
         </p>
         <hr />
         <p className="mb-0">
-          Whenever you need to, be sure to use margin utilities to keep things nice and tidy.
+          Whenever we need to, be sure to use margin utilities to keep things nice and tidy.
       </p>
 ```
 
@@ -416,7 +414,7 @@ Row:
         tooltip: Please input your password
 ```
 
-Also you can specify `col` props in child components
+Also we can specify `col` props in child components
 
 ```yaml
 Row:
@@ -691,7 +689,7 @@ e.g.
 
 `Dashpad.getVars(keyPath);`
 
-If you predefined key default value in the yaml file header under `$vars` key:
+If we predefined key default value in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -701,7 +699,7 @@ $vars:
     progress: 0
 ```
 
-Then you can get the value simple pass they `username` key to getVars, it will return variables `username` value.
+Then we can get the value simple pass they `username` key to getVars, it will return variables `username` value.
 
 ```js
 Dashpad.getVars('username');  // return 'joey'
@@ -715,7 +713,7 @@ e.g.
 
 `Dashpad.setVars(keyPath, value);`
 
-If you predefined key default value in the yaml file header under `$vars` key:
+If we predefined key default value in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -724,7 +722,7 @@ $vars:
     progress: 0
 ```
 
-And you can set the props refers `${username}` and `${progress}` to these variable keys:
+And we can set the props refers `${username}` and `${progress}` to these variable keys:
 
 ```yaml
 ---
@@ -740,7 +738,7 @@ Progress:
 
 ```
 
-Then you can set the value simple pass they `username` key to getVars, it will set `Username.value` and `Progress.value` props value.
+Then we can set the value simple pass they `username` key to getVars, it will set `Username.value` and `Progress.value` props value.
 
 ```js
 Dashpad.setVars('username', 'joseph');
@@ -748,7 +746,7 @@ Dashpad.setVars('username', 'joseph');
 Dashpad.setVars({ keyPath: 'username', value: 'joseph' });
 ```
 
-Or you can set mutiple value in one goal:
+Or we can set mutiple value in one goal:
 
 ```js
 Dashpad.setVars([
@@ -765,7 +763,7 @@ e.g.
 
 `Dashpad.getVarsState(keyPath);`
 
-If you predefined key path in the yaml file header under `$vars` key:
+If we predefined key path in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -774,7 +772,7 @@ $vars:
     header: Tabs_1.Card_1.Header.title
 ```
 
-Then you can get the value simple pass they `username` key to getVarsState, it will return `Tabs_1.Card_1.Row.Username.value` state value.
+Then we can get the value simple pass they `username` key to getVarsState, it will return `Tabs_1.Card_1.Row.Username.value` state value.
 
 ```js
 Dashpad.getVarsState('username');
@@ -788,7 +786,7 @@ e.g.
 
 `Dashpad.setVarsState(keyPath, value);`
 
-If you predefined key path in the yaml file header under `$vars` key:
+If we predefined key path in the yaml file header under `$vars` key:
 
 ```yaml
 ---
@@ -797,7 +795,7 @@ $vars:
     header: Tabs_1.Card_1.Header.title
 ```
 
-Then you can set the value simple pass they `username` key to getVars, it will set `Tabs_1.Card_1.Row.Username.value` state value.
+Then we can set the value simple pass they `username` key to getVars, it will set `Tabs_1.Card_1.Row.Username.value` state value.
 
 ```js
 Dashpad.setVarsState('username', 'joseph');
@@ -805,7 +803,7 @@ Dashpad.setVarsState('username', 'joseph');
 Dashpad.setVarsState({ keyPath: 'username', value: 'joseph' });
 ```
 
-Or you can set mutiple value in one goal:
+Or we can set mutiple value in one goal:
 
 ```js
 Dashpad.setVarsState([
@@ -830,7 +828,7 @@ Dashpad.settings.delete(keyPath); // delete the variables under your package nam
 Dashpad.settings.value(); // get all Dashpad settings
 ```
 
-If you have a node package name `sample_module`, and you can set your settings variable as below:
+If we have a node package name `sample_module`, and we can set your settings variable as below:
 
 ```js
 Dashpad.settings.set('myToken', 'token_data'); // set the variables under your package name
@@ -864,7 +862,7 @@ Dashpad.setState('Tabs_1.Card_1.Header.title', 'Hello!!!!');
 Dashpad.setState({ keyPath: 'Tabs_1.Card_1.Header.title', value: 'Hello!!!!' });
 ```
 
-Or you can set mutiple value in one goal:
+Or we can set mutiple value in one goal:
 
 ```js
 Dashpad.setState([
@@ -979,7 +977,7 @@ So all global objects are being filtered, `window` object will be `undefined`.
 
 ## Github API
 
-Dashpad has integrated official github rest sdk [@octokit/rest](https://github.com/octokit/rest.js), you can generate auth token on github setting, and set it up on Dashpad settings page, then get the Github object by
+Dashpad has integrated official github rest sdk [@octokit/rest](https://github.com/octokit/rest.js), we can generate auth token on github setting, and set it up on Dashpad settings page, then get the Github object by
 
 ``` js
 const { Github } = Dashpad.platform;
@@ -987,11 +985,11 @@ const { Github } = Dashpad.platform;
 Github.search({q, ...});
 ```
 
-By default if you didn't set up the auth token, the Github object will be empty.
+By default if we didn't set up the auth token, the Github object will be empty.
 
 ## Jenkins API
 
-If you set up the endpoint under `settings.platform.Jenkins.endpoint` in Dashpad, it will connect to that jenkins endpoint by default, then you can use the `Jenkins` object to call jenkins api.
+If we set up the endpoint under `settings.platform.Jenkins.endpoint` in Dashpad, it will connect to that jenkins endpoint by default, then we can use the `Jenkins` object to call jenkins api.
 
 Example:
 
@@ -1000,7 +998,7 @@ const { Jenkins } = Dashpad.platform;
 Jenkins.build('some_job', function(err, data) {})
 ```
 
-For connecting to different endpoint, you can use `JenkinsConnect` function to construct a new object to use it. 
+For connecting to different endpoint, we can use `JenkinsConnect` function to construct a new object to use it. 
 
 ``` js
 const { JenkinsConnect } = Dashpad.platform;
@@ -1365,7 +1363,7 @@ To create new plugin, go to `packages/frontend/dashpad/plugins` and create new f
 export * from './NewPlguin';
 ```
 
-Also you can copy the template `__SamplePlugin` folder, you can find it under `plugins` folder to start your new plugin.
+Also we can copy the template `__SamplePlugin` folder, we can find it under `plugins` folder to start your new plugin.
 
 ### NewPlguin.js
 
@@ -1432,7 +1430,7 @@ export class NewPlugin extends Component {
 }
 ```
 
-Each `SideMenu` menu item also can have submenu, and you can assign it to `children` array in the menu item.
+Each `SideMenu` menu item also can have submenu, and we can assign it to `children` array in the menu item.
 
 SideMenu
 Add sub menu into menu item
@@ -1475,12 +1473,12 @@ Add sub menu into menu item
 
 ## Publish Your Tools/Plugins
 
-Once you push your code, add `dashpad` topic on the github descirption area, your plugin will show up on the Dashpad main page, it will be nice to add README.md to tell a bit more about your plugin, let people know what it does.
+Once we push your code, add `dashpad` topic on the github descirption area, your plugin will show up on the Dashpad main page, it will be nice to add README.md to tell a bit more about your plugin, let people know what it does.
 
 ## Routing
 
-When you created new plugin, it will automatically create new route for you.
-For example when you created a new plugin under `packages/frontend/dashpad/plugins/NewPlugin`, and export the plugin in the `packages/frontend/dashpad/plugins/index.js` file:
+When we created new plugin, it will automatically create new route for we.
+For example when we created a new plugin under `packages/frontend/dashpad/plugins/NewPlugin`, and export the plugin in the `packages/frontend/dashpad/plugins/index.js` file:
 
 `export * from './NewPlugin';`
 

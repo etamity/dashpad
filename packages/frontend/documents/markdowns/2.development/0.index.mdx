@@ -23,7 +23,7 @@ module.exports = function(params) {
 };
 ```
 
-`Dashpad` is a global object that you can access dashpad api here.
+`Dashpad` is a global object that we can access dashpad api here.
 
 ### Step 2
 
@@ -46,7 +46,7 @@ navs:
   # configFile: !import someConfigFile.json
 ```
 
-Now restart dashpad, you will see the new side menu `My First Module`.
+Now restart dashpad, we will see the new side menu `My First Module`.
 
 ### Step 3
 
@@ -76,17 +76,17 @@ Tabs:
                     
 ```
 
-and now go back to dashpad and click side menu `My First Module`, you will see new you ui has been created.
+and now go back to dashpad and click side menu `My First Module`, we will see new we ui has been created.
 
-if click `Notification` button, you will recevie a notification.
+if click `Notification` button, we will recevie a notification.
 
 ### **Note**
 
-If you want to split the js code from yml file into a external js file,  you can just create a js file with exact same name as yaml file, and write logic or function in that js file, Dashpad will preload the code for yaml file usage.
+If we want to split the js code from yml file into a external js file,  we can just create a js file with exact same name as yaml file, and write logic or function in that js file, Dashpad will preload the code for yaml file usage.
 
 e.g
 
-If `_dash/ui.yaml` file exist already then create another js file call `_dash/ui.js`, so that you can write js code in the file.
+If `_dash/ui.yaml` file exist already then create another js file call `_dash/ui.js`, so that we can write js code in the file.
 
 > ui.js
 ``` js
@@ -102,7 +102,7 @@ console.log('This code is loaded');
 
 ```
 
-and then you can call `onTabsMount` in component events, such as `onClick`, `onMount`, `onWillMount` etc.
+and then we can call `onTabsMount` in component events, such as `onClick`, `onMount`, `onWillMount` etc.
 
 ```yaml
 ---
@@ -127,7 +127,7 @@ Now check the console, will find message `'This code is loaded'` is there, and t
 
 ## Yaml Spliting
 
-You can split yaml file into sub component files, but have to named the file start with `@`, e.g `@filename.yml`, this is for recognising the file as a component, so when you update the component file, it will only re-render main entry file.
+You can split yaml file into sub component files, but have to named the file start with `@`, e.g `@filename.yml`, this is for recognising the file as a component, so when we update the component file, it will only re-render main entry file.
 
 e.g
 
@@ -138,6 +138,7 @@ Tabs:
 ```
 
 `Slot` is a warpper component which doesn't doing anything on appearance, it's useful to organise structure or import sepreated file components.
+
 
 ## This Context
 
@@ -157,31 +158,29 @@ Container:
       brand: linkedin
       onClick: >
         (e) => {
-          console.log(this);
-
-          const brand = this.get('brand');
-
-          const isOpen = this.getSibling('Collapse.isOpen');
-
-          const newButtonLabel = (isOpen ? 'isOpen' : 'isClosed') 
-
-          this.set('label', newButtonLabel+ ' : ' + brand);
-
-          this.setSibling('Collapse.isOpen', !isOpen);
+              console.log(this);
+              const brand = this.get('brand').value();
+              const isOpenProp = this.sibling('Collapse.isOpen');
+              const isOpen = isOpenProp.value();
+              const newButtonLabel = (isOpen ? 'isOpen' : 'isClosed') 
+              this.get('label').set(newButtonLabel+ ' : ' + brand);
+              isOpenProp.set(!isOpen);
         }
 ```
 
-`this.props` refer to the event target itself, you can direct acces target's props, keypath, type, name etc.
+`this.props` refer to the event target itself, we can direct acces target's props object, keypath, type, name etc.
 
-`this.get` refer to the event target itself, you can access target's props;
+`this.get(key)` refer to the event target itself, we can access target's props object; `this.get(key).value()` will return the value of the prop key.
 
-`this.set` refer to the event target itself, you can set target's props value directly;
+`this.set(value)` refer to the event target itself, we can set target's props value directly; We also can do chain keypath lookup: `this.parent(key).sibling(key2).set(value)`.
 
-`this.setSibling` refer to the event target sibling, you can set sibling's props value directly;
+`this.sibling(key)` refer to the event target sibling props object, we can set sibling's props value directly; `this.sibling(key).value()` will return the value of the sibling prop key.
 
-`this.getSibling` refer to the event target sibling, you can get sibling's props value directly;
+`this.parent(key)` refer to the event target parent props object, we can get parent's props value directly; `this.parent(key).value()` will return the value of the parent prop key.
 
-**If you want to access parent node's props, the only way to access is to set $vars variables, make it global, as when you want to access cross tree node's state, it suppose to be global state.**
+`this.ref()` refer to the event target instance, we can access target's instance, currently only 'Webview' component has the value return from `ref()`.
+
+**If we want to access parent node's props, the only way to access is to set $vars variables, make it global, as when we want to access cross tree node's state, it suppose to be global state.**
 
 ## UI Schema
 
