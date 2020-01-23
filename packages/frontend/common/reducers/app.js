@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import VM from 'common/libs/VM';
 import { SchemaKeys } from './Constants';
 import { currentRoute } from 'common/libs/AutoRouter';
+import path from 'path';
 
 const {
     Constants,
@@ -13,6 +14,8 @@ const {
     ProcessManager,
     Notifier,
     ContentHelper,
+    PathHelper,
+    env,
 } = Remote();
 
 const { AppEventType, UIEventType, ProcessEventType } = Constants;
@@ -34,11 +37,14 @@ const syncBackendAndChildProcessState = state => {
  */
 const updateUIState = (keyPath, value, state) => {
     let schemaKey = SchemaKeys.UISCHEMA;
-    if (keyPath.charAt(0) !== '.') {
-        schemaKey = schemaKey + '.' + keyPath;
-    } else {
-        schemaKey = schemaKey + keyPath;
+    if (_.isString(keyPath)) {
+        if (keyPath && keyPath.charAt(0) !== '.') {
+            schemaKey = schemaKey + '.' + keyPath;
+        } else {
+            schemaKey = schemaKey + keyPath;
+        }
     }
+
     return immutable(state)
         .set(schemaKey, value)
         .value();
@@ -97,7 +103,7 @@ export default function update(state, action) {
                 .value();
             break;
         case AppEventType.ON_LOAD_UI:
-            const { filePath } = payload;
+            const { filePath, vars } = payload;
             const resolvePath =
                 filePath || (state.packageInfo && state.packageInfo.filePath);
             if (!resolvePath) {
@@ -117,6 +123,11 @@ export default function update(state, action) {
                     VM.buildVmScope(jsScript);
                 } else {
                     VM.buildVmScope('"";\n');
+                }
+                if (uiSchema) {
+                    uiSchema[SchemaKeys.VARS] = uiSchema[SchemaKeys.VARS]
+                        ? { ...uiSchema[SchemaKeys.VARS], ...vars }
+                        : { ...vars };
                 }
                 newState = immutable(state)
                     .set(SchemaKeys.UISCHEMA, uiSchema)
@@ -149,6 +160,16 @@ export default function update(state, action) {
 
             break;
         case UIEventType.UPDATE_VARS_STATE:
+            break;
+        case UIEventType.LOGIN:
+                newState = immutable(state)
+                .set('system.isLogined', true)
+                .value();
+            break;
+        case UIEventType.LOGOUT:
+                newState = immutable(state)
+                .set('system.isLogined', false)
+                .value();
             break;
         case UIEventType.UPDATE_UI_STATE_BY_VARS:
             if (_.isArray(payload)) {
@@ -233,15 +254,19 @@ export default function update(state, action) {
 }
 
 const updatePackageInfo = filePath => {
-    const pathArr = filePath.split('/');
-    const fileName = pathArr[pathArr.length - 1];
-    const packageName = filePath.match(/packages\/(.*?)\/_/)[1];
+    const fileName = path.basename(filePath);
+    const packagesRegx = filePath.match(/packages\/(.*?)\/_/);
+    const packageName = env.APP_PWD
+        ? path.basename(env.APP_PWD)
+        : packagesRegx && packagesRegx[1];
     const namespace = filePath.slice(filePath.indexOf(packageName));
-    const dirname = filePath.substring(0, filePath.lastIndexOf('/'));
+    const packagePath = PathHelper.getPackagePath(packageName);
+    const relativePath = filePath.slice(filePath.indexOf('_dash/') + 6);
     const packageInfo = {
         fileName,
+        relativePath,
         packageName,
-        dirname,
+        packagePath,
         filePath,
         namespace,
     };
@@ -260,10 +285,10 @@ export const AppAction = {
         };
         Store.dispatch(action);
     },
-    loadUISchemaPath: filePath => {
+    loadUISchemaPath: (filePath, vars) => {
         const action = {
             type: AppEventType.ON_LOAD_UI,
-            payload: { filePath },
+            payload: { filePath, vars },
         };
         Store.dispatch(action);
     },

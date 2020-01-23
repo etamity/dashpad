@@ -7,7 +7,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const docsBasePath = path.resolve(__dirname, '../frontend/documents');
 const dashpadBasePath = path.resolve(__dirname, '../frontend/dashpad');
 const frontendPath = path.resolve(__dirname, '../frontend');
-
+const { DefinePlugin } = require('webpack');
 // const log = require('@dashpad/core/libs/log');
 
 module.exports = {
@@ -19,9 +19,7 @@ module.exports = {
 
         if (process.platform === 'win32') {
             const win32Bar = require('progress-bar-webpack-plugin');
-            config.plugins.unshift(
-                new win32Bar()
-            );
+            config.plugins.unshift(new win32Bar());
         } else {
             const macoxBar = require('webpackbar');
             config.plugins.unshift(
@@ -31,6 +29,12 @@ module.exports = {
                 })
             );
         }
+        config.plugins.unshift(
+            new DefinePlugin({
+                'process.env.APP_PWD': JSON.stringify(process.env.APP_PWD),
+            })
+        );
+
         if (process.env.APP_TYPE === 'docs') {
             const mockModules = require('@dashpad/core/resolve');
             config.target = undefined;
@@ -83,7 +87,7 @@ module.exports = {
                                 },
                             ],
                             include: [frontendPath, pathHelper.PACKAGES],
-                            exclude: [/node_modules/]
+                            exclude: [/node_modules/],
                         },
                         ...rule.oneOf,
                     ],
@@ -120,13 +124,12 @@ module.exports = {
         };
     },
     devServer: function(configFunction) {
-
         return function(proxy, allowedHost) {
-          const config = configFunction(proxy, allowedHost);
-        //   config.after = function(app, server) {
-        //     log.info('Dev Server Started!')
-        //   };
-          return config;
+            const config = configFunction(proxy, allowedHost);
+            //   config.after = function(app, server) {
+            //     log.info('Dev Server Started!')
+            //   };
+            return config;
         };
-      }
+    },
 };

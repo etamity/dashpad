@@ -160,6 +160,77 @@ and now go back to dashpad and click side menu `My First Module`, we will see ne
 
 if click `Notification` button, we will recevie a notification.
 
+## React Way
+
+Dashpad also allow us to create ui with react code base, but the main entry file must be `.mdx`, please check out [mdxjs](https://mdxjs.com/).
+
+Example of the `config.yml`:
+
+```yaml
+---
+navs:
+  - name: My First Module
+    icon: icon-speedometer
+    isOpen: true
+    goto: index.mdx # Your entry ui file
+    badge:
+        variant: info
+        text: NEW
+```
+
+example of the `index.mdx` file:
+
+```jsx
+import ExampleComponent from './example.js';
+# Hello, *world*!
+
+Below is an example of JSX embedded in Markdown. <br /> **Try and change
+the background color!**
+
+<ExampleComponent />
+
+or 
+
+<div>
+use jsx sytex directly
+</div>
+
+```
+
+example of the `example.js` file: 
+
+```jsx
+import React from 'react';
+
+export default () => (<div style={{ padding: '20px', backgroundColor: 'tomato' }}>
+  <h3>This is JSX Component</h3>
+</div>);
+
+```
+
+### Block and State
+If we want to use redux, we just need to use `Block` component to wrap up your custom component.
+
+example of `index.mdx` file:
+```jsx
+import { Button } from 'reactstrap';
+
+<Block name="example" defaultState={{
+    name: 'init state'
+    }}
+    >
+    {(state)=> {
+        return <Button onClick={()=> {
+            state.set({name: 'state changed'});
+            // Or access Dashpad api here
+            }}>Start {state.name}</Button>
+        }
+    }
+</Block>
+```
+
+**Dashpad api available in global scope, we can access `Dashpad` anypoint in the `mdx` or `jsx` file**
+
 ### **Note**
 
 If we want to split the js code from yml file into a external js file,  we can just create a js file with exact same name as yaml file, and write logic or function in that js file, Dashpad will preload the code for yaml file usage.

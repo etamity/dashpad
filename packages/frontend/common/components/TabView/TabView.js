@@ -8,7 +8,7 @@ class TabView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: null,
+            activeTab: props.activeTab,
         };
         this.toggle = this.toggle.bind(this);
     }

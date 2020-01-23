@@ -40,13 +40,14 @@ class MDXScopedRuntime extends React.Component {
             rehypePlugins,
             components,
             children,
-            modulePath,
+            packageInfo,
         } = this.props;
 
         if (error) {
             return <ErrorRenderer>{error}</ErrorRenderer>;
         }
-        const resolvePath = path.dirname(modulePath);
+        const { filePath } = packageInfo;
+        const resolvePath = path.dirname(filePath);
         try {
             const resolvedScope = allowedImports
                 ? getScope({
@@ -55,15 +56,17 @@ class MDXScopedRuntime extends React.Component {
                       mdx: children,
                       allowedImports,
                       resolvePath,
+                      packageInfo
                   })
                 : {};
             return (
                 <MDX
                     components={{ ...components, ...resolvedScope }}
-                    modulePath={modulePath}
+                    packageInfo={packageInfo}
                     scope={{
                         Layout: ({ children }) => children,
                         ...scope,
+                        ...resolvedScope
                     }}
                     remarkPlugins={[[remarkUnImporter], ...remarkPlugins]}
                     onError={this.onError}

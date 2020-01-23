@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         subRoutes,
         ip: state.app.system.ip,
+        isLogined : state.app.system.isLogined,
     };
 };
 

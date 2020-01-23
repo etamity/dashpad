@@ -68,42 +68,6 @@ export const EventsHook = (props, events) => {
     return events.reduce((eventProps, next) => {
         const _type = type && type.toUpperCase();
         eventProps[next] = e => {
-            // if (next === UIEvent.ON_BLUR) {
-            //     const { refs } = obj;
-            //     refs &&
-            //         Object.keys(refs).forEach(propKey => {
-            //             let value;
-            //             switch (_type) {
-            //                 case FieldType.INPUT:
-            //                     value = e.target.value;
-            //                     break;
-            //                 case ContentType.CODE:
-            //                     value = e;
-            //                     if (!obj.mode || obj.mode === 'json') {
-            //                         try {
-            //                             value = JSON.parse(e);
-            //                         } catch (err) {
-            //                             console.error(err);
-            //                         }
-            //                     }
-            //                     break;
-            //                 default:
-            //             }
-            //             console.log('value', value);
-            //             if (value) {
-            //                 const keyPathVars = `$vars.${refs[propKey]}`;
-            //                 AppAction.updateUIState({
-            //                     keyPath: keyPathVars,
-            //                     value,
-            //                 });
-            //                 const keyPathPropkey = `${keyPath}.${propKey}`;
-            //                 AppAction.updateUIState({
-            //                     keyPath: keyPathPropkey,
-            //                     value,
-            //                 });
-            //             }
-            //         });
-            // }
             if (
                 next === UIEvent.ON_CLICK &&
                 _.isPlainObject(obj) &&

@@ -3,6 +3,10 @@ import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
 import { UIEvent } from './Constants';
+import { SchemaKeys } from 'common/reducers/Constants'
+import { AppAction } from 'common/reducers/app';
+import { VarsKeyStore } from './ValueResovler';
+
 const allowedProps = [
     'name',
     'id',
@@ -12,11 +16,45 @@ const allowedProps = [
     'valid',
     'plaintext',
     'addon',
+    'value',
     'data-',
 ];
 const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLRadioView extends YMLBase {
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+    }
+    componentWillReceiveProps(props) {
+        const { obj } = props;
+        this.setState ({
+            value: obj.value || obj.defaultValue,
+        });
+    }
+    onChange(e) {
+        const newValue = e.target.value;
+        const { keyPath } = this.props;
+        const _varsPath = keyPath.substring(keyPath.indexOf('.'), keyPath.length) + '.value';
+        const _varsKey =
+            VarsKeyStore[
+                _varsPath
+            ];
+        if (_varsKey) {
+            const keyPathVars = `${SchemaKeys.VARS}.${_varsKey}`;
+            AppAction.updateUIState({
+                keyPath: keyPathVars,
+                value: newValue,
+            });
+        } else {
+            const keyPathPropkey = `${keyPath}.value`;
+            AppAction.updateUIState({
+                keyPath: keyPathPropkey,
+                value: newValue,
+            });
+        }
+    }
+
     render() {
         const { keyPath, obj } = this.props;
         const options =
@@ -36,7 +74,11 @@ export class YMLRadioView extends YMLBase {
                 const assignEvents = EventsHook(mergedProps, allowedEvents);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>
-                        <Input {...assignProps} {...assignEvents} />
+                        <Input {...assignProps} {...assignEvents} 
+                        checked={String(obj.value) === String(option)} 
+                        onChange={this.onChange}
+                        value={option}
+                        />
                         <Label check htmlFor={idkey}>
                             {option}
                         </Label>

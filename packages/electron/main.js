@@ -11,6 +11,7 @@ const getFromEnv = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
 const devMode = isEnvSet ? getFromEnv : !(app && app.isPackaged);
 // Keep a reference for dev mode
 const packageJson = require(path.join(__dirname, '../../package.json'));
+
 const installExtensions = async () => {
     const installer = require('electron-devtools-installer');
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -27,6 +28,13 @@ function buildMenu() {
         {
             label: 'Menu',
             submenu: [
+                {
+                    label: 'Clear Session',
+                    accelerator: 'Command+L',
+                    click() {
+                        mainWindow.webContents.session.clearStorageData();
+                    },
+                },
                 {
                     label: 'Inspector',
                     click() {

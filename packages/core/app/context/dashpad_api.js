@@ -1,4 +1,4 @@
-const { UIEventType } = require('../constants');
+const { UIEventType, AppEventType } = require('../constants');
 const _ = require('lodash');
 const Config = require('@dashpad/config');
 const BackendStore = require('../store');
@@ -23,25 +23,25 @@ class DashpahApi {
             set: (keyPath, value) => {
                 return _.isString(keyPath)
                     ? Config.set(
-                          `settings.${this.getSettingKey()}.${keyPath}`,
+                          `settings.plugins.${this.getSettingKey()}.${keyPath}`,
                           value
                       )
-                    : Config.set(`settings.${this.getSettingKey()}`, keyPath);
+                    : Config.set(`settings.plugins.${this.getSettingKey()}`, keyPath);
             },
             get: keyPath => {
                 return keyPath
-                    ? Config.get(`settings.${this.getSettingKey()}.${keyPath}`)
-                    : Config.get(`settings.${this.getSettingKey()}`);
+                    ? Config.get(`settings.plugins.${this.getSettingKey()}.${keyPath}`)
+                    : Config.get(`settings.plugins.${this.getSettingKey()}`);
             },
             push: (keyPath, value) => {
                 Config.push(
-                    `settings.${this.getSettingKey()}.${keyPath}`,
+                    `settings.plugins.${this.getSettingKey()}.${keyPath}`,
                     value
                 );
-                return Config.get(`settings.${this.getSettingKey()}`);
+                return Config.get(`settings.plugins.${this.getSettingKey()}`);
             },
             delete: keyPath => {
-                const aKeyPath = `settings.${this.getSettingKey()}`;
+                const aKeyPath = `settings.plugins.${this.getSettingKey()}`;
                 Config.delete(`${aKeyPath}.${keyPath}`);
             },
             value: () => Config.value().settings,
@@ -55,11 +55,12 @@ class DashpahApi {
     }
     initPlatforms() {
         const { settings } = Config.value();
-        const { github, jenkins } = settings.platform;
+        const github = Config.getPlatform('github');
         const { credential } = settings;
         if (github && github.authtoken && github.endpoint) {
             const Github = new Octokit({
                 auth: `token ${github.authtoken}`,
+                userAgent: 'Dashpad',
                 baseUrl: github.endpoint,
                 previews: ['mercy-preview'],
             });
@@ -72,16 +73,18 @@ class DashpahApi {
             return jenkinsapi.init(jenkinsUrl.href);
         };
         this.platform['JenkinsConnect'] = JenkinsConnect;
-
+        const { jenkins } = settings.platform;
         if (jenkins && jenkins.endpoint) {
             this.platform['Jenkins'] = JenkinsConnect(jenkins.endpoint);
         }
+        return this.platform;
     }
     updatePackageInfo(packageInfo) {
         if (packageInfo) {
             const { packageName, namespace } = packageInfo;
             this.process_namespace = namespace;
             this.packageName = packageName;
+            this.packageInfo = packageInfo;
         }
     }
     send(action) {
@@ -200,6 +203,19 @@ class DashpahApi {
                 script,
                 params,
             },
+        };
+        this.send(action);
+    }
+    goto(gotoPath, vars) {
+        const filePath = BackendStore.get('app.packageInfo.filePath');
+        const dir = filePath.substring(
+            0,
+            filePath.lastIndexOf('_dash/') + 6
+        );
+        const uiPath = dir + gotoPath;
+        const action = {
+            type: AppEventType.ON_LOAD_UI,
+            payload: { filePath: uiPath, vars },
         };
         this.send(action);
     }

@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import { UIEvent } from './Constants';
 
-export const KeyNameParser = (val, start, end, keyPath) => {
+export const VarsKeyStore = {};
+
+export const KeyNameParser = (val, start, end) => {
     const reg = new RegExp(`(?<=${start})[\\s\\S]*?(?=${end})`, 'g');
     const keyNames = val.match(reg);
     return keyNames;
@@ -33,7 +35,7 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, key) => {
         );
     } else if (_.isString(val)) {
         const isEvent = Object.values(UIEvent).includes(key);
-        const keyNames = KeyNameParser(val, start, end, keyPath);
+        const keyNames = KeyNameParser(val, start, end);
         if (keyNames && !isEvent) {
             if (keyNames.length === 1) {
                 result = _.get(replaceVal, keyNames[0]);
@@ -47,9 +49,14 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, key) => {
                     return root.replace(replaceReg, convertVal);
                 }, val);
             }
+            VarsKeyStore[keyPath] = keyNames;
             // eslint-disable-next-line no-new-wrappers
-            result = new String(result);
-            result._varsKey = keyNames;
+            // if (_.isObject(result)) {
+            //     result._varsKey = keyNames;
+            // } else if (_.isString(result)) {
+            //     result = new String(result);
+            //     result._varsKey = keyNames;
+            // }
         }
 
         return result;

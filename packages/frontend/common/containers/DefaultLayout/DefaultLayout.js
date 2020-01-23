@@ -41,8 +41,9 @@ export class DefaultLayout extends Component {
         this.props.history.push('/login');
     }
     loadUIFile(packageName, uiFile) {
-        const { PathHelper } = Remote();
-        const uiFilePath = [PathHelper.getDashSpace(packageName), uiFile].join(
+        const { PathHelper, env } = Remote();
+        const currentPath = env.APP_PWD ? [env.APP_PWD, '_dash'].join('/') : PathHelper.getDashSpace(packageName)
+        const uiFilePath = [currentPath, uiFile].join(
             '/'
         );
         AppAction.loadUISchemaPath(uiFilePath);
@@ -56,6 +57,7 @@ export class DefaultLayout extends Component {
         }
         toggleClasses(cssClass, asideMenuCssClasses, force);
     }
+
     modalToggle() {
         AppAction.closeModal();
     }

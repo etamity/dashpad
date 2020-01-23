@@ -3,7 +3,7 @@ import { RouteBuilder, NavBuilder } from 'common/libs/NavsBuilder.js';
 import { currentRoute } from 'common/libs/AutoRouter';
 import * as Plugins from './plugins';
 
-const { Utils, BackendStore } = Remote();
+const { Utils, BackendStore, Config } = Remote();
 
 const config = NavBuilder(Plugins);
 
@@ -20,6 +20,7 @@ const initState = {
     processes: [],
     system: {
         ip: Utils.getLocalIp(),
+        isLogined: !!Config.get('settings.platform.github.authtoken')
     },
 };
 

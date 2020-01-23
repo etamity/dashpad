@@ -10,6 +10,7 @@ export default ({
     mdx,
     allowedImports,
     resolvePath,
+    packageInfo
 }) => {
     let scope = {};
     transpile.sync(mdx, {
@@ -22,7 +23,8 @@ export default ({
                         scope = resolveScope(
                             allowedImports,
                             resolveScopeInfo(value),
-                            resolvePath
+                            resolvePath,
+                            packageInfo
                         );
                     },
                 },

@@ -52,6 +52,16 @@ const Config = {
     saveToFile: configJson => {
         fse.writeJSONSync(configPath, configJson, { spaces: 2 });
     },
+    default: () => defaultConfig.config,
+    getPlatform: (type)=> {
+        const platformConfig = _.get(config(), `config.settings.platform.${type}`);
+        const { domain, authorizationUrl, tokenUrl } = platformConfig;
+        return {
+            ...platformConfig,
+            authorizationUrl: `${domain}${authorizationUrl}`,
+            tokenUrl: `${domain}${tokenUrl}`
+        }
+    }
 };
 
 module.exports = Config;

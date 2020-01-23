@@ -3,6 +3,8 @@ import AceEditor, { split as SplitEditor, diff as DiffEditor } from 'react-ace';
 import { YMLBase } from './YMLBase';
 import { PropsFilter, EventsHook } from './utils';
 import { UIEvent } from './Constants';
+import { VarsKeyStore } from './ValueResovler';
+import { AppAction } from 'common/reducers/app';
 import _ from 'lodash';
 import 'brace/mode/jsx';
 
@@ -94,12 +96,55 @@ const defaultProps = {
 
 export class YMLCodeEditorView extends YMLBase {
     constructor(props) {
-        super();
+        super(props);
+        const { obj } = this.props;
         this.assignEvents = EventsHook(props, allowedEvents);
+        this.state = {
+            value: obj.value || obj.defaultValue,
+        };
+        this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+    }
+    componentWillReceiveProps(props) {
+        const { obj } = props;
+        this.setState ({
+            value: obj.value || obj.defaultValue,
+        });
+    }
+    onChange(value) {
+        this.setState({
+            value,
+        });
+    }
+    onBlur(e) {
+        // eslint-disable-next-line no-new-wrappers
+        try {
+            const newValue = JSON.parse(this.state.value);
+            const { keyPath } = this.props;
+            const _varsPath =
+                keyPath.substring(keyPath.indexOf('.'), keyPath.length) +
+                '.value';
+            const _varsKey = VarsKeyStore[_varsPath];
+            if (_varsKey) {
+                const keyPathVars = `$vars.${_varsKey}`;
+                AppAction.updateUIState({
+                    keyPath: keyPathVars,
+                    value: newValue,
+                });
+            } else {
+                const keyPathPropkey = `${keyPath}.value`;
+                AppAction.updateUIState({
+                    keyPath: keyPathPropkey,
+                    value: newValue,
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
     render() {
         const { keyPath, obj } = this.props;
-        const mergeProps = { ...defaultProps, ...obj };
+        const mergeProps = { ...defaultProps, ...obj, value: this.state.value };
         if (mergeProps.mode === 'json' && _.isObject(mergeProps.value)) {
             mergeProps.value = JSON.stringify(mergeProps.value, null, 2);
         }
@@ -124,6 +169,8 @@ export class YMLCodeEditorView extends YMLBase {
                 key={keyPath}
                 {...assignProps}
                 {...this.assignEvents}
+                onChange={this.onChange}
+                onBlur={this.onBlur}
             />
         );
     }

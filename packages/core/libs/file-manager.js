@@ -24,20 +24,33 @@ module.exports = {
     deleteFoler: path => {
         return shell.exec(`rm -rf ${path}`);
     },
-    loadFile: path => {
-        return fse.readFileSync(nodePath.resolve(path), 'utf8');
+    loadFile: filePath => {
+        return fse.readFileSync(nodePath.resolve(filePath), 'utf8');
     },
-    loadJsonDb: path => {
-        const dir = nodePath.resolve(path.substring(0, path.lastIndexOf('/')));
+    loadJsonDb: filePath => {
+        const dir = nodePath.resolve(filePath.substring(0, filePath.lastIndexOf('/')));
         if (!fse.existsSync(dir)) {
             fse.ensureDirSync(dir);
         }
-        return low(new FileSync(path));
+        return low(new FileSync(filePath));
     },
-    loadJson: path => {
+    overrideJson: (filePath, merged) => {
+        const resolvePath = nodePath.resolve(filePath);
+        const json = fse.readJsonSync(resolvePath);
+        const newJson = { ...json, ...merged };
+        fse.writeJSONSync(filePath, newJson, {
+            spaces: 2
+        });
+    },
+    writeJson: (filePath, json) => {
+        fse.writeJSONSync(filePath, json, {
+            spaces: 2
+        });
+    },
+    loadJson: filePath => {
         try {
-            const ext = nodePath.extname(path);
-            const resolvePath = nodePath.resolve(path);
+            const ext = nodePath.extname(filePath);
+            const resolvePath = nodePath.resolve(filePath);
             if (ext === '.json') {
                 return fse.readJsonSync(resolvePath);
             } else if (ext === '.yml') {
@@ -49,9 +62,9 @@ module.exports = {
             console.error(error);
         }
     },
-    read: path => {
+    read: filePath => {
         return new Promise((resolve, reject) => {
-            fse.readFile(path, 'utf8', function(error, data) {
+            fse.readFile(filePath, 'utf8', function(error, data) {
                 if (error) {
                     reject(error);
                     return;
@@ -60,9 +73,9 @@ module.exports = {
             });
         });
     },
-    write: (path, data) => {
+    write: (filePath, data) => {
         return new Promise((resolve, reject) => {
-            fse.writeFile(path, data, 'utf8', function(error) {
+            fse.writeFile(filePath, data, 'utf8', function(error) {
                 if (error) {
                     console.error(error);
                     reject(error);
@@ -72,8 +85,8 @@ module.exports = {
             });
         });
     },
-    writeSync: (path, data) => {
-        return fse.writeFileSync(path, data, 'utf8');
+    writeSync: (filePath, data) => {
+        return fse.writeFileSync(filePath, data, 'utf8');
     },
     copyFolder: (from, to, options) => {
         console.log('Copy From', from, 'to', to);

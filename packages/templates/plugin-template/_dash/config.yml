@@ -1,0 +1,7 @@
+---
+navs:
+  - name: Awesome Plugin
+    title: true
+  - name: Plugin Template
+    icon: cui-note
+    goto: index.mdx

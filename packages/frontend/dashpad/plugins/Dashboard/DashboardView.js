@@ -4,9 +4,9 @@ import { renderRoutes } from 'react-router-config';
 import * as Pages from './pages';
 import SideMenus from './config/SideMenus';
 import TopMenus from './config/TopMenus';
+import TopRightButtons from './config/TopRightButtons';
 import { GithubListView } from './components/GithubListView';
 import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
-
 import { Dashpad } from 'common/store';
 
 export default class DashboardView extends Component {
@@ -14,25 +14,24 @@ export default class DashboardView extends Component {
         super(props);
         this.renderDashboard = this.renderDashboard.bind(this);
         this.doGithubAction = this.doGithubAction.bind(this);
+
         this.state = {
             searchWords: '',
             page: 0,
-            plugins: [],
+            plugins: []
         };
-    }
-    componentDidMount() {
-        this.doGithubAction();
     }
     static Config() {
         return {
             SideMenus,
             SubRoutes: Pages,
             TopMenus,
+            TopRightButtons,
         };
     }
 
     doGithubAction(e) {
-        const { Github } = Dashpad.platform;
+        const { Github } = Dashpad.initPlatforms();
         if (Github) {
             const searchWords = this.state.searchWords;
             const keyword = `"${searchWords}"+topic:Dashpad`;
@@ -43,8 +42,20 @@ export default class DashboardView extends Component {
                 });
         }
     }
-
+    componentDidMount() {
+        if (this.state.plugins.length === 0 && this.props.isLogined) {
+            this.doGithubAction();
+        }
+    }
+    componentDidUpdate() {
+        if (this.state.plugins.length === 0 && this.props.isLogined) {
+            this.doGithubAction();
+        }
+    }
     renderDashboard() {
+        if (!this.props.isLogined) {
+            this.props.history.push('/dashboard/loginview');
+        }
         return (
             <React.Fragment>
                 <Card>

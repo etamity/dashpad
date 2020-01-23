@@ -5,7 +5,7 @@ const fileManager = require('../../libs/file-manager');
 const BackendStore = require('../store');
 const WORKSPACE = path.join(getDocumentsFolder(), config.project.root);
 
-const PACKAGES = path.join(WORKSPACE, 'packages');
+let PACKAGES = path.join(WORKSPACE, 'packages');
 
 const getDashSpace = packageName =>
     path.join(PACKAGES, packageName, config.project.folder);
@@ -47,6 +47,19 @@ const getAllDashConfigFiles = () =>
         file: getDashConfigFile(packageName),
     }));
 
+const getFolderDashConfigFile = dir => {
+    const dashConfigPath = path.resolve(dir, '_dash/config.yml');
+    if (fileManager.isExist(dashConfigPath)) {
+        return [
+            {
+                packageName: path.basename(dir),
+                file: dashConfigPath,
+            },
+        ];
+    }
+    return [];
+};
+
 module.exports = {
     WORKSPACE,
     PACKAGES,
@@ -60,4 +73,5 @@ module.exports = {
     getPackagePath,
     getCurrentDashSpace,
     getCurrentPackagePath,
+    getFolderDashConfigFile
 };

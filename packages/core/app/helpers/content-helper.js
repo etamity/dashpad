@@ -4,11 +4,19 @@ const Config = require('@dashpad/config');
 const _ = require('lodash');
 const { loadJson, loadFile, isExist, read } = fileManager;
 
-const loadConfigs = () =>
-    pathHelper.getAllDashConfigFiles().map(packageModule => ({
-        ...packageModule,
-        content: loadJson(packageModule.file),
+const loadConfigs = () => {
+    let configs = [];
+    if (process.env.APP_PWD) {
+        configs = pathHelper.getFolderDashConfigFile(process.env.APP_PWD);
+    } else {
+        configs = pathHelper.getAllDashConfigFiles();
+    }
+    return configs.map(dashConfigFile => ({
+        ...dashConfigFile,
+        content: loadJson(dashConfigFile.file),
     }));
+};
+
 const loadNavs = () =>
     loadConfigs()
         .map(config => {
@@ -19,7 +27,10 @@ const loadNavs = () =>
                     `settings.plugins.${packageSettingKey}`
                 );
                 const mergeSettings = _.defaults(currentSettings, settings);
-                Config.set(`settings.plugins.${packageSettingKey}`, mergeSettings);
+                Config.set(
+                    `settings.plugins.${packageSettingKey}`,
+                    mergeSettings
+                );
             }
             return {
                 ...config,
@@ -38,7 +49,6 @@ const loadNavs = () =>
 const loadPackageJson = packageName =>
     loadJson(pathHelper.getPackageJsonFile(packageName));
 
-
 module.exports = {
     loadConfigs,
     loadNavs,
@@ -46,5 +56,5 @@ module.exports = {
     loadFile,
     loadPackageJson,
     isExist,
-    read
+    read,
 };

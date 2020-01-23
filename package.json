@@ -1,6 +1,6 @@
 {
     "name": "dashpad",
-    "version": "1.2.0",
+    "version": "1.2.8",
     "description": "A hackable universal dashboard framework for your desktop task automation and vistualise tooling.",
     "author": {
         "name": "Joey Etamity",
@@ -34,7 +34,7 @@
         "@dashpad/electron": "*",
         "@dashpad/frontend": "*",
         "@dashpad/babel-preset": "*",
-        "@octokit/rest": "^16.17.0",
+        "@dashpad/oauth": "*",
         "chokidar": "^3.0.2",
         "invalidate-module": "^1.0.0",
         "babel-eslint": "^10.0.1",
@@ -60,7 +60,7 @@
     },
     "scripts": {
         "postinstall": "node scripts/index.js",
-        "server": "lerna run start --stream --scope=@dashpad/webpack",
+        "server": "lerna run server --stream --scope=@dashpad/webpack",
         "package": "lerna run package --scope @dashpad/config --stream",
         "start": "lerna exec --scope=@dashpad/webpack -- yarn start --color",
         "develop": "lerna run develop --stream --scope=@dashpad/webpack",

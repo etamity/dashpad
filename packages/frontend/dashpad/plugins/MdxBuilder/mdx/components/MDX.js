@@ -13,7 +13,7 @@ export default ({
     rehypePlugins = [],
     children,
     onError,
-    modulePath,
+    packageInfo,
     ...props
 }) => {
     const fullScope = {
@@ -25,6 +25,7 @@ export default ({
         props,
         ...scope,
     };
+    const { filePath } = packageInfo;
     try {
         const jsx = mdx
             .sync(children, {
@@ -37,7 +38,7 @@ export default ({
         const returnCode = `return React.createElement(MDXProvider, { components }, 
             React.createElement(MDXContent, props));`;
 
-        return ModuleComplier.compile(jsx, fullScope, { modulePath, returnCode });
+        return ModuleComplier.compile(jsx, fullScope, { modulePath: filePath, packageInfo, returnCode });
     } catch (err) {
         onError(err);
         return <ErrorRenderer>{err}</ErrorRenderer>;

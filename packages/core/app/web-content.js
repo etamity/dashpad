@@ -4,7 +4,7 @@ const webContent = (global.mainWindow && global.mainWindow.webContents) || {
         console.error(
             'webContent.send() failed, mainWindow has not initialize yet!'
         );
-    },
+    }
 };
 const sendToUI = (event, params) => {
     webContent && webContent.send(event, params);
@@ -27,5 +27,5 @@ module.exports = {
             payload: msg,
         };
         sendToUI(ActionEventType, action);
-    },
+    }
 };

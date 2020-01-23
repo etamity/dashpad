@@ -40,7 +40,7 @@ const ImportYamlType = new yaml.Type('!import', {
     },
 });
 
-const IMPORT_SCHEMA = yaml.Schema.create([ImportYamlType, ValueResolveType]);
+const IMPORT_SCHEMA = yaml.Schema.create(ImportYamlType);
 
 const load = path => {
     const resolvePath = nodePath.resolve(path);

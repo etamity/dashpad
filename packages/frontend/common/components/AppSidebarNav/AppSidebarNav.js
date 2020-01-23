@@ -46,8 +46,9 @@ class AppSidebarNav extends Component {
         e.currentTarget.parentElement.classList.toggle('open');
     }
 
-    activeRoute(routeName, props) {
-        return props.location.pathname.indexOf(routeName) > -1
+    activeRoute(item, location) {
+        const { url } = item;
+        return (location.pathname.indexOf(url) > -1 || item.isOpen)
             ? 'nav-item nav-dropdown open'
             : `nav-item nav-dropdown`;
     }
@@ -122,7 +123,7 @@ class AppSidebarNav extends Component {
     navDropdown(item, key) {
         const classIcon = classNames('nav-icon', item.icon);
         return (
-            <li key={key} className={this.activeRoute(item.url, this.props)}>
+            <li key={key} className={this.activeRoute(item, this.props.location)}>
                 <a
                     className="nav-link nav-dropdown-toggle"
                     href="/#"
@@ -156,7 +157,7 @@ class AppSidebarNav extends Component {
             if (
                 packageInfo &&
                 packageInfo.packageName === item.packageName &&
-                packageInfo.fileName === item.goto
+                packageInfo.relativePath === item.goto
             ) {
                 active = true;
             }

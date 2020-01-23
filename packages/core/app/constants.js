@@ -32,6 +32,8 @@ const UIEventType = keyMirror({
     CLEAN_KEYPATH_VARS: null,
     UPDATE_UI_STATE_BY_VARS: null,
     CONSOLE_LOG: null,
+    LOGIN: null,
+    LOGOUT: null,
 });
 
 const ActionEventType = 'ActionEventType';

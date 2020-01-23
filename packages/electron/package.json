@@ -14,8 +14,9 @@
   "dependencies": {
     "@dashpad/config": "*",
     "electron-devtools-installer": "^2.2.4",
-    "shell-env": "^3.0.0",
-    "node-npx": "^1.5.0"
+    "@dashpad/oauth": "*",
+    "node-npx": "^1.5.0",
+    "shell-env": "^3.0.0"
   },
   "devDependencies": {
     "electron": "^4.2.8",

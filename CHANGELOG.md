@@ -1,3 +1,22 @@
+## Release v1.2.8
+
+- Added github OAuth 2 login
+- Added Login page
+- Fixed some bug
+
+## Release v1.2.7
+
+- Fixed input field bug
+- Added Table sub component support
+- Fixed some bug
+
+## Release v1.2.5
+
+- Added Mdx support
+- Added js/jsx support
+- Update tutourial
+- Fixed some bug
+
 ## Release v1.2.0
 
 - UI Upgraded

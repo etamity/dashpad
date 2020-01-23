@@ -3,6 +3,9 @@ import { Label, Input, FormGroup, Col } from 'reactstrap';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
 import { UIEvent } from './Constants';
+import { AppAction } from 'common/reducers/app';
+import { VarsKeyStore } from './ValueResovler';
+
 const allowedProps = [
     'name',
     'id',
@@ -17,6 +20,38 @@ const allowedProps = [
 const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 
 export class YMLCheckboxView extends YMLBase {
+    constructor(props){
+        super(props);
+        this.onChange = this.onChange.bind(this);
+    }
+    onChange(e) {
+        const { keyPath, obj } = this.props;
+        const { value } = e.target.dataset;
+        let newValue = [...obj.value];
+        if (newValue.includes(value)) {
+            newValue = newValue.filter(val => val !== value);
+        } else {
+            newValue.push(value);
+        }
+        const _varsPath = keyPath.substring(keyPath.indexOf('.'), keyPath.length) + '.value';
+        const _varsKey =
+            VarsKeyStore[
+                _varsPath
+            ];
+        if (_varsKey) {
+            const keyPathVars = `$vars.${_varsKey}`;
+            AppAction.updateUIState({
+                keyPath: keyPathVars,
+                value: newValue,
+            });
+        } else {
+            const keyPathPropkey = `${keyPath}.value`;
+            AppAction.updateUIState({
+                keyPath: keyPathPropkey,
+                value: newValue,
+            });
+        }
+    }
     render() {
         const { keyPath, obj } = this.props;
 
@@ -39,7 +74,10 @@ export class YMLCheckboxView extends YMLBase {
                 const assignEvents = EventsHook(mergedProps, allowedEvents);
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>
-                        <Input {...assignProps} {...assignEvents} />
+                        <Input {...assignProps} {...assignEvents}
+                        data-value={option}
+                        onChange={this.onChange}
+                        checked={obj.value.includes(option)} />
                         <Label check htmlFor={id}>
                             {option}
                         </Label>

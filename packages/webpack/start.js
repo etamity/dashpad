@@ -7,10 +7,8 @@ process.env.SKIP_PREFLIGHT_CHECK = config.env.SKIP_PREFLIGHT_CHECK;
 
 async function dev() {
     const { npx, npxSync } = require('node-npx');
-    const cwd = process.cwd();
     const startMainProcess = async () => {
         let child = await npx(`react-app-rewired`, ['start'], {
-            cwd,
             stdio: 'inherit',
             env: {
                 ...process.env,
@@ -24,7 +22,6 @@ async function dev() {
             'node',
             [path.resolve(__dirname, '../electron/wait-react.js')],
             {
-                cwd,
                 stdio: 'inherit',
             }
         );

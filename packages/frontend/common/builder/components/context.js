@@ -37,7 +37,7 @@ export default props => {
     });
 
     return {
-        ... target(props.keyPath),
+        ...target(props.keyPath),
         props,
     };
 };

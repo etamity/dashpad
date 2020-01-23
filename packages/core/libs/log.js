@@ -2,9 +2,9 @@ require('util').inspect.defaultOptions.depth = null;
 const chalk = require('chalk');
 const log = console.log;
 const error = chalk.bold.red;
-const warn = chalk.keyword('orange');
-const success = chalk.green;
-const info = chalk.cyanBright;
+const warn = chalk.bold.keyword('orange');
+const success = chalk.bold.green;
+const info = chalk.bold.cyanBright;
 module.exports = {
   log,
   error: function(...args) {

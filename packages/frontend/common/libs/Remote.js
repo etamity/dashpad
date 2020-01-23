@@ -18,6 +18,8 @@ export const Remote = () => {
     );
     const Utils = remote.require('@dashpad/core/libs/utils.js');
 
+    const env = remote.process.env;
+    
     return {
         ProcessManager,
         ContentHelper,
@@ -30,5 +32,6 @@ export const Remote = () => {
         DashpadApi,
         ModuleHelper,
         Utils,
+        env
     };
 };

@@ -1,0 +1,19 @@
+{
+  "name": "@dashpad/oauth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "node-fetch": "^1.3.3",
+    "object-assign": "^4.0.1",
+    "pinkie-promise": "^2.0.0"
+  },
+  "engines": {
+    "node": ">= 4.0"
+  },
+  "author": "joey.etamity",
+  "license": "MIT"
+}

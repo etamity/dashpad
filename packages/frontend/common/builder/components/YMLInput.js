@@ -7,12 +7,15 @@ import {
     InputGroupAddon,
     InputGroupText,
     Label,
+    Button
 } from 'reactstrap';
 import { InputType, InputAddonType, UIEvent } from './Constants';
 import { YMLButtonView } from './YMLButton';
 import { PropsFilter, EventsHook } from './utils';
 import { YMLBase } from './YMLBase';
 import { AppAction } from 'common/reducers/app';
+import { VarsKeyStore } from './ValueResovler';
+
 
 export class YMLInputGroupView extends YMLBase {
     render() {
@@ -56,7 +59,6 @@ const allowedProps = [
     'placeholder',
     'disabled',
     'variant',
-    'value',
     'data-',
     'className',
     'tooltip',
@@ -70,39 +72,54 @@ export class YMLInputView extends YMLBase {
         const { obj } = this.props;
         this.state = {
             value: obj.value || obj.defaultValue,
+            showPassword: false,
         };
         this.assignEvents = EventsHook(props, allowedEvents);
         this.onChange = this.onChange.bind(this);
+        this.doShowPasswordButtonClick = this.doShowPasswordButtonClick.bind(
+            this
+        );
         this.onBlur = this.onBlur.bind(this);
+    }
+    componentWillReceiveProps(props) {
+        const { obj } = props;
+        if (obj.value !== this.state.value) {
+            this.setState ({
+                value: obj.value || obj.defaultValue,
+            });
+        }
+    }
+    doShowPasswordButtonClick() {
+        this.setState({ showPassword: !this.state.showPassword });
     }
     onBlur(e) {
         // eslint-disable-next-line no-new-wrappers
-        const newValue = new String(e.target.value);
-        const { keyPath, obj } = this.props;
-        const { value } = obj;
-        if (value) {
-            const { _varsKey } = value;
-            newValue._varsKey = _varsKey;
-            if (_varsKey) {
-                const keyPathVars = `$vars.${_varsKey}`;
-                const keyPathPropkey = `${keyPath}.value`;
-                AppAction.updateUIState([{
-                    keyPath: keyPathVars,
-                    value: e.target.value,
-                },
-                {
-                    keyPath: keyPathPropkey,
-                    value: newValue,
-                }]);
+        const newValue =this.state.value;
+        const { keyPath } = this.props;
+        const _varsPath = keyPath.substring(keyPath.indexOf('.'), keyPath.length) + '.value';
+        const _varsKey =
+            VarsKeyStore[
+                _varsPath
+            ];
 
-            }
+        if (_varsKey) {
+            const keyPathVars = `$vars.${_varsKey}`;
+            AppAction.updateUIState({
+                keyPath: keyPathVars,
+                value: newValue,
+            });
+        } else {
+            const keyPathPropkey = `${keyPath}.value`;
+            AppAction.updateUIState({
+                keyPath: keyPathPropkey,
+                value: newValue,
+            });
         }
     }
     onChange(e) {
         this.setState({
             value: e.target.value,
         });
-
     }
     render() {
         const { keyPath, obj } = this.props;
@@ -170,8 +187,9 @@ export class YMLInputView extends YMLBase {
                 };
                 break;
             case InputType.PASSWORD:
+                const fieldType = this.state.showPassword ? 'text' : 'password';
                 defaultProps = {
-                    type: 'password',
+                    type: fieldType,
                     id: 'nf-password' + keyPath,
                     name: 'nf-password' + keyPath,
                     placeholder: 'Enter Password..',
@@ -195,24 +213,32 @@ export class YMLInputView extends YMLBase {
             default:
                 return null;
         }
-
-        defaultProps = {
+        const mergedProps = {
             ...defaultProps,
-            ...PropsFilter(this.props, allowedProps),
-            value: this.state.value,
+            ...PropsFilter({ obj }, allowedProps),
+            value: this.state.value || '',
         };
         if (obj.type.toUpperCase() === InputType.FILE) {
-            delete defaultProps.value;
+            delete mergedProps.value;
         }
+
         return (
             <FormGroup>
-                <Label htmlFor={defaultProps.id}>{obj.label}</Label>
+                <Label htmlFor={mergedProps.id}>{obj.label}</Label>
                 <InputGroup>
                     <InputGroupAddon addonType="prepend">
                         {obj.prepend && <YMLInputGroupView obj={obj.prepend} />}
+                        {obj.showButton && <Button
+                            color={
+                                this.state.showPassword ? 'primary' : 'secondary'
+                            }
+                            onClick={this.doShowPasswordButtonClick}
+                        >
+                            <i className="icon-eye" />
+                        </Button>}
                     </InputGroupAddon>
                     <Input
-                        {...defaultProps}
+                        {...mergedProps}
                         {...this.assignEvents}
                         onChange={this.onChange}
                         onBlur={this.onBlur}
@@ -221,9 +247,9 @@ export class YMLInputView extends YMLBase {
                         {obj.append && <YMLInputGroupView obj={obj.append} />}
                     </InputGroupAddon>
                 </InputGroup>
-                <FormText className="help-block">
-                    {defaultProps.tooltip}
-                </FormText>
+                {mergedProps.tooltip && <FormText className="help-block">
+                    {mergedProps.tooltip}
+                </FormText>}
             </FormGroup>
         );
     }

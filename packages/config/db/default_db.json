@@ -1,44 +1,56 @@
 {
-  "config": {
-    "port": 9999,
-    "uiport": 8888,
-    "host": "localhost",
-    "devMode": true,
-    "socket": false,
-    "env": {
-      "CHOKIDAR_USEPOLLING": true,
-      "WEB_NODE_PATH": "src",
-      "SKIP_PREFLIGHT_CHECK": true
-    },
-    "window": {
-      "width": 1308,
-      "height": 1024,
-      "show": false,
-      "webPreferences": {
-        "webSecurity": false,
-        "nodeIntegration": true
-      }
-    },
-    "project": {
-      "root": "dashpad",
-      "folder": "_dash",
-      "config": "config.yml"
-    },
-    "settings": {
-      "credential": {
-        "username": "",
-        "password": "",
-        "email": ""
-      },
-      "platform": { 
-        "github": {
-          "endpoint": "",
-          "authtoken": ""
+    "config": {
+        "version": "1.0.0",
+        "port": 9999,
+        "uiport": 8888,
+        "host": "localhost",
+        "devMode": true,
+        "socket": false,
+        "env": {
+            "CHOKIDAR_USEPOLLING": true,
+            "WEB_NODE_PATH": "src",
+            "SKIP_PREFLIGHT_CHECK": true
         },
-        "jenkins": {
-          "endpoint": ""
+        "window": {
+            "width": 1308,
+            "height": 1024,
+            "show": false,
+            "webPreferences": {
+                "webSecurity": false,
+                "nodeIntegration": true
+            }
+        },
+        "project": {
+            "root": "dashpad",
+            "folder": "_dash",
+            "config": "config.yml"
+        },
+        "settings": {
+            "credential": {
+                "username": "",
+                "password": "",
+                "email": ""
+            },
+            "platform": {
+                "github": {
+                    "authtoken": "",
+                    "domain": "https://github.com",
+                    "endpoint": "https://api.github.com",
+                    "authorizationUrl": "/login/oauth/authorize",
+                    "tokenUrl": "/login/oauth/access_token",
+                    "redirectUri": "http://localhost:9999",
+                    "clientId": "",
+                    "clientSecret": "",
+                    "useBasicAuthorizationHeader": false,
+                    "options": {
+                      "scope": "repo,user,notifications",
+                      "accessType": ""
+                    }
+                },
+                "jenkins": {
+                    "endpoint": ""
+                }
+            }
         }
-      }
     }
-  }
 }

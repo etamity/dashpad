@@ -9,7 +9,8 @@ import { Remote } from 'common/libs/Remote';
 
 const { ContentHelper } = Remote();
 
-const MDXContent = ({ filePath }) => {
+const MDXContent = ({ packageInfo }) => {
+    const { filePath } = packageInfo;
     if (!filePath) {
         return <Alert className="text-center">No File loaded!</Alert>;
     }
@@ -21,7 +22,7 @@ const MDXContent = ({ filePath }) => {
             components={componentsLibs}
             scope={scopes}
             allowedImports={allowedImports}
-            modulePath={filePath}
+            packageInfo={packageInfo}
         >
             {mdx}
         </MDX>
@@ -42,12 +43,12 @@ export default class MdxBuilder extends Component {
         Prism.highlightAll();
     }
     render() {
-        const { filePath } = this.props.packageInfo || {};
+        const { packageInfo } = this.props;
         return (
             <Container className="animated fadeIn" fluid>
                 <Card>
                     <CardBody>
-                        <MDXContent filePath={filePath} />
+                        <MDXContent packageInfo={packageInfo  || {}} />
                     </CardBody>
                 </Card>
             </Container>
