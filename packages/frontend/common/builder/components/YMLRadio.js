@@ -26,14 +26,8 @@ export class YMLRadioView extends YMLBase {
         super(props);
         this.onChange = this.onChange.bind(this);
     }
-    componentWillReceiveProps(props) {
-        const { obj } = props;
-        this.setState ({
-            value: obj.value || obj.defaultValue,
-        });
-    }
     onChange(e) {
-        const newValue = e.target.value;
+        const { value } = e.target;
         const { keyPath } = this.props;
         const _varsPath = keyPath.substring(keyPath.indexOf('.'), keyPath.length) + '.value';
         const _varsKey =
@@ -44,13 +38,13 @@ export class YMLRadioView extends YMLBase {
             const keyPathVars = `${SchemaKeys.VARS}.${_varsKey}`;
             AppAction.updateUIState({
                 keyPath: keyPathVars,
-                value: newValue,
+                value,
             });
         } else {
             const keyPathPropkey = `${keyPath}.value`;
             AppAction.updateUIState({
                 keyPath: keyPathPropkey,
-                value: newValue,
+                value,
             });
         }
     }

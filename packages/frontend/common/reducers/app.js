@@ -246,6 +246,21 @@ export default function update(state, action) {
             const { pid } = payload;
             ProcessManager.kill(pid);
             return state;
+        case UIEventType.SHOW_LOGS_MODAL: 
+            newState = immutable(state)
+            .set('logs.isOpened', payload)
+            .value();
+            break;
+        case UIEventType.LOGS_MESSAGES: 
+            newState = immutable(state)
+            .push('logs.messages', payload)
+            .value();
+            break;
+        case UIEventType.CLEAR_LOGS_MODAL: 
+            newState = immutable(state)
+            .set('logs.messages', [])
+            .value();
+            break;
         default:
             newState = state;
     }
@@ -342,4 +357,26 @@ export const AppAction = {
         };
         Store.dispatch(action);
     },
+    showLogsModal: (bool) => {
+        const action = {
+            type: UIEventType.SHOW_LOGS_MODAL,
+            payload: bool,
+        };
+        Store.dispatch(action);
+    },
+    clearLogsModal: () => {
+        const action = {
+            type: UIEventType.CLEAR_LOGS_MODAL,
+            payload: null,
+        };
+        Store.dispatch(action);
+    },
+    logsMessages: (messages) => {
+        const action = {
+            type: UIEventType.LOGS_MESSAGES,
+            payload: messages,
+        };
+        Store.dispatch(action);
+    },
+    
 };

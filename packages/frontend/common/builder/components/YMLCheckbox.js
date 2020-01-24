@@ -27,7 +27,7 @@ export class YMLCheckboxView extends YMLBase {
     onChange(e) {
         const { keyPath, obj } = this.props;
         const { value } = e.target.dataset;
-        let newValue = [...obj.value];
+        let newValue = obj.value ? [...obj.value] : [];
         if (newValue.includes(value)) {
             newValue = newValue.filter(val => val !== value);
         } else {
@@ -67,6 +67,7 @@ export class YMLCheckboxView extends YMLBase {
                     name: id,
                     keyPath,
                     ...obj,
+                    value: obj.value || []
                 };
 
                 const mergedProps = { ...this.props, obj: defaultProps };
@@ -77,7 +78,7 @@ export class YMLCheckboxView extends YMLBase {
                         <Input {...assignProps} {...assignEvents}
                         data-value={option}
                         onChange={this.onChange}
-                        checked={obj.value.includes(option)} />
+                        checked={mergedProps.obj.value.includes(option)} />
                         <Label check htmlFor={id}>
                             {option}
                         </Label>

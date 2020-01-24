@@ -23,7 +23,7 @@ import {
     checkBreakpoint,
 } from '@coreui/react/lib/Shared/index';
 
-import { ModalBox } from 'common/components/ModalBox';
+import { ModalBox, LogsModalBox } from 'common/components/ModalBox';
 import Aside from './Aside';
 import LoadingSpinner from 'common/components/LoadingSpinner';
 
@@ -34,6 +34,11 @@ export class DefaultLayout extends Component {
     constructor() {
         super();
         this.modalToggle = this.modalToggle.bind(this);
+        this.logModalToggle = this.logModalToggle.bind(this);
+        this.logModalClear = this.logModalClear.bind(this);
+        this.state = {
+            isLogsModalOpened: false
+        };
     }
 
     signOut(e) {
@@ -42,10 +47,10 @@ export class DefaultLayout extends Component {
     }
     loadUIFile(packageName, uiFile) {
         const { PathHelper, env } = Remote();
-        const currentPath = env.APP_PWD ? [env.APP_PWD, '_dash'].join('/') : PathHelper.getDashSpace(packageName)
-        const uiFilePath = [currentPath, uiFile].join(
-            '/'
-        );
+        const currentPath = env.APP_PWD
+            ? [env.APP_PWD, '_dash'].join('/')
+            : PathHelper.getDashSpace(packageName);
+        const uiFilePath = [currentPath, uiFile].join('/');
         AppAction.loadUISchemaPath(uiFilePath);
     }
 
@@ -61,18 +66,34 @@ export class DefaultLayout extends Component {
     modalToggle() {
         AppAction.closeModal();
     }
+    logModalToggle() {
+        AppAction.showLogsModal(false);
+    }
+    logModalClear() {
+        AppAction.clearLogsModal();
+    }
     render() {
         const { TopMenus, TopRightButtons, SideMenus } = this.props.config;
-        const { routes, modal } = this.props;
+        const { routes, modal,  logs: {
+            isOpened: isLogsModalOpened,
+            messages
+        } } = this.props;
         const openAside =
             !!this.props.processes && this.props.processes.length > 0;
         const modalProps = modal.length > 0 && modal[modal.length - 1];
+        const isModalOpened = modal.length > 0;
         this.toggleAside(openAside);
         return (
             <div className="app">
                 <ToastContainer />
+                <LogsModalBox
+                    isOpen={isLogsModalOpened}
+                    toggle={this.logModalToggle}
+                    onClear={this.logModalClear}
+                    message={messages.join('\n')}
+                ></LogsModalBox>
                 <ModalBox
-                    isOpen={modal.length > 0}
+                    isOpen={isModalOpened}
                     {...modalProps}
                     toggle={this.modalToggle}
                 />

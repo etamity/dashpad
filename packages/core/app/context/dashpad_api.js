@@ -87,6 +87,14 @@ class DashpahApi {
             this.packageInfo = packageInfo;
         }
     }
+    terminal() {
+        const args = [].slice.call(arguments);
+        const action = {
+            type: UIEventType.LOGS_MESSAGES,
+            payload: args.join(' '),
+        };
+        this.send(action);
+    }
     send(action) {
         if (_isBrowser) {
             this.dispatch(action);

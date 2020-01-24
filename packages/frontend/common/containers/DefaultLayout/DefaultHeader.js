@@ -50,42 +50,57 @@ class DefaultHeader extends Component {
         const itemIcon = <i className={classes.icon} />;
         const itemBadge = this.navBadge(item.badge);
         const attributes = item.attributes || {};
+        let menuItem = null;
+        if (attributes.disabled) {
+            menuItem = (
+                <RsNavLink href={''} className={classes.link} {...attributes}>
+                    {itemIcon}
+                    {item.name}
+                    {itemBadge}
+                </RsNavLink>
+            );
+        } else if (attributes.onClick) {
+            menuItem = (
+                <NavLink
+                    to="#"
+                    className="d-md-down-none"
+                    {...attributes}
+                >
+                    {itemIcon}
+                </NavLink>
+            );
+        } else if (this.isExternal(url)) {
+            menuItem = (
+                <RsNavLink
+                    href={url}
+                    className={classes.link}
+                    active
+                    {...attributes}
+                >
+                    {itemIcon}
+                    {item.name}
+                    {itemBadge}
+                </RsNavLink>
+            );
+        } else {
+            menuItem = (
+                <NavLink
+                    to={url}
+                    className={classes.link + ' text-uppercase'}
+                    activeClassName="active"
+                    onClick={this.hideMobile}
+                    {...attributes}
+                >
+                    {itemIcon}
+                    {item.name}
+                    {itemBadge}
+                </NavLink>
+            );
+        }
+
         return (
             <NavItem key={key} className={classes.item}>
-                {attributes.disabled ? (
-                    <RsNavLink
-                        href={''}
-                        className={classes.link}
-                        {...attributes}
-                    >
-                        {itemIcon}
-                        {item.name}
-                        {itemBadge}
-                    </RsNavLink>
-                ) : this.isExternal(url) ? (
-                    <RsNavLink
-                        href={url}
-                        className={classes.link}
-                        active
-                        {...attributes}
-                    >
-                        {itemIcon}
-                        {item.name}
-                        {itemBadge}
-                    </RsNavLink>
-                ) : (
-                    <NavLink
-                        to={url}
-                        className={classes.link + ' text-uppercase'}
-                        activeClassName="active"
-                        onClick={this.hideMobile}
-                        {...attributes}
-                    >
-                        {itemIcon}
-                        {item.name}
-                        {itemBadge}
-                    </NavLink>
-                )}
+                {menuItem}
             </NavItem>
         );
     }

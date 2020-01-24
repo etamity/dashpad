@@ -22,22 +22,11 @@ const allowedEvents = [UIEvent.ON_CLICK, UIEvent.ON_CHANGE];
 export class YMLSelectView extends YMLBase {
     constructor(props) {
         super(props);
-        const { obj } = props;
-        this.state = {
-            value: obj.value || obj.defaultValue,
-        }
         this.onChange = this.onChange.bind(this);
-        this.onBlur = this.onBlur.bind(this);
     }
-    componentWillReceiveProps(props) {
-        const { obj } = props;
-        this.setState ({
-            value: obj.value || obj.defaultValue,
-        });
-    }
-    onBlur(e) {
+    onChange(e) {
         // eslint-disable-next-line no-new-wrappers
-        const newValue =this.state.value;
+        const newValue = e.target.value;
         const { keyPath } = this.props;
         const _varsPath = keyPath.substring(keyPath.indexOf('.'), keyPath.length) + '.value';
         const _varsKey =
@@ -88,8 +77,7 @@ export class YMLSelectView extends YMLBase {
                 <Col md="9">
                     <Input {...assignProps} 
                     {...assignEvents} 
-                    onChange={this.onChange}
-                    onBlur={this.onBlur}>
+                    onChange={this.onChange}>
                         {options}
                     </Input>
                 </Col>

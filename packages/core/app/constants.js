@@ -34,6 +34,9 @@ const UIEventType = keyMirror({
     CONSOLE_LOG: null,
     LOGIN: null,
     LOGOUT: null,
+    SHOW_LOGS_MODAL: null,
+    CLEAR_LOGS_MODAL: null,
+    LOGS_MESSAGES: null
 });
 
 const ActionEventType = 'ActionEventType';

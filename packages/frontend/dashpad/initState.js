@@ -17,6 +17,10 @@ const initState = {
     keyPathVars: {},
     packageInfo: null,
     modal: [],
+    logs: {
+        isOpened: false,
+        messages: []
+    },
     processes: [],
     system: {
         ip: Utils.getLocalIp(),
