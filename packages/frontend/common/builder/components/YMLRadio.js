@@ -66,15 +66,17 @@ export class YMLRadioView extends YMLBase {
                 const mergedProps = { ...this.props, obj: defaultProps };
                 const assignProps = PropsFilter(mergedProps, allowedProps);
                 const assignEvents = EventsHook(mergedProps, allowedEvents);
+                const value = option.value ? option.value : option;
+                const label = option.label ? option.label : option;
                 return (
                     <FormGroup key={idkey} check inline={obj.inline}>
                         <Input {...assignProps} {...assignEvents} 
-                        checked={String(obj.value) === String(option)} 
+                        checked={String(obj.value) === String(value)} 
                         onChange={this.onChange}
-                        value={option}
+                        value={value}
                         />
                         <Label check htmlFor={idkey}>
-                            {option}
+                            {label}
                         </Label>
                     </FormGroup>
                 );

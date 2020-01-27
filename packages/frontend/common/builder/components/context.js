@@ -5,10 +5,14 @@ import { keyPathUtil } from 'common/libs/Utils';
 import VM from 'common/libs/VM';
 
 export default props => {
-    const state = Store.getState().app.uiSchema;
-
+    const state = Store.getState();
     const target = basePath => ({
-        value: () => _.get(state, basePath),
+        value: () => {
+            const { packageInfo } = state.app;
+            const { namespace } = packageInfo || {};
+            const uiSchema = namespace && state.app.uiSchema[namespace] || {}
+            return _.get(uiSchema, basePath)
+        },
         ref: () => VM.getRef(basePath),
         sibling: key => {
             const keyPath = keyPathUtil(basePath)

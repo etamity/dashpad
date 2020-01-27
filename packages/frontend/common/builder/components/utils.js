@@ -2,6 +2,7 @@ import _ from 'lodash';
 import VM from 'common/libs/VM';
 import Context from './context';
 import { AppAction } from 'common/reducers/app';
+import { SchemaKeys } from 'common/reducers/Constants';
 import { ContentType, UIEvent } from './Constants';
 import { shell } from 'electron';
 import { Store } from 'common/store';
@@ -57,7 +58,11 @@ export const PropsFilter = (props, filters) => {
 };
 
 export const ParseKeyPathVars = (keyPath, obj) => {
-    const vars = _.get(Store.getState().app.uiSchema, '$vars');
+    const state = Store.getState().app;
+    const { packageInfo } = state;
+    const { namespace } = packageInfo;
+    const pluginPath = `${SchemaKeys.UISCHEMA}.${namespace}.${SchemaKeys.VARS}`;
+    const vars = _.get(state, pluginPath);
     const start = '\\${';
     const end = '}';
     return ValueResolver(obj, start, end, vars, keyPath);
