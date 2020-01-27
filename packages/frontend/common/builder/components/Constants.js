@@ -67,6 +67,8 @@ export const ButtonGroupType = keyMirror({
 export const UIEvent = {
     ON_CLICK: 'onClick',
     ON_CHANGE: 'onChange',
+    ON_MOUNT: 'onMount',
+    ON_UMOUNT: 'onUnMount',
 
     ON_SUBMIT: 'onSubmit',
     ON_ERROR: 'onError',
