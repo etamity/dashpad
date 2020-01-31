@@ -1,3 +1,9 @@
+## Release v1.3.0
+
+- Added terminal modal
+- Added multiple plugin state management
+- Fixed init script event bug
+
 ## Release v1.2.8
 
 - Added github OAuth 2 login
