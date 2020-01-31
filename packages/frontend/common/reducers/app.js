@@ -36,17 +36,18 @@ const syncBackendAndChildProcessState = state => {
  * @param {*} state Initial state
  */
 const updateUIState = (keyPath, value, state) => {
-    let schemaKey = SchemaKeys.UISCHEMA;
+    const { namespace } = state.packageInfo;
+    let pluginPath = `${SchemaKeys.UISCHEMA}.${namespace}`;
     if (_.isString(keyPath)) {
         if (keyPath && keyPath.charAt(0) !== '.') {
-            schemaKey = schemaKey + '.' + keyPath;
+            pluginPath = pluginPath + '.' + keyPath;
         } else {
-            schemaKey = schemaKey + keyPath;
+            pluginPath = pluginPath + keyPath;
         }
     }
 
     return immutable(state)
-        .set(schemaKey, value)
+        .set(pluginPath, value)
         .value();
 };
 
@@ -109,7 +110,10 @@ export default function update(state, action) {
             if (!resolvePath) {
                 return state;
             }
+            const { packageName: lastPackageName } =
+                state.packageInfo || {};
             const packageInfo = updatePackageInfo(resolvePath);
+            const { packageName } = packageInfo || {};
             const fileExt = resolvePath && resolvePath.split('.').pop();
             if (['yaml', 'yml'].includes(fileExt)) {
                 const uiSchema = ContentHelper.loadJson(resolvePath);
@@ -124,13 +128,21 @@ export default function update(state, action) {
                 } else {
                     VM.buildVmScope('"";\n');
                 }
+                const { namespace } = packageInfo;
                 if (uiSchema) {
-                    uiSchema[SchemaKeys.VARS] = uiSchema[SchemaKeys.VARS]
-                        ? { ...uiSchema[SchemaKeys.VARS], ...vars }
-                        : { ...vars };
+                    if (lastPackageName !== packageName) {
+                        uiSchema[SchemaKeys.VARS] = uiSchema[SchemaKeys.VARS]
+                            ? { ...uiSchema[SchemaKeys.VARS], ...vars }
+                            : { ...vars };
+                    } else {
+                        const lastState = _.get(state, `${SchemaKeys.UISCHEMA}.${namespace}.${SchemaKeys.VARS}`);
+                        uiSchema[SchemaKeys.VARS] = uiSchema[SchemaKeys.VARS]
+                            ? { ...uiSchema[SchemaKeys.VARS], ...lastState, ...vars }
+                            : { ...vars };
+                    }
                 }
                 newState = immutable(state)
-                    .set(SchemaKeys.UISCHEMA, uiSchema)
+                    .set(`${SchemaKeys.UISCHEMA}.${namespace}`, uiSchema)
                     .value();
             }
 
@@ -162,34 +174,30 @@ export default function update(state, action) {
         case UIEventType.UPDATE_VARS_STATE:
             break;
         case UIEventType.LOGIN:
-                newState = immutable(state)
+            newState = immutable(state)
                 .set('system.isLogined', true)
                 .value();
             break;
         case UIEventType.LOGOUT:
-                newState = immutable(state)
+            newState = immutable(state)
                 .set('system.isLogined', false)
                 .value();
             break;
         case UIEventType.UPDATE_UI_STATE_BY_VARS:
+            const { namespace } = state.packageInfo || {};
+            const pluginPath = `${SchemaKeys.UISCHEMA}.${namespace}.${SchemaKeys.VARS}`;
             if (_.isArray(payload)) {
                 const stateArr = payload;
                 newState = stateArr.reduce((root, next) => {
                     const { keyPath, value } = next;
                     return (root = immutable(root)
-                        .set(
-                            `${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`,
-                            value
-                        )
+                        .set(`${pluginPath}.${keyPath}`, value)
                         .value());
                 }, state);
             } else {
                 const { keyPath, value } = payload;
                 newState = immutable(state)
-                    .set(
-                        `${SchemaKeys.UISCHEMA}.${SchemaKeys.VARS}.${keyPath}`,
-                        value
-                    )
+                    .set(`${pluginPath}.${keyPath}`, value)
                     .value();
             }
 
@@ -246,20 +254,20 @@ export default function update(state, action) {
             const { pid } = payload;
             ProcessManager.kill(pid);
             return state;
-        case UIEventType.SHOW_LOGS_MODAL: 
+        case UIEventType.SHOW_LOGS_MODAL:
             newState = immutable(state)
-            .set('logs.isOpened', payload)
-            .value();
+                .set('logs.isOpened', payload)
+                .value();
             break;
-        case UIEventType.LOGS_MESSAGES: 
+        case UIEventType.LOGS_MESSAGES:
             newState = immutable(state)
-            .push('logs.messages', payload)
-            .value();
+                .push('logs.messages', payload)
+                .value();
             break;
-        case UIEventType.CLEAR_LOGS_MODAL: 
+        case UIEventType.CLEAR_LOGS_MODAL:
             newState = immutable(state)
-            .set('logs.messages', [])
-            .value();
+                .set('logs.messages', [])
+                .value();
             break;
         default:
             newState = state;
@@ -274,7 +282,8 @@ const updatePackageInfo = filePath => {
     const packageName = env.APP_PWD
         ? path.basename(env.APP_PWD)
         : packagesRegx && packagesRegx[1];
-    const namespace = filePath.slice(filePath.indexOf(packageName));
+    let namespace = filePath.slice(filePath.indexOf(packageName));
+    namespace = namespace.replace('.', '_');
     const packagePath = PathHelper.getPackagePath(packageName);
     const relativePath = filePath.slice(filePath.indexOf('_dash/') + 6);
     const packageInfo = {
@@ -357,7 +366,7 @@ export const AppAction = {
         };
         Store.dispatch(action);
     },
-    showLogsModal: (bool) => {
+    showLogsModal: bool => {
         const action = {
             type: UIEventType.SHOW_LOGS_MODAL,
             payload: bool,
@@ -371,12 +380,11 @@ export const AppAction = {
         };
         Store.dispatch(action);
     },
-    logsMessages: (messages) => {
+    logsMessages: messages => {
         const action = {
             type: UIEventType.LOGS_MESSAGES,
             payload: messages,
         };
         Store.dispatch(action);
     },
-    
 };

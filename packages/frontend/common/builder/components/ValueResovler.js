@@ -50,13 +50,6 @@ export const ValueResolver = (val, start, end, replaceVal, keyPath, key) => {
                 }, val);
             }
             VarsKeyStore[keyPath] = keyNames;
-            // eslint-disable-next-line no-new-wrappers
-            // if (_.isObject(result)) {
-            //     result._varsKey = keyNames;
-            // } else if (_.isString(result)) {
-            //     result = new String(result);
-            //     result._varsKey = keyNames;
-            // }
         }
 
         return result;

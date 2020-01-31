@@ -120,7 +120,9 @@ class DashpahApi {
     }
 
     getState(keyPath) {
-        return BackendStore.get(`${uischemaKeyPath}.${keyPath}`);
+        const namespace = BackendStore.get('app.packageInfo.namespace');
+        const pluginPath = `${uischemaKeyPath}.${namespace}`;
+        return BackendStore.get(`${pluginPath}.${keyPath}`);
     }
 
     getVarsState(keyPath) {
@@ -128,7 +130,9 @@ class DashpahApi {
     }
 
     getVars(keyPath) {
-        return BackendStore.get(`${uischemaKeyPath}.$vars.${keyPath}`);
+        const namespace = BackendStore.get('app.packageInfo.namespace');
+        const pluginPath = `${uischemaKeyPath}.${namespace}`;
+        return BackendStore.get(`${pluginPath}.$vars.${keyPath}`);
     }
 
     setVars() {
