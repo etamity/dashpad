@@ -55,23 +55,22 @@
         "rimraf": "^2.6.2"
     },
     "devDependencies": {
-        "husky": "^3.0.9",
-        "lerna": "^3.16.4"
+        "husky": "^3.0.9"
     },
     "scripts": {
         "postinstall": "node scripts/index.js",
-        "server": "lerna run server --stream --scope=@dashpad/webpack",
-        "package": "lerna run package --scope @dashpad/config --stream",
-        "start": "lerna exec --scope=@dashpad/webpack -- yarn start --color",
-        "develop": "lerna run develop --stream --scope=@dashpad/webpack",
-        "build": "NODE_OPTIONS=--max_old_space_size=4096 lerna run build:dashpad --stream --scope=@dashpad/webpack",
-        "dev:docs": "lerna run dev:docs:web --stream --scope=@dashpad/webpack",
-        "build:docs": "lerna run build:docs --stream --scope=@dashpad/webpack && react-snap",
+        "server": "yarn workspace @dashpad/webpack server",
+        "package": "yarn workspace @dashpad/config package",
+        "start": "yarn workspace @dashpad/webpack start",
+        "develop": "yarn workspace @dashpad/webpack develop",
+        "build": "NODE_OPTIONS=--max_old_space_size=4096 yarn workspace @dashpad/webpack build:dashpad",
+        "dev:docs": "yarn workspace @dashpad/webpack dev:docs:web",
+        "build:docs": "yarn workspace @dashpad/webpack build:docs && react-snap",
         "pack:mac": "electron-builder --mac",
         "pack:win": "yarn build && electron-builder --win",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject",
-        "clean": "lerna clean && rimraf ./build",
+        "clean": "rimraf ./build",
         "pretty": "prettier --write 'packages/**/*.js'",
         "killport": "kill -9 $(lsof -t -i:8888)",
         "snap": "react-snap",
