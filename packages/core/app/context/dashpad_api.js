@@ -3,7 +3,7 @@ const _ = require('lodash');
 const Config = require('@dashpad/config');
 const BackendStore = require('../store');
 const uischemaKeyPath = 'app.uiSchema';
-const Octokit = require('@octokit/rest');
+const { Octokit } = require("@octokit/rest");
 const jenkinsapi = require('./platforms/jenkins-api');
 let _isBrowser = false;
 

@@ -11,6 +11,7 @@ const propTypes = {
     className: PropTypes.string,
     navConfig: PropTypes.any,
     navFunc: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+    loadFile: PropTypes.func,
     isOpen: PropTypes.bool,
     staticContext: PropTypes.any,
     tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
@@ -288,7 +289,6 @@ class AppSidebarNav extends Component {
         return (
             <PerfectScrollbar
                 className={navClasses}
-                {...attributes}
                 option={{ suppressScrollX: !isRtl }}
             >
                 <Nav>{children || this.navList(navConfig.items)}</Nav>

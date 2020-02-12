@@ -1,3 +1,8 @@
+
+## Release v1.3.1
+- Update github api
+- Fixed some react warning
+
 ## Release v1.3.0
 
 - Added terminal modal
