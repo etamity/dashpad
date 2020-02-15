@@ -35,13 +35,13 @@ cmd.command('new [pluginName]')
 cmd.command('.').description('Start dashpad with current folder').action(() => {
     log.info('starting ... ', pluginPath);
     shell.cd(dashpadPath);
-    shell.exec(`APP_PWD=${pluginPath} npm run electron:bundle`);
+    shell.exec(`APP_PWD=${pluginPath} yarn electron:bundle`);
 });
 
 cmd.command('start').description('Start dashpad with current folder').action(() => {
     log.info('starting ... ', pluginPath);
     shell.cd(dashpadPath);
-    shell.exec(`APP_PWD=${pluginPath} npm run electron:bundle`);
+    shell.exec(`APP_PWD=${pluginPath} yarn electron:bundle`);
 });
 
 cmd.description('publish').action(() => {

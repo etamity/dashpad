@@ -62,6 +62,7 @@
         "server": "yarn workspace @dashpad/webpack server",
         "package": "yarn workspace @dashpad/config package",
         "start": "yarn workspace @dashpad/webpack start",
+        "electron:bundle": "yarn workspace @dashpad/electron electron:bundle",
         "develop": "yarn workspace @dashpad/webpack develop",
         "build": "NODE_OPTIONS=--max_old_space_size=4096 yarn workspace @dashpad/webpack build:dashpad",
         "dev:docs": "yarn workspace @dashpad/webpack dev:docs:web",

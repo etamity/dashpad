@@ -25,6 +25,7 @@ export const Dashpad = new DashpadApi({
 });
 
 VM.addGlobal('Dashpad', Dashpad);
+VM.addGlobal('VM', VM);
 
 const { ActionEventType } = Constants;
 

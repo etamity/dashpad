@@ -119,7 +119,7 @@ export class YMLCodeEditorView extends YMLBase {
     onBlur(e) {
         // eslint-disable-next-line no-new-wrappers
         try {
-            const newValue = JSON.parse(this.state.value);
+            const newValue = this.state.value;
             const { keyPath } = this.props;
             const _varsPath =
                 keyPath.substring(keyPath.indexOf('.'), keyPath.length) +
