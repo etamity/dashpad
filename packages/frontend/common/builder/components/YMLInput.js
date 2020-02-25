@@ -187,9 +187,9 @@ export class YMLInputView extends YMLBase {
                 };
                 break;
             case InputType.PASSWORD:
-                const fieldType = this.state.showPassword ? 'text' : 'password';
+                obj.type = this.state.showPassword ? 'text' : 'password';
                 defaultProps = {
-                    type: fieldType,
+                    type: obj.type,
                     id: 'nf-password' + keyPath,
                     name: 'nf-password' + keyPath,
                     placeholder: 'Enter Password..',

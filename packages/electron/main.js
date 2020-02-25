@@ -5,6 +5,7 @@ const config = require('@dashpad/config').value();
 const port = config.uiport;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 let mainWindow = null;
 const isEnvSet = 'ELECTRON_IS_DEV' in process.env;
 const getFromEnv = parseInt(process.env.ELECTRON_IS_DEV, 10) === 1;
