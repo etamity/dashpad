@@ -22,4 +22,3 @@ docs
 .env.test.local
 .env.production.local
 .env
-packages/frontend/dashpad/plugins/Dashboard/pages/LoginView/LoginView.js

@@ -1,3 +1,6 @@
+## Release v1.3.2
+- Update github login view
+- Fixed some bugs
 
 ## Release v1.3.1
 - Update github api

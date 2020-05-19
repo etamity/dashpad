@@ -7,16 +7,11 @@ const { ContentLoader } = Remote();
 export default class LoginView extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showEnterprise: false,
-        };
         this.doGithubLogin = this.doGithubLogin.bind(this);
     }
 
     doGithubLogin() {
-        const domain = 'https://github.com';
-        const endpoint = 'https://api.github.com';
-        ContentLoader.githubLogin(domain,endpoint);
+        ContentLoader.githubLogin();
     }
     render() {
         if (this.props.isLogined) {
