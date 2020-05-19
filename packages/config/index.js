@@ -1,11 +1,11 @@
-const { getDocumentsFolder } = require('platform-folders');
+const getDocumentsFolder = require('os').homedir() + '/Documents';
 const nodePath = require('path');
 const fse = require('fs-extra');
 const immutable = require('object-path-immutable');
 const _ = require('lodash');
 
 const defaultConfig = require('./db/default_db.json');
-const WORKSPACE = nodePath.join(getDocumentsFolder(), defaultConfig.config.project.root);
+const WORKSPACE = nodePath.join(getDocumentsFolder, defaultConfig.config.project.root);
 const configPath = nodePath.join(WORKSPACE, '/db/db.json');
 
 const config = () => {

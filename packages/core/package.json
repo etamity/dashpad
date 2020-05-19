@@ -24,7 +24,6 @@
     "lodash-id": "^0.14.0",
     "lowdb": "^1.0.0",
     "object-path-immutable": "3.0.0",
-    "platform-folders": "^0.4.1",
     "node-notifier": "^5.4.0",
     "shelljs": "^0.8.3",
     "shortid": "^2.2.14",
