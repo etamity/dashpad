@@ -19,7 +19,7 @@
     "shell-env": "^3.0.0"
   },
   "devDependencies": {
-    "electron": "^4.2.8",
+    "electron": "^9.1.0",
     "electron-builder": "^21.2.0",
     "redux-devtools-extension": "^2.13.7"
   }
